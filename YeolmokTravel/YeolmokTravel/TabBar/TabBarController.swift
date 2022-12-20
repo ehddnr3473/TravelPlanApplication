@@ -17,8 +17,8 @@ class TabBarController: UITabBarController {
     
     private func setUp() {
         let scheduleView = ScheduleView()
-        let planView = PlanView()
-        let planNavigationController = UINavigationController(rootViewController: planView)
+        let travelPlanView = TravelPlanView()
+        let planNavigationController = UINavigationController(rootViewController: travelPlanView)
         
         scheduleView.tabBarItem = UITabBarItem(title: TitleConstants.schedule,
                                                image: UIImage(systemName: ImageName.calendar),

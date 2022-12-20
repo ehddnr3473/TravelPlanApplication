@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PlanView: UIViewController {
+class TravelPlanView: UIViewController {
     // MARK: - Properties
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -34,7 +34,7 @@ class PlanView: UIViewController {
     private var planTableView: UITableView = {
         let tableView = UITableView()
         
-        tableView.register(PlanTableViewCell.self, forCellReuseIdentifier: PlanTableViewCell.identifier)
+        tableView.register(TravelPlanTableViewCell.self, forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
         tableView.backgroundColor = .black
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = LayoutConstants.borderWidth
@@ -55,7 +55,7 @@ class PlanView: UIViewController {
 }
 
 // MARK: - SetUp View
-extension PlanView {
+extension TravelPlanView {
     private func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
@@ -98,9 +98,9 @@ extension PlanView {
 }
 
 // MARK: - TableView
-extension PlanView: UITableViewDelegate, UITableViewDataSource {
+extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
         return cell
     }
     
