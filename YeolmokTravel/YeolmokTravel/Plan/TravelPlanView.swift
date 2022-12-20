@@ -36,7 +36,8 @@ final class TravelPlanView: UIViewController {
     private var planTableView: UITableView = {
         let tableView = UITableView()
         
-        tableView.register(TravelPlanTableViewCell.self, forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
+        tableView.register(TravelPlanTableViewCell.self,
+                           forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
         tableView.backgroundColor = .black
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = LayoutConstants.borderWidth

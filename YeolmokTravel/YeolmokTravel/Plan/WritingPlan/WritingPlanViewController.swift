@@ -37,7 +37,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         let label = UILabel()
         
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        label.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
         label.textColor = .white
         
         return label
@@ -48,6 +48,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         
         button.setTitle(TextConstants.saveButtonTitle, for: .normal)
         button.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
+        button.setTitleColor(AppStyles.mainColor, for: .normal)
         
         return button
     }()
@@ -61,7 +62,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         return button
     }()
     
-    var titleTextField: UITextField = {
+    private let titleTextField: UITextField = {
         let textField = UITextField()
         
         textField.textColor = .white
@@ -83,7 +84,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         return textField
     }()
     
-    var descriptionTextView: UITextView = {
+    private let descriptionTextView: UITextView = {
         let textView = UITextView()
         
         textView.textColor = .white
@@ -96,10 +97,45 @@ final class WritingPlanViewController: UIViewController, Writable {
         return textView
     }()
     
+    private let scheduleTitleLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = TextConstants.schedule
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
+        
+        return label
+    }()
+    
+    private lazy var addScheduleButton: UIButton = {
+        let button = UIButton(type: .custom)
+        
+        button.setImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
+        button.addTarget(self, action: #selector(touchUpAddScheduleButton), for: .touchUpInside)
+        button.tintColor = AppStyles.mainColor
+        
+        return button
+    }()
+    
+    private let scheduleTableView: UITableView = {
+        let tableView = UITableView()
+        
+        tableView.register(ScheduleTableViewCell.self,
+                           forCellReuseIdentifier: ScheduleTableViewCell.identifier)
+        tableView.backgroundColor = .black
+        tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
+        tableView.layer.borderWidth = LayoutConstants.borderWidth
+        tableView.layer.borderColor = UIColor.white.cgColor
+        
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setUpUI()
+        configure()
     }
 }
 
@@ -128,7 +164,7 @@ extension WritingPlanViewController {
             topBarStackView.addArrangedSubview($0)
         }
         
-        [topBarStackView, titleTextField, descriptionTextView].forEach {
+        [topBarStackView, titleTextField, descriptionTextView, scheduleTitleLabel, addScheduleButton, scheduleTableView].forEach {
             view.addSubview($0)
         }
     }
@@ -141,7 +177,7 @@ extension WritingPlanViewController {
         }
         
         titleTextField.snp.makeConstraints {
-            $0.top.equalTo(topBarStackView.snp.bottom).offset(LayoutConstants.spacing)
+            $0.top.equalTo(topBarStackView.snp.bottom).offset(LayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
         }
@@ -153,6 +189,32 @@ extension WritingPlanViewController {
                 .inset(LayoutConstants.spacing)
             $0.height.equalTo(100)
         }
+        
+        scheduleTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(descriptionTextView.snp.bottom)
+                .offset(LayoutConstants.largeSpacing)
+            $0.leading.equalToSuperview()
+                .inset(LayoutConstants.schedultTitleLeading)
+        }
+        
+        addScheduleButton.snp.makeConstraints {
+            $0.centerY.equalTo(scheduleTitleLabel)
+            $0.trailing.equalToSuperview()
+                .inset(LayoutConstants.largeSpacing)
+        }
+        
+        scheduleTableView.snp.makeConstraints {
+            $0.top.equalTo(scheduleTitleLabel.snp.bottom)
+                .offset(LayoutConstants.spacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(LayoutConstants.spacing)
+            $0.height.equalTo(300)
+        }
+    }
+    
+    private func configure() {
+        scheduleTableView.delegate = self
+        scheduleTableView.dataSource = self
     }
     
     @objc func touchUpSaveBarButton() {
@@ -193,17 +255,44 @@ extension WritingPlanViewController {
             dismiss(animated: true)
         }
     }
+    
+    @objc func touchUpAddScheduleButton() {
+        print("touch")
+    }
 }
+
+extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier,
+                                                       for: indexPath) as? ScheduleTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = "good"
+        cell.descriptionLabel.text = "description"
+        cell.dateLabel.text = "2020/12/12"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        3
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        100
+    }
+}
+
 private enum LayoutConstants {
     static let spacing: CGFloat = 8
+    static let largeSpacing: CGFloat = 20
     static let stackViewCornerRadius: CGFloat = 10
     static let cornerRadius: CGFloat = 5
+    static let tableViewCornerRadius: CGFloat = 10
     static let borderWidth: CGFloat = 1
     static let largeFontSize: CGFloat = 25
     static let mediumFontSize: CGFloat = 20
     static let topBottomMargin: CGFloat = 10
     static let sideMargin: CGFloat = 15
     static let stackViewHeight: CGFloat = 50
+    static let schedultTitleLeading: CGFloat = 15
 }
 
 private enum TextConstants {
@@ -212,6 +301,8 @@ private enum TextConstants {
     static let plan = "Plan"
     static let placeholder = "제목"
     static let descriptionPlaceolder = "상세"
+    static let schedule = "Schedule"
+    static let plusIcon = "plus"
 }
 
 private enum AlertText {
