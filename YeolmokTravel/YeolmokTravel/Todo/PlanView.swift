@@ -24,7 +24,7 @@ class PlanView: UIViewController {
     private lazy var addButton: UIButton = {
         let button = UIButton(type: .custom)
         
-        button.setBackgroundImage(UIImage(systemName: TextConstants.plus), for: .normal)
+        button.setBackgroundImage(UIImage(systemName: TextConstants.plusIconName), for: .normal)
         button.tintColor = AppStyles.mainColor
         button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
         
@@ -47,6 +47,10 @@ class PlanView: UIViewController {
         super.viewDidLoad()
         setUpUI()
         configure()
+    }
+    
+    @objc func touchUpAddButton() {
+        
     }
 }
 
@@ -95,12 +99,23 @@ extension PlanView {
 
 // MARK: - TableView
 extension PlanView: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
+        return cell
+    }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        LayoutConstants.cellHeight
+    }
 }
 
 private enum TextConstants {
     static let title = "Plan"
-    static let plus = "plus"
+    static let plusIconName = "plus"
 }
 
 private enum LayoutConstants {
