@@ -7,8 +7,16 @@
 
 import Foundation
 
-struct Plan {
+struct Plan: Equatable {
+    static func == (lhs: Plan, rhs: Plan) -> Bool {
+        if lhs.title == rhs.title && lhs.date == rhs.date {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     let title: String
-    let date: Date
-    let schedules: [Schedule]
+    let date: Date?
+//    let schedules: [Schedule]
 }

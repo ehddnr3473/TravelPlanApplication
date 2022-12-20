@@ -1,5 +1,5 @@
 //
-//  WritingPlanView.swift
+//  WritingPlanViewController.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/20.
@@ -7,10 +7,11 @@
 
 import UIKit
 
-class WritingPlanView: UIViewController, Writable {
+class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     var writingStyle: WritingStyle!
-
+    var model: WritablePlan!
+    
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()
         
@@ -64,7 +65,7 @@ class WritingPlanView: UIViewController, Writable {
 }
 
 // MARK: - SetUp View
-extension WritingPlanView {
+extension WritingPlanViewController {
     private func setUpUI() {
         setUpHierachy()
         setUpLayout()

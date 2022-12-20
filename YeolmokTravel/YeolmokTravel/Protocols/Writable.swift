@@ -14,4 +14,5 @@ enum WritingStyle: String {
 
 protocol Writable {
     var writingStyle: WritingStyle! { get }
+    var model: WritablePlan! { get set }
 }

@@ -10,10 +10,7 @@ import Foundation
 /// Plan Model
 struct TravelPlan {
     static let myTravelPlan = Plan(title: "일본",
-                                   date: Date(),
-                                   schedules: [Schedule(title: "삿포로",
-                                                        description: "눈밭 뒹굴기",
-                                                        date: nil)])
+                                   date: Date())
     var plans: [Plan]
     
     func title(_ index: Int) -> String {

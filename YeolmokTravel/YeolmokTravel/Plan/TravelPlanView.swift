@@ -51,7 +51,12 @@ class TravelPlanView: UIViewController {
     }
     
     @objc func touchUpAddButton() {
-        
+        let model = WritablePlan(Plan(title: "", date: nil))
+        let writingPlanView = WritingPlanViewController()
+        writingPlanView.model = model
+        writingPlanView.writingStyle = WritingStyle.add
+        writingPlanView.modalPresentationStyle = .fullScreen
+        present(writingPlanView, animated: true)
     }
 }
 
@@ -103,7 +108,7 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
         cell.titleLabel.text = TravelPlan.myTravelPlan.title
-        cell.dateLabel.text = TravelPlan.myTravelPlan.date.formatted()
+        cell.dateLabel.text = TravelPlan.myTravelPlan.date!.formatted()
         return cell
     }
     
