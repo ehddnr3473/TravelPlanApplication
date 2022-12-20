@@ -10,6 +10,8 @@
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
 		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
 		6B37A4A929515F3900BBB8EE /* PlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A829515F3900BBB8EE /* PlanTableViewCell.swift */; };
+		6B37A4AD2951639000BBB8EE /* WritingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4AC2951639000BBB8EE /* WritingPlanView.swift */; };
+		6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4AF295163E100BBB8EE /* Writable.swift */; };
 		6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0529513D4A000430C7 /* AppDelegate.swift */; };
 		6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0729513D4A000430C7 /* SceneDelegate.swift */; };
 		6B46FA0F29513D4C000430C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA0E29513D4C000430C7 /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 /* Begin PBXFileReference section */
 		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
 		6B37A4A829515F3900BBB8EE /* PlanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTableViewCell.swift; sourceTree = "<group>"; };
+		6B37A4AC2951639000BBB8EE /* WritingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanView.swift; sourceTree = "<group>"; };
+		6B37A4AF295163E100BBB8EE /* Writable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writable.swift; sourceTree = "<group>"; };
 		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B46FA0529513D4A000430C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0729513D4A000430C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +100,22 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		6B37A4AB2951637700BBB8EE /* WritingPlan */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4AC2951639000BBB8EE /* WritingPlanView.swift */,
+			);
+			path = WritingPlan;
+			sourceTree = "<group>";
+		};
+		6B37A4AE295163C900BBB8EE /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4AF295163E100BBB8EE /* Writable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		6B46F9F929513D4A000430C7 = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				6B46FA3529513DA2000430C7 /* Delegate */,
+				6B37A4AE295163C900BBB8EE /* Protocols */,
 				6B46FA3829513DE7000430C7 /* TabBar */,
 				6B46FA3A2951406A000430C7 /* Schedule */,
 				6B46FA3D295140CD000430C7 /* Todo */,
@@ -177,6 +198,7 @@
 		6B46FA3D295140CD000430C7 /* Todo */ = {
 			isa = PBXGroup;
 			children = (
+				6B37A4AB2951637700BBB8EE /* WritingPlan */,
 				6B46FA3E295140E9000430C7 /* PlanView.swift */,
 				6B37A4A829515F3900BBB8EE /* PlanTableViewCell.swift */,
 			);
@@ -322,8 +344,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */,
 				6B46FA3F295140E9000430C7 /* PlanView.swift in Sources */,
 				6B37A4A929515F3900BBB8EE /* PlanTableViewCell.swift in Sources */,
+				6B37A4AD2951639000BBB8EE /* WritingPlanView.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
