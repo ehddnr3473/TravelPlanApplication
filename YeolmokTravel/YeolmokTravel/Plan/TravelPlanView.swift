@@ -117,6 +117,7 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.title(indexPath.row)
         cell.dateLabel.text = viewModel.date(indexPath.row)
+        cell.descriptionLabel.text = viewModel.description(indexPath.row)
         return cell
     }
     

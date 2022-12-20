@@ -27,6 +27,10 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
         model.date(index)
     }
     
+    func description(_ index: Int) -> String {
+        model.description(index)
+    }
+    
     func writingHandler(_ data: Plan, _ index: Int?) {
         if let index = index {
             // edit plan

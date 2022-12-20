@@ -28,6 +28,14 @@ struct TravelPlan {
             return TextConstants.nilDate
         }
     }
+    
+    func description(_ index: Int) -> String {
+        if let description = plans[index].description {
+            return description
+        } else {
+            return ""
+        }
+    }
 }
 
 private enum TextConstants {
