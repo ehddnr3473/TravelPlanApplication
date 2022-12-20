@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
+		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
 		6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0529513D4A000430C7 /* AppDelegate.swift */; };
 		6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0729513D4A000430C7 /* SceneDelegate.swift */; };
 		6B46FA0F29513D4C000430C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA0E29513D4C000430C7 /* Assets.xcassets */; };
@@ -39,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
 		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B46FA0529513D4A000430C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0729513D4A000430C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */,
+				6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B37A4A529515D9D00BBB8EE /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		6B46F9F929513D4A000430C7 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +121,7 @@
 				6B46FA3829513DE7000430C7 /* TabBar */,
 				6B46FA3A2951406A000430C7 /* Schedule */,
 				6B46FA3D295140CD000430C7 /* Todo */,
+				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
@@ -185,6 +198,7 @@
 			name = YeolmokTravel;
 			packageProductDependencies = (
 				6B46FA4329514562000430C7 /* FirebaseFirestore */,
+				6B37A4A329515C4E00BBB8EE /* SnapKit */,
 			);
 			productName = YeolmokTravel;
 			productReference = 6B46FA0229513D4A000430C7 /* YeolmokTravel.app */;
@@ -260,6 +274,7 @@
 			mainGroup = 6B46F9F929513D4A000430C7;
 			packageReferences = (
 				6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 6B46FA0329513D4A000430C7 /* Products */;
 			projectDirPath = "";
@@ -305,6 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA3F295140E9000430C7 /* PlanView.swift in Sources */,
+				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
@@ -642,6 +658,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -653,6 +677,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B37A4A329515C4E00BBB8EE /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		6B46FA4329514562000430C7 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
