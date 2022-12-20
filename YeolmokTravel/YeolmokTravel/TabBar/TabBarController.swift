@@ -26,7 +26,7 @@ class TabBarController: UITabBarController {
         scheduleView.tabBarItem = UITabBarItem(title: TitleConstants.schedule,
                                                image: UIImage(systemName: ImageName.calendar),
                                                tag: NumberConstants.first)
-        planNavigationController.tabBarItem = UITabBarItem(title: TitleConstants.todo,
+        planNavigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageName.note),
                                            tag: NumberConstants.second)
         viewControllers = [scheduleView, planNavigationController]
@@ -38,7 +38,7 @@ class TabBarController: UITabBarController {
 
 private enum TitleConstants {
     static let schedule = "Schedule"
-    static let todo = "ToDo"
+    static let plan = "Plan"
 }
 
 private enum ImageName {

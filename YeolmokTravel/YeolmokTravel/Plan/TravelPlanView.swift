@@ -103,7 +103,7 @@ extension TravelPlanView {
         present(writableView, animated: true)
     }
     
-    @MainActor private func reloadTodoList() {
+    @MainActor private func reloadPlanList() {
         planTableView.snp.updateConstraints {
             $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
         }
