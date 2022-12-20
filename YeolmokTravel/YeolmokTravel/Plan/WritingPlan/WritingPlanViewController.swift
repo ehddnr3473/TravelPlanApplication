@@ -8,10 +8,13 @@
 import UIKit
 import SnapKit
 
-class WritingPlanViewController: UIViewController, Writable {
+final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     var writingStyle: WritingStyle!
     var model: WritablePlan!
+    var addDelegate: PlanTransfer?
+    var editDelegate: PlanTransfer?
+    var planListIndex: Int?
     
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()
@@ -139,11 +142,42 @@ extension WritingPlanViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        
+        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if model.verifyTitleText() {
+            alertWillAppear()
+            return
+        } else {
+            switch writingStyle {
+            case .add:
+                addDelegate?.writingHandler(model.plan, nil)
+                addDelegate = nil
+                dismiss(animated: true)
+            case .edit:
+                if let index = planListIndex {
+                    editDelegate?.writingHandler(model.plan, index)
+                    editDelegate = nil
+                    dismiss(animated: true)
+                }
+            case .none:
+                dismiss(animated: true)
+            }
+        }
     }
     
     @objc func touchUpCancelBarButton() {
-        
+        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if model.isChanged {
+            switch writingStyle {
+            case .add:
+                actionSheetWillApear(AlertText.addTitle, AlertText.message)
+            case .edit:
+                actionSheetWillApear(AlertText.editTitle, AlertText.message)
+            case .none:
+                dismiss(animated: true)
+            }
+        } else {
+            dismiss(animated: true)
+        }
     }
 }
 private enum LayoutConstants {

@@ -16,7 +16,8 @@ struct Plan: Equatable {
         }
     }
     
-    let title: String
-    let date: Date?
+    var title: String
+    var description: String?
+    var date: Date?
 //    let schedules: [Schedule]
 }

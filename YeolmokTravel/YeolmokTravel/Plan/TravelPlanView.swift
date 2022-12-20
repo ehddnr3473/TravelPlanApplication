@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// Plan View
-class TravelPlanView: UIViewController {
+final class TravelPlanView: UIViewController, PlanTransfer {
     // MARK: - Properties
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -48,15 +48,6 @@ class TravelPlanView: UIViewController {
         super.viewDidLoad()
         setUpUI()
         configure()
-    }
-    
-    @objc func touchUpAddButton() {
-        let model = WritablePlan(Plan(title: "", date: nil))
-        let writingPlanView = WritingPlanViewController()
-        writingPlanView.model = model
-        writingPlanView.writingStyle = WritingStyle.add
-        writingPlanView.modalPresentationStyle = .fullScreen
-        present(writingPlanView, animated: true)
     }
 }
 
@@ -101,6 +92,20 @@ extension TravelPlanView {
         planTableView.delegate = self
         planTableView.dataSource = self
     }
+    
+    @objc func touchUpAddButton() {
+        let model = WritablePlan(Plan(title: "", date: nil))
+        let writingPlanView = WritingPlanViewController()
+        writingPlanView.model = model
+        writingPlanView.writingStyle = WritingStyle.add
+        writingPlanView.addDelegate = self
+        writingPlanView.modalPresentationStyle = .fullScreen
+        present(writingPlanView, animated: true)
+    }
+    
+    func writingHandler(_ data: Plan, _ index: Int?) {
+        
+    }
 }
 
 // MARK: - TableView
@@ -118,6 +123,21 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         LayoutConstants.cellHeight
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        modifyPlan(at: indexPath.row)
+    }
+    
+    func modifyPlan(at index: Int) {
+        let model = WritablePlan(Plan(title: "일본"))
+        let writingPlanViewController = WritingPlanViewController()
+        writingPlanViewController.model = model
+        writingPlanViewController.writingStyle = WritingStyle.edit
+        writingPlanViewController.editDelegate = self
+        writingPlanViewController.planListIndex = index
+        writingPlanViewController.modalPresentationStyle = .fullScreen
+        present(writingPlanViewController, animated: true)
     }
 }
 

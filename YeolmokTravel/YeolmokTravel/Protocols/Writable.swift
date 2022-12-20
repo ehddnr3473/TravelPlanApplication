@@ -15,4 +15,6 @@ enum WritingStyle: String {
 protocol Writable {
     var writingStyle: WritingStyle! { get }
     var model: WritablePlan! { get set }
+    var addDelegate: PlanTransfer? { get set }
+    var editDelegate: PlanTransfer? { get set }
 }

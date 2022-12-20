@@ -8,7 +8,7 @@
 import Foundation
 
 /// Plan View Model
-class TravelPlaner: PlanConfigurable {
+final class TravelPlaner: PlanConfigurable {
     var model: TravelPlan
     
     required init(_ model: TravelPlan) {
