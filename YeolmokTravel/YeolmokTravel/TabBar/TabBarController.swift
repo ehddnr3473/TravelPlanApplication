@@ -17,7 +17,10 @@ class TabBarController: UITabBarController {
     
     private func setUp() {
         let scheduleView = ScheduleView()
+        let model = TravelPlan(plans: [Plan(title: "일본")])
+        let viewModel = TravelPlaner(model)
         let travelPlanView = TravelPlanView()
+        travelPlanView.viewModel = viewModel
         let planNavigationController = UINavigationController(rootViewController: travelPlanView)
         
         scheduleView.tabBarItem = UITabBarItem(title: TitleConstants.schedule,

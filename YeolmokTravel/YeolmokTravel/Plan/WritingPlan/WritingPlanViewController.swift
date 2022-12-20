@@ -106,6 +106,7 @@ final class WritingPlanViewController: UIViewController, Writable {
 // MARK: - SetUp View
 extension WritingPlanViewController {
     private func setUpUI() {
+        view.backgroundColor = .black
         setUpHierachy()
         setUpLayout()
     }

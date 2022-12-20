@@ -9,8 +9,9 @@ import UIKit
 import SnapKit
 
 /// Plan View
-final class TravelPlanView: UIViewController, PlanTransfer {
+final class TravelPlanView: UIViewController {
     // MARK: - Properties
+    var viewModel: PlanConfigurable!
     private var titleLabel: UILabel = {
         let label = UILabel()
         
@@ -94,17 +95,12 @@ extension TravelPlanView {
     }
     
     @objc func touchUpAddButton() {
-        let model = WritablePlan(Plan(title: "", date: nil))
-        let writingPlanView = WritingPlanViewController()
-        writingPlanView.model = model
-        writingPlanView.writingStyle = WritingStyle.add
-        writingPlanView.addDelegate = self
-        writingPlanView.modalPresentationStyle = .fullScreen
-        present(writingPlanView, animated: true)
+        presentWritableView(viewModel.setUpAddPlanView())
     }
     
-    func writingHandler(_ data: Plan, _ index: Int?) {
-        
+    func presentWritableView(_ writableView: Writable) {
+        guard let writableView = writableView as? WritingPlanViewController else { return }
+        present(writableView, animated: true)
     }
 }
 
@@ -112,8 +108,8 @@ extension TravelPlanView {
 extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
-        cell.titleLabel.text = TravelPlan.myTravelPlan.title
-        cell.dateLabel.text = TravelPlan.myTravelPlan.date!.formatted()
+        cell.titleLabel.text = viewModel.title(indexPath.row)
+        cell.dateLabel.text = viewModel.title(indexPath.row)
         return cell
     }
     
@@ -126,18 +122,7 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        modifyPlan(at: indexPath.row)
-    }
-    
-    func modifyPlan(at index: Int) {
-        let model = WritablePlan(Plan(title: "일본"))
-        let writingPlanViewController = WritingPlanViewController()
-        writingPlanViewController.model = model
-        writingPlanViewController.writingStyle = WritingStyle.edit
-        writingPlanViewController.editDelegate = self
-        writingPlanViewController.planListIndex = index
-        writingPlanViewController.modalPresentationStyle = .fullScreen
-        present(writingPlanViewController, animated: true)
+        presentWritableView(viewModel.setUpModifyPlanView(at: indexPath.row))
     }
 }
 
