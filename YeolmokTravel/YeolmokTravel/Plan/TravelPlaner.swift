@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Plan View Model
 class TravelPlaner: PlanConfigurable {
     var model: TravelPlan
     

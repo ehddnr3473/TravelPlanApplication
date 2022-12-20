@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-/// TodoList를 표현하는 Custom Cell
+/// PlanList를 표현하는 Custom Cell
 class TravelPlanTableViewCell: UITableViewCell {
 
     static let identifier = "PlanTableViewCell"

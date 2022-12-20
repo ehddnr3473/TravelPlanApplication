@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Plan Model
 struct TravelPlan {
     var plans: [Plan]
     

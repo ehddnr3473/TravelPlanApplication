@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+/// Plan View
 class TravelPlanView: UIViewController {
     // MARK: - Properties
     private var titleLabel: UILabel = {
