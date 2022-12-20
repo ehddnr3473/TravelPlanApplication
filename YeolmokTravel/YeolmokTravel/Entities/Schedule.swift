@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Schedule {
-    let title: String
-    let description: String
-    let date: Date?
+struct Schedule: Equatable {
+    var title: String
+    var description: String?
+    var date: Date?
 }

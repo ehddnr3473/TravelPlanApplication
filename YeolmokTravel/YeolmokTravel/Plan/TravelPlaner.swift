@@ -37,7 +37,7 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
     }
     
     func setUpAddPlanView() -> Writable {
-        let model = WritablePlan(Plan(title: "", description: ""))
+        let model = WritablePlan(Plan(title: "", description: "", schedules: []))
         let writingPlanViewController = WritingPlanViewController()
         writingPlanViewController.model = model
         writingPlanViewController.writingStyle = WritingStyle.add

@@ -208,7 +208,7 @@ extension WritingPlanViewController {
                 .offset(LayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(300)
+            $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
         }
     }
     
@@ -259,20 +259,23 @@ extension WritingPlanViewController {
     @objc func touchUpAddScheduleButton() {
         print("touch")
     }
+    
 }
 
 extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier,
                                                        for: indexPath) as? ScheduleTableViewCell else { return UITableViewCell() }
-        cell.titleLabel.text = "good"
-        cell.descriptionLabel.text = "description"
-        cell.dateLabel.text = "2020/12/12"
+        let schedule = model.schedule(indexPath.row)
+        cell.titleLabel.text = schedule.title
+        cell.descriptionLabel.text = schedule.description
+        cell.dateLabel.text = schedule.date?.formatted()
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        model.schedulesCount
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -293,6 +296,7 @@ private enum LayoutConstants {
     static let sideMargin: CGFloat = 15
     static let stackViewHeight: CGFloat = 50
     static let schedultTitleLeading: CGFloat = 15
+    static let cellHeight: CGFloat = 100
 }
 
 private enum TextConstants {

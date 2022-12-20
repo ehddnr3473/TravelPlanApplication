@@ -7,6 +7,7 @@
 
 import Foundation
 
-protocol PlanTransfer {
+protocol PlanTransfer: AnyObject {
+    
     func writingHandler(_ data: Plan, _ index: Int?)
 }

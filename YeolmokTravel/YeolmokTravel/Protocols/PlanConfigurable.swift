@@ -8,7 +8,7 @@
 import Foundation
 
 /// Plan View Model Protocol
-protocol PlanConfigurable {
+protocol PlanConfigurable: AnyObject {
     var model: TravelPlan { get set }
     func title(_ index: Int) -> String
     func date(_ index: Int) -> String

@@ -12,9 +12,7 @@ enum WritingStyle: String {
     case edit = "Edit"
 }
 
-protocol Writable {
+protocol Writable: AnyObject {
     var writingStyle: WritingStyle! { get }
     var model: WritablePlan! { get set }
-    var addDelegate: PlanTransfer? { get set }
-    var editDelegate: PlanTransfer? { get set }
 }

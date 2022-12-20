@@ -37,12 +37,20 @@ struct WritablePlan {
         }
     }
     
+    var schedulesCount: Int {
+        plan.schedules.count
+    }
+    
     var isChanged: Bool {
         if plan == initialPlan {
             return false
         } else {
             return true
         }
+    }
+    
+    func schedule(_ index: Int) -> Schedule {
+        plan.schedules[index]
     }
     
     mutating func setPlan(_ title: String, _ description: String) {

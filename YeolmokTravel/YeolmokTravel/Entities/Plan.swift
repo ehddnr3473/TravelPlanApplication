@@ -11,7 +11,8 @@ struct Plan: Equatable {
     static func == (lhs: Plan, rhs: Plan) -> Bool {
         if lhs.title == rhs.title &&
             lhs.date == rhs.date &&
-            lhs.description == rhs.description {
+            lhs.description == rhs.description &&
+            lhs.schedules == rhs.schedules {
             return true
         } else {
             return false
@@ -21,5 +22,5 @@ struct Plan: Equatable {
     var title: String
     var description: String?
     var date: Date?
-//    let schedules: [Schedule]
+    let schedules: [Schedule]
 }
