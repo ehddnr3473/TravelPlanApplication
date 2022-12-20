@@ -87,7 +87,7 @@ extension PlanView {
                 .offset(LayoutConstants.planTableViewTopOffset)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.bottom.equalToSuperview().inset(LayoutConstants.spacing)
+            $0.height.equalTo(0)
         }
     }
     

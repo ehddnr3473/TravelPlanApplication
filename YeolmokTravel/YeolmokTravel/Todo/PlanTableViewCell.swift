@@ -23,12 +23,12 @@ class PlanTableViewCell: UITableViewCell {
         return label
     }()
     
-    var descriptionLabel: UILabel = {
+    var dateLabel: UILabel = {
         let label = UILabel()
         
         label.textAlignment = .left
         label.textColor = .lightGray
-        label.font = .boldSystemFont(ofSize: LayoutConstants.descriptionFontSize)
+        label.font = .boldSystemFont(ofSize: LayoutConstants.dateFontSize)
         
         return label
     }()
@@ -55,7 +55,7 @@ class PlanTableViewCell: UITableViewCell {
     }
     
     private func setUpHierachy() {
-        [titleLabel, descriptionLabel].forEach {
+        [titleLabel, dateLabel].forEach {
             self.addSubview($0)
         }
     }
@@ -68,7 +68,7 @@ class PlanTableViewCell: UITableViewCell {
                 .inset(LayoutConstants.spacing)
         }
         
-        descriptionLabel.snp.makeConstraints {
+        dateLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview()
                 .inset(LayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
@@ -82,5 +82,5 @@ private enum LayoutConstants {
     static let spacing: CGFloat = 15
     static let borderWidth: CGFloat = 0.5
     static let titleFontSize: CGFloat = 25
-    static let descriptionFontSize: CGFloat = 15
+    static let dateFontSize: CGFloat = 15
 }
