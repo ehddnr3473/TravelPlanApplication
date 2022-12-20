@@ -17,6 +17,7 @@
 		6B46FA2929513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */; };
 		6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3629513DDB000430C7 /* TabBarController.swift */; };
 		6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3B29514094000430C7 /* ScheduleView.swift */; };
+		6B46FA3F295140E9000430C7 /* TodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* TodoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeolmokTravelUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6B46FA3629513DDB000430C7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6B46FA3B29514094000430C7 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		6B46FA3E295140E9000430C7 /* TodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,9 +103,10 @@
 		6B46FA0429513D4A000430C7 /* YeolmokTravel */ = {
 			isa = PBXGroup;
 			children = (
-				6B46FA3A2951406A000430C7 /* Schedule */,
-				6B46FA3829513DE7000430C7 /* TabBar */,
 				6B46FA3529513DA2000430C7 /* Delegate */,
+				6B46FA3829513DE7000430C7 /* TabBar */,
+				6B46FA3A2951406A000430C7 /* Schedule */,
+				6B46FA3D295140CD000430C7 /* Todo */,
 				6B46FA0929513D4A000430C7 /* ViewController.swift */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
@@ -152,6 +155,14 @@
 				6B46FA3B29514094000430C7 /* ScheduleView.swift */,
 			);
 			path = Schedule;
+			sourceTree = "<group>";
+		};
+		6B46FA3D295140CD000430C7 /* Todo */ = {
+			isa = PBXGroup;
+			children = (
+				6B46FA3E295140E9000430C7 /* TodoView.swift */,
+			);
+			path = Todo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B46FA3F295140E9000430C7 /* TodoView.swift in Sources */,
 				6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */,
 				6B46FA0A29513D4A000430C7 /* ViewController.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
