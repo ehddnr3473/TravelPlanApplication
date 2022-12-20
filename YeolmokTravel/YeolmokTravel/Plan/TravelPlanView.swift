@@ -11,7 +11,7 @@ import SnapKit
 /// Plan View
 final class TravelPlanView: UIViewController {
     // MARK: - Properties
-    var viewModel: PlanConfigurable!
+    var viewModel: TravelPlaner!
     private var titleLabel: UILabel = {
         let label = UILabel()
         
@@ -85,7 +85,7 @@ extension TravelPlanView {
                 .offset(LayoutConstants.planTableViewTopOffset)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(100)
+            $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
         }
     }
     
@@ -98,9 +98,16 @@ extension TravelPlanView {
         presentWritableView(viewModel.setUpAddPlanView())
     }
     
-    func presentWritableView(_ writableView: Writable) {
+    @MainActor func presentWritableView(_ writableView: Writable) {
         guard let writableView = writableView as? WritingPlanViewController else { return }
         present(writableView, animated: true)
+    }
+    
+    @MainActor private func reloadTodoList() {
+        planTableView.snp.updateConstraints {
+            $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
+        }
+        planTableView.reloadData()
     }
 }
 

@@ -11,6 +11,10 @@ import Foundation
 struct TravelPlan {
     var plans: [Plan]
     
+    var count: Int {
+        plans.count
+    }
+    
     func title(_ index: Int) -> String {
         plans[index].title
     }

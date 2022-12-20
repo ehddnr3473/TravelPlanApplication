@@ -11,6 +11,10 @@ import Foundation
 final class TravelPlaner: PlanConfigurable, PlanTransfer {
     var model: TravelPlan
     
+    var planCount: Int {
+        model.count
+    }
+    
     required init(_ model: TravelPlan) {
         self.model = model
     }
@@ -33,7 +37,7 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
     }
     
     func setUpAddPlanView() -> Writable {
-        let model = WritablePlan(Plan(title: ""))
+        let model = WritablePlan(Plan(title: "", description: ""))
         let writingPlanViewController = WritingPlanViewController()
         writingPlanViewController.model = model
         writingPlanViewController.writingStyle = WritingStyle.add
