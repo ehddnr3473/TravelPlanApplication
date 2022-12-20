@@ -17,15 +17,16 @@ class TabBarController: UITabBarController {
     
     private func setUp() {
         let scheduleView = ScheduleView()
-        let todoView = TodoView()
+        let planView = PlanView()
+        let planNavigationController = UINavigationController(rootViewController: planView)
         
         scheduleView.tabBarItem = UITabBarItem(title: TitleConstants.schedule,
                                                image: UIImage(systemName: ImageName.calendar),
                                                tag: NumberConstants.first)
-        todoView.tabBarItem = UITabBarItem(title: TitleConstants.todo,
+        planNavigationController.tabBarItem = UITabBarItem(title: TitleConstants.todo,
                                            image: UIImage(systemName: ImageName.note),
                                            tag: NumberConstants.second)
-        viewControllers = [scheduleView, todoView]
+        viewControllers = [scheduleView, planNavigationController]
         setViewControllers(viewControllers, animated: true)
     }
 }

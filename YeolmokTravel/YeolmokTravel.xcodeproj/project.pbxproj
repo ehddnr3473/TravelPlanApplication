@@ -16,7 +16,7 @@
 		6B46FA2929513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */; };
 		6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3629513DDB000430C7 /* TabBarController.swift */; };
 		6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3B29514094000430C7 /* ScheduleView.swift */; };
-		6B46FA3F295140E9000430C7 /* TodoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* TodoView.swift */; };
+		6B46FA3F295140E9000430C7 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* PlanView.swift */; };
 		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
 		6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B46FA4329514562000430C7 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,7 @@
 		6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeolmokTravelUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6B46FA3629513DDB000430C7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6B46FA3B29514094000430C7 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
-		6B46FA3E295140E9000430C7 /* TodoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoView.swift; sourceTree = "<group>"; };
+		6B46FA3E295140E9000430C7 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,7 +162,7 @@
 		6B46FA3D295140CD000430C7 /* Todo */ = {
 			isa = PBXGroup;
 			children = (
-				6B46FA3E295140E9000430C7 /* TodoView.swift */,
+				6B46FA3E295140E9000430C7 /* PlanView.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -304,7 +304,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B46FA3F295140E9000430C7 /* TodoView.swift in Sources */,
+				6B46FA3F295140E9000430C7 /* PlanView.swift in Sources */,
 				6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
