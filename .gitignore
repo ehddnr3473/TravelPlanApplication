@@ -3,6 +3,7 @@
 xcuserdata/
 *.xcuserstate
 *.DS_Store
+GoogleService-Info.plist
 
 ## Xcode 8 and earlier
 *.xcscmblueprint
