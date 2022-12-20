@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Schedule: PlanProtocol, Equatable {
+struct Schedule: Plan, Equatable {
     var title: String
     var description: String?
     var date: Date?

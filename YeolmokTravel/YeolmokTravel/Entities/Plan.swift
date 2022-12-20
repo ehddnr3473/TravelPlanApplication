@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct Plan: PlanProtocol, Equatable {
-    static func == (lhs: Plan, rhs: Plan) -> Bool {
-        if lhs.title == rhs.title &&
-            lhs.date == rhs.date &&
-            lhs.description == rhs.description &&
-            lhs.schedules == rhs.schedules {
-            return true
-        } else {
-            return false
-        }
-    }
+struct TravelPlan: Plan, Equatable {
+//    static func == (lhs: TravelPlan, rhs: TravelPlan) -> Bool {
+//        if lhs.title == rhs.title &&
+//            lhs.date == rhs.date &&
+//            lhs.description == rhs.description &&
+//            lhs.schedules == rhs.schedules {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
     var title: String
     var description: String?

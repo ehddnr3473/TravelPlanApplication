@@ -13,7 +13,7 @@
 		6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4AF295163E100BBB8EE /* Writable.swift */; };
 		6B37A4B62951743D00BBB8EE /* TravelPlaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */; };
 		6B37A4B82951751100BBB8EE /* PlanConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */; };
-		6B37A4BA295175CD00BBB8EE /* TravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B9295175CD00BBB8EE /* TravelPlan.swift */; };
+		6B37A4BA295175CD00BBB8EE /* MyTravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B9295175CD00BBB8EE /* MyTravelPlan.swift */; };
 		6B37A4BD2951786800BBB8EE /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4BC2951786800BBB8EE /* Plan.swift */; };
 		6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4BE2951789400BBB8EE /* Schedule.swift */; };
 		6B37A4C62951979700BBB8EE /* WritablePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4C52951979700BBB8EE /* WritablePlan.swift */; };
@@ -21,7 +21,6 @@
 		6B37A4CD2951A7A800BBB8EE /* PlanTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */; };
 		6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */; };
 		6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */; };
-		6B37A4D42951DAFF00BBB8EE /* ScheduleTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4D32951DAFF00BBB8EE /* ScheduleTransfer.swift */; };
 		6B37A4D62951DBDA00BBB8EE /* WritableSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4D52951DBDA00BBB8EE /* WritableSchedule.swift */; };
 		6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0529513D4A000430C7 /* AppDelegate.swift */; };
 		6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0729513D4A000430C7 /* SceneDelegate.swift */; };
@@ -35,7 +34,7 @@
 		6B46FA3F295140E9000430C7 /* TravelPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* TravelPlanView.swift */; };
 		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
 		6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B46FA4329514562000430C7 /* FirebaseFirestore */; };
-		6BA9F47429526BB000403DCC /* PlanProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F47329526BB000403DCC /* PlanProtocol.swift */; };
+		6BA9F47429526BB000403DCC /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F47329526BB000403DCC /* Plan.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,7 +60,7 @@
 		6B37A4AF295163E100BBB8EE /* Writable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writable.swift; sourceTree = "<group>"; };
 		6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlaner.swift; sourceTree = "<group>"; };
 		6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanConfigurable.swift; sourceTree = "<group>"; };
-		6B37A4B9295175CD00BBB8EE /* TravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlan.swift; sourceTree = "<group>"; };
+		6B37A4B9295175CD00BBB8EE /* MyTravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTravelPlan.swift; sourceTree = "<group>"; };
 		6B37A4BC2951786800BBB8EE /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		6B37A4BE2951789400BBB8EE /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		6B37A4C52951979700BBB8EE /* WritablePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritablePlan.swift; sourceTree = "<group>"; };
@@ -69,7 +68,6 @@
 		6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTransfer.swift; sourceTree = "<group>"; };
 		6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTableViewCell.swift; sourceTree = "<group>"; };
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
-		6B37A4D32951DAFF00BBB8EE /* ScheduleTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTransfer.swift; sourceTree = "<group>"; };
 		6B37A4D52951DBDA00BBB8EE /* WritableSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritableSchedule.swift; sourceTree = "<group>"; };
 		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B46FA0529513D4A000430C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +84,7 @@
 		6B46FA3B29514094000430C7 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		6B46FA3E295140E9000430C7 /* TravelPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanView.swift; sourceTree = "<group>"; };
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		6BA9F47329526BB000403DCC /* PlanProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanProtocol.swift; sourceTree = "<group>"; };
+		6BA9F47329526BB000403DCC /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +138,7 @@
 				6B37A4AF295163E100BBB8EE /* Writable.swift */,
 				6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */,
 				6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */,
-				6B37A4D32951DAFF00BBB8EE /* ScheduleTransfer.swift */,
-				6BA9F47329526BB000403DCC /* PlanProtocol.swift */,
+				6BA9F47329526BB000403DCC /* Plan.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -258,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				6B37A4AB2951637700BBB8EE /* WritingPlan */,
-				6B37A4B9295175CD00BBB8EE /* TravelPlan.swift */,
+				6B37A4B9295175CD00BBB8EE /* MyTravelPlan.swift */,
 				6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */,
 				6B46FA3E295140E9000430C7 /* TravelPlanView.swift */,
 			);
@@ -415,17 +412,16 @@
 				6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */,
 				6B46FA3F295140E9000430C7 /* TravelPlanView.swift in Sources */,
 				6B37A4AD2951639000BBB8EE /* WritingPlanViewController.swift in Sources */,
-				6BA9F47429526BB000403DCC /* PlanProtocol.swift in Sources */,
+				6BA9F47429526BB000403DCC /* Plan.swift in Sources */,
 				6B37A4B82951751100BBB8EE /* PlanConfigurable.swift in Sources */,
 				6B37A4B62951743D00BBB8EE /* TravelPlaner.swift in Sources */,
 				6B37A4BD2951786800BBB8EE /* Plan.swift in Sources */,
 				6B37A4D62951DBDA00BBB8EE /* WritableSchedule.swift in Sources */,
-				6B37A4D42951DAFF00BBB8EE /* ScheduleTransfer.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
 				6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
-				6B37A4BA295175CD00BBB8EE /* TravelPlan.swift in Sources */,
+				6B37A4BA295175CD00BBB8EE /* MyTravelPlan.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
 				6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */,

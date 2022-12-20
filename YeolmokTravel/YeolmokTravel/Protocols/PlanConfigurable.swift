@@ -9,11 +9,11 @@ import Foundation
 
 /// Plan View Model Protocol
 protocol PlanConfigurable: AnyObject {
-    var model: TravelPlan { get set }
+    var model: MyTravelPlan { get set }
     func title(_ index: Int) -> String
     func date(_ index: Int) -> String
     func setUpAddPlanView() -> WritingPlanViewController
     func setUpModifyPlanView(at index: Int) -> WritingPlanViewController
     
-    init(_ model: TravelPlan)
+    init(_ model: MyTravelPlan)
 }
