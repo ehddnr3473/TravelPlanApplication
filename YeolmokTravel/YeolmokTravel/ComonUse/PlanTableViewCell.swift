@@ -1,5 +1,5 @@
 //
-//  ScheduleTableViewCell.swift
+//  PlanTableViewCell.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/20.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class ScheduleTableViewCell: UITableViewCell {
-    static let identifier = "ScheduleTableViewCell"
+class PlanTableViewCell: UITableViewCell {
+    static let identifier = "PlanTableViewCell"
     
     var titleLabel: UILabel = {
         let label = UILabel()

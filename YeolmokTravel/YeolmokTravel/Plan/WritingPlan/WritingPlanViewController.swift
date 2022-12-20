@@ -122,8 +122,8 @@ final class WritingPlanViewController: UIViewController, Writable, ScheduleTrans
     private let scheduleTableView: UITableView = {
         let tableView = UITableView()
         
-        tableView.register(ScheduleTableViewCell.self,
-                           forCellReuseIdentifier: ScheduleTableViewCell.identifier)
+        tableView.register(PlanTableViewCell.self,
+                           forCellReuseIdentifier: PlanTableViewCell.identifier)
         tableView.backgroundColor = .black
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = LayoutConstants.borderWidth
@@ -268,8 +268,8 @@ extension WritingPlanViewController {
 
 extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier,
-                                                       for: indexPath) as? ScheduleTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier,
+                                                       for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
         let schedule = model.schedule(indexPath.row)
         cell.titleLabel.text = schedule.title
         cell.descriptionLabel.text = schedule.description
