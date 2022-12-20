@@ -109,7 +109,7 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.title(indexPath.row)
-        cell.dateLabel.text = viewModel.title(indexPath.row)
+        cell.dateLabel.text = viewModel.date(indexPath.row)
         return cell
     }
     

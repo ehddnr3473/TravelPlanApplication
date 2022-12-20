@@ -29,6 +29,14 @@ struct WritablePlan {
         }
     }
     
+    var description: String {
+        if let description = plan.description {
+            return description
+        } else {
+            return ""
+        }
+    }
+    
     var isChanged: Bool {
         if plan == initialPlan {
             return false

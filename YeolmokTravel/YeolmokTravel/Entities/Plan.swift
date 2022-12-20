@@ -9,7 +9,9 @@ import Foundation
 
 struct Plan: Equatable {
     static func == (lhs: Plan, rhs: Plan) -> Bool {
-        if lhs.title == rhs.title && lhs.date == rhs.date {
+        if lhs.title == rhs.title &&
+            lhs.date == rhs.date &&
+            lhs.description == rhs.description {
             return true
         } else {
             return false

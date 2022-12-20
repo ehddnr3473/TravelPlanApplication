@@ -9,8 +9,6 @@ import Foundation
 
 /// Plan Model
 struct TravelPlan {
-    static let myTravelPlan = Plan(title: "일본",
-                                   date: Date())
     var plans: [Plan]
     
     func title(_ index: Int) -> String {
@@ -19,10 +17,16 @@ struct TravelPlan {
     
     func date(_ index: Int) -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = TextConstants.dateFormat
         if let date = plans[index].date {
             return dateFormatter.string(from: date)
         } else {
-            return ""
+            return TextConstants.nilDate
         }
     }
+}
+
+private enum TextConstants {
+    static let dateFormat = "yyyy.MM.dd"
+    static let nilDate = "날짜 미지정"
 }

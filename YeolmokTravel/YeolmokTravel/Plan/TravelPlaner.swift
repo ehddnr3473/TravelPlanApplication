@@ -24,11 +24,16 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
     }
     
     func writingHandler(_ data: Plan, _ index: Int?) {
-        
+        if let index = index {
+            // edit plan
+            
+        } else {
+            // add plan
+        }
     }
     
     func setUpAddPlanView() -> Writable {
-        let model = WritablePlan(Plan(title: "", date: nil))
+        let model = WritablePlan(Plan(title: ""))
         let writingPlanViewController = WritingPlanViewController()
         writingPlanViewController.model = model
         writingPlanViewController.writingStyle = WritingStyle.add
@@ -39,7 +44,7 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
     }
     
     func setUpModifyPlanView(at index: Int) -> Writable {
-        let model = WritablePlan(Plan(title: "일본"))
+        let model = WritablePlan(model.plans[index])
         let writingPlanViewController = WritingPlanViewController()
         writingPlanViewController.model = model
         writingPlanViewController.writingStyle = WritingStyle.edit

@@ -107,6 +107,19 @@ final class WritingPlanViewController: UIViewController, Writable {
 extension WritingPlanViewController {
     private func setUpUI() {
         view.backgroundColor = .black
+        
+        switch writingStyle {
+        case .add:
+            barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
+        case .edit:
+            barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
+        case .none:
+            break
+        }
+        
+        titleTextField.text = model.title
+        descriptionTextView.text = model.description
+        
         setUpHierachy()
         setUpLayout()
     }
