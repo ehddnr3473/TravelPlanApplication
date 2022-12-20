@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
@@ -29,11 +30,11 @@ class WritingPlanViewController: UIViewController, Writable {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
+    private let barTitleLabel: UILabel = {
         let label = UILabel()
         
         label.textAlignment = .center
-        label.font = .boldSystemFont(ofSize: LayoutConstants.barTitleFontSize)
+        label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         label.textColor = .white
         
         return label
@@ -42,7 +43,7 @@ class WritingPlanViewController: UIViewController, Writable {
     private lazy var saveBarButton: UIButton = {
         let button = UIButton(type: .custom)
         
-        button.setTitle(StringConstants.saveButtonTitle, for: .normal)
+        button.setTitle(TextConstants.saveButtonTitle, for: .normal)
         button.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         
         return button
@@ -51,10 +52,45 @@ class WritingPlanViewController: UIViewController, Writable {
     private lazy var cancelBarButton: UIButton = {
         let button = UIButton(type: .custom)
         
-        button.setTitle(StringConstants.cancelButtonTItle, for: .normal)
+        button.setTitle(TextConstants.cancelButtonTItle, for: .normal)
         button.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
         
         return button
+    }()
+    
+    var titleTextField: UITextField = {
+        let textField = UITextField()
+        
+        textField.textColor = .white
+        textField.backgroundColor = .black
+        textField.placeholder = TextConstants.placeholder
+        textField.layer.cornerRadius = LayoutConstants.cornerRadius
+        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        
+        textField.leftView = UIView(frame: CGRect(x: .zero,
+                                                  y: .zero,
+                                                  width: LayoutConstants.spacing,
+                                                  height: .zero))
+        textField.leftViewMode = .always
+        
+        return textField
+    }()
+    
+    var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        
+        textView.textColor = .white
+        textView.backgroundColor = .black
+        textView.layer.cornerRadius = LayoutConstants.cornerRadius
+        textView.layer.borderWidth = LayoutConstants.borderWidth
+        textView.layer.borderColor = UIColor.white.cgColor
+        textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        
+        return textView
     }()
     
     override func viewDidLoad() {
@@ -71,11 +107,11 @@ extension WritingPlanViewController {
         setUpLayout()
     }
     private func setUpHierachy() {
-        [cancelBarButton, titleLabel, saveBarButton].forEach {
+        [cancelBarButton, barTitleLabel, saveBarButton].forEach {
             topBarStackView.addArrangedSubview($0)
         }
         
-        [topBarStackView].forEach {
+        [topBarStackView, titleTextField, descriptionTextView].forEach {
             view.addSubview($0)
         }
     }
@@ -85,6 +121,20 @@ extension WritingPlanViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.width.equalToSuperview()
             $0.height.greaterThanOrEqualTo(LayoutConstants.stackViewHeight)
+        }
+        
+        titleTextField.snp.makeConstraints {
+            $0.top.equalTo(topBarStackView.snp.bottom).offset(LayoutConstants.spacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(LayoutConstants.spacing)
+        }
+        
+        descriptionTextView.snp.makeConstraints {
+            $0.top.equalTo(titleTextField.snp.bottom)
+                .offset(LayoutConstants.spacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(LayoutConstants.spacing)
+            $0.height.equalTo(100)
         }
     }
     
@@ -99,17 +149,21 @@ extension WritingPlanViewController {
 private enum LayoutConstants {
     static let spacing: CGFloat = 8
     static let stackViewCornerRadius: CGFloat = 10
-    static let barTitleFontSize: CGFloat = 20
+    static let cornerRadius: CGFloat = 5
+    static let borderWidth: CGFloat = 1
+    static let largeFontSize: CGFloat = 25
+    static let mediumFontSize: CGFloat = 20
     static let topBottomMargin: CGFloat = 10
     static let sideMargin: CGFloat = 15
     static let stackViewHeight: CGFloat = 50
 }
 
-private enum StringConstants {
+private enum TextConstants {
     static let saveButtonTitle = "Save"
     static let cancelButtonTItle = "Cancel"
-    static let placeholder = "제목"
     static let plan = "Plan"
+    static let placeholder = "제목"
+    static let descriptionPlaceolder = "상세"
 }
 
 private enum AlertText {

@@ -19,6 +19,10 @@ struct TravelPlan {
     
     func date(_ index: Int) -> String {
         let dateFormatter = DateFormatter()
-        return dateFormatter.string(from: plans[index].date)
+        if let date = plans[index].date {
+            return dateFormatter.string(from: date)
+        } else {
+            return ""
+        }
     }
 }
