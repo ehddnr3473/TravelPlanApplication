@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Plan: Equatable {
+struct Plan: PlanProtocol, Equatable {
     static func == (lhs: Plan, rhs: Plan) -> Bool {
         if lhs.title == rhs.title &&
             lhs.date == rhs.date &&

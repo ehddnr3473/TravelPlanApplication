@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class WritingPlanViewController: UIViewController, Writable {
+final class WritingPlanViewController: UIViewController, Writable, ScheduleTransfer {
     typealias Model = WritablePlan
     // MARK: - Properties
     var model: Model!
@@ -261,6 +261,9 @@ extension WritingPlanViewController {
         print("touch")
     }
     
+    func writingHandler(_ data: Schedule, _ index: Int?) {
+        
+    }
 }
 
 extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {

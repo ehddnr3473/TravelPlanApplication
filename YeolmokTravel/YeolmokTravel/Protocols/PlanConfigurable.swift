@@ -12,8 +12,8 @@ protocol PlanConfigurable: AnyObject {
     var model: TravelPlan { get set }
     func title(_ index: Int) -> String
     func date(_ index: Int) -> String
-    func setUpAddPlanView() -> Writable
-    func setUpModifyPlanView(at index: Int) -> Writable
+    func setUpAddPlanView() -> any Writable
+    func setUpModifyPlanView(at index: Int) -> any Writable
     
     init(_ model: TravelPlan)
 }

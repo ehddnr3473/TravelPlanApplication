@@ -36,7 +36,7 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
         }
     }
     
-    func setUpAddPlanView() -> Writable {
+    func setUpAddPlanView() -> any Writable {
         let model = WritablePlan(Plan(title: "", description: "", schedules: []))
         let writingPlanViewController = WritingPlanViewController()
         writingPlanViewController.model = model
@@ -47,7 +47,7 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
         return writingPlanViewController
     }
     
-    func setUpModifyPlanView(at index: Int) -> Writable {
+    func setUpModifyPlanView(at index: Int) -> any Writable {
         let model = WritablePlan(model.plans[index])
         let writingPlanViewController = WritingPlanViewController()
         writingPlanViewController.model = model
