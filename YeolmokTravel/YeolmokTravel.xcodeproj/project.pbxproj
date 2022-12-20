@@ -16,6 +16,7 @@
 		6B46FA1D29513D4C000430C7 /* YeolmokTravelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA1C29513D4C000430C7 /* YeolmokTravelTests.swift */; };
 		6B46FA2729513D4C000430C7 /* YeolmokTravelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA2629513D4C000430C7 /* YeolmokTravelUITests.swift */; };
 		6B46FA2929513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */; };
+		6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3629513DDB000430C7 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		6B46FA2229513D4C000430C7 /* YeolmokTravelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YeolmokTravelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B46FA2629513D4C000430C7 /* YeolmokTravelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeolmokTravelUITests.swift; sourceTree = "<group>"; };
 		6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeolmokTravelUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		6B46FA3629513DDB000430C7 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +101,8 @@
 		6B46FA0429513D4A000430C7 /* YeolmokTravel */ = {
 			isa = PBXGroup;
 			children = (
-				6B46FA0529513D4A000430C7 /* AppDelegate.swift */,
-				6B46FA0729513D4A000430C7 /* SceneDelegate.swift */,
+				6B46FA3829513DE7000430C7 /* TabBar */,
+				6B46FA3529513DA2000430C7 /* Delegate */,
 				6B46FA0929513D4A000430C7 /* ViewController.swift */,
 				6B46FA0B29513D4A000430C7 /* Main.storyboard */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
@@ -125,6 +127,23 @@
 				6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */,
 			);
 			path = YeolmokTravelUITests;
+			sourceTree = "<group>";
+		};
+		6B46FA3529513DA2000430C7 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				6B46FA0529513D4A000430C7 /* AppDelegate.swift */,
+				6B46FA0729513D4A000430C7 /* SceneDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		6B46FA3829513DE7000430C7 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				6B46FA3629513DDB000430C7 /* TabBarController.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA0A29513D4A000430C7 /* ViewController.swift in Sources */,
+				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
 			);
