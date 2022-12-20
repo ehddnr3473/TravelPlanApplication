@@ -13,6 +13,8 @@ enum WritingStyle: String {
 }
 
 protocol Writable: AnyObject {
+    associatedtype Model
+    
     var writingStyle: WritingStyle! { get }
-    var model: WritablePlan! { get set }
+    var model: Model! { get set }
 }

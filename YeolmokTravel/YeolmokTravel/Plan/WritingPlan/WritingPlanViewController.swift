@@ -9,9 +9,10 @@ import UIKit
 import SnapKit
 
 final class WritingPlanViewController: UIViewController, Writable {
+    typealias Model = WritablePlan
     // MARK: - Properties
+    var model: Model!
     var writingStyle: WritingStyle!
-    var model: WritablePlan!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var planListIndex: Int?
