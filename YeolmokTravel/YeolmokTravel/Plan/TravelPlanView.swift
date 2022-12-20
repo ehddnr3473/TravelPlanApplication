@@ -88,7 +88,7 @@ extension TravelPlanView {
                 .offset(LayoutConstants.planTableViewTopOffset)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(0)
+            $0.height.equalTo(100)
         }
     }
     
@@ -102,6 +102,8 @@ extension TravelPlanView {
 extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = TravelPlan.myTravelPlan.title
+        cell.dateLabel.text = TravelPlan.myTravelPlan.date.formatted()
         return cell
     }
     

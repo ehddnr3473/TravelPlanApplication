@@ -50,6 +50,7 @@ class TravelPlanTableViewCell: UITableViewCell {
     private func setUpUI() {
         self.backgroundColor = .darkGray
         self.layer.borderWidth = LayoutConstants.borderWidth
+        self.selectionStyle = .none
         setUpHierachy()
         setUpLayout()
     }
