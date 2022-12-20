@@ -11,5 +11,36 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUp()
     }
+    
+    private func setUp() {
+        let scheduleView = ScheduleView()
+        let todoView = TodoView()
+        
+        scheduleView.tabBarItem = UITabBarItem(title: TitleConstants.schedule,
+                                               image: UIImage(systemName: ImageName.calendar),
+                                               tag: NumberConstants.first)
+        todoView.tabBarItem = UITabBarItem(title: TitleConstants.todo,
+                                           image: UIImage(systemName: ImageName.note),
+                                           tag: NumberConstants.second)
+        viewControllers = [scheduleView, todoView]
+        setViewControllers(viewControllers, animated: true)
+    }
+}
+
+private enum TitleConstants {
+    static let schedule = "Schedule"
+    static let todo = "ToDo"
+}
+
+private enum ImageName {
+    static let calendar = "calendar.circle.fill"
+    static let note = "note.text"
+}
+
+private enum NumberConstants {
+    static let first = 0
+    static let second = 1
 }
