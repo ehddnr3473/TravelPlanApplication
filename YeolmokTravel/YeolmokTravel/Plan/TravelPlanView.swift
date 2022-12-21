@@ -108,7 +108,7 @@ extension TravelPlanView {
         presentWritableView(viewModel.setUpAddPlanView())
     }
     
-    @MainActor private func presentWritableView(_ writableView: WritingPlanViewController) {
+    @MainActor private func presentWritableView(_ writableView: WritingTravelPlanViewController) {
         present(writableView, animated: true)
     }
     

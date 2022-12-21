@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 /// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
-final class WritingPlanViewController: UIViewController, Writable, PlanTransfer {
+final class WritingTravelPlanViewController: UIViewController, Writable, PlanTransfer {
     typealias ModelType = TravelPlan
     // MARK: - Properties
     var model: WritablePlan<ModelType>!
@@ -142,7 +142,7 @@ final class WritingPlanViewController: UIViewController, Writable, PlanTransfer 
 }
 
 // MARK: - SetUp View
-extension WritingPlanViewController {
+extension WritingTravelPlanViewController {
     private func setUpUI() {
         view.backgroundColor = .black
         
@@ -251,7 +251,7 @@ extension WritingPlanViewController {
     }
 }
 
-extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {
+extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell,
                 let schedule = model.schedule(indexPath.row) else { return UITableViewCell() }
