@@ -9,7 +9,7 @@ import Foundation
 
 /// Plan Model
 struct MyTravelPlan {
-    var plans: [Plan]
+    var plans: [TravelPlan]
     
     var count: Int {
         plans.count

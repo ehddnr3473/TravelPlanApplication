@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Plan {
+protocol Plan: Equatable {
     var title: String { get set }
     var description: String? { get set }
     var date: Date? { get set }

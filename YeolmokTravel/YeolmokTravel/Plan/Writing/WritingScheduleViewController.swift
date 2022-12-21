@@ -8,10 +8,13 @@
 import UIKit
 
 class WritingScheduleViewController: UIViewController, Writable {
-    typealias Model = WritableSchedule
+    typealias ModelType = Schedule
+    
     // MARK: - Properties
-    var model: Model!
+    var model: WritablePlan<ModelType>!
     var writingStyle: WritingStyle!
+    var addDelegate: PlanTransfer?
+    var editDelegate: PlanTransfer?
     
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()
@@ -44,7 +47,7 @@ class WritingScheduleViewController: UIViewController, Writable {
         let button = UIButton(type: .custom)
         
         button.setTitle(TextConstants.saveButtonTitle, for: .normal)
-//        button.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         button.setTitleColor(AppStyles.mainColor, for: .normal)
         
         return button
@@ -54,7 +57,7 @@ class WritingScheduleViewController: UIViewController, Writable {
         let button = UIButton(type: .custom)
         
         button.setTitle(TextConstants.cancelButtonTItle, for: .normal)
-//        button.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
         
         return button
     }()
@@ -105,12 +108,15 @@ class WritingScheduleViewController: UIViewController, Writable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpUI()
     }
 }
 
 extension WritingScheduleViewController {
     private func setUpUI() {
-        
+        view.backgroundColor = .black
+        setUpHierachy()
+        setUpLayout()
     }
     
     private func setUpHierachy() {
@@ -143,6 +149,14 @@ extension WritingScheduleViewController {
                 .inset(LayoutConstants.spacing)
             $0.height.equalTo(100)
         }
+    }
+    
+    @objc func touchUpSaveBarButton() {
+        
+    }
+    
+    @objc func touchUpCancelBarButton() {
+        
     }
 }
 

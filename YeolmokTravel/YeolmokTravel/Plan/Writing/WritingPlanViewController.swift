@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-final class WritingPlanViewController: UIViewController, Writable, ScheduleTransfer {
-    typealias Model = WritablePlan
+final class WritingPlanViewController: UIViewController, Writable, PlanTransfer {
+    typealias ModelType = TravelPlan
     // MARK: - Properties
-    var model: Model!
+    var model: WritablePlan<ModelType>!
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
@@ -209,7 +209,9 @@ extension WritingPlanViewController {
                 .offset(LayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
+            if let count = model.schedulesCount {
+                $0.height.equalTo(count * Int(LayoutConstants.cellHeight))
+            }
         }
     }
     
@@ -220,22 +222,12 @@ extension WritingPlanViewController {
     
     @objc func touchUpSaveBarButton() {
         model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        if model.verifyTitleText() {
+        if model.titleIsEmpty() {
             alertWillAppear()
             return
         } else {
-            switch writingStyle {
-            case .add:
-                addDelegate?.writingHandler(model.plan, nil)
-                addDelegate = nil
-                dismiss(animated: true)
-            case .edit:
-                if let index = planListIndex {
-                    editDelegate?.writingHandler(model.plan, index)
-                    editDelegate = nil
-                    dismiss(animated: true)
-                }
-            case .none:
+            if let index = planListIndex {
+                save(model.plan, index)
                 dismiss(animated: true)
             }
         }
@@ -244,14 +236,8 @@ extension WritingPlanViewController {
     @objc func touchUpCancelBarButton() {
         model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
         if model.isChanged {
-            switch writingStyle {
-            case .add:
-                actionSheetWillApear(AlertText.addTitle, AlertText.message)
-            case .edit:
-                actionSheetWillApear(AlertText.editTitle, AlertText.message)
-            case .none:
-                dismiss(animated: true)
-            }
+            let actionSheetText = fetchActionSheetText()
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1)
         } else {
             dismiss(animated: true)
         }
@@ -261,16 +247,15 @@ extension WritingPlanViewController {
         print("touch")
     }
     
-    func writingHandler(_ data: Schedule, _ index: Int?) {
+    func writingHandler(_ data: any Plan, _ index: Int?) {
         
     }
 }
 
 extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier,
-                                                       for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
-        let schedule = model.schedule(indexPath.row)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell,
+                let schedule = model.schedule(indexPath.row) else { return UITableViewCell() }
         cell.titleLabel.text = schedule.title
         cell.descriptionLabel.text = schedule.description
         cell.dateLabel.text = schedule.date?.formatted()
@@ -279,7 +264,11 @@ extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        model.schedulesCount
+        if let count = model.schedulesCount {
+            return count
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
