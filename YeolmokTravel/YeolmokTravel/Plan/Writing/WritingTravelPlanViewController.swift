@@ -69,7 +69,6 @@ final class WritingTravelPlanViewController: UIViewController, Writable, PlanTra
         
         textField.textColor = .white
         textField.backgroundColor = .black
-        textField.placeholder = TextConstants.placeholder
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = LayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -340,7 +339,6 @@ private enum TextConstants {
     static let saveButtonTitle = "Save"
     static let cancelButtonTItle = "Cancel"
     static let plan = "Plan"
-    static let placeholder = "제목"
     static let descriptionPlaceolder = "상세"
     static let schedule = "Schedule"
     static let plusIcon = "plus"

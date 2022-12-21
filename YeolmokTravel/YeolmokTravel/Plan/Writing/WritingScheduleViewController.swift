@@ -68,7 +68,6 @@ class WritingScheduleViewController: UIViewController, Writable {
         
         textField.textColor = .white
         textField.backgroundColor = .black
-        textField.placeholder = TextConstants.placeholder
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = LayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -101,8 +100,9 @@ class WritingScheduleViewController: UIViewController, Writable {
     private let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         
-        datePicker.preferredDatePickerStyle = .automatic
-        datePicker.backgroundColor = .white
+        datePicker.preferredDatePickerStyle = .inline
+        datePicker.backgroundColor = .systemGray
+        datePicker.tintColor = .systemGreen
         
         return datePicker
     }()
@@ -201,7 +201,6 @@ private enum TextConstants {
     static let saveButtonTitle = "Save"
     static let cancelButtonTItle = "Cancel"
     static let plan = "Plan"
-    static let placeholder = "제목"
     static let descriptionPlaceolder = "상세"
     static let schedule = "Schedule"
     static let plusIcon = "plus"
