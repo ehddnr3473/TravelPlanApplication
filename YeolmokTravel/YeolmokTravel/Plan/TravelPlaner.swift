@@ -34,8 +34,8 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         model.description(index)
     }
     
-    func writingHandler(_ data: some Plan, _ index: Int?) {
-        guard let plan = data as? TravelPlan else { return }
+    func writingHandler(_ plan: some Plan, _ index: Int?) {
+        guard let plan = plan as? TravelPlan else { return }
         if let index = index {
             model.plans[index] = plan
             publisher.send()

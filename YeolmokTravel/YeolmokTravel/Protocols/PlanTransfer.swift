@@ -8,5 +8,5 @@
 import Foundation
 
 protocol PlanTransfer: AnyObject {
-    func writingHandler(_ data: some Plan, _ index: Int?)
+    func writingHandler(_ plan: some Plan, _ index: Int?)
 }

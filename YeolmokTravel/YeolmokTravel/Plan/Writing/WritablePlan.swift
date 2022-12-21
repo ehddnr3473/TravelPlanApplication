@@ -74,4 +74,19 @@ struct WritablePlan<T: Plan> {
         guard let plan = plan as? TravelPlan else { return nil }
         return plan.schedules[index]
     }
+    
+    // edit Schedule
+    mutating func appendSchdule(schedule: Schedule) {
+        if var plan = plan as? TravelPlan {
+            plan.schedules.append(schedule)
+            self.plan = plan as! T
+        }
+    }
+    
+    mutating func modifySchdule(at index: Int, schedule: Schedule) {
+        if var plan = plan as? TravelPlan {
+            plan.schedules[index] = schedule
+            self.plan = plan as! T
+        }
+    }
 }

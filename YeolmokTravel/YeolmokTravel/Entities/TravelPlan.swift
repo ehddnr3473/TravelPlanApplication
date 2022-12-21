@@ -12,5 +12,5 @@ struct TravelPlan: Plan {
     var title: String
     var description: String?
     var date: Date?
-    let schedules: [Schedule]
+    var schedules: [Schedule]
 }

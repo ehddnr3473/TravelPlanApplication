@@ -148,7 +148,13 @@ extension WritingScheduleViewController {
                 .offset(LayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(100)
+            $0.height.equalTo(LayoutConstants.descriptionTextViewHeight)
+        }
+        
+        datePicker.snp.makeConstraints {
+            $0.top.equalTo(descriptionTextView.snp.bottom)
+                .offset(LayoutConstants.spacing)
+            $0.centerX.equalToSuperview()
         }
     }
     
@@ -188,6 +194,7 @@ private enum LayoutConstants {
     static let stackViewHeight: CGFloat = 50
     static let schedultTitleLeading: CGFloat = 15
     static let cellHeight: CGFloat = 100
+    static let descriptionTextViewHeight: CGFloat = 100
 }
 
 private enum TextConstants {

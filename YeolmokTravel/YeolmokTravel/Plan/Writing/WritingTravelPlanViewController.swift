@@ -243,11 +243,40 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpAddScheduleButton() {
-        
+        presentWritableView(setUpAddScheduleViewController())
     }
     
-    func writingHandler(_ data: some Plan, _ index: Int?) {
-        
+    // 자세한 일정을 추가하기 위해 프레젠테이션할 ViewController 반환
+    private func setUpAddScheduleViewController() -> WritingScheduleViewController {
+        let model = WritablePlan(Schedule(title: ""))
+        let writingScheduleViewController = WritingScheduleViewController()
+        writingScheduleViewController.model = model
+        writingScheduleViewController.writingStyle = .add
+        writingScheduleViewController.addDelegate = self
+        writingScheduleViewController.modalPresentationStyle = .fullScreen
+        return writingScheduleViewController
+    }
+    
+    func writingHandler(_ plan: some Plan, _ index: Int?) {
+        guard let plan = plan as? Schedule else { return }
+        if let index = index {
+            // edit
+            model.modifySchdule(at: index, schedule: plan)
+            reloadScheduleList()
+        } else {
+            // add
+            model.appendSchdule(schedule: plan)
+            reloadScheduleList()
+        }
+    }
+    
+    @MainActor private func reloadScheduleList() {
+        scheduleTableView.snp.updateConstraints {
+            if let count = model.schedulesCount {
+                $0.height.equalTo(count * Int(LayoutConstants.cellHeight))
+            }
+        }
+        scheduleTableView.reloadData()
     }
 }
 
@@ -256,7 +285,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell,
                 let schedule = model.schedule(indexPath.row) else { return UITableViewCell() }
         cell.titleLabel.text = schedule.title
-        cell.descriptionLabel.text = schedule.description
+        cell.descriptionLabel.text = schedule.description ?? "날짜 미지정"
         cell.dateLabel.text = schedule.date?.formatted()
         
         return cell
@@ -275,7 +304,19 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        presentWritableView(setUpModifySchduleViewController(indexPath.row))
+    }
+    
+    // 자세한 일정을 수정하기 위해 프레젠테이션할 ViewController 반환
+    private func setUpModifySchduleViewController(_ index: Int) -> WritingScheduleViewController {
+        guard let model = model.schedule(index) else { return WritingScheduleViewController() }
+        let writingScheduleViewController = WritingScheduleViewController()
+        writingScheduleViewController.model = WritablePlan(model)
+        writingScheduleViewController.writingStyle = .edit
+        writingScheduleViewController.editDelegate = self
+        writingScheduleViewController.modalPresentationStyle = .fullScreen
+        writingScheduleViewController.scheduleListIndex = index
+        return writingScheduleViewController
     }
 }
 
