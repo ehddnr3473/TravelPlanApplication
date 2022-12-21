@@ -97,12 +97,65 @@ class WritingScheduleViewController: UIViewController, Writable {
         return textView
     }()
     
-    private let datePicker: UIDatePicker = {
+    private let dateBackgroundView: UIView = {
+        let view = UIView()
+        
+        view.layer.borderWidth = LayoutConstants.borderWidth
+        view.layer.borderColor = UIColor.white.cgColor
+        view.backgroundColor = .darkGray
+        
+        return view
+    }()
+    
+    private lazy var dateSwitch: UISwitch = {
+        let `switch` = UISwitch()
+        
+        `switch`.isOn = false
+        `switch`.addTarget(self, action: #selector(toggleSwitch), for: .valueChanged)
+        
+        return `switch`
+    }()
+    
+    private let fromLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = TextConstants.from
+        label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        label.textAlignment = .center
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    private let fromDatePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         
-        datePicker.preferredDatePickerStyle = .inline
-        datePicker.backgroundColor = .systemGray
+        datePicker.preferredDatePickerStyle = .compact
         datePicker.tintColor = .systemGreen
+        datePicker.backgroundColor = .systemGray
+        datePicker.isEnabled = false
+        
+        return datePicker
+    }()
+    
+    private let toLabel: UILabel = {
+        let label = UILabel()
+        
+        label.text = TextConstants.to
+        label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        label.textAlignment = .center
+        label.textColor = .white
+        
+        return label
+    }()
+    
+    private let toDatePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.tintColor = .systemGreen
+        datePicker.backgroundColor = .systemGray
+        datePicker.isEnabled = false
         
         return datePicker
     }()
@@ -116,6 +169,16 @@ class WritingScheduleViewController: UIViewController, Writable {
 extension WritingScheduleViewController {
     private func setUpUI() {
         view.backgroundColor = .black
+        
+        switch writingStyle {
+        case .add:
+            barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
+        case .edit:
+            barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
+        case .none:
+            break
+        }
+        
         setUpHierachy()
         setUpLayout()
     }
@@ -125,7 +188,11 @@ extension WritingScheduleViewController {
             topBarStackView.addArrangedSubview($0)
         }
         
-        [topBarStackView, titleTextField, descriptionTextView, datePicker].forEach {
+        [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
+            dateBackgroundView.addSubview($0)
+        }
+        
+        [topBarStackView, titleTextField, descriptionTextView, dateBackgroundView].forEach {
             view.addSubview($0)
         }
     }
@@ -151,10 +218,45 @@ extension WritingScheduleViewController {
             $0.height.equalTo(LayoutConstants.descriptionTextViewHeight)
         }
         
-        datePicker.snp.makeConstraints {
+        dateBackgroundView.snp.makeConstraints {
             $0.top.equalTo(descriptionTextView.snp.bottom)
+                .offset(LayoutConstants.largeSpacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(LayoutConstants.spacing)
+            $0.height.equalTo(LayoutConstants.dateBackgroundViewHeight)
+        }
+        
+        dateSwitch.snp.makeConstraints {
+            $0.top.equalToSuperview()
                 .offset(LayoutConstants.spacing)
-            $0.centerX.equalToSuperview()
+            $0.trailing.equalToSuperview()
+                .inset(LayoutConstants.largeSpacing)
+        }
+        
+        fromLabel.snp.makeConstraints {
+            $0.top.equalTo(dateSwitch.snp.bottom)
+                .offset(LayoutConstants.largeSpacing)
+            $0.leading.equalToSuperview()
+                .inset(LayoutConstants.largeSpacing)
+        }
+        
+        fromDatePicker.snp.makeConstraints {
+            $0.centerY.equalTo(fromLabel.snp.centerY)
+            $0.trailing.equalToSuperview()
+                .inset(LayoutConstants.largeSpacing)
+        }
+        
+        toLabel.snp.makeConstraints {
+            $0.top.equalTo(fromLabel.snp.bottom)
+                .offset(LayoutConstants.largeSpacing)
+            $0.leading.equalToSuperview()
+                .inset(LayoutConstants.largeSpacing)
+        }
+        
+        toDatePicker.snp.makeConstraints {
+            $0.centerY.equalTo(toLabel.snp.centerY)
+            $0.trailing.equalToSuperview()
+                .inset(LayoutConstants.largeSpacing)
         }
     }
     
@@ -178,6 +280,20 @@ extension WritingScheduleViewController {
             dismiss(animated: true)
         }
     }
+    
+    @objc func toggleSwitch() {
+        if dateSwitch.isOn {
+            fromDatePicker.backgroundColor = .white
+            fromDatePicker.isEnabled = true
+            toDatePicker.backgroundColor = .white
+            toDatePicker.isEnabled = true
+        } else {
+            fromDatePicker.backgroundColor = .systemGray
+            fromDatePicker.isEnabled = false
+            toDatePicker.backgroundColor = .systemGray
+            toDatePicker.isEnabled = false
+        }
+    }
 }
 
 private enum LayoutConstants {
@@ -195,13 +311,13 @@ private enum LayoutConstants {
     static let schedultTitleLeading: CGFloat = 15
     static let cellHeight: CGFloat = 100
     static let descriptionTextViewHeight: CGFloat = 100
+    static let dateBackgroundViewHeight: CGFloat = 170
 }
 
 private enum TextConstants {
     static let saveButtonTitle = "Save"
     static let cancelButtonTItle = "Cancel"
-    static let plan = "Plan"
-    static let descriptionPlaceolder = "상세"
     static let schedule = "Schedule"
-    static let plusIcon = "plus"
+    static let from = "From"
+    static let to = "To"
 }

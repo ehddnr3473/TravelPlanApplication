@@ -284,7 +284,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell,
                 let schedule = model.schedule(indexPath.row) else { return UITableViewCell() }
         cell.titleLabel.text = schedule.title
-        cell.descriptionLabel.text = schedule.description ?? "날짜 미지정"
+        cell.descriptionLabel.text = schedule.description
         cell.dateLabel.text = schedule.date?.formatted()
         
         return cell
