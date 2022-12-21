@@ -9,12 +9,12 @@ import UIKit
 
 class WritingScheduleViewController: UIViewController, Writable {
     typealias ModelType = Schedule
-    
     // MARK: - Properties
     var model: WritablePlan<ModelType>!
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
+    var scheduleListIndex: Int?
     
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()
@@ -152,11 +152,26 @@ extension WritingScheduleViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        
+        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if model.titleIsEmpty() {
+            alertWillAppear()
+            return
+        } else {
+            if let index = scheduleListIndex {
+                save(model.plan, index)
+                dismiss(animated: true)
+            }
+        }
     }
     
     @objc func touchUpCancelBarButton() {
-        
+        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if model.isChanged {
+            let actionSheetText = fetchActionSheetText()
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1)
+        } else {
+            dismiss(animated: true)
+        }
     }
 }
 

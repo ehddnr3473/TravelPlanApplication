@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import Combine
 
 /// Plan View Model
-final class TravelPlaner: PlanConfigurable, PlanTransfer {
+final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     var model: MyTravelPlan
+    
+    let publisher = PassthroughSubject<Void, Never>()
     
     var planCount: Int {
         model.count
@@ -31,12 +34,14 @@ final class TravelPlaner: PlanConfigurable, PlanTransfer {
         model.description(index)
     }
     
-    func writingHandler(_ data: any Plan, _ index: Int?) {
+    func writingHandler(_ data: some Plan, _ index: Int?) {
+        guard let plan = data as? TravelPlan else { return }
         if let index = index {
-            // edit plan
-            
+            model.plans[index] = plan
+            publisher.send()
         } else {
-            // add plan
+            model.appendPlan(plan)
+            publisher.send()
         }
     }
     

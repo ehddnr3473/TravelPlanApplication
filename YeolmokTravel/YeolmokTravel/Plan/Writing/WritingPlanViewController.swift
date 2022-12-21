@@ -226,10 +226,8 @@ extension WritingPlanViewController {
             alertWillAppear()
             return
         } else {
-            if let index = planListIndex {
-                save(model.plan, index)
-                dismiss(animated: true)
-            }
+            save(model.plan, planListIndex)
+            dismiss(animated: true)
         }
     }
     
@@ -247,7 +245,7 @@ extension WritingPlanViewController {
         print("touch")
     }
     
-    func writingHandler(_ data: any Plan, _ index: Int?) {
+    func writingHandler(_ data: some Plan, _ index: Int?) {
         
     }
 }

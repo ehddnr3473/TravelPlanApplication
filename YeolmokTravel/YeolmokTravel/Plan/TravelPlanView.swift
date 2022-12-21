@@ -7,11 +7,13 @@
 
 import UIKit
 import SnapKit
+import Combine
 
 /// Plan View
 final class TravelPlanView: UIViewController {
     // MARK: - Properties
     var viewModel: TravelPlaner!
+    private var subscriptions = [AnyCancellable]()
     private var titleLabel: UILabel = {
         let label = UILabel()
         
@@ -50,6 +52,7 @@ final class TravelPlanView: UIViewController {
         super.viewDidLoad()
         setUpUI()
         configure()
+        setBindings()
     }
 }
 
@@ -93,6 +96,12 @@ extension TravelPlanView {
     private func configure() {
         planTableView.delegate = self
         planTableView.dataSource = self
+    }
+    
+    private func setBindings() {
+        viewModel.publisher
+            .sink { self.reloadPlanList() }
+            .store(in: &subscriptions)
     }
     
     @objc func touchUpAddButton() {

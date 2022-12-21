@@ -19,6 +19,10 @@ struct MyTravelPlan {
         plans[index].title
     }
     
+    mutating func appendPlan(_ plan: TravelPlan) {
+        plans.append(plan)
+    }
+    
     func date(_ index: Int) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = TextConstants.dateFormat
