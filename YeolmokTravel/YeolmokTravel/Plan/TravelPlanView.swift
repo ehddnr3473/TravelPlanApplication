@@ -105,11 +105,7 @@ extension TravelPlanView {
     }
     
     @objc func touchUpAddButton() {
-        presentWritableView(viewModel.setUpAddPlanView())
-    }
-    
-    @MainActor private func presentWritableView(_ writableView: WritingTravelPlanViewController) {
-        present(writableView, animated: true)
+        presentWritableView(viewModel.setUpAddTravelPlanView())
     }
     
     @MainActor private func reloadPlanList() {
@@ -139,7 +135,7 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presentWritableView(viewModel.setUpModifyPlanView(at: indexPath.row))
+        presentWritableView(viewModel.setUpModifyTravelPlanView(at: indexPath.row))
     }
 }
 

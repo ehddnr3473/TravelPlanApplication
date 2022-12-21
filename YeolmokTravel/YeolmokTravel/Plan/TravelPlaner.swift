@@ -46,26 +46,26 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     }
     
     // 여행 계획을 추가하기 위해 프레젠테이션할 ViewController 반환
-    func setUpAddPlanView() -> WritingTravelPlanViewController {
+    func setUpAddTravelPlanView() -> WritingTravelPlanViewController {
         let model = WritablePlan(TravelPlan(title: "", description: "", schedules: []))
-        let writingPlanViewController = WritingTravelPlanViewController()
-        writingPlanViewController.model = model
-        writingPlanViewController.writingStyle = WritingStyle.add
-        writingPlanViewController.addDelegate = self
-        writingPlanViewController.modalPresentationStyle = .fullScreen
+        let writingTravelPlanViewController = WritingTravelPlanViewController()
+        writingTravelPlanViewController.model = model
+        writingTravelPlanViewController.writingStyle = .add
+        writingTravelPlanViewController.addDelegate = self
+        writingTravelPlanViewController.modalPresentationStyle = .fullScreen
         
-        return writingPlanViewController
+        return writingTravelPlanViewController
     }
     
     // 여행 계획을 수정하기 위해 프레젠테이션할 ViewController 반환
-    func setUpModifyPlanView(at index: Int) -> WritingTravelPlanViewController {
+    func setUpModifyTravelPlanView(at index: Int) -> WritingTravelPlanViewController {
         let model = WritablePlan(model.plans[index])
-        let writingPlanViewController = WritingTravelPlanViewController()
-        writingPlanViewController.model = model
-        writingPlanViewController.writingStyle = WritingStyle.edit
-        writingPlanViewController.editDelegate = self
-        writingPlanViewController.planListIndex = index
-        writingPlanViewController.modalPresentationStyle = .fullScreen
-        return writingPlanViewController
+        let writingTravelPlanViewController = WritingTravelPlanViewController()
+        writingTravelPlanViewController.model = model
+        writingTravelPlanViewController.writingStyle = .edit
+        writingTravelPlanViewController.editDelegate = self
+        writingTravelPlanViewController.planListIndex = index
+        writingTravelPlanViewController.modalPresentationStyle = .fullScreen
+        return writingTravelPlanViewController
     }
 }

@@ -189,7 +189,7 @@ extension WritingTravelPlanViewController {
                 .offset(LayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(100)
+            $0.height.equalTo(LayoutConstants.cellHeight)
         }
         
         scheduleTitleLabel.snp.makeConstraints {
@@ -243,7 +243,7 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpAddScheduleButton() {
-        print("touch")
+        
     }
     
     func writingHandler(_ data: some Plan, _ index: Int?) {
@@ -307,10 +307,4 @@ private enum TextConstants {
 
 private enum NumberConstants {
     static let zero = 0
-}
-
-private enum AlertText {
-    static let addTitle = "입력한 내용이 있습니다."
-    static let editTitle = "변경된 내용이 있습니다."
-    static let message = "저장하지 않고 돌아가시겠습니까?"
 }
