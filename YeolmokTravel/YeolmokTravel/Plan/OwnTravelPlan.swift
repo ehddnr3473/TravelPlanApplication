@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Plan Model
-struct MyTravelPlan {
+/// TravelPlan Model
+struct OwnTravelPlan {
     var plans: [TravelPlan]
     
     var count: Int {

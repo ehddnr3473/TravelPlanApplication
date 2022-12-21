@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+/// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
 final class WritingPlanViewController: UIViewController, Writable, PlanTransfer {
     typealias ModelType = TravelPlan
     // MARK: - Properties
@@ -265,7 +266,7 @@ extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource 
         if let count = model.schedulesCount {
             return count
         } else {
-            return 0
+            return NumberConstants.zero
         }
     }
     
@@ -302,6 +303,10 @@ private enum TextConstants {
     static let descriptionPlaceolder = "상세"
     static let schedule = "Schedule"
     static let plusIcon = "plus"
+}
+
+private enum NumberConstants {
+    static let zero = 0
 }
 
 private enum AlertText {

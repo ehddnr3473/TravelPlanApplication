@@ -7,10 +7,13 @@
 
 import Foundation
 
+/// Writing ViewControllers를 위한 Model
+/// For Schdule, TravelPlan
 struct WritablePlan<T: Plan> {
     var plan: T
     var initialPlan: T
     
+    // 변경된 내용을 확인하기 위해 초기값 저장
     init(_ plan: T) {
         self.plan = plan
         self.initialPlan = plan
@@ -44,6 +47,7 @@ struct WritablePlan<T: Plan> {
         }
     }
     
+    // update
     mutating func setPlan(_ title: String, _ description: String) {
         plan.title = title
         plan.description = description
@@ -60,6 +64,7 @@ struct WritablePlan<T: Plan> {
         }
     }
     
+    // TravelPlan's computed var
     var schedulesCount: Int? {
         guard let plan = plan as? TravelPlan else { return nil }
         return plan.schedules.count

@@ -13,7 +13,7 @@
 		6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4AF295163E100BBB8EE /* Writable.swift */; };
 		6B37A4B62951743D00BBB8EE /* TravelPlaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */; };
 		6B37A4B82951751100BBB8EE /* PlanConfigurable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */; };
-		6B37A4BA295175CD00BBB8EE /* MyTravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B9295175CD00BBB8EE /* MyTravelPlan.swift */; };
+		6B37A4BA295175CD00BBB8EE /* OwnTravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4B9295175CD00BBB8EE /* OwnTravelPlan.swift */; };
 		6B37A4BD2951786800BBB8EE /* TravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4BC2951786800BBB8EE /* TravelPlan.swift */; };
 		6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4BE2951789400BBB8EE /* Schedule.swift */; };
 		6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4C829519C8800BBB8EE /* Alert.swift */; };
@@ -59,7 +59,7 @@
 		6B37A4AF295163E100BBB8EE /* Writable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writable.swift; sourceTree = "<group>"; };
 		6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlaner.swift; sourceTree = "<group>"; };
 		6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanConfigurable.swift; sourceTree = "<group>"; };
-		6B37A4B9295175CD00BBB8EE /* MyTravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTravelPlan.swift; sourceTree = "<group>"; };
+		6B37A4B9295175CD00BBB8EE /* OwnTravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnTravelPlan.swift; sourceTree = "<group>"; };
 		6B37A4BC2951786800BBB8EE /* TravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlan.swift; sourceTree = "<group>"; };
 		6B37A4BE2951789400BBB8EE /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		6B37A4C829519C8800BBB8EE /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
@@ -123,6 +123,7 @@
 		6B37A4AB2951637700BBB8EE /* Writing */ = {
 			isa = PBXGroup;
 			children = (
+				6BA9F4762952862E00403DCC /* WritablePlan.swift */,
 				6B37A4AC2951639000BBB8EE /* WritingPlanViewController.swift */,
 				6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */,
 			);
@@ -243,7 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				6B37A4AB2951637700BBB8EE /* Writing */,
-				6B37A4B9295175CD00BBB8EE /* MyTravelPlan.swift */,
+				6B37A4B9295175CD00BBB8EE /* OwnTravelPlan.swift */,
 				6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */,
 				6B46FA3E295140E9000430C7 /* TravelPlanView.swift */,
 			);
@@ -254,7 +255,6 @@
 			isa = PBXGroup;
 			children = (
 				6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */,
-				6BA9F4762952862E00403DCC /* WritablePlan.swift */,
 			);
 			path = ComonUse;
 			sourceTree = "<group>";
@@ -410,7 +410,7 @@
 				6BA9F4772952862F00403DCC /* WritablePlan.swift in Sources */,
 				6B46FA3C29514094000430C7 /* ScheduleView.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
-				6B37A4BA295175CD00BBB8EE /* MyTravelPlan.swift in Sources */,
+				6B37A4BA295175CD00BBB8EE /* OwnTravelPlan.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
 				6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */,

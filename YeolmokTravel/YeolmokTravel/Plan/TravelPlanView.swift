@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Combine
 
-/// Plan View
+/// TravelPlan View
 final class TravelPlanView: UIViewController {
     // MARK: - Properties
     var viewModel: TravelPlaner!
@@ -108,7 +108,7 @@ extension TravelPlanView {
         presentWritableView(viewModel.setUpAddPlanView())
     }
     
-    @MainActor func presentWritableView(_ writableView: WritingPlanViewController) {
+    @MainActor private func presentWritableView(_ writableView: WritingPlanViewController) {
         present(writableView, animated: true)
     }
     

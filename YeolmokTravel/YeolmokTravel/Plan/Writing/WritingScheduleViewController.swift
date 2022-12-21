@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// 여행 계획 추가 및 수정을 위한 ViewController
 class WritingScheduleViewController: UIViewController, Writable {
     typealias ModelType = Schedule
     // MARK: - Properties
@@ -14,7 +15,7 @@ class WritingScheduleViewController: UIViewController, Writable {
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
-    var scheduleListIndex: Int?
+    var scheduleListIndex: Int? // 여행 계획 '추가'를 위해 프레젠테이션했다면 nil.
     
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()
@@ -157,10 +158,8 @@ extension WritingScheduleViewController {
             alertWillAppear()
             return
         } else {
-            if let index = scheduleListIndex {
-                save(model.plan, index)
-                dismiss(animated: true)
-            }
+            save(model.plan, scheduleListIndex)
+            dismiss(animated: true)
         }
     }
     

@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// 자세한 일정을 나타내는 엔티티
+/// TravelPlan의 하위 데이터
 struct Schedule: Plan {
     var title: String
     var description: String?

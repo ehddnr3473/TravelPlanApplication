@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-/// Plan View Model
+/// TravelPlan View Model
 final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
-    var model: MyTravelPlan
+    var model: OwnTravelPlan
     
     let publisher = PassthroughSubject<Void, Never>()
     
@@ -18,7 +18,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         model.count
     }
     
-    required init(_ model: MyTravelPlan) {
+    required init(_ model: OwnTravelPlan) {
         self.model = model
     }
     
@@ -45,6 +45,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         }
     }
     
+    // 여행 계획을 추가하기 위해 프레젠테이션할 ViewController 반환
     func setUpAddPlanView() -> WritingPlanViewController {
         let model = WritablePlan(TravelPlan(title: "", description: "", schedules: []))
         let writingPlanViewController = WritingPlanViewController()
@@ -56,6 +57,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         return writingPlanViewController
     }
     
+    // 여행 계획을 수정하기 위해 프레젠테이션할 ViewController 반환
     func setUpModifyPlanView(at index: Int) -> WritingPlanViewController {
         let model = WritablePlan(model.plans[index])
         let writingPlanViewController = WritingPlanViewController()

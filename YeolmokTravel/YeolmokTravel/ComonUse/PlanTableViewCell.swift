@@ -7,6 +7,10 @@
 
 import UIKit
 
+/// TravelPlanView와 WritingPlanViewController에서 사용하는 공용 커스텀 셀
+/// - Title Label
+/// - Date Label
+/// - Description Label
 class PlanTableViewCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
     
@@ -43,7 +47,6 @@ class PlanTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setUpUI()
     }
     
@@ -53,6 +56,10 @@ class PlanTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        titleLabel.text = ""
+        dateLabel.text = ""
+        descriptionLabel.text = ""
     }
     
     private func setUpUI() {

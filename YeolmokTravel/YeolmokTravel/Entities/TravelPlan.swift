@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// 여행 계획 엔티티
 struct TravelPlan: Plan {
     var title: String
     var description: String?
