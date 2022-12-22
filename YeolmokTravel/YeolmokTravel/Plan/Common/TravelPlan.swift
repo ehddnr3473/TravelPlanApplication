@@ -60,7 +60,6 @@ struct TravelPlan: Plan {
             }
         }
         fromDate = scheduleHavingMinFromDate?.fromDate
-        print(fromDate)
     }
     
     mutating func setToDate() {
@@ -76,7 +75,6 @@ struct TravelPlan: Plan {
             }
         }
         toDate = scheduleHavingMaxToDate?.toDate
-        print(toDate)
     }
     
     mutating func editSchedule(at index: Int, _ schedule: Schedule) {
