@@ -38,7 +38,11 @@ struct WritablePlan<T: Plan> {
     // update
     mutating func setPlan(_ title: String, _ description: String, _ fromData: Date? = nil, _ toDate: Date? = nil) {
         plan.title = title
-        plan.description = description
+        if description == "" {
+            plan.description = nil
+        } else {
+            plan.description = description
+        }
         plan.fromDate = fromData
         plan.toDate = toDate
     }
