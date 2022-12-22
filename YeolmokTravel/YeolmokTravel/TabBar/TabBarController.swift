@@ -8,40 +8,49 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    private var firebase: FirebaseRepository!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setUp()
+        firebase = FirebaseRepository()
+        Task {
+            await setUp()
+        }
     }
     
-    private func setUp() {
-        let scheduleView = ScheduleView()
-        let model = OwnTravelPlan(travelPlans: [TravelPlan(title: "일본", description: "라멘 꼭 먹기",
-                                                           schedules: [Schedule(title: "공항 도착", description: "good", fromDate: Date(), toDate: Date() + 1)]),
-                                                TravelPlan(title: "한국",
-                                                           description: "삼겹살 먹기",
-                                                           schedules: [Schedule(title: "울산 가기")])])
-        let viewModel = TravelPlaner(model)
-        let travelPlanView = TravelPlanView()
-        travelPlanView.viewModel = viewModel
-        let planNavigationController = UINavigationController(rootViewController: travelPlanView)
+    private func setUp() async {
+        let scheduleView = await setUpCalendarView()
+        let travelPlanView = await setUpTravelPlanView()
         
-        scheduleView.tabBarItem = UITabBarItem(title: TitleConstants.schedule,
-                                               image: UIImage(systemName: ImageName.calendar),
-                                               tag: NumberConstants.first)
-        planNavigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
-                                           image: UIImage(systemName: ImageName.note),
-                                           tag: NumberConstants.second)
-        viewControllers = [scheduleView, planNavigationController]
+        viewControllers = [scheduleView, travelPlanView]
         setViewControllers(viewControllers, animated: true)
         
         tabBar.tintColor = AppStyles.mainColor
     }
+    
+    private func setUpCalendarView() async -> CalendarView {
+        let calendarView = CalendarView()
+        calendarView.tabBarItem = UITabBarItem(title: TitleConstants.calendar,
+                                               image: UIImage(systemName: ImageName.calendar),
+                                               tag: NumberConstants.first)
+        return calendarView
+        
+    }
+    
+    private func setUpTravelPlanView() async -> TravelPlanView {
+        let model = OwnTravelPlan(travelPlans: await firebase.readTravelPlans())
+        let viewModel = TravelPlaner(model)
+        let travelPlanView = TravelPlanView()
+        travelPlanView.viewModel = viewModel
+        travelPlanView.tabBarItem = UITabBarItem(title: TitleConstants.plan,
+                                           image: UIImage(systemName: ImageName.note),
+                                           tag: NumberConstants.second)
+        return travelPlanView
+    }
 }
 
 private enum TitleConstants {
-    static let schedule = "Schedule"
+    static let calendar = "Calendar"
     static let plan = "Plan"
 }
 
