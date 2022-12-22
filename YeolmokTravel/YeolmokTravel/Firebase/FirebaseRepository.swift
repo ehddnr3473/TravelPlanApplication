@@ -1,0 +1,64 @@
+//
+//  FirebaseRepository.swift
+//  YeolmokTravel
+//
+//  Created by 김동욱 on 2022/12/22.
+//
+
+import Foundation
+import FirebaseFirestore
+
+/// Firebase Firestore 연동
+class FirebaseRepository {
+    private var database: Firestore!
+    private var documentReference: DocumentReference?
+    
+    init() {
+        database = Firestore.firestore()
+    }
+    
+    func writeTravelPlans() {
+        //
+    }
+    
+    // Firebase에서 다운로드한 데이터로 실제 사용할 [TravelPlan]을 생성해서 반환
+    func readTravelPlans() async -> [TravelPlan] {
+        var travelPlans = [TravelPlan]()
+        let travelPlanSnapshot = try? await database.collection(UserInformation.identifier).getDocuments()
+        var count = 0
+        for document in travelPlanSnapshot!.documents {
+            let data = document.data()
+            travelPlans.append(self.createTravelPlan(data))
+            let scheduleSnapshot = try? await database.collection(UserInformation.identifier)
+                .document("\(count)")
+                .collection("schedules")
+                .getDocuments()
+            for documentation in scheduleSnapshot!.documents {
+                travelPlans[count].schedules.append(self.createSchedule(documentation.data()))
+            }
+            count += 1
+        }
+        return travelPlans
+    }
+    
+    // Firebase에서 다운로드한 데이터로 TravelPlan을 생성해서 반환
+    func createTravelPlan(_ data: Dictionary<String, Any>) -> TravelPlan {
+        TravelPlan(title: data["title"] as! String,
+                   description: data["description"] as? String,
+                   schedules: [])
+    }
+    
+    // Firebase에서 다운로드한 데이터로 Schedule을 생성해서 반환
+    func createSchedule(_ data: Dictionary<String, Any>) -> Schedule {
+        if let fromDate = data["fromDate"] as? String, let toDate = data["toDate"] as? String {
+            return Schedule(title: data["title"] as! String,
+                     description: data["description"] as? String,
+                     fromDate: DateUtilities.dateFormatter.date(from: fromDate),
+                     toDate: DateUtilities.dateFormatter.date(from: toDate))
+        } else {
+            return Schedule(title: data["title"] as! String,
+                            description: data["description"] as? String)
+        }
+    }
+}
+

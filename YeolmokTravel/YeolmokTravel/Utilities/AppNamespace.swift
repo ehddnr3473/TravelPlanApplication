@@ -8,6 +8,10 @@
 import UIKit
 import Foundation
 
+enum UserInformation {
+    static let identifier = "yeolmok"
+}
+
 enum AppStyles {
     static let titleFontSize: CGFloat = 30
     static let mainColor = UIColor.systemGreen
