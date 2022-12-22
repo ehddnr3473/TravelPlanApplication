@@ -37,7 +37,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     func writingHandler(_ plan: some Plan, _ index: Int?) {
         guard let plan = plan as? TravelPlan else { return }
         if let index = index {
-            model.plans[index] = plan
+            model.modifyPlan(at: index, plan)
             publisher.send()
         } else {
             model.appendPlan(plan)
@@ -47,7 +47,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     
     // 여행 계획을 추가하기 위해 프레젠테이션할 ViewController 반환
     func setUpAddTravelPlanView() -> WritingTravelPlanViewController {
-        let model = WritablePlan(TravelPlan(title: "", description: "", schedules: []))
+        let model = TravelPlan(title: "", description: "", schedules: [])
         let writingTravelPlanViewController = WritingTravelPlanViewController()
         writingTravelPlanViewController.model = model
         writingTravelPlanViewController.writingStyle = .add
@@ -59,7 +59,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     
     // 여행 계획을 수정하기 위해 프레젠테이션할 ViewController 반환
     func setUpModifyTravelPlanView(at index: Int) -> WritingTravelPlanViewController {
-        let model = WritablePlan(model.plans[index])
+        let model = model.travelPlans[index]
         let writingTravelPlanViewController = WritingTravelPlanViewController()
         writingTravelPlanViewController.model = model
         writingTravelPlanViewController.writingStyle = .edit

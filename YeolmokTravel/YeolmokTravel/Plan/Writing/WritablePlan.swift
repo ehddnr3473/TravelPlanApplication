@@ -19,26 +19,6 @@ struct WritablePlan<T: Plan> {
         self.initialPlan = plan
     }
     
-    var title: String {
-        plan.title
-    }
-    
-    var date: String {
-        if let date = plan.date {
-            return date.formatted()
-        } else {
-            return ""
-        }
-    }
-    
-    var description: String {
-        if let description = plan.description {
-            return description
-        } else {
-            return ""
-        }
-    }
-    
     var isChanged: Bool {
         if plan == initialPlan {
             return false
@@ -47,16 +27,7 @@ struct WritablePlan<T: Plan> {
         }
     }
     
-    // update
-    mutating func setPlan(_ title: String, _ description: String) {
-        plan.title = title
-        plan.description = description
-    }
-    
-    // 제목 검증
-    // 제목이 비어있다면, alert 생성 후 present. 저장하지 않음.
-    // 내용(descriptionTextView)은 비어있어도 됨.
-    func titleIsEmpty() -> Bool {
+    var titleIsEmpty: Bool {
         if plan.title == "" {
             return true
         } else {
@@ -64,29 +35,11 @@ struct WritablePlan<T: Plan> {
         }
     }
     
-    // TravelPlan's computed var
-    var schedulesCount: Int? {
-        guard let plan = plan as? TravelPlan else { return nil }
-        return plan.schedules.count
-    }
-    
-    func schedule(_ index: Int) -> Schedule? {
-        guard let plan = plan as? TravelPlan else { return nil }
-        return plan.schedules[index]
-    }
-    
-    // edit Schedule
-    mutating func appendSchdule(schedule: Schedule) {
-        if var plan = plan as? TravelPlan {
-            plan.schedules.append(schedule)
-            self.plan = plan as! T
-        }
-    }
-    
-    mutating func modifySchdule(at index: Int, schedule: Schedule) {
-        if var plan = plan as? TravelPlan {
-            plan.schedules[index] = schedule
-            self.plan = plan as! T
-        }
+    // update
+    mutating func setPlan(_ title: String, _ description: String, _ fromData: Date? = nil, _ toDate: Date? = nil) {
+        plan.title = title
+        plan.description = description
+        plan.fromDate = fromData
+        plan.toDate = toDate
     }
 }

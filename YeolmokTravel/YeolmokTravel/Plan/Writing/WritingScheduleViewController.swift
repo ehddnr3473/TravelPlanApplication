@@ -8,10 +8,15 @@
 import UIKit
 
 /// 여행 계획 추가 및 수정을 위한 ViewController
-class WritingScheduleViewController: UIViewController, Writable {
+final class WritingScheduleViewController: UIViewController, Writable {
     typealias ModelType = Schedule
     // MARK: - Properties
-    var model: WritablePlan<ModelType>!
+    var writableModel: WritablePlan<ModelType>!
+    var model: ModelType! {
+        didSet {
+            writableModel = WritablePlan(model)
+        }
+    }
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
@@ -131,6 +136,7 @@ class WritingScheduleViewController: UIViewController, Writable {
         let datePicker = UIDatePicker()
         
         datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
         datePicker.tintColor = .systemGreen
         datePicker.backgroundColor = .systemGray
         datePicker.isEnabled = false
@@ -153,6 +159,7 @@ class WritingScheduleViewController: UIViewController, Writable {
         let datePicker = UIDatePicker()
         
         datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
         datePicker.tintColor = .systemGreen
         datePicker.backgroundColor = .systemGray
         datePicker.isEnabled = false
@@ -179,6 +186,7 @@ extension WritingScheduleViewController {
             break
         }
         
+        setUpUIValue()
         setUpHierachy()
         setUpLayout()
     }
@@ -260,20 +268,40 @@ extension WritingScheduleViewController {
         }
     }
     
+    private func setUpUIValue() {
+        titleTextField.text = model.title
+        descriptionTextView.text = model.description
+        
+        if let fromDate = model.fromDate, let toDate = model.toDate {
+            dateSwitch.isOn = true
+            fromDatePicker.isEnabled = true
+            toDatePicker.isEnabled = true
+            fromDatePicker.date = fromDate
+            toDatePicker.date = toDate
+        }
+    }
+    
     @objc func touchUpSaveBarButton() {
-        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        if model.titleIsEmpty() {
+        if dateSwitch.isOn {
+            writableModel.setPlan(titleTextField.text ?? "",
+                          descriptionTextView.text,
+                          fromDatePicker.date,
+                          toDatePicker.date)
+        } else {
+            writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        }
+        if writableModel.titleIsEmpty {
             alertWillAppear()
             return
         } else {
-            save(model.plan, scheduleListIndex)
+            save(writableModel.plan, scheduleListIndex)
             dismiss(animated: true)
         }
     }
     
     @objc func touchUpCancelBarButton() {
-        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        if model.isChanged {
+        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if writableModel.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
         } else {

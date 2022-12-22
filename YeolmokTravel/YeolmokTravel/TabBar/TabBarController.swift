@@ -17,7 +17,11 @@ class TabBarController: UITabBarController {
     
     private func setUp() {
         let scheduleView = ScheduleView()
-        let model = OwnTravelPlan(plans: [TravelPlan(title: "일본", description: "라멘 꼭 먹기", date: Date(), schedules: [Schedule(title: "공항 도착", description: "good", date: Date())])])
+        let model = OwnTravelPlan(travelPlans: [TravelPlan(title: "일본", description: "라멘 꼭 먹기",
+                                                           schedules: [Schedule(title: "공항 도착", description: "good", fromDate: Date(), toDate: Date() + 1)]),
+                                                TravelPlan(title: "한국",
+                                                           description: "삼겹살 먹기",
+                                                           schedules: [Schedule(title: "울산 가기")])])
         let viewModel = TravelPlaner(model)
         let travelPlanView = TravelPlanView()
         travelPlanView.viewModel = viewModel

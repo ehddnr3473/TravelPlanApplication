@@ -12,7 +12,12 @@ import SnapKit
 final class WritingTravelPlanViewController: UIViewController, Writable, PlanTransfer {
     typealias ModelType = TravelPlan
     // MARK: - Properties
-    var model: WritablePlan<ModelType>!
+    var writableModel: WritablePlan<ModelType>!
+    var model: ModelType! {
+        didSet {
+            writableModel = WritablePlan(model)
+        }
+    }
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
@@ -134,7 +139,6 @@ final class WritingTravelPlanViewController: UIViewController, Writable, PlanTra
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setUpUI()
         configure()
     }
@@ -209,9 +213,7 @@ extension WritingTravelPlanViewController {
                 .offset(LayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            if let count = model.schedulesCount {
-                $0.height.equalTo(count * Int(LayoutConstants.cellHeight))
-            }
+            $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
         }
     }
     
@@ -221,19 +223,19 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        if model.titleIsEmpty() {
+        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if writableModel.titleIsEmpty {
             alertWillAppear()
             return
         } else {
-            save(model.plan, planListIndex)
+            save(writableModel.plan, planListIndex)
             dismiss(animated: true)
         }
     }
     
     @objc func touchUpCancelBarButton() {
-        model.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        if model.isChanged {
+        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if writableModel.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
         } else {
@@ -247,7 +249,7 @@ extension WritingTravelPlanViewController {
     
     // 자세한 일정을 추가하기 위해 프레젠테이션할 ViewController 반환
     private func setUpAddScheduleViewController() -> WritingScheduleViewController {
-        let model = WritablePlan(Schedule(title: ""))
+        let model = Schedule(title: "")
         let writingScheduleViewController = WritingScheduleViewController()
         writingScheduleViewController.model = model
         writingScheduleViewController.writingStyle = .add
@@ -260,20 +262,18 @@ extension WritingTravelPlanViewController {
         guard let plan = plan as? Schedule else { return }
         if let index = index {
             // edit
-            model.modifySchdule(at: index, schedule: plan)
+            model.editSchedule(at: index, plan)
             reloadScheduleList()
         } else {
             // add
-            model.appendSchdule(schedule: plan)
+            model.addSchedule(plan)
             reloadScheduleList()
         }
     }
     
     @MainActor private func reloadScheduleList() {
         scheduleTableView.snp.updateConstraints {
-            if let count = model.schedulesCount {
-                $0.height.equalTo(count * Int(LayoutConstants.cellHeight))
-            }
+            $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
         }
         scheduleTableView.reloadData()
     }
@@ -281,21 +281,16 @@ extension WritingTravelPlanViewController {
 
 extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell,
-                let schedule = model.schedule(indexPath.row) else { return UITableViewCell() }
-        cell.titleLabel.text = schedule.title
-        cell.descriptionLabel.text = schedule.description
-        cell.dateLabel.text = schedule.date?.formatted()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = model.schedules[indexPath.row].title
+        cell.descriptionLabel.text = model.schedules[indexPath.row].description
+        cell.dateLabel.text = model.schedules[indexPath.row].date
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = model.schedulesCount {
-            return count
-        } else {
-            return NumberConstants.zero
-        }
+        model.schedulesCount
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -308,9 +303,9 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     
     // 자세한 일정을 수정하기 위해 프레젠테이션할 ViewController 반환
     private func setUpModifySchduleViewController(_ index: Int) -> WritingScheduleViewController {
-        guard let model = model.schedule(index) else { return WritingScheduleViewController() }
+        let model = model.schedules[index]
         let writingScheduleViewController = WritingScheduleViewController()
-        writingScheduleViewController.model = WritablePlan(model)
+        writingScheduleViewController.model = model
         writingScheduleViewController.writingStyle = .edit
         writingScheduleViewController.editDelegate = self
         writingScheduleViewController.modalPresentationStyle = .fullScreen
@@ -342,8 +337,4 @@ private enum TextConstants {
     static let descriptionPlaceolder = "상세"
     static let schedule = "Schedule"
     static let plusIcon = "plus"
-}
-
-private enum NumberConstants {
-    static let zero = 0
 }

@@ -9,40 +9,41 @@ import Foundation
 
 /// TravelPlan Model
 struct OwnTravelPlan {
-    var plans: [TravelPlan]
+    var travelPlans: [TravelPlan]
     
     var count: Int {
-        plans.count
+        travelPlans.count
     }
     
     func title(_ index: Int) -> String {
-        plans[index].title
+        travelPlans[index].title
     }
     
     mutating func appendPlan(_ plan: TravelPlan) {
-        plans.append(plan)
+        travelPlans.append(plan)
+    }
+    
+    mutating func modifyPlan(at index: Int, _ plan: TravelPlan) {
+        travelPlans[index] = plan
     }
     
     func date(_ index: Int) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = TextConstants.dateFormat
-        if let date = plans[index].date {
-            return dateFormatter.string(from: date)
+        if let fromDate = travelPlans[index].fromDate, let toDate = travelPlans[index].toDate {
+            if fromDate == toDate {
+                return DateUtilities.dateFormatter.string(from: fromDate)
+            } else {
+                return "\(DateUtilities.dateFormatter.string(from: fromDate)) ~ \(DateUtilities.dateFormatter.string(from: toDate))"
+            }
         } else {
-            return TextConstants.nilDate
+            return DateUtilities.nilDateText
         }
     }
     
     func description(_ index: Int) -> String {
-        if let description = plans[index].description {
+        if let description = travelPlans[index].description {
             return description
         } else {
             return ""
         }
     }
-}
-
-private enum TextConstants {
-    static let dateFormat = "yyyy.MM.dd"
-    static let nilDate = "날짜 미지정"
 }
