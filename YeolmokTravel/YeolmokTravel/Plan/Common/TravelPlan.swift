@@ -20,6 +20,17 @@ struct TravelPlan: Plan {
         }
     }
     
+    init(title: String, description: String? = nil, fromDate: Date? = nil, toDate: Date? = nil, schedules: [Schedule]) {
+        self.title = title
+        self.description = description
+        self.fromDate = fromDate
+        self.toDate = toDate
+        self.schedules = schedules
+        
+        setFromDate()
+        setToDate()
+    }
+    
     var schedulesCount: Int {
         schedules.count
     }
