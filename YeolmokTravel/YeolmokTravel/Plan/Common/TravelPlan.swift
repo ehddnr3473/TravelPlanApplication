@@ -40,22 +40,32 @@ struct TravelPlan: Plan {
         let scheduleHavingMinFromDate = schedules.min { first, second in
             if let first = first.fromDate, let second = second.fromDate {
                 return first < second
+            } else if let _ = first.fromDate {
+                return true
+            } else if let _ = second.fromDate {
+                return true
             } else {
                 return false
             }
         }
         fromDate = scheduleHavingMinFromDate?.fromDate
+        print(fromDate)
     }
     
     mutating func setToDate() {
         let scheduleHavingMaxToDate = schedules.max { first, second in
             if let first = first.toDate, let second = second.toDate {
-                return first > second
+                return first < second
+            } else if let _ = first.toDate {
+                return true
+            } else if let _ = second.toDate {
+                return true
             } else {
                 return false
             }
         }
         toDate = scheduleHavingMaxToDate?.toDate
+        print(toDate)
     }
     
     mutating func editSchedule(at index: Int, _ schedule: Schedule) {

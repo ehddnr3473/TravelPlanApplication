@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 /// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
 final class WritingTravelPlanViewController: UIViewController, Writable, PlanTransfer {
@@ -223,7 +222,7 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
         if writableModel.titleIsEmpty {
             alertWillAppear()
             return
@@ -262,10 +261,12 @@ extension WritingTravelPlanViewController {
         guard let plan = plan as? Schedule else { return }
         if let index = index {
             // edit
+            writableModel.plan.schedules[index] = plan
             model.editSchedule(at: index, plan)
             reloadScheduleList()
         } else {
             // add
+            writableModel.plan.schedules.append(plan)
             model.addSchedule(plan)
             reloadScheduleList()
         }

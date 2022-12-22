@@ -20,7 +20,7 @@ struct Schedule: Plan {
             if fromDate == toDate {
                 return DateUtilities.dateFormatter.string(from: fromDate)
             } else {
-                return "\(DateUtilities.dateFormatter.string(from: fromDate)) ~ \(DateUtilities.dateFormatter.string(from: fromDate))"
+                return "\(DateUtilities.dateFormatter.string(from: fromDate)) ~ \(DateUtilities.dateFormatter.string(from: toDate))"
             }
         } else {
             return DateUtilities.nilDateText

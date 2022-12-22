@@ -290,6 +290,7 @@ extension WritingScheduleViewController {
         } else {
             writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
         }
+        
         if writableModel.titleIsEmpty {
             alertWillAppear()
             return
@@ -345,7 +346,7 @@ private enum LayoutConstants {
 private enum TextConstants {
     static let saveButtonTitle = "Save"
     static let cancelButtonTItle = "Cancel"
-    static let schedule = "Schedule"
+    static let schedule = "Schedules"
     static let from = "From"
     static let to = "To"
 }
