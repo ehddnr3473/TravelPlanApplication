@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         if #available(iOS 13.0, *) {
             FirebaseApp.configure()
-            let db = Firestore.firestore()
             return true
         }
         
@@ -28,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         FirebaseApp.configure()
-        let db = Firestore.firestore()
         return true
     }
 
