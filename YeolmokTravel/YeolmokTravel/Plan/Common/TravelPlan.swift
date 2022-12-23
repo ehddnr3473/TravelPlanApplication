@@ -52,11 +52,11 @@ struct TravelPlan: Plan {
             if let first = first.fromDate, let second = second.fromDate {
                 return first < second
             } else if let _ = first.fromDate {
-                return true
-            } else if let _ = second.fromDate {
-                return true
-            } else {
                 return false
+            } else if let _ = second.fromDate {
+                return false
+            } else {
+                return true
             }
         }
         fromDate = scheduleHavingMinFromDate?.fromDate
@@ -67,11 +67,11 @@ struct TravelPlan: Plan {
             if let first = first.toDate, let second = second.toDate {
                 return first < second
             } else if let _ = first.toDate {
-                return true
-            } else if let _ = second.toDate {
-                return true
-            } else {
                 return false
+            } else if let _ = second.toDate {
+                return false
+            } else {
+                return true
             }
         }
         toDate = scheduleHavingMaxToDate?.toDate
