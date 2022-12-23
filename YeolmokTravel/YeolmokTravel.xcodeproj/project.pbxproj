@@ -36,6 +36,7 @@
 		6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B46FA4329514562000430C7 /* FirebaseFirestore */; };
 		6BA3402229532E29002E7502 /* WritablePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* WritablePlan.swift */; };
 		6BA9F47429526BB000403DCC /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F47329526BB000403DCC /* Plan.swift */; };
+		6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C029553C5F00534B68 /* DateConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BA9F47329526BB000403DCC /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		6BA9F4762952862E00403DCC /* WritablePlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritablePlan.swift; sourceTree = "<group>"; };
+		6BB277C029553C5F00534B68 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */,
+				6BB277C029553C5F00534B68 /* DateConverter.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				6B1FC0EA2952B38C009910F2 /* Present.swift in Sources */,
 				6B46FA3F295140E9000430C7 /* TravelPlanView.swift in Sources */,
 				6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */,
+				6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */,
 				6BA9F47429526BB000403DCC /* Plan.swift in Sources */,
 				6B37A4B82951751100BBB8EE /* PlanConfigurable.swift in Sources */,
 				6B37A4B62951743D00BBB8EE /* TravelPlaner.swift in Sources */,

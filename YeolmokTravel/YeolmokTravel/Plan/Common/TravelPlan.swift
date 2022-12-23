@@ -38,12 +38,12 @@ struct TravelPlan: Plan {
     var date: String {
         if let fromDate = fromDate, let toDate = toDate {
             if fromDate == toDate {
-                return DateUtilities.dateFormatter.string(from: fromDate)
+                return DateConverter.dateToString(fromDate)
             } else {
-                return "\(DateUtilities.dateFormatter.string(from: fromDate)) ~ \(DateUtilities.dateFormatter.string(from: toDate))"
+                return "\(DateConverter.dateToString(fromDate)) ~ \(DateConverter.dateToString(toDate))"
             }
         } else {
-            return DateUtilities.nilDateText
+            return DateConverter.nilDateText
         }
     }
     

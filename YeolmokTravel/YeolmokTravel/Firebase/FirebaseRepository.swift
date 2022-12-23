@@ -20,7 +20,7 @@ class FirebaseRepository {
     func writeTravelPlans(at index: Int, _ travelPlan: TravelPlan) async {
         try? await database.collection(UserInformation.identifier).document("\(index)").setData([
             "title": "\(travelPlan.title)",
-            "description": "\(travelPlan.description)"
+            "description": "\(travelPlan.description ?? "")"
         ])
         
         for scheduleIndex in travelPlan.schedules.indices {
@@ -28,9 +28,9 @@ class FirebaseRepository {
                 .document("\(index)").collection("schedules").document("\(scheduleIndex)")
                 .setData([
                     "title": "\(travelPlan.schedules[scheduleIndex].title)",
-                    "description": "\(travelPlan.schedules[scheduleIndex].description)",
-                    "fromDate": "\(DateUtilities.dateFormatter.string(from: travelPlan.schedules[scheduleIndex].fromDate))",
-                    "toDate": "\(DateUtilities.dateFormatter.string(from: travelPlan.schedules[scheduleIndex].toDate))"
+                    "description": "\(travelPlan.schedules[scheduleIndex].description ?? "")",
+                    "fromDate": "\(DateConverter.dateToString(travelPlan.schedules[scheduleIndex].fromDate))",
+                    "toDate": "\(DateConverter.dateToString(travelPlan.schedules[scheduleIndex].toDate))"
                 ])
         }
     }
@@ -69,8 +69,8 @@ class FirebaseRepository {
         if let fromDate = data["fromDate"] as? String, let toDate = data["toDate"] as? String {
             return Schedule(title: data["title"] as! String,
                      description: data["description"] as? String,
-                     fromDate: DateUtilities.dateFormatter.date(from: fromDate),
-                     toDate: DateUtilities.dateFormatter.date(from: toDate))
+                     fromDate: DateConverter.stringToDate(fromDate),
+                     toDate: DateConverter.stringToDate(toDate))
         } else {
             return Schedule(title: data["title"] as! String,
                             description: data["description"] as? String)
