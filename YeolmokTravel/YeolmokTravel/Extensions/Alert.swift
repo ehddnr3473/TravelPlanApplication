@@ -10,8 +10,8 @@ import Foundation
 
 extension UIViewController {
     @MainActor
-    func alertWillAppear() {
-        let alert = UIAlertController(title: AlertText.alertTitle, message: AlertText.alertMessage, preferredStyle: .alert)
+    func alertWillAppear(_ message: String) {
+        let alert = UIAlertController(title: AlertText.alertTitle, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: AlertText.okActionTitle, style: .default)
         alert.addAction(okAction)
         present(alert, animated: true)
@@ -30,9 +30,10 @@ extension UIViewController {
     }
 }
 
-private enum AlertText {
+enum AlertText {
     static let alertTitle = "알림"
-    static let alertMessage = "제목을 입력해주세요."
+    static let titleMessage = "제목을 입력해주세요."
     static let okActionTitle = "확인"
     static let cancelActionTitle = "취소"
+    static let dateMessage = "시작 날짜가 종료 날짜 이후입니다."
 }

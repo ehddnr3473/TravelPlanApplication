@@ -283,7 +283,12 @@ extension WritingScheduleViewController {
     
     @objc func touchUpSaveBarButton() {
         if titleTextField.text == "" {
-            alertWillAppear()
+            alertWillAppear(AlertText.titleMessage)
+            return
+        }
+        
+        if fromDatePicker.date > toDatePicker.date {
+            alertWillAppear(AlertText.dateMessage)
             return
         }
         

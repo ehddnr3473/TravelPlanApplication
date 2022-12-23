@@ -223,7 +223,7 @@ extension WritingTravelPlanViewController {
     
     @objc func touchUpSaveBarButton() {
         if titleTextField.text == "" {
-            alertWillAppear()
+            alertWillAppear(AlertText.titleMessage)
             return
         } else {
             model.setTravelPlan(titleTextField.text ?? "", descriptionTextView.text)

@@ -29,9 +29,9 @@ extension Writable {
     func fetchActionSheetText() -> (String, String) {
         switch writingStyle {
         case .add:
-            return (AlertText.addTitle, AlertText.message)
+            return (WritableAlertText.addTitle, WritableAlertText.message)
         case .edit:
-            return (AlertText.editTitle, AlertText.message)
+            return (WritableAlertText.editTitle, WritableAlertText.message)
         case .none:
             return ("", "")
         }
@@ -49,7 +49,7 @@ extension Writable {
     }
 }
 
-private enum AlertText {
+private enum WritableAlertText {
     static let addTitle = "입력한 내용이 있습니다."
     static let editTitle = "변경된 내용이 있습니다."
     static let message = "저장하지 않고 돌아가시겠습니까?"
