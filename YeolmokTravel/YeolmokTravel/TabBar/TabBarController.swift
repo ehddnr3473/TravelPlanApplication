@@ -17,25 +17,24 @@ class TabBarController: UITabBarController {
     }
     
     private func setUp() async {
-        let scheduleView = await setUpCalendarView()
+//        let calendarView = await setUpCalendarView()
         let travelPlanView = await setUpPlanView()
         let memoryView = await setUpMemoryView()
         
-        viewControllers = [scheduleView, travelPlanView, memoryView]
+        viewControllers = [travelPlanView, memoryView]
         setViewControllers(viewControllers, animated: true)
         
         tabBar.tintColor = AppStyles.mainColor
         tabBar.unselectedItemTintColor = .systemGray
     }
     
-    private func setUpCalendarView() async -> CalendarView {
-        let calendarView = CalendarView()
-        calendarView.tabBarItem = UITabBarItem(title: TitleConstants.calendar,
-                                               image: UIImage(systemName: ImageNames.calendar),
-                                               tag: NumberConstants.first)
-        return calendarView
-        
-    }
+//    private func setUpCalendarView() async -> CalendarView {
+//        let calendarView = CalendarView()
+//        calendarView.tabBarItem = UITabBarItem(title: TitleConstants.calendar,
+//                                               image: UIImage(systemName: ImageNames.calendar),
+//                                               tag: NumberConstants.first)
+//        return calendarView
+//    }
     
     private func setUpPlanView() async -> TravelPlanView {
         let model = OwnTravelPlan(travelPlans: await planRepository.readTravelPlans())
