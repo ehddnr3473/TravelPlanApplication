@@ -38,9 +38,11 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         guard let plan = plan as? TravelPlan else { return }
         if let index = index {
             model.modifyPlan(at: index, plan)
+            Task { await model.write(at: index) }
             publisher.send()
         } else {
             model.appendPlan(plan)
+            Task { await model.write(at: nil) }
             publisher.send()
         }
     }

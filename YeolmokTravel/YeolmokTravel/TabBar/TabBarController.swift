@@ -8,14 +8,12 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    private var firebase: FirebaseRepository!
+    private var travelPlanRepository: TravelPlanRepository!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        firebase = FirebaseRepository()
-        Task {
-            await setUp()
-        }
+        travelPlanRepository = TravelPlanRepository()
+        Task { await setUp() }
     }
     
     private func setUp() async {
@@ -38,7 +36,7 @@ class TabBarController: UITabBarController {
     }
     
     private func setUpTravelPlanView() async -> TravelPlanView {
-        let model = OwnTravelPlan(travelPlans: await firebase.readTravelPlans())
+        let model = OwnTravelPlan(travelPlans: await travelPlanRepository.readTravelPlans())
         let viewModel = TravelPlaner(model)
         let travelPlanView = TravelPlanView()
         travelPlanView.viewModel = viewModel

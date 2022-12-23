@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B1705DD2954146600649374 /* FirebaseRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1705DC2954146600649374 /* FirebaseRepository.swift */; };
+		6B1705DD2954146600649374 /* TravelPlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1705DC2954146600649374 /* TravelPlanRepository.swift */; };
 		6B1FC0EA2952B38C009910F2 /* Present.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1FC0E92952B38C009910F2 /* Present.swift */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
 		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
@@ -57,7 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6B1705DC2954146600649374 /* FirebaseRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseRepository.swift; sourceTree = "<group>"; };
+		6B1705DC2954146600649374 /* TravelPlanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanRepository.swift; sourceTree = "<group>"; };
 		6B1FC0E92952B38C009910F2 /* Present.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Present.swift; sourceTree = "<group>"; };
 		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
 		6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingTravelPlanViewController.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		6B1705DB2954143800649374 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				6B1705DC2954146600649374 /* FirebaseRepository.swift */,
+				6B1705DC2954146600649374 /* TravelPlanRepository.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -427,7 +427,7 @@
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
 				6B46FA3C29514094000430C7 /* CalendarView.swift in Sources */,
-				6B1705DD2954146600649374 /* FirebaseRepository.swift in Sources */,
+				6B1705DD2954146600649374 /* TravelPlanRepository.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
 				6B37A4BA295175CD00BBB8EE /* OwnTravelPlan.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,

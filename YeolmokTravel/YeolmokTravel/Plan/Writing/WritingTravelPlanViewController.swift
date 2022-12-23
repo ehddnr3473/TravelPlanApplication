@@ -233,7 +233,7 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpCancelBarButton() {
-        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
         if writableModel.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)

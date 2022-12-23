@@ -10,6 +10,7 @@ import Foundation
 /// TravelPlan Model
 struct OwnTravelPlan {
     var travelPlans: [TravelPlan]
+    var repository = TravelPlanRepository()
     
     var count: Int {
         travelPlans.count
@@ -38,4 +39,17 @@ struct OwnTravelPlan {
             return ""
         }
     }
+    
+    func write(at index: Int?) async {
+        if let index = index {
+            await repository.writeTravelPlans(at: index, travelPlans[index])
+        } else {
+            let lastIndex = travelPlans.count - NumberConstants.one
+            await repository.writeTravelPlans(at: lastIndex, travelPlans[lastIndex])
+        }
+    }
+}
+
+private enum NumberConstants {
+    static let one = 1
 }
