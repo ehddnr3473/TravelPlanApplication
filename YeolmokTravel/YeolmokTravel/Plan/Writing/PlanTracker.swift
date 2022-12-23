@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Writing ViewControllers를 위한 Model
-/// For Schdule, TravelPlan
+
+/// Plan의 변경 사항을 추적하고 alert을 띄워주기 위한 모델
 struct PlanTracker<T: Plan> {
     var plan: T
     var initialPlan: T
@@ -27,22 +27,10 @@ struct PlanTracker<T: Plan> {
         }
     }
     
-    var titleIsEmpty: Bool {
-        if plan.title == "" {
-            return true
-        } else {
-            return false
-        }
-    }
-    
     // update
     mutating func setPlan(_ title: String, _ description: String, _ fromData: Date? = nil, _ toDate: Date? = nil) {
         plan.title = title
-        if description == "" {
-            plan.description = nil
-        } else {
-            plan.description = description
-        }
+        plan.description = description
         plan.fromDate = fromData
         plan.toDate = toDate
     }

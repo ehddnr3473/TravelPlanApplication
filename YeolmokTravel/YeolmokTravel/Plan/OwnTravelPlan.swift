@@ -33,11 +33,7 @@ struct OwnTravelPlan {
     }
     
     func description(_ index: Int) -> String {
-        if let description = travelPlans[index].description {
-            return description
-        } else {
-            return ""
-        }
+        travelPlans[index].description 
     }
     
     func write(at index: Int?) async {

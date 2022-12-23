@@ -9,7 +9,7 @@ import Foundation
 
 protocol Plan: Equatable {
     var title: String { get set }
-    var description: String? { get set }
+    var description: String { get set }
     var fromDate: Date? { get set }
     var toDate: Date? { get set }
 }

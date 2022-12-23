@@ -49,7 +49,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     
     // 여행 계획을 추가하기 위해 프레젠테이션할 ViewController 반환
     func setUpAddTravelPlanView() -> WritingTravelPlanViewController {
-        let model = TravelPlan(title: "", schedules: [])
+        let model = TravelPlan(title: "", description: "", schedules: [])
         let writingTravelPlanViewController = WritingTravelPlanViewController()
         writingTravelPlanViewController.model = model
         writingTravelPlanViewController.writingStyle = .add

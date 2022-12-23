@@ -222,12 +222,12 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
-        if planTracker.titleIsEmpty {
+        if titleTextField.text == "" {
             alertWillAppear()
             return
         } else {
-            save(planTracker.plan, planListIndex)
+            model.setTravelPlan(titleTextField.text ?? "", descriptionTextView.text)
+            save(model, planListIndex)
             dismiss(animated: true)
         }
     }
@@ -248,7 +248,7 @@ extension WritingTravelPlanViewController {
     
     // 자세한 일정을 추가하기 위해 프레젠테이션할 ViewController 반환
     private func setUpAddScheduleViewController() -> WritingScheduleViewController {
-        let model = Schedule(title: "")
+        let model = Schedule(title: "", description: "")
         let writingScheduleViewController = WritingScheduleViewController()
         writingScheduleViewController.model = model
         writingScheduleViewController.writingStyle = .add

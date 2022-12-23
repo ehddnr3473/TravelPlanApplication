@@ -11,7 +11,7 @@ import Foundation
 /// TravelPlan의 하위 데이터
 struct Schedule: Plan {
     var title: String
-    var description: String?
+    var description: String
     var fromDate: Date?
     var toDate: Date?
     
@@ -25,5 +25,12 @@ struct Schedule: Plan {
         } else {
             return DateConverter.nilDateText
         }
+    }
+    
+    mutating func setSchedule(_ title: String, _ description: String, _ fromDate: Date? = nil, _ toDate: Date? = nil) {
+        self.title = title
+        self.description = description
+        self.fromDate = fromDate
+        self.toDate = toDate
     }
 }

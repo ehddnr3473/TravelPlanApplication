@@ -10,7 +10,7 @@ import Foundation
 /// 여행 계획 엔티티
 struct TravelPlan: Plan {
     var title: String
-    var description: String?
+    var description: String
     var fromDate: Date?
     var toDate: Date?
     var schedules: [Schedule] {
@@ -20,7 +20,7 @@ struct TravelPlan: Plan {
         }
     }
     
-    init(title: String, description: String? = nil, fromDate: Date? = nil, toDate: Date? = nil, schedules: [Schedule]) {
+    init(title: String, description: String, fromDate: Date? = nil, toDate: Date? = nil, schedules: [Schedule]) {
         self.title = title
         self.description = description
         self.fromDate = fromDate
@@ -75,6 +75,11 @@ struct TravelPlan: Plan {
             }
         }
         toDate = scheduleHavingMaxToDate?.toDate
+    }
+    
+    mutating func setTravelPlan(_ title: String, _ description: String) {
+        self.title = title
+        self.description = description
     }
     
     mutating func editSchedule(at index: Int, _ schedule: Schedule) {

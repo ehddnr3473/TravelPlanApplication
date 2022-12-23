@@ -282,28 +282,34 @@ extension WritingScheduleViewController {
     }
     
     @objc func touchUpSaveBarButton() {
+        if titleTextField.text == "" {
+            alertWillAppear()
+            return
+        }
+        
+        if dateSwitch.isOn {
+            model.setSchedule(titleTextField.text ?? "",
+                              descriptionTextView.text,
+                              fromDatePicker.date,
+                              toDatePicker.date)
+        } else {
+            model.setSchedule(titleTextField.text ?? "", descriptionTextView.text)
+        }
+        save(model, scheduleListIndex)
+        dismiss(animated: true)
+        
+    }
+    
+    @objc func touchUpCancelBarButton() {
         if dateSwitch.isOn {
             planTracker.setPlan(titleTextField.text ?? "",
-                          descriptionTextView.text,
-                          fromDatePicker.date,
-                          toDatePicker.date)
+                                descriptionTextView.text,
+                                fromDatePicker.date,
+                                toDatePicker.date)
         } else {
             planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text)
         }
         
-        if planTracker.titleIsEmpty {
-            alertWillAppear()
-            return
-        } else {
-            // 이전에 모델을 변경하고 모델을 넘겨줘야지?
-            // 버전 컨트롤러는 오로지 형상관리, alert 관리
-            save(planTracker.plan, scheduleListIndex)
-            dismiss(animated: true)
-        }
-    }
-    
-    @objc func touchUpCancelBarButton() {
-        planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text)
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
