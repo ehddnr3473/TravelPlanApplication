@@ -1,5 +1,5 @@
 //
-//  TravelPlanRepository.swift
+//  PlanRepository.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/22.
@@ -8,8 +8,8 @@
 import Foundation
 import FirebaseFirestore
 
-/// TravelPlan 관련 Firebase Firestore 연동
-struct TravelPlanRepository {
+/// Plan 관련 Firebase Firestore 연동
+struct PlanRepository {
     private var database = Firestore.firestore()
     
     func writeTravelPlans(at index: Int, _ travelPlan: TravelPlan) async {

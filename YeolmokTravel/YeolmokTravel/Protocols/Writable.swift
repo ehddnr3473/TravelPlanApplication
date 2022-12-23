@@ -16,7 +16,7 @@ protocol Writable: AnyObject {
     associatedtype ModelType: Plan
     
     var writingStyle: WritingStyle! { get }
-    var writableModel: WritablePlan<ModelType>! { get set }
+    var planTracker: PlanTracker<ModelType>! { get set }
     var model: ModelType! { get set }
     var addDelegate: PlanTransfer? { get set }
     var editDelegate: PlanTransfer? { get set }

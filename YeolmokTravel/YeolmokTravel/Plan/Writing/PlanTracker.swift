@@ -1,5 +1,5 @@
 //
-//  WritablePlan.swift
+//  PlanTracker.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/21.
@@ -9,7 +9,7 @@ import Foundation
 
 /// Writing ViewControllers를 위한 Model
 /// For Schdule, TravelPlan
-struct WritablePlan<T: Plan> {
+struct PlanTracker<T: Plan> {
     var plan: T
     var initialPlan: T
     

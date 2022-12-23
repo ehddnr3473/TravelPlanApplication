@@ -11,10 +11,10 @@ import UIKit
 final class WritingScheduleViewController: UIViewController, Writable {
     typealias ModelType = Schedule
     // MARK: - Properties
-    var writableModel: WritablePlan<ModelType>!
+    var planTracker: PlanTracker<ModelType>!
     var model: ModelType! {
         didSet {
-            writableModel = WritablePlan(model)
+            planTracker = PlanTracker(model)
         }
     }
     var writingStyle: WritingStyle!
@@ -283,26 +283,28 @@ extension WritingScheduleViewController {
     
     @objc func touchUpSaveBarButton() {
         if dateSwitch.isOn {
-            writableModel.setPlan(titleTextField.text ?? "",
+            planTracker.setPlan(titleTextField.text ?? "",
                           descriptionTextView.text,
                           fromDatePicker.date,
                           toDatePicker.date)
         } else {
-            writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+            planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text)
         }
         
-        if writableModel.titleIsEmpty {
+        if planTracker.titleIsEmpty {
             alertWillAppear()
             return
         } else {
-            save(writableModel.plan, scheduleListIndex)
+            // 이전에 모델을 변경하고 모델을 넘겨줘야지?
+            // 버전 컨트롤러는 오로지 형상관리, alert 관리
+            save(planTracker.plan, scheduleListIndex)
             dismiss(animated: true)
         }
     }
     
     @objc func touchUpCancelBarButton() {
-        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        if writableModel.isChanged {
+        planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text)
+        if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
         } else {

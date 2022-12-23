@@ -10,7 +10,7 @@ import Foundation
 /// TravelPlan Model
 struct OwnTravelPlan {
     var travelPlans: [TravelPlan]
-    var repository = TravelPlanRepository()
+    var repository = PlanRepository()
     
     var count: Int {
         travelPlans.count

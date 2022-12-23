@@ -11,10 +11,10 @@ import UIKit
 final class WritingTravelPlanViewController: UIViewController, Writable, PlanTransfer {
     typealias ModelType = TravelPlan
     // MARK: - Properties
-    var writableModel: WritablePlan<ModelType>!
+    var planTracker: PlanTracker<ModelType>!
     var model: ModelType! {
         didSet {
-            writableModel = WritablePlan(model)
+            planTracker = PlanTracker(model)
         }
     }
     var writingStyle: WritingStyle!
@@ -222,19 +222,19 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
-        if writableModel.titleIsEmpty {
+        planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
+        if planTracker.titleIsEmpty {
             alertWillAppear()
             return
         } else {
-            save(writableModel.plan, planListIndex)
+            save(planTracker.plan, planListIndex)
             dismiss(animated: true)
         }
     }
     
     @objc func touchUpCancelBarButton() {
-        writableModel.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
-        if writableModel.isChanged {
+        planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
+        if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
         } else {
@@ -261,12 +261,12 @@ extension WritingTravelPlanViewController {
         guard let plan = plan as? Schedule else { return }
         if let index = index {
             // edit
-            writableModel.plan.schedules[index] = plan
+            planTracker.plan.schedules[index] = plan
             model.editSchedule(at: index, plan)
             reloadScheduleList()
         } else {
             // add
-            writableModel.plan.schedules.append(plan)
+            planTracker.plan.schedules.append(plan)
             model.addSchedule(plan)
             reloadScheduleList()
         }

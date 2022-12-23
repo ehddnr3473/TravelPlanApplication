@@ -8,11 +8,11 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-    private var travelPlanRepository: TravelPlanRepository!
+    private var planRepository: PlanRepository!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        travelPlanRepository = TravelPlanRepository()
+        planRepository = PlanRepository()
         Task { await setUp() }
     }
     
@@ -36,7 +36,7 @@ class TabBarController: UITabBarController {
     }
     
     private func setUpTravelPlanView() async -> TravelPlanView {
-        let model = OwnTravelPlan(travelPlans: await travelPlanRepository.readTravelPlans())
+        let model = OwnTravelPlan(travelPlans: await planRepository.readTravelPlans())
         let viewModel = TravelPlaner(model)
         let travelPlanView = TravelPlanView()
         travelPlanView.viewModel = viewModel
