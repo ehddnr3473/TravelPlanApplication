@@ -18,46 +18,60 @@ class TabBarController: UITabBarController {
     
     private func setUp() async {
         let scheduleView = await setUpCalendarView()
-        let travelPlanView = await setUpTravelPlanView()
+        let travelPlanView = await setUpPlanView()
+        let memoryView = await setUpMemoryView()
         
-        viewControllers = [scheduleView, travelPlanView]
+        viewControllers = [scheduleView, travelPlanView, memoryView]
         setViewControllers(viewControllers, animated: true)
         
         tabBar.tintColor = AppStyles.mainColor
+        tabBar.unselectedItemTintColor = .systemGray
     }
     
     private func setUpCalendarView() async -> CalendarView {
         let calendarView = CalendarView()
         calendarView.tabBarItem = UITabBarItem(title: TitleConstants.calendar,
-                                               image: UIImage(systemName: ImageName.calendar),
+                                               image: UIImage(systemName: ImageNames.calendar),
                                                tag: NumberConstants.first)
         return calendarView
         
     }
     
-    private func setUpTravelPlanView() async -> TravelPlanView {
+    private func setUpPlanView() async -> TravelPlanView {
         let model = OwnTravelPlan(travelPlans: await planRepository.readTravelPlans())
         let viewModel = TravelPlaner(model)
         let travelPlanView = TravelPlanView()
         travelPlanView.viewModel = viewModel
         travelPlanView.tabBarItem = UITabBarItem(title: TitleConstants.plan,
-                                           image: UIImage(systemName: ImageName.note),
+                                           image: UIImage(systemName: ImageNames.note),
                                            tag: NumberConstants.second)
         return travelPlanView
+    }
+    
+    private func setUpMemoryView() async -> MemoryView {
+        let memoryView = MemoryView()
+        
+        memoryView.tabBarItem = UITabBarItem(title: TitleConstants.memory,
+                                             image: UIImage(systemName: ImageNames.memory),
+                                             tag: NumberConstants.third)
+        return memoryView
     }
 }
 
 private enum TitleConstants {
     static let calendar = "Calendar"
     static let plan = "Plan"
+    static let memory = "Memory"
 }
 
-private enum ImageName {
-    static let calendar = "calendar.circle.fill"
+private enum ImageNames {
+    static let calendar = "calendar"
     static let note = "note.text"
+    static let memory = "photo.artframe"
 }
 
 private enum NumberConstants {
     static let first = 0
     static let second = 1
+    static let third = 2
 }

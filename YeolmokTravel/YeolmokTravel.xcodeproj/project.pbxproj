@@ -37,6 +37,7 @@
 		6BA3402229532E29002E7502 /* PlanTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* PlanTracker.swift */; };
 		6BA9F47429526BB000403DCC /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F47329526BB000403DCC /* Plan.swift */; };
 		6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C029553C5F00534B68 /* DateConverter.swift */; };
+		6BB277C42955893900534B68 /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C32955893900534B68 /* MemoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		6BA9F47329526BB000403DCC /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		6BA9F4762952862E00403DCC /* PlanTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTracker.swift; sourceTree = "<group>"; };
 		6BB277C029553C5F00534B68 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
+		6BB277C32955893900534B68 /* MemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 				6B46FA3829513DE7000430C7 /* TabBar */,
 				6B46FA3A2951406A000430C7 /* Calendar */,
 				6B46FA3D295140CD000430C7 /* Plan */,
+				6BB277C22955890B00534B68 /* Memory */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B37A4BB295177E500BBB8EE /* Entities */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
@@ -274,6 +277,14 @@
 				6B46FA3E295140E9000430C7 /* TravelPlanView.swift */,
 			);
 			path = Plan;
+			sourceTree = "<group>";
+		};
+		6BB277C22955890B00534B68 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				6BB277C32955893900534B68 /* MemoryView.swift */,
+			);
+			path = Memory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -427,6 +438,7 @@
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
 				6B46FA3C29514094000430C7 /* CalendarView.swift in Sources */,
+				6BB277C42955893900534B68 /* MemoryView.swift in Sources */,
 				6B1705DD2954146600649374 /* PlanRepository.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
 				6B37A4BA295175CD00BBB8EE /* OwnTravelPlan.swift in Sources */,
