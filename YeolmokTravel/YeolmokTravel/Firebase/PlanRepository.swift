@@ -14,18 +14,23 @@ struct PlanRepository {
     
     func writeTravelPlans(at index: Int, _ travelPlan: TravelPlan) async {
         try? await database.collection(UserInformation.identifier).document("\(index)").setData([
-            "title": "\(travelPlan.title)",
-            "description": "\(travelPlan.description)"
+            Key.title: travelPlan.title,
+            Key.description: travelPlan.description
         ])
         
         for scheduleIndex in travelPlan.schedules.indices {
             try? await database.collection(UserInformation.identifier)
-                .document("\(index)").collection("schedules").document("\(scheduleIndex)")
+                .document("\(index)").collection(DocumentConstants.schedulesCollection).document("\(scheduleIndex)")
                 .setData([
-                    "title": "\(travelPlan.schedules[scheduleIndex].title)",
-                    "description": "\(travelPlan.schedules[scheduleIndex].description)",
-                    "fromDate": "\(DateConverter.dateToString(travelPlan.schedules[scheduleIndex].fromDate))",
-                    "toDate": "\(DateConverter.dateToString(travelPlan.schedules[scheduleIndex].toDate))"
+                    // Key-Value Pair
+                    Key.title:
+                        travelPlan.schedules[scheduleIndex].title,
+                    Key.description:
+                        travelPlan.schedules[scheduleIndex].description,
+                    Key.fromDate:
+                        DateConverter.dateToString(travelPlan.schedules[scheduleIndex].fromDate),
+                    Key.toDate:
+                        DateConverter.dateToString(travelPlan.schedules[scheduleIndex].toDate)
                 ])
         }
     }
@@ -40,9 +45,7 @@ struct PlanRepository {
             let data = document.data()
             travelPlans.append(self.createTravelPlan(data))
             let scheduleSnapshot = try? await database.collection(UserInformation.identifier)
-                .document("\(documentIndex)")
-                .collection("schedules")
-                .getDocuments()
+                .document("\(documentIndex)").collection(DocumentConstants.schedulesCollection).getDocuments()
             
             for documentation in scheduleSnapshot!.documents {
                 travelPlans[documentIndex].schedules.append(self.createSchedule(documentation.data()))
@@ -54,21 +57,21 @@ struct PlanRepository {
     
     // Firebase에서 다운로드한 데이터로 TravelPlan을 생성해서 반환
     func createTravelPlan(_ data: Dictionary<String, Any>) -> TravelPlan {
-        TravelPlan(title: data["title"] as! String,
-                   description: data["description"] as! String,
+        TravelPlan(title: data[Key.title] as! String,
+                   description: data[Key.description] as! String,
                    schedules: [])
     }
     
     // Firebase에서 다운로드한 데이터로 Schedule을 생성해서 반환
     func createSchedule(_ data: Dictionary<String, Any>) -> Schedule {
-        if let fromDate = data["fromDate"] as? String, let toDate = data["toDate"] as? String {
-            return Schedule(title: data["title"] as! String,
-                     description: data["description"] as! String,
-                     fromDate: DateConverter.stringToDate(fromDate),
-                     toDate: DateConverter.stringToDate(toDate))
+        if let fromDate = data[Key.fromDate] as? String, let toDate = data[Key.toDate] as? String {
+            return Schedule(title: data[Key.title] as! String,
+                            description: data[Key.description] as! String,
+                            fromDate: DateConverter.stringToDate(fromDate),
+                            toDate: DateConverter.stringToDate(toDate))
         } else {
-            return Schedule(title: data["title"] as! String,
-                            description: data["description"] as! String)
+            return Schedule(title: data[Key.title] as! String,
+                            description: data[Key.description] as! String)
         }
     }
 }
@@ -76,4 +79,14 @@ struct PlanRepository {
 private enum NumberConstants {
     static let zero = 0
     static let one = 1
+}
+private enum DocumentConstants {
+    static let schedulesCollection = "schedules"
+}
+
+private enum Key {
+    static let title = "title"
+    static let description = "description"
+    static let fromDate = "fromDate"
+    static let toDate = "toDate"
 }
