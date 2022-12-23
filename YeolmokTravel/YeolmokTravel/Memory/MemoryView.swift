@@ -33,12 +33,16 @@ final class MemoryView: UIViewController {
     private lazy var memoriesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         
+        collectionView.register(MemoriesCollectionViewCell.self, forCellWithReuseIdentifier: MemoriesCollectionViewCell.identifier)
+        collectionView.backgroundColor = .black
+        
         return collectionView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        configure()
     }
 }
 
@@ -80,6 +84,10 @@ extension MemoryView {
         }
     }
     
+    private func configure() {
+        memoriesCollectionView.dataSource = self
+    }
+    
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let item = NSCollectionLayoutItem(layoutSize:
                                             NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -97,6 +105,18 @@ extension MemoryView {
     
     @objc func touchUpAddButton() {
         
+    }
+}
+
+// MARK: - CollectionView
+extension MemoryView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        0
     }
 }
 

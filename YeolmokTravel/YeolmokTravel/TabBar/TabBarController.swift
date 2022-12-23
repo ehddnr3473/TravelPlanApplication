@@ -17,7 +17,6 @@ class TabBarController: UITabBarController {
     }
     
     private func setUp() async {
-//        let calendarView = await setUpCalendarView()
         let travelPlanView = await setUpPlanView()
         let memoryView = await setUpMemoryView()
         
@@ -28,14 +27,6 @@ class TabBarController: UITabBarController {
         tabBar.unselectedItemTintColor = .systemGray
     }
     
-//    private func setUpCalendarView() async -> CalendarView {
-//        let calendarView = CalendarView()
-//        calendarView.tabBarItem = UITabBarItem(title: TitleConstants.calendar,
-//                                               image: UIImage(systemName: ImageNames.calendar),
-//                                               tag: NumberConstants.first)
-//        return calendarView
-//    }
-    
     private func setUpPlanView() async -> TravelPlanView {
         let model = OwnTravelPlan(travelPlans: await planRepository.readTravelPlans())
         let viewModel = TravelPlaner(model)
@@ -43,7 +34,7 @@ class TabBarController: UITabBarController {
         travelPlanView.viewModel = viewModel
         travelPlanView.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
-                                           tag: NumberConstants.second)
+                                           tag: NumberConstants.first)
         return travelPlanView
     }
     
@@ -52,19 +43,17 @@ class TabBarController: UITabBarController {
         
         memoryView.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
-                                             tag: NumberConstants.third)
+                                             tag: NumberConstants.second)
         return memoryView
     }
 }
 
 private enum TitleConstants {
-    static let calendar = "Calendar"
-    static let plan = "Plan"
-    static let memory = "Memory"
+    static let plan = "Plans"
+    static let memory = "Memories"
 }
 
 private enum ImageNames {
-    static let calendar = "calendar"
     static let note = "note.text"
     static let memory = "photo.artframe"
 }
@@ -72,5 +61,4 @@ private enum ImageNames {
 private enum NumberConstants {
     static let first = 0
     static let second = 1
-    static let third = 2
 }
