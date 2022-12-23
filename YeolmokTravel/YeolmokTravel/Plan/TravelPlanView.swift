@@ -140,7 +140,7 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
 }
 
 private enum TextConstants {
-    static let title = "Plan"
+    static let title = "Plans"
     static let plusIconName = "plus"
 }
 
