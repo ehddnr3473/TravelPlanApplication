@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
 		6B1705DD2954146600649374 /* PlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1705DC2954146600649374 /* PlanRepository.swift */; };
 		6B1FC0EA2952B38C009910F2 /* Present.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1FC0E92952B38C009910F2 /* Present.swift */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
@@ -99,6 +100,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */,
+				6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */,
 				6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,6 +300,7 @@
 			packageProductDependencies = (
 				6B46FA4329514562000430C7 /* FirebaseFirestore */,
 				6B37A4A329515C4E00BBB8EE /* SnapKit */,
+				6B14F94E2955E4F50055C45D /* JGProgressHUD */,
 			);
 			productName = YeolmokTravel;
 			productReference = 6B46FA0229513D4A000430C7 /* YeolmokTravel.app */;
@@ -374,6 +377,7 @@
 			packageReferences = (
 				6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */,
+				6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 			);
 			productRefGroup = 6B46FA0329513D4A000430C7 /* Products */;
 			projectDirPath = "";
@@ -774,6 +778,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -793,6 +805,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B14F94E2955E4F50055C45D /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
+		};
 		6B37A4A329515C4E00BBB8EE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */;

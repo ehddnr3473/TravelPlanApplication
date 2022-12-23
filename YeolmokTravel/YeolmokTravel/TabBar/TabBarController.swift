@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 class TabBarController: UITabBarController {
     private var planRepository: PlanRepository!
@@ -16,7 +17,16 @@ class TabBarController: UITabBarController {
         Task { await setUp() }
     }
     
+    private func showIndicatorView() {
+        let hud = JGProgressHUD()
+        hud.textLabel.text = "Loading"
+        hud.detailTextLabel.text = "Please wait"
+        hud.show(in: view)
+        hud.dismiss(afterDelay: 1)
+    }
+    
     private func setUp() async {
+        showIndicatorView()
         let travelPlanView = await setUpPlanView()
         let memoryView = await setUpMemoryView()
         
