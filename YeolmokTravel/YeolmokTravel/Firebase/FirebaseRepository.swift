@@ -17,26 +17,42 @@ class FirebaseRepository {
         database = Firestore.firestore()
     }
     
-    func writeTravelPlans() {
-        //
+    func writeTravelPlans(at index: Int, _ travelPlan: TravelPlan) async {
+        try? await database.collection(UserInformation.identifier).document("\(index)").setData([
+            "title": "\(travelPlan.title)",
+            "description": "\(travelPlan.description)"
+        ])
+        
+        for scheduleIndex in travelPlan.schedules.indices {
+            try? await database.collection(UserInformation.identifier)
+                .document("\(index)").collection("schedules").document("\(scheduleIndex)")
+                .setData([
+                    "title": "\(travelPlan.schedules[scheduleIndex].title)",
+                    "description": "\(travelPlan.schedules[scheduleIndex].description)",
+                    "fromDate": "\(DateUtilities.dateFormatter.string(from: travelPlan.schedules[scheduleIndex].fromDate))",
+                    "toDate": "\(DateUtilities.dateFormatter.string(from: travelPlan.schedules[scheduleIndex].toDate))"
+                ])
+        }
     }
     
     // Firebase에서 다운로드한 데이터로 실제 사용할 [TravelPlan]을 생성해서 반환
     func readTravelPlans() async -> [TravelPlan] {
         var travelPlans = [TravelPlan]()
         let travelPlanSnapshot = try? await database.collection(UserInformation.identifier).getDocuments()
-        var count = 0
+        var documentIndex = NumberConstants.zero
+        
         for document in travelPlanSnapshot!.documents {
             let data = document.data()
             travelPlans.append(self.createTravelPlan(data))
             let scheduleSnapshot = try? await database.collection(UserInformation.identifier)
-                .document("\(count)")
+                .document("\(documentIndex)")
                 .collection("schedules")
                 .getDocuments()
+            
             for documentation in scheduleSnapshot!.documents {
-                travelPlans[count].schedules.append(self.createSchedule(documentation.data()))
+                travelPlans[documentIndex].schedules.append(self.createSchedule(documentation.data()))
             }
-            count += 1
+            documentIndex += NumberConstants.one
         }
         return travelPlans
     }
@@ -62,3 +78,7 @@ class FirebaseRepository {
     }
 }
 
+private enum NumberConstants {
+    static let zero = 0
+    static let one = 1
+}
