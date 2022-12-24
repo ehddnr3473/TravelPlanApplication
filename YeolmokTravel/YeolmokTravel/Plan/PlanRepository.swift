@@ -38,10 +38,10 @@ struct PlanRepository {
     // Firebase에서 다운로드한 데이터로 실제 사용할 [TravelPlan]을 생성해서 반환
     func readTravelPlans() async -> [TravelPlan] {
         var travelPlans = [TravelPlan]()
-        let travelPlanSnapshot = try? await database.collection(DatabasePath.memories).getDocuments()
+        let travelPlansSnapshot = try? await database.collection(DatabasePath.memories).getDocuments()
         var documentIndex = NumberConstants.zero
         
-        for document in travelPlanSnapshot!.documents {
+        for document in travelPlansSnapshot!.documents {
             let data = document.data()
             travelPlans.append(self.createTravelPlan(data))
             let scheduleSnapshot = try? await database.collection(DatabasePath.memories)
