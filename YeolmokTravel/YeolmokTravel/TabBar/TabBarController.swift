@@ -17,6 +17,7 @@ class TabBarController: UITabBarController {
         Task { await setUp() }
     }
     
+    // 파이어베이스 데이터 연동 성공/실패 유무와 상관없이 progress indicator 프레젠테이션
     private func showIndicatorView() {
         let hud = JGProgressHUD()
         hud.textLabel.text = "Loading"
@@ -37,6 +38,7 @@ class TabBarController: UITabBarController {
         tabBar.unselectedItemTintColor = .systemGray
     }
     
+    // 첫 번째 탭: Plans
     private func setUpPlanView() async -> TravelPlanView {
         let model = OwnTravelPlan(travelPlans: await planRepository.readTravelPlans())
         let viewModel = TravelPlaner(model)
@@ -48,6 +50,7 @@ class TabBarController: UITabBarController {
         return travelPlanView
     }
     
+    // 두 번째 탭: Memories
     private func setUpMemoryView() async -> MemoryView {
         let memoryView = MemoryView()
         
