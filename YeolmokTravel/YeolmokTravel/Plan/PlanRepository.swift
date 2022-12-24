@@ -56,14 +56,14 @@ struct PlanRepository {
     }
     
     // Firebase에서 다운로드한 데이터로 TravelPlan을 생성해서 반환
-    func createTravelPlan(_ data: Dictionary<String, Any>) -> TravelPlan {
+    private func createTravelPlan(_ data: Dictionary<String, Any>) -> TravelPlan {
         TravelPlan(title: data[Key.title] as! String,
                    description: data[Key.description] as! String,
                    schedules: [])
     }
     
     // Firebase에서 다운로드한 데이터로 Schedule을 생성해서 반환
-    func createSchedule(_ data: Dictionary<String, Any>) -> Schedule {
+    private func createSchedule(_ data: Dictionary<String, Any>) -> Schedule {
         if let fromDate = data[Key.fromDate] as? String, let toDate = data[Key.toDate] as? String {
             return Schedule(title: data[Key.title] as! String,
                             description: data[Key.description] as! String,
