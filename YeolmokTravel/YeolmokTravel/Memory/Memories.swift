@@ -14,4 +14,8 @@ struct Memories {
     func memory(at index: Int) -> Memory {
         memories[index]
     }
+    
+    mutating func addMemory(_ memory: Memory) {
+        memories.append(memory)
+    }
 }
