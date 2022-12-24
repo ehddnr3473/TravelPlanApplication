@@ -8,8 +8,10 @@
 import UIKit
 import Foundation
 
-enum UserInformation {
-    static let identifier = "yeolmok"
+enum DatabasePath {
+    static let plans = "plans"
+    static let memories = "memories"
+    
 }
 
 enum AppStyles {
