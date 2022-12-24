@@ -36,7 +36,7 @@ struct MemoryRepository {
     
     // 다운로드한 데이터로 Memory 생성하여 반환
     private func createMemory(_ data: Dictionary<String, Any>) -> Memory {
-        var memories = Memory(title: data[Key.title] as! String,
+        let memories = Memory(title: data[Key.title] as! String,
                               imageName: data[Key.imageName] as! String,
                               uploadDate: DateConverter.stringToDate(data[Key.uploadDate] as! String)!)
         return memories
