@@ -38,10 +38,10 @@ struct OwnTravelPlan {
     
     func write(at index: Int?) async {
         if let index = index {
-            await repository.writeTravelPlans(at: index, travelPlans[index])
+            await repository.writeTravelPlan(at: index, travelPlans[index])
         } else {
             let lastIndex = travelPlans.count - NumberConstants.one
-            await repository.writeTravelPlans(at: lastIndex, travelPlans[lastIndex])
+            await repository.writeTravelPlan(at: lastIndex, travelPlans[lastIndex])
         }
     }
 }

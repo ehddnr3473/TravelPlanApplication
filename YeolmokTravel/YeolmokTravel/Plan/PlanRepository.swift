@@ -12,7 +12,7 @@ import FirebaseFirestore
 struct PlanRepository {
     private var database = Firestore.firestore()
     
-    func writeTravelPlans(at index: Int, _ travelPlan: TravelPlan) async {
+    func writeTravelPlan(at index: Int, _ travelPlan: TravelPlan) async {
         try? await database.collection(UserInformation.identifier).document("\(index)").setData([
             Key.title: travelPlan.title,
             Key.description: travelPlan.description
