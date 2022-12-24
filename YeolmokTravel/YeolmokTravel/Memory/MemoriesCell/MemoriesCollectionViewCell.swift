@@ -6,16 +6,19 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 final class MemoriesCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    var imageView: UIImageView = {
+    var viewModel: MemoriesLoader!
+    
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         
         label.textAlignment = .left
@@ -25,7 +28,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var descriptionLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         
         label.textAlignment = .left
@@ -35,7 +38,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         
         label.textAlignment = .left
@@ -44,10 +47,19 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
+    
+    private let progressIndicator: JGProgressHUD = {
+        let indicator = JGProgressHUD()
+        
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setUpUI()
+        configure()
+        setBindings()
     }
     
     required init?(coder: NSCoder) {
@@ -102,7 +114,20 @@ extension MemoriesCollectionViewCell {
             $0.leading.equalTo(contentView.snp.leading)
                 .inset(LayoutConstants.spacing)
         }
-        
+    }
+    
+    private func configure() {
+        progressIndicator.show(in: imageView)
+    }
+    
+    private func setBindings() {
+        viewModel.publisher
+            .receive(on: RunLoop.main)
+            .sink { image in
+                self.progressIndicator.dismiss(animated: true)
+                self.imageView.image = image
+            }
+            .cancel()
     }
 }
 
