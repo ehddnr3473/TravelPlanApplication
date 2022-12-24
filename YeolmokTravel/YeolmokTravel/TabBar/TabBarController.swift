@@ -52,7 +52,7 @@ class TabBarController: UITabBarController {
     }
     
     // 두 번째 탭: Memories
-    private func setUpMemoryView() async -> MemoryView {
+    private func setUpMemoryView() async -> MemoryViewController {
         // Assembing of MVC
         let model = Memories(memories: await memoryRepository.readMemories())
         let memoryView = MemoryView()

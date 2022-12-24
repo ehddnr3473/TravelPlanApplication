@@ -7,8 +7,11 @@
 
 import UIKit
 
-final class MemoryView: UIViewController {
+final class MemoryViewController: UIViewController {
     // MARK: - Properties
+    var model: Memories!
+    private let imageCacheManager = ImageCacheManager()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         
@@ -47,7 +50,7 @@ final class MemoryView: UIViewController {
 }
 
 // MARK: - SetUp View
-extension MemoryView {
+extension MemoryViewController {
     private func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
@@ -109,9 +112,12 @@ extension MemoryView {
 }
 
 // MARK: - CollectionView
-extension MemoryView: UICollectionViewDataSource {
+extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        // Cell assembling of MVVM
+        let viewModel = MemoriesLoader(model.memory(at: indexPath.row), imageCacheManager)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
+        cell.viewModel = viewModel
         return cell
     }
     
