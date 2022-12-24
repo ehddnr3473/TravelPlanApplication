@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MemoryViewController: UIViewController {
+final class MemoryViewController: UIViewController, MemoryTransfer {
     // MARK: - Properties
     var model: Memories!
     private let imageCacheManager = ImageCacheManager()
@@ -105,9 +105,21 @@ extension MemoryViewController {
         return layout
     }
     
+    @MainActor
+    private func reloadMemoriesCollectionView() {
+        memoriesCollectionView.reloadData()
+    }
     
     @objc func touchUpAddButton() {
-        
+        let writingMemoryViewController = WritingMemoryViewController()
+        writingMemoryViewController.addDelegate = self
+        writingMemoryViewController.modalPresentationStyle = .fullScreen
+        present(writingMemoryViewController, animated: true)
+    }
+    
+    func MemoryHandler(_ memory: Memory) {
+        model.addMemory(memory)
+        reloadMemoriesCollectionView()
     }
 }
 

@@ -15,6 +15,9 @@
 		6B17E3062956ADE300AF59EE /* PlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3052956ADE300AF59EE /* PlanRepository.swift */; };
 		6B17E3082956C54100AF59EE /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3072956C54100AF59EE /* ImageCacheManager.swift */; };
 		6B17E30B2956CF3600AF59EE /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30A2956CF3600AF59EE /* ImageCacheService.swift */; };
+		6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */; };
+		6B17E3132956D67F00AF59EE /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3122956D67F00AF59EE /* TopBarView.swift */; };
+		6B17E3152957195B00AF59EE /* MemoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3142957195B00AF59EE /* MemoryTransfer.swift */; };
 		6B1FC0EA2952B38C009910F2 /* Present.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1FC0E92952B38C009910F2 /* Present.swift */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
 		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
@@ -72,6 +75,9 @@
 		6B17E3052956ADE300AF59EE /* PlanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRepository.swift; sourceTree = "<group>"; };
 		6B17E3072956C54100AF59EE /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		6B17E30A2956CF3600AF59EE /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
+		6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewController.swift; sourceTree = "<group>"; };
+		6B17E3122956D67F00AF59EE /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
+		6B17E3142957195B00AF59EE /* MemoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTransfer.swift; sourceTree = "<group>"; };
 		6B1FC0E92952B38C009910F2 /* Present.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Present.swift; sourceTree = "<group>"; };
 		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
 		6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingTravelPlanViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +149,22 @@
 			path = MemoriesCell;
 			sourceTree = "<group>";
 		};
+		6B17E30C2956D36A00AF59EE /* Writing */ = {
+			isa = PBXGroup;
+			children = (
+				6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */,
+			);
+			path = Writing;
+			sourceTree = "<group>";
+		};
+		6B17E30F2956D48F00AF59EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6B17E3122956D67F00AF59EE /* TopBarView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		6B37A4A529515D9D00BBB8EE /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +192,7 @@
 				6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */,
 				6BA9F47329526BB000403DCC /* Plan.swift */,
 				6B17E30A2956CF3600AF59EE /* ImageCacheService.swift */,
+				6B17E3142957195B00AF59EE /* MemoryTransfer.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -232,6 +255,7 @@
 				6BB277C22955890B00534B68 /* Memory */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B37A4BB295177E500BBB8EE /* Entities */,
+				6B17E30F2956D48F00AF59EE /* Views */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
@@ -290,6 +314,7 @@
 		6BB277C22955890B00534B68 /* Memory */ = {
 			isa = PBXGroup;
 			children = (
+				6B17E30C2956D36A00AF59EE /* Writing */,
 				6B17E3092956C8F900AF59EE /* MemoriesCell */,
 				6B17E3072956C54100AF59EE /* ImageCacheManager.swift */,
 				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
@@ -440,6 +465,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */,
 				6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */,
 				6B1FC0EA2952B38C009910F2 /* Present.swift in Sources */,
 				6B46FA3F295140E9000430C7 /* TravelPlanView.swift in Sources */,
@@ -455,11 +481,13 @@
 				6B17E3022956A85400AF59EE /* Memories.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
 				6BB277C42955893900534B68 /* MemoryViewController.swift in Sources */,
+				6B17E3132956D67F00AF59EE /* TopBarView.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
 				6B37A4BA295175CD00BBB8EE /* OwnTravelPlan.swift in Sources */,
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
 				6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */,
+				6B17E3152957195B00AF59EE /* MemoryTransfer.swift in Sources */,
 				6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */,
 				6B17E2FE2956A72800AF59EE /* MemoriesLoader.swift in Sources */,
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
