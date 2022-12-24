@@ -13,13 +13,13 @@ struct PlanRepository {
     private var database = Firestore.firestore()
     
     func writeTravelPlan(at index: Int, _ travelPlan: TravelPlan) async {
-        try? await database.collection(DatabasePath.memories).document("\(index)").setData([
+        try? await database.collection(DatabasePath.plans).document("\(index)").setData([
             Key.title: travelPlan.title,
             Key.description: travelPlan.description
         ])
         
         for scheduleIndex in travelPlan.schedules.indices {
-            try? await database.collection(DatabasePath.memories)
+            try? await database.collection(DatabasePath.plans)
                 .document("\(index)").collection(DocumentConstants.schedulesCollection).document("\(scheduleIndex)")
                 .setData([
                     // Key-Value Pair
@@ -38,13 +38,13 @@ struct PlanRepository {
     // Firebase에서 다운로드한 데이터로 실제 사용할 [TravelPlan]을 생성해서 반환
     func readTravelPlans() async -> [TravelPlan] {
         var travelPlans = [TravelPlan]()
-        let travelPlansSnapshot = try? await database.collection(DatabasePath.memories).getDocuments()
+        let travelPlansSnapshot = try? await database.collection(DatabasePath.plans).getDocuments()
         var documentIndex = NumberConstants.zero
         
         for document in travelPlansSnapshot!.documents {
             let data = document.data()
             travelPlans.append(self.createTravelPlan(data))
-            let scheduleSnapshot = try? await database.collection(DatabasePath.memories)
+            let scheduleSnapshot = try? await database.collection(DatabasePath.plans)
                 .document("\(documentIndex)").collection(DocumentConstants.schedulesCollection).getDocuments()
             
             for documentation in scheduleSnapshot!.documents {
