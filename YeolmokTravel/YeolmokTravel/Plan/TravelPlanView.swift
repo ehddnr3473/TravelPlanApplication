@@ -100,7 +100,7 @@ extension TravelPlanView {
     
     private func setBindings() {
         viewModel.publisher
-            .sink { self.reloadPlanList() }
+            .sink { self.reload() }
             .store(in: &subscriptions)
     }
     
@@ -108,7 +108,7 @@ extension TravelPlanView {
         presentWritableView(viewModel.setUpWritingView(.add))
     }
     
-    @MainActor private func reloadPlanList() {
+    @MainActor private func reload() {
         planTableView.snp.updateConstraints {
             $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
         }

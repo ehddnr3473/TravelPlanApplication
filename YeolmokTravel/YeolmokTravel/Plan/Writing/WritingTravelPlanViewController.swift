@@ -220,15 +220,15 @@ extension WritingTravelPlanViewController {
         if let index = index {
             // edit
             model.editSchedule(at: index, plan)
-            reloadScheduleList()
+            reload()
         } else {
             // add
             model.addSchedule(plan)
-            reloadScheduleList()
+            reload()
         }
     }
     
-    @MainActor private func reloadScheduleList() {
+    @MainActor private func reload() {
         scheduleTableView.snp.updateConstraints {
             $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
         }
