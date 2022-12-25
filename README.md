@@ -1,1 +1,45 @@
 # TravelApplication
+
+## 개요
+여행 계획을 작성하고, 추억이 담긴 사진을 업로드하는 애플리케이션 프로젝트입니다.
+
+
+<br></br>
+## 사용 기술
+|구현 내용|도구|
+|---|---|
+|아키텍처|MVC 및 MVVM|
+|UI|UIKit|
+|동시성 프로그래밍|Swift Concurrency|
+|원격 데이터 저장소|Firebase Firestore 및 Storage|
+
+
+
+<br></br>
+## 패키지 종속성 관리
+Swift Package Manager를 사용하여 종속성을 관리했습니다.
+|패키지|내용|
+|---|---|
+|Firebase|데이터 저장|
+|SnapKit|레이아웃 코드 작성|
+|JGProgressHUD|Progress indicator 생성|
+
+
+
+<br></br>
+## 아키텍처 및 상세 구조
+### 아키텍처
+- **View**를 데이터와 상태로 업데이트해줄 필요가 없으며 바인딩을 수행할 필요 또한 없는 구조는 **MVC** 아키텍처 패턴을 적용하여 복잡성을 감소시킴. 대신 **Model** 레이어를 엄격하게 분리함.
+- **Model**을 업데이트하고 **View**와 **View Model**에 Combine 프레임워크를 사용하여 바인딩 수행하여 **View** 업데이트.
+
+
+<br></br>
+### 상세 구조
+
+
+
+
+<br></br>
+## 뷰 및 동작
+- 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage). 
+- **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
