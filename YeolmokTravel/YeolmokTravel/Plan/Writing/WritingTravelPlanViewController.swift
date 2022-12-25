@@ -20,7 +20,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable, PlanTra
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
-    var planListIndex: Int!
+    var planListIndex: Int?
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -122,6 +122,7 @@ extension WritingTravelPlanViewController {
         setUpHierachy()
         setUpLayout()
     }
+    
     private func setUpHierachy() {
         [topBarView, titleTextField, descriptionTextView, scheduleTitleLabel, addScheduleButton, scheduleTableView].forEach {
             view.addSubview($0)

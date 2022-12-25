@@ -12,7 +12,7 @@ protocol PlanConfigurable: AnyObject {
     var model: OwnTravelPlan { get set }
     func title(_ index: Int) -> String
     func date(_ index: Int) -> String
-    func setUpWritingView(at index: Int, _ writingStyle: WritingStyle) -> WritingTravelPlanViewController
+    func setUpWritingView(at index: Int?, _ writingStyle: WritingStyle) -> WritingTravelPlanViewController
     
     init(_ model: OwnTravelPlan)
 }

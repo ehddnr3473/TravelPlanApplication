@@ -20,7 +20,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
-    var scheduleListIndex: Int? // 여행 계획 '추가'를 위해 프레젠테이션했다면 nil.
+    var scheduleListIndex: Int?
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()

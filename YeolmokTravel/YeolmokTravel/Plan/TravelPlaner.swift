@@ -48,7 +48,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     }
     
     // 여행 계획을 작성(수정, 추가)하기 위해 프레젠테이션할 ViewController 반환
-    func setUpWritingView(at index: Int, _ writingStyle: WritingStyle) -> WritingTravelPlanViewController {
+    func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingTravelPlanViewController {
         let writingView = WritingTravelPlanViewController()
         switch writingStyle {
         case .add:
@@ -56,7 +56,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
             writingView.model = model
             writingView.addDelegate = self
         case .edit:
-            let model = model.travelPlans[index]
+            let model = model.travelPlans[index!]
             writingView.model = model
             writingView.editDelegate = self
         }

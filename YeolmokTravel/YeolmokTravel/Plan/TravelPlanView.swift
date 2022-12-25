@@ -105,7 +105,7 @@ extension TravelPlanView {
     }
     
     @objc func touchUpAddButton() {
-        presentWritableView(viewModel.setUpWritingView(at: viewModel.planCount, .add))
+        presentWritableView(viewModel.setUpWritingView(.add))
     }
     
     @MainActor private func reloadPlanList() {
