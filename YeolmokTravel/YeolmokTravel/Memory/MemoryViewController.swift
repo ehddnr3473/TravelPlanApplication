@@ -113,13 +113,13 @@ extension MemoryViewController {
     @objc func touchUpAddButton() {
         let writingMemoryViewController = WritingMemoryViewController()
         writingMemoryViewController.addDelegate = self
-        writingMemoryViewController.memoryIndex = model.memoriesCount
+        writingMemoryViewController.memoryIndex = model.memories.count
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
     
     func MemoryHandler(_ memory: Memory) {
-        model.addMemory(memory)
+        model.add(memory)
         Task {
             await imageLoader.upload(memory.index, memory.image!)
             await model.write(at: memory.index)
@@ -133,14 +133,14 @@ extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = MemoriesLoader(model.memory(at: indexPath.row), imageLoader)
+        let viewModel = MemoriesLoader(model.memories[indexPath.row], imageLoader)
         cell.setViewModel(viewModel)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        model.memoriesCount
+        model.memories.count
     }
 }
 

@@ -9,18 +9,10 @@ import Foundation
 
 /// Memories Model
 struct Memories {
-    var memories: [Memory]
+    private(set) var memories: [Memory]
     private let repository = MemoryRepository()
     
-    var memoriesCount: Int {
-        memories.count
-    }
-    
-    func memory(at index: Int) -> Memory {
-        memories[index]
-    }
-    
-    mutating func addMemory(_ memory: Memory) {
+    mutating func add(_ memory: Memory) {
         memories.append(memory)
     }
     
