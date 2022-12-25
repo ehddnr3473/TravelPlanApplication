@@ -11,20 +11,25 @@ import UIKit
 
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
-class MemoriesLoader: ImageCacheService {
+class MemoriesLoader {
     private let model: Memory
-    var imageCacheManager: ImageCacheManager
+    let imageLoader: ImageLoader
     let publisher = PassthroughSubject<UIImage, Never>()
     
-    init(_ model: Memory, _ imageCacheManager: ImageCacheManager) {
+    init(_ model: Memory, _ imageLoader: ImageLoader) {
         self.model = model
-        self.imageCacheManager = imageCacheManager
+        self.imageLoader = imageLoader
     }
     
-    func downloadImage() {
-        // 캐시된 이미지가 있다면 캐시된 이미지 return
-        
-        // 없다면 send하고 캐시
-//        Task { await self.imageCacher.cacheImage(image) }
+    func uploadImage(_ index: Int, image: UIImage) {
+        Task { uploadImage(index, image: image) }
+    }
+    
+    func downloadImage(_ index: Int) {
+        imageLoader.download(index) { image in
+            if let image = image {
+                self.publisher.send(image)
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 final class MemoryViewController: UIViewController, MemoryTransfer {
     // MARK: - Properties
     var model: Memories!
-    private let imageCacheManager = ImageCacheManager()
+    private let imageLoader = ImageLoader()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -113,12 +113,14 @@ extension MemoryViewController {
     @objc func touchUpAddButton() {
         let writingMemoryViewController = WritingMemoryViewController()
         writingMemoryViewController.addDelegate = self
+        writingMemoryViewController.memoryIndex = model.memoriesCount
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
     
-    func MemoryHandler(_ memory: Memory) {
+    func MemoryHandler(_ image: UIImage, _ memory: Memory) {
         model.addMemory(memory)
+        Task { await imageLoader.upload(memory.index, image)}
         reloadMemoriesCollectionView()
     }
 }
@@ -127,14 +129,14 @@ extension MemoryViewController {
 extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
-        let viewModel = MemoriesLoader(model.memory(at: indexPath.row), imageCacheManager)
+        let viewModel = MemoriesLoader(model.memory(at: indexPath.row), imageLoader)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
         cell.viewModel = viewModel
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        0
+        model.memoriesCount
     }
 }
 

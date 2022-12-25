@@ -11,6 +11,7 @@ import PhotosUI
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
     var addDelegate: MemoryTransfer?
+    var memoryIndex: Int!
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -146,8 +147,15 @@ extension WritingMemoryViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        if let addDelegate = addDelegate, let image = imageView.image {
-            addDelegate.MemoryHandler(Memory(title: titleTextField.text ?? "", imageName: image, uploadDate: Date()))
+        if titleTextField.text == "" {
+            alertWillAppear(AlertText.titleMessage)
+            return
+        } else if imageView.image == nil {
+            alertWillAppear(AlertText.nilImageMessage)
+            return
+        } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
+            addDelegate.MemoryHandler(image, Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date()))
+            dismiss(animated: true)
         }
     }
     
@@ -195,5 +203,4 @@ private enum TextConstants {
     static let title = "New memory"
     static let phPickerButtonTitle = "Load"
     static let deleteButtonTitle = "Delete"
-    
 }

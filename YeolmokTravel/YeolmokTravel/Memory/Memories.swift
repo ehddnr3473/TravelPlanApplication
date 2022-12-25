@@ -11,6 +11,10 @@ import Foundation
 struct Memories {
     var memories: [Memory]
     
+    var memoriesCount: Int {
+        memories.count
+    }
+    
     func memory(at index: Int) -> Memory {
         memories[index]
     }

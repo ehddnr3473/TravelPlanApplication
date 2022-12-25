@@ -6,7 +6,8 @@
 //
 
 import Foundation
+import UIKit
 
 protocol MemoryTransfer {
-    func MemoryHandler(_ memory: Memory)
+    func MemoryHandler(_ image: UIImage, _ memory: Memory)
 }

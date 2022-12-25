@@ -13,10 +13,10 @@ struct MemoryRepository {
     private var database = Firestore.firestore()
 
     // write
-    func writeMemory(at index: Int, _ memory: Memory) async {
-        try? await database.collection(DatabasePath.plans).document("\(index)").setData([
+    func writeMemory(_ memory: Memory) async {
+        try? await database.collection(DatabasePath.plans).document("\(memory.index)").setData([
             Key.title: memory.title,
-            Key.imageName: memory.imageName,
+            Key.imageName: memory.index,
             Key.uploadDate: memory.uploadDate
         ])
     }
@@ -37,7 +37,7 @@ struct MemoryRepository {
     // 다운로드한 데이터로 Memory 생성하여 반환
     private func createMemory(_ data: Dictionary<String, Any>) -> Memory {
         let memories = Memory(title: data[Key.title] as! String,
-                              imageName: data[Key.imageName] as! String,
+                              index: data[Key.imageName] as! Int,
                               uploadDate: DateConverter.stringToDate(data[Key.uploadDate] as! String)!)
         return memories
     }
