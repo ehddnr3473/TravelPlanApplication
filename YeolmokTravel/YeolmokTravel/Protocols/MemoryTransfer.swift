@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 protocol MemoryTransfer {
     func MemoryHandler(_ memory: Memory)
