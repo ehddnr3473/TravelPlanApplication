@@ -89,6 +89,7 @@ final class WritingMemoryViewController: UIViewController {
 // MARK: - SetUp View
 extension WritingMemoryViewController {
     private func setUpUI() {
+        view.backgroundColor = .black
         setUpHierachy()
         setUpLayout()
     }
@@ -154,7 +155,7 @@ extension WritingMemoryViewController {
             alertWillAppear(AlertText.nilImageMessage)
             return
         } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
-            addDelegate.MemoryHandler(image, Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date()))
+            addDelegate.MemoryHandler(Memory(title: titleTextField.text ?? "", index: index, image: image, uploadDate: Date()))
             dismiss(animated: true)
         }
     }

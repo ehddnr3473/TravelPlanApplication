@@ -32,9 +32,13 @@ class ImageLoader {
     
     func upload(_ index: Int, _ image: UIImage) async {
         if let data = image.pngData() {
-            let imageReference = storageReference.child("memories/\(index)")
-            let storageMetadata = try? await imageReference.putDataAsync(data)
-            // using metadata
+            let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
+            do {
+                let _ = try await imageReference.putDataAsync(data)
+                // using metadata
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -44,8 +48,11 @@ class ImageLoader {
             return
         }
         
-        let imageReference = storageReference.child("memories/\(index)")
-        imageReference.getData(maxSize: 1*1024*1024) { data, _ in
+        let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
+        imageReference.getData(maxSize: .max) { data, error in
+            if let error = error {
+                print(error)
+            }
             if let data = data {
                 let image = UIImage(data: data)
                 self.cacheImage(index, image: image!)
@@ -57,4 +64,8 @@ class ImageLoader {
             }
         }
     }
+}
+
+private enum DocumentConstants {
+    static let memoriesPath = "memories"
 }

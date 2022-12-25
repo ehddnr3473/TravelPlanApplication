@@ -118,9 +118,12 @@ extension MemoryViewController {
         present(writingMemoryViewController, animated: true)
     }
     
-    func MemoryHandler(_ image: UIImage, _ memory: Memory) {
+    func MemoryHandler(_ memory: Memory) {
         model.addMemory(memory)
-        Task { await imageLoader.upload(memory.index, image)}
+        Task {
+            await imageLoader.upload(memory.index, memory.image!)
+            await model.write(at: memory.index)
+        }
         reloadMemoriesCollectionView()
     }
 }
@@ -129,9 +132,10 @@ extension MemoryViewController {
 extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
-        let viewModel = MemoriesLoader(model.memory(at: indexPath.row), imageLoader)
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        cell.viewModel = viewModel
+        let viewModel = MemoriesLoader(model.memory(at: indexPath.row), imageLoader)
+        cell.setViewModel(viewModel)
+        
         return cell
     }
     

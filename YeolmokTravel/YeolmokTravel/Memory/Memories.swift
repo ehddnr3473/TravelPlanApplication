@@ -10,6 +10,7 @@ import Foundation
 /// Memories Model
 struct Memories {
     var memories: [Memory]
+    private let repository = MemoryRepository()
     
     var memoriesCount: Int {
         memories.count
@@ -21,5 +22,9 @@ struct Memories {
     
     mutating func addMemory(_ memory: Memory) {
         memories.append(memory)
+    }
+    
+    func write(at index: Int) async {
+        await repository.writeMemory(memories[index])
     }
 }

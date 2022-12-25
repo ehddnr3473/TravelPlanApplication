@@ -7,11 +7,13 @@
 
 import UIKit
 import JGProgressHUD
+import Combine
 
 final class MemoriesCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    var viewModel: MemoriesLoader!
+    private var viewModel: MemoriesLoader?
+    private var subscriptions = [AnyCancellable]()
     
     private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -58,8 +60,6 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         setUpUI()
-        configure()
-        setBindings()
     }
     
     required init?(coder: NSCoder) {
@@ -73,6 +73,13 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         titleLabel.text = ""
         descriptionLabel.text = ""
         dateLabel.text = ""
+        configure()
+    }
+    
+    func setViewModel(_ viewModel: MemoriesLoader) {
+        self.viewModel = viewModel
+        setBindings()
+        configure()
     }
 }
 
@@ -117,17 +124,24 @@ extension MemoriesCollectionViewCell {
     }
     
     private func configure() {
-        progressIndicator.show(in: imageView)
+        if let image = viewModel?.image {
+            imageView.image = image
+        } else {
+            progressIndicator.show(in: imageView)
+            viewModel?.downloadImage()
+        }
+        titleLabel.text = viewModel?.title
+        dateLabel.text = viewModel?.uploadDate
     }
     
     private func setBindings() {
-        viewModel.publisher
+        viewModel?.publisher
             .receive(on: RunLoop.main)
             .sink { image in
                 self.progressIndicator.dismiss(animated: true)
                 self.imageView.image = image
             }
-            .cancel()
+            .store(in: &subscriptions)
     }
 }
 

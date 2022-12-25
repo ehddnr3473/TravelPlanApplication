@@ -14,10 +14,10 @@ struct MemoryRepository {
 
     // write
     func writeMemory(_ memory: Memory) async {
-        try? await database.collection(DatabasePath.plans).document("\(memory.index)").setData([
+        try? await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(memory.index)").setData([
             Key.title: memory.title,
-            Key.imageName: memory.index,
-            Key.uploadDate: memory.uploadDate
+            Key.index: memory.index,
+            Key.uploadDate: DateConverter.dateToString(memory.uploadDate)
         ])
     }
     
@@ -37,7 +37,7 @@ struct MemoryRepository {
     // 다운로드한 데이터로 Memory 생성하여 반환
     private func createMemory(_ data: Dictionary<String, Any>) -> Memory {
         let memories = Memory(title: data[Key.title] as! String,
-                              index: data[Key.imageName] as! Int,
+                              index: data[Key.index] as! Int,
                               uploadDate: DateConverter.stringToDate(data[Key.uploadDate] as! String)!)
         return memories
     }
@@ -45,6 +45,10 @@ struct MemoryRepository {
 
 private enum Key {
     static let title = "title"
-    static let imageName = "imageName"
+    static let index = "index"
     static let uploadDate = "date"
+}
+
+private enum DocumentPrefix {
+    static let memory = "memory"
 }

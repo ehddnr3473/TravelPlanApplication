@@ -143,6 +143,7 @@
 		6B17E3092956C8F900AF59EE /* MemoriesCell */ = {
 			isa = PBXGroup;
 			children = (
+				6B17E3032956A89300AF59EE /* Memory.swift */,
 				6B17E2FD2956A72800AF59EE /* MemoriesLoader.swift */,
 				6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */,
 			);
@@ -196,14 +197,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		6B37A4BB295177E500BBB8EE /* Entities */ = {
-			isa = PBXGroup;
-			children = (
-				6B17E3032956A89300AF59EE /* Memory.swift */,
-			);
-			path = Entities;
-			sourceTree = "<group>";
-		};
 		6B37A4C729519C7C00BBB8EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,7 +246,6 @@
 				6B46FA3D295140CD000430C7 /* Plan */,
 				6BB277C22955890B00534B68 /* Memory */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
-				6B37A4BB295177E500BBB8EE /* Entities */,
 				6B17E30F2956D48F00AF59EE /* Views */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,

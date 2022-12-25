@@ -21,12 +21,24 @@ class MemoriesLoader {
         self.imageLoader = imageLoader
     }
     
+    var image: UIImage? {
+        model.image
+    }
+    
+    var title: String {
+        model.title
+    }
+    
+    var uploadDate: String {
+        DateConverter.dateToString(model.uploadDate)
+    }
+    
     func uploadImage(_ index: Int, image: UIImage) {
         Task { uploadImage(index, image: image) }
     }
     
-    func downloadImage(_ index: Int) {
-        imageLoader.download(index) { image in
+    func downloadImage() {
+        imageLoader.download(model.index) { image in
             if let image = image {
                 self.publisher.send(image)
             }
