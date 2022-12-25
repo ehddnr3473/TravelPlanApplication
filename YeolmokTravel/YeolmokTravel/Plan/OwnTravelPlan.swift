@@ -9,39 +9,23 @@ import Foundation
 
 /// TravelPlan Model
 struct OwnTravelPlan {
-    var travelPlans: [TravelPlan]
-    var repository = PlanRepository()
+    private(set) var travelPlans: [TravelPlan]
+    private let repository = PlanRepository()
     
-    var count: Int {
-        travelPlans.count
-    }
-    
-    func title(_ index: Int) -> String {
-        travelPlans[index].title
-    }
-    
-    mutating func appendPlan(_ plan: TravelPlan) {
+    mutating func add(_ plan: TravelPlan) {
         travelPlans.append(plan)
     }
     
-    mutating func modifyPlan(at index: Int, _ plan: TravelPlan) {
+    mutating func update(at index: Int, _ plan: TravelPlan) {
         travelPlans[index] = plan
-    }
-    
-    func date(_ index: Int) -> String {
-        travelPlans[index].date
-    }
-    
-    func description(_ index: Int) -> String {
-        travelPlans[index].description 
     }
     
     func write(at index: Int?) async {
         if let index = index {
-            await repository.writeTravelPlan(at: index, travelPlans[index])
+            await repository.write(at: index, travelPlans[index])
         } else {
             let lastIndex = travelPlans.count - NumberConstants.one
-            await repository.writeTravelPlan(at: lastIndex, travelPlans[lastIndex])
+            await repository.write(at: lastIndex, travelPlans[lastIndex])
         }
     }
 }

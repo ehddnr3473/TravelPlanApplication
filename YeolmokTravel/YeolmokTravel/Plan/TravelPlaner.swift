@@ -15,7 +15,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     let publisher = PassthroughSubject<Void, Never>()
     
     var planCount: Int {
-        model.count
+        model.travelPlans.count
     }
     
     required init(_ model: OwnTravelPlan) {
@@ -23,51 +23,47 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     }
     
     func title(_ index: Int) -> String {
-        model.title(index)
+        model.travelPlans[index].title
     }
     
     func date(_ index: Int) -> String {
-        model.date(index)
+        model.travelPlans[index].date
     }
     
     func description(_ index: Int) -> String {
-        model.description(index)
+        model.travelPlans[index].description 
     }
     
     func writingHandler(_ plan: some Plan, _ index: Int?) {
         guard let plan = plan as? TravelPlan else { return }
         if let index = index {
-            model.modifyPlan(at: index, plan)
+            model.update(at: index, plan)
             Task { await model.write(at: index) }
             publisher.send()
         } else {
-            model.appendPlan(plan)
+            model.add(plan)
             Task { await model.write(at: nil) }
             publisher.send()
         }
     }
     
-    // 여행 계획을 추가하기 위해 프레젠테이션할 ViewController 반환
-    func setUpAddTravelPlanView() -> WritingTravelPlanViewController {
-        let model = TravelPlan(title: "", description: "", schedules: [])
-        let writingTravelPlanViewController = WritingTravelPlanViewController()
-        writingTravelPlanViewController.model = model
-        writingTravelPlanViewController.writingStyle = .add
-        writingTravelPlanViewController.addDelegate = self
-        writingTravelPlanViewController.modalPresentationStyle = .fullScreen
-        
-        return writingTravelPlanViewController
-    }
-    
-    // 여행 계획을 수정하기 위해 프레젠테이션할 ViewController 반환
-    func setUpModifyTravelPlanView(at index: Int) -> WritingTravelPlanViewController {
-        let model = model.travelPlans[index]
-        let writingTravelPlanViewController = WritingTravelPlanViewController()
-        writingTravelPlanViewController.model = model
-        writingTravelPlanViewController.writingStyle = .edit
-        writingTravelPlanViewController.editDelegate = self
-        writingTravelPlanViewController.planListIndex = index
-        writingTravelPlanViewController.modalPresentationStyle = .fullScreen
-        return writingTravelPlanViewController
+    // 여행 계획을 작성(수정, 추가)하기 위해 프레젠테이션할 ViewController 반환
+    func setUpWritingView(at index: Int, _ writingStyle: WritingStyle) -> WritingTravelPlanViewController {
+        let writingView = WritingTravelPlanViewController()
+        switch writingStyle {
+        case .add:
+            let model = TravelPlan(title: "", description: "", schedules: [])
+            writingView.model = model
+            writingView.addDelegate = self
+        case .edit:
+            let model = model.travelPlans[index]
+            writingView.model = model
+            writingView.editDelegate = self
+        }
+        writingView.writingStyle = writingStyle
+        writingView.planListIndex = index
+        writingView.modalPresentationStyle = .fullScreen
+
+        return writingView
     }
 }
