@@ -9,5 +9,5 @@ import Foundation
 import UIKit
 
 protocol MemoryTransfer {
-    func MemoryHandler(_ image: UIImage, _ memory: Memory)
+    func MemoryHandler(_ memory: Memory)
 }
