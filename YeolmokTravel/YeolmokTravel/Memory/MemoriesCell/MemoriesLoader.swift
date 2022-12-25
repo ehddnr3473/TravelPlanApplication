@@ -21,12 +21,12 @@ class MemoriesLoader {
         self.imageLoader = imageLoader
     }
     
-    var image: UIImage? {
-        model.image
-    }
-    
     var title: String {
         model.title
+    }
+    
+    var index: Int {
+        model.index
     }
     
     var uploadDate: String {

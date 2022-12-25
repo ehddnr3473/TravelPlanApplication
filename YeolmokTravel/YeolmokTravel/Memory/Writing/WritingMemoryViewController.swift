@@ -155,7 +155,7 @@ extension WritingMemoryViewController {
             alertWillAppear(AlertText.nilImageMessage)
             return
         } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
-            addDelegate.MemoryHandler(Memory(title: titleTextField.text ?? "", index: index, image: image, uploadDate: Date()))
+            addDelegate.MemoryHandler(image, Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date()))
             dismiss(animated: true)
         }
     }

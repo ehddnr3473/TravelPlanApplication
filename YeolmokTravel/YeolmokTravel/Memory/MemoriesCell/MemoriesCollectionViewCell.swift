@@ -6,17 +6,18 @@
 //
 
 import UIKit
-import JGProgressHUD
 import Combine
+import JGProgressHUD
 
 final class MemoriesCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    private var viewModel: MemoriesLoader?
+    private(set) var viewModel: MemoriesLoader?
     private var subscriptions = [AnyCancellable]()
     
-    private var imageView: UIImageView = {
+    var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .black
         return imageView
     }()
     
@@ -25,16 +26,6 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         
         label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: FontSize.title)
-        label.textColor = .white
-        
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        
-        label.textAlignment = .left
-        label.font = .boldSystemFont(ofSize: FontSize.description)
         label.textColor = .white
         
         return label
@@ -58,7 +49,6 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setUpUI()
     }
     
@@ -69,11 +59,11 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        viewModel = nil
+        progressIndicator.show(in: imageView)
         imageView.image = nil
         titleLabel.text = ""
-        descriptionLabel.text = ""
         dateLabel.text = ""
-        configure()
     }
     
     func setViewModel(_ viewModel: MemoriesLoader) {
@@ -92,7 +82,7 @@ extension MemoriesCollectionViewCell {
     }
     
     private func setUpHierachy() {
-        [imageView, titleLabel, descriptionLabel, dateLabel].forEach {
+        [imageView, titleLabel, dateLabel].forEach {
             contentView.addSubview($0)
         }
     }
@@ -106,30 +96,22 @@ extension MemoriesCollectionViewCell {
                 .multipliedBy(LayoutConstants.widthMultiplier)
         }
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(imageView.snp.bottom).offset(LayoutConstants.spacing)
-            $0.leading.equalTo(contentView.snp.leading)
-                .inset(LayoutConstants.spacing)
-        }
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(LayoutConstants.spacing)
+            $0.top.equalTo(imageView.snp.bottom)
+                .offset(LayoutConstants.spacing)
             $0.leading.equalTo(contentView.snp.leading)
                 .inset(LayoutConstants.spacing)
         }
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom)
+            $0.top.equalTo(titleLabel.snp.bottom)
                 .offset(LayoutConstants.spacing)
-            $0.leading.equalTo(contentView.snp.leading)
+            $0.trailing.equalTo(contentView.snp.trailing)
                 .inset(LayoutConstants.spacing)
         }
     }
     
     private func configure() {
-        if let image = viewModel?.image {
-            imageView.image = image
-        } else {
-            progressIndicator.show(in: imageView)
-            viewModel?.downloadImage()
-        }
+        progressIndicator.show(in: imageView)
+        viewModel?.downloadImage()
         titleLabel.text = viewModel?.title
         dateLabel.text = viewModel?.uploadDate
     }

@@ -97,7 +97,7 @@ extension MemoryViewController {
                                                                    heightDimension: .fractionalHeight(1.0)))
         let group = NSCollectionLayoutGroup.vertical(layoutSize:
                                                         NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                               heightDimension: .fractionalHeight(0.7)), subitems: [item])
+                                                                               heightDimension: .fractionalHeight(0.55)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -106,7 +106,7 @@ extension MemoryViewController {
     }
     
     @MainActor
-    private func reloadMemoriesCollectionView() {
+    private func reload() {
         memoriesCollectionView.reloadData()
     }
     
@@ -118,13 +118,13 @@ extension MemoryViewController {
         present(writingMemoryViewController, animated: true)
     }
     
-    func MemoryHandler(_ memory: Memory) {
+    func MemoryHandler(_ image: UIImage, _ memory: Memory) {
         model.add(memory)
         Task {
-            await imageLoader.upload(memory.index, memory.image!)
+            await imageLoader.upload(memory.index, image)
             await model.write(at: memory.index)
         }
-        reloadMemoriesCollectionView()
+        reload()
     }
 }
 
@@ -135,7 +135,6 @@ extension MemoryViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
         let viewModel = MemoriesLoader(model.memories[indexPath.row], imageLoader)
         cell.setViewModel(viewModel)
-        
         return cell
     }
     

@@ -12,6 +12,5 @@ import Foundation
 struct Memory {
     var title: String
     var index: Int
-    var image: UIImage?
     var uploadDate: Date
 }
