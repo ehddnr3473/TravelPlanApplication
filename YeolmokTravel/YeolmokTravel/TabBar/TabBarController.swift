@@ -56,6 +56,7 @@ class TabBarController: UITabBarController {
         // Assembing of MVC
         let model = Memories(memories: await memoryRepository.readMemories())
         let memoryView = MemoryViewController()
+        memoryView.model = model
         
         memoryView.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),

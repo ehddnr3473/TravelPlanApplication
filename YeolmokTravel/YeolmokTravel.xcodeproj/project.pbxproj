@@ -13,11 +13,12 @@
 		6B17E3022956A85400AF59EE /* Memories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3012956A85400AF59EE /* Memories.swift */; };
 		6B17E3042956A89300AF59EE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3032956A89300AF59EE /* Memory.swift */; };
 		6B17E3062956ADE300AF59EE /* PlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3052956ADE300AF59EE /* PlanRepository.swift */; };
-		6B17E3082956C54100AF59EE /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3072956C54100AF59EE /* ImageCacheManager.swift */; };
-		6B17E30B2956CF3600AF59EE /* ImageCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30A2956CF3600AF59EE /* ImageCacheService.swift */; };
+		6B17E3082956C54100AF59EE /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3072956C54100AF59EE /* ImageLoader.swift */; };
 		6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */; };
 		6B17E3132956D67F00AF59EE /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3122956D67F00AF59EE /* TopBarView.swift */; };
 		6B17E3152957195B00AF59EE /* MemoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3142957195B00AF59EE /* MemoryTransfer.swift */; };
+		6B17E31829575BA800AF59EE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B17E31729575BA800AF59EE /* FirebaseFirestore */; };
+		6B17E31A29575BA800AF59EE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6B17E31929575BA800AF59EE /* FirebaseStorage */; };
 		6B1FC0EA2952B38C009910F2 /* Present.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1FC0E92952B38C009910F2 /* Present.swift */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
 		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
@@ -42,7 +43,6 @@
 		6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3629513DDB000430C7 /* TabBarController.swift */; };
 		6B46FA3F295140E9000430C7 /* TravelPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* TravelPlanView.swift */; };
 		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
-		6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B46FA4329514562000430C7 /* FirebaseFirestore */; };
 		6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */; };
 		6BA3402229532E29002E7502 /* PlanTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* PlanTracker.swift */; };
 		6BA9F47429526BB000403DCC /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F47329526BB000403DCC /* Plan.swift */; };
@@ -73,8 +73,7 @@
 		6B17E3012956A85400AF59EE /* Memories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memories.swift; sourceTree = "<group>"; };
 		6B17E3032956A89300AF59EE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		6B17E3052956ADE300AF59EE /* PlanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRepository.swift; sourceTree = "<group>"; };
-		6B17E3072956C54100AF59EE /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
-		6B17E30A2956CF3600AF59EE /* ImageCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheService.swift; sourceTree = "<group>"; };
+		6B17E3072956C54100AF59EE /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewController.swift; sourceTree = "<group>"; };
 		6B17E3122956D67F00AF59EE /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		6B17E3142957195B00AF59EE /* MemoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTransfer.swift; sourceTree = "<group>"; };
@@ -117,9 +116,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B46FA4429514562000430C7 /* FirebaseFirestore in Frameworks */,
 				6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */,
+				6B17E31A29575BA800AF59EE /* FirebaseStorage in Frameworks */,
 				6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */,
+				6B17E31829575BA800AF59EE /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +191,6 @@
 				6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */,
 				6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */,
 				6BA9F47329526BB000403DCC /* Plan.swift */,
-				6B17E30A2956CF3600AF59EE /* ImageCacheService.swift */,
 				6B17E3142957195B00AF59EE /* MemoryTransfer.swift */,
 			);
 			path = Protocols;
@@ -316,7 +315,7 @@
 			children = (
 				6B17E30C2956D36A00AF59EE /* Writing */,
 				6B17E3092956C8F900AF59EE /* MemoriesCell */,
-				6B17E3072956C54100AF59EE /* ImageCacheManager.swift */,
+				6B17E3072956C54100AF59EE /* ImageLoader.swift */,
 				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
 				6B17E3012956A85400AF59EE /* Memories.swift */,
 				6BB277C32955893900534B68 /* MemoryViewController.swift */,
@@ -341,9 +340,10 @@
 			);
 			name = YeolmokTravel;
 			packageProductDependencies = (
-				6B46FA4329514562000430C7 /* FirebaseFirestore */,
 				6B37A4A329515C4E00BBB8EE /* SnapKit */,
 				6B14F94E2955E4F50055C45D /* JGProgressHUD */,
+				6B17E31729575BA800AF59EE /* FirebaseFirestore */,
+				6B17E31929575BA800AF59EE /* FirebaseStorage */,
 			);
 			productName = YeolmokTravel;
 			productReference = 6B46FA0229513D4A000430C7 /* YeolmokTravel.app */;
@@ -418,9 +418,9 @@
 			);
 			mainGroup = 6B46F9F929513D4A000430C7;
 			packageReferences = (
-				6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
+				6B17E31629575BA800AF59EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 6B46FA0329513D4A000430C7 /* Products */;
 			projectDirPath = "";
@@ -493,10 +493,9 @@
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
 				6BA3402229532E29002E7502 /* PlanTracker.swift in Sources */,
 				6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */,
-				6B17E3082956C54100AF59EE /* ImageCacheManager.swift in Sources */,
+				6B17E3082956C54100AF59EE /* ImageLoader.swift in Sources */,
 				6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */,
 				6B37A4CD2951A7A800BBB8EE /* PlanTransfer.swift in Sources */,
-				6B17E30B2956CF3600AF59EE /* ImageCacheService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,20 +837,20 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		6B17E31629575BA800AF59EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.1;
-			};
-		};
-		6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -862,15 +861,20 @@
 			package = 6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
 		};
+		6B17E31729575BA800AF59EE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B17E31629575BA800AF59EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6B17E31929575BA800AF59EE /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B17E31629575BA800AF59EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		6B37A4A329515C4E00BBB8EE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		6B46FA4329514562000430C7 /* FirebaseFirestore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6B46FA4229514562000430C7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

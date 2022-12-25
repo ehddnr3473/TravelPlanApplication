@@ -36,4 +36,5 @@ enum AlertText {
     static let okActionTitle = "확인"
     static let cancelActionTitle = "취소"
     static let dateMessage = "시작 날짜가 종료 날짜 이후입니다."
+    static let nilImageMessage = "사진을 선택해주세요."
 }
