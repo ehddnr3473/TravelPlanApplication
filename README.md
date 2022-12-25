@@ -27,15 +27,13 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-## 아키텍처 및 상세 구조
-### 아키텍처
+## 아키텍처
+<p align="center">
+ <img src="/Document/MVVM.png">
+</p>
+
 - **View**를 데이터와 상태로 업데이트해줄 필요가 없으며 바인딩을 수행할 필요 또한 없는 구조는 **MVC** 아키텍처 패턴을 적용하여 복잡성을 감소시킴. 대신 **Model** 레이어를 엄격하게 분리함.
 - **Model**을 업데이트하고 **View**와 **View Model**에 Combine 프레임워크를 사용하여 바인딩 수행하여 **View** 업데이트.
-
-
-<br></br>
-### 상세 구조
-
 
 
 
