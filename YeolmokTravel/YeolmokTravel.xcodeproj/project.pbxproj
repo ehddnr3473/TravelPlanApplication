@@ -191,8 +191,8 @@
 				6B37A4AF295163E100BBB8EE /* Writable.swift */,
 				6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */,
 				6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */,
-				6BA9F47329526BB000403DCC /* Plan.swift */,
 				6B17E3142957195B00AF59EE /* MemoryTransfer.swift */,
+				6BA9F47329526BB000403DCC /* Plan.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
