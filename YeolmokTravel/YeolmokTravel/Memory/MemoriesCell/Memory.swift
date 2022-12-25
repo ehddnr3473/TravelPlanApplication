@@ -8,9 +8,10 @@
 import UIKit
 import Foundation
 
-/// Memory Entity
+/// Memory Model
 struct Memory {
     var title: String
     var index: Int
+    var image: UIImage?
     var uploadDate: Date
 }
