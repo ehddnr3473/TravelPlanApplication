@@ -7,11 +7,10 @@
 
 import Foundation
 
-
-/// Plan의 변경 사항을 추적하고 alert을 띄워주기 위한 모델
+/// Plan의 변경 사항을 추적하고 alert을 띄워주기 위한 데이터
 struct PlanTracker<T: Plan> {
-    var plan: T
-    var initialPlan: T
+    private var plan: T
+    private let initialPlan: T
     
     // 변경된 내용을 확인하기 위해 초기값 저장
     init(_ plan: T) {
@@ -28,10 +27,9 @@ struct PlanTracker<T: Plan> {
     }
     
     // update
-    mutating func setPlan(_ title: String, _ description: String, _ fromData: Date? = nil, _ toDate: Date? = nil) {
-        plan.title = title
-        plan.description = description
-        plan.fromDate = fromData
-        plan.toDate = toDate
+    mutating func setPlan(_ plan: some Plan) {
+        if let plan = plan as? T {
+            self.plan = plan
+        }
     }
 }

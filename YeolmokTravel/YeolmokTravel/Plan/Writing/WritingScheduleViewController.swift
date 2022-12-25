@@ -243,17 +243,16 @@ extension WritingScheduleViewController {
     }
     
     @objc func touchUpSaveBarButton() {
+        // title이 비어있는지 검증
         if titleTextField.text == "" {
             alertWillAppear(AlertText.titleMessage)
             return
-        }
-        
-        if fromDatePicker.date > toDatePicker.date {
+        // 시작 날짜가 종료 날짜 이후인지 검증
+        } else if fromDatePicker.date > toDatePicker.date {
             alertWillAppear(AlertText.dateMessage)
             return
-        }
-        
-        if dateSwitch.isOn {
+        // 날짜를 설정할건지 확인
+        } else if dateSwitch.isOn {
             model.setSchedule(titleTextField.text ?? "",
                               descriptionTextView.text,
                               fromDatePicker.date,
@@ -267,15 +266,7 @@ extension WritingScheduleViewController {
     }
     
     @objc func touchUpCancelBarButton() {
-        if dateSwitch.isOn {
-            planTracker.setPlan(titleTextField.text ?? "",
-                                descriptionTextView.text,
-                                fromDatePicker.date,
-                                toDatePicker.date)
-        } else {
-            planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text)
-        }
-        
+        planTracker.setPlan(model)
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)

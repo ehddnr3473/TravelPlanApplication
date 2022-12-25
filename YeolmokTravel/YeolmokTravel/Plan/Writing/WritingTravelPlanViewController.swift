@@ -20,7 +20,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable, PlanTra
     var writingStyle: WritingStyle!
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
-    var planListIndex: Int?
+    var planListIndex: Int!
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -190,7 +190,7 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpCancelBarButton() {
-        planTracker.setPlan(titleTextField.text ?? "", descriptionTextView.text, model.fromDate, model.toDate)
+        planTracker.setPlan(model)
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
@@ -218,12 +218,10 @@ extension WritingTravelPlanViewController {
         guard let plan = plan as? Schedule else { return }
         if let index = index {
             // edit
-            planTracker.plan.schedules[index] = plan
             model.editSchedule(at: index, plan)
             reloadScheduleList()
         } else {
             // add
-            planTracker.plan.schedules.append(plan)
             model.addSchedule(plan)
             reloadScheduleList()
         }
