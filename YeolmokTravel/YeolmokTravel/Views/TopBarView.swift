@@ -8,7 +8,7 @@
 import UIKit
 
 /// Modal View 상단 바
-class TopBarView: UIView {
+final class TopBarView: UIView {
     // MARK: - Properties
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()

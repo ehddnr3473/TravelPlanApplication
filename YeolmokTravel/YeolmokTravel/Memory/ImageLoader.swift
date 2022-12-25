@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import FirebaseStorage
 
-class ImageLoader {
+final class ImageLoader {
     private var cachedImages = [String: UIImage]()
     private let storageReference: StorageReference
     

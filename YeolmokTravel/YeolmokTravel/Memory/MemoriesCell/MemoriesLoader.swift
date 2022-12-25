@@ -11,7 +11,7 @@ import UIKit
 
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
-class MemoriesLoader {
+final class MemoriesLoader {
     private let model: Memory
     let imageLoader: ImageLoader
     let publisher = PassthroughSubject<UIImage, Never>()

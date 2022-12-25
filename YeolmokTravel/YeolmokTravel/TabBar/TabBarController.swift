@@ -8,7 +8,7 @@
 import UIKit
 import JGProgressHUD
 
-class TabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
     var planRepository: PlanRepository!
     var memoryRepository: MemoryRepository!
     
