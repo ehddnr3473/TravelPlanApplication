@@ -39,6 +39,6 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-## 뷰 및 동작
+## 동작
 - 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage). 
 - **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
