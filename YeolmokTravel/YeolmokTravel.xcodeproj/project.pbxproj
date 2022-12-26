@@ -161,6 +161,7 @@
 		6B17E30F2956D48F00AF59EE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6B46FA3629513DDB000430C7 /* TabBarController.swift */,
 				6B17E3122956D67F00AF59EE /* TopBarView.swift */,
 			);
 			path = Views;
@@ -239,18 +240,14 @@
 		6B46FA0429513D4A000430C7 /* YeolmokTravel */ = {
 			isa = PBXGroup;
 			children = (
-				6B46FA3529513DA2000430C7 /* Delegate */,
+				6BE1249A2959B0F00068B788 /* Resources */,
 				6B37A4AE295163C900BBB8EE /* Protocols */,
 				6B37A4C729519C7C00BBB8EE /* Extensions */,
-				6B46FA3829513DE7000430C7 /* TabBar */,
 				6B46FA3D295140CD000430C7 /* Plan */,
 				6BB277C22955890B00534B68 /* Memory */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B17E30F2956D48F00AF59EE /* Views */,
-				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
-				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
-				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
 			);
 			path = YeolmokTravel;
 			sourceTree = "<group>";
@@ -281,14 +278,6 @@
 			path = Delegate;
 			sourceTree = "<group>";
 		};
-		6B46FA3829513DE7000430C7 /* TabBar */ = {
-			isa = PBXGroup;
-			children = (
-				6B46FA3629513DDB000430C7 /* TabBarController.swift */,
-			);
-			path = TabBar;
-			sourceTree = "<group>";
-		};
 		6B46FA3D295140CD000430C7 /* Plan */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +302,17 @@
 				6BB277C32955893900534B68 /* MemoryViewController.swift */,
 			);
 			path = Memory;
+			sourceTree = "<group>";
+		};
+		6BE1249A2959B0F00068B788 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6B46FA3529513DA2000430C7 /* Delegate */,
+				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
+				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
+				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
