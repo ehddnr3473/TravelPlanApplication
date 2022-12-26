@@ -20,12 +20,24 @@ protocol Writable: AnyObject {
     var model: ModelType! { get set }
     var addDelegate: PlanTransfer? { get set }
     var editDelegate: PlanTransfer? { get set }
+    var isEditing: Bool { get }
     
     func fetchActionSheetText() -> (String, String)
     func save(_ plan: ModelType, _ index: Int?)
 }
 
 extension Writable {
+    var isAdding: Bool {
+        switch writingStyle {
+        case .add:
+            return true
+        case .edit:
+            return false
+        case .none:
+            fatalError()
+        }
+    }
+    
     func fetchActionSheetText() -> (String, String) {
         switch writingStyle {
         case .add:
@@ -33,7 +45,7 @@ extension Writable {
         case .edit:
             return (WritableAlertText.editTitle, WritableAlertText.message)
         case .none:
-            return ("", "")
+            fatalError()
         }
     }
     
@@ -44,7 +56,7 @@ extension Writable {
         case .edit:
             editDelegate?.writingHandler(plan, index)
         case .none:
-            break
+            fatalError()
         }
     }
 }
