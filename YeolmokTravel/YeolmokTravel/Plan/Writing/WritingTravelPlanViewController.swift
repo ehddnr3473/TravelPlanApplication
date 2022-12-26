@@ -191,7 +191,9 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpCancelBarButton() {
-        planTracker.setPlan(model)
+        planTracker.setPlan(TravelPlan(title: titleTextField.text ?? "",
+                                       description: descriptionTextView.text,
+                                       schedules: model.schedules))
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1)
@@ -242,7 +244,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
         cell.titleLabel.text = model.schedules[indexPath.row].title
         cell.descriptionLabel.text = model.schedules[indexPath.row].description
         cell.dateLabel.text = model.schedules[indexPath.row].date
-        
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
     
@@ -255,7 +257,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presentWritableView(setUpModifySchduleViewController(indexPath.row))
+        navigationController?.pushViewController(setUpModifySchduleViewController(indexPath.row), animated: true)
     }
     
     // 자세한 일정을 수정하기 위해 프레젠테이션할 ViewController 반환

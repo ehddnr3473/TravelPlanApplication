@@ -129,21 +129,19 @@ final class WritingScheduleViewController: UIViewController, Writable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
-        configure()
     }
 }
 
 extension WritingScheduleViewController {
     private func setUpUI() {
         view.backgroundColor = .black
-        
-        switch writingStyle {
-        case .add:
-            topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
-        case .edit:
-            topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
-        case .none:
-            break
+        topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
+        topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
+        topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
+        if !isAdding {
+            navigationItem.titleView = topBarView.barTitleLabel
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: topBarView.cancelBarButton)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topBarView.saveBarButton)
         }
         
         setUpUIValue()
@@ -155,21 +153,31 @@ extension WritingScheduleViewController {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
             dateBackgroundView.addSubview($0)
         }
+        if isAdding {
+            view.addSubview(topBarView)
+        }
         
-        [topBarView, titleTextField, descriptionTextView, dateBackgroundView].forEach {
+        [titleTextField, descriptionTextView, dateBackgroundView].forEach {
             view.addSubview($0)
         }
     }
     
     private func setUpLayout() {
-        topBarView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.width.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(LayoutConstants.stackViewHeight)
+        if isAdding {
+            topBarView.snp.makeConstraints {
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+                $0.width.equalToSuperview()
+                $0.height.greaterThanOrEqualTo(LayoutConstants.stackViewHeight)
+            }
         }
         
         titleTextField.snp.makeConstraints {
-            $0.top.equalTo(topBarView.snp.bottom).offset(LayoutConstants.largeSpacing)
+            if isAdding {
+                $0.top.equalTo(topBarView.snp.bottom).offset(LayoutConstants.largeSpacing)
+            } else {
+                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+                    .offset(LayoutConstants.largeSpacing)
+            }
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
         }
@@ -237,11 +245,6 @@ extension WritingScheduleViewController {
         }
     }
     
-    private func configure() {
-        topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
-        topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
-    }
-    
     @objc func touchUpSaveBarButton() {
         // title이 비어있는지 검증
         if titleTextField.text == "" {
@@ -261,17 +264,32 @@ extension WritingScheduleViewController {
             model.setSchedule(titleTextField.text ?? "", descriptionTextView.text)
         }
         save(model, scheduleListIndex)
-        dismiss(animated: true)
+        if !isAdding {
+            navigationController?.popViewController(animated: true)
+        } else {
+            dismiss(animated: true)
+        }
         
     }
     
     @objc func touchUpCancelBarButton() {
-        planTracker.setPlan(model)
+        if dateSwitch.isOn {
+            planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
+                                         description: descriptionTextView.text,
+                                         fromDate: fromDatePicker.date,
+                                         toDate: toDatePicker.date))
+        } else {
+            planTracker.setPlan(Schedule(title: titleTextField.text ?? "", description: descriptionTextView.text))
+        }
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1)
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1, writingStyle)
         } else {
-            dismiss(animated: true)
+            if !isAdding {
+                navigationController?.popViewController(animated: true)
+            } else {
+                dismiss(animated: true)
+            }
         }
     }
     
