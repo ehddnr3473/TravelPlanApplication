@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import FirebaseStorage
 
+/// Firebase Storage 서비스를 사용
+/// 이미지를 다운로드하고 캐시 전략 적용
 final class ImageLoader {
     private var cachedImages = [String: UIImage]()
     private let storageReference: StorageReference
@@ -42,6 +44,10 @@ final class ImageLoader {
         }
     }
     
+    /// 이미지 다운로드 함수
+    /// - Parameters:
+    ///   - index: Memories에서 Memory의 index이자, 이미지의 이름
+    ///   - completion: UIImage publish
     func download(_ index: Int, _ completion: @escaping ((UIImage?) -> Void)) {
         if let image = cachedImage(index) {
             completion(image)
