@@ -43,7 +43,6 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     
     private let progressIndicator: JGProgressHUD = {
         let indicator = JGProgressHUD()
-        
         return indicator
     }()
     
@@ -59,8 +58,10 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        if progressIndicator.isVisible {
+            progressIndicator.dismiss()
+        }
         viewModel = nil
-        progressIndicator.show(in: imageView)
         imageView.image = nil
         titleLabel.text = ""
         dateLabel.text = ""
@@ -76,7 +77,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
 // MARK: - SetUp View
 extension MemoriesCollectionViewCell {
     private func setUpUI() {
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = .clear
         setUpHierachy()
         setUpLayout()
     }
@@ -93,7 +94,6 @@ extension MemoriesCollectionViewCell {
             $0.leading.equalTo(contentView.snp.leading)
             $0.trailing.equalTo(contentView.snp.trailing)
             $0.height.equalTo(contentView.snp.width)
-                .multipliedBy(LayoutConstants.widthMultiplier)
         }
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom)
@@ -102,11 +102,21 @@ extension MemoriesCollectionViewCell {
                 .inset(LayoutConstants.spacing)
         }
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
-                .offset(LayoutConstants.spacing)
+            $0.bottom.equalTo(contentView.snp.bottom)
+                .inset(LayoutConstants.spacing)
             $0.trailing.equalTo(contentView.snp.trailing)
                 .inset(LayoutConstants.spacing)
         }
+    }
+    
+    private func setBindings() {
+        viewModel?.publisher
+            .receive(on: RunLoop.main)
+            .sink { image in
+                self.progressIndicator.dismiss()
+                self.imageView.image = image
+            }
+            .store(in: &subscriptions)
     }
     
     private func configure() {
@@ -115,25 +125,14 @@ extension MemoriesCollectionViewCell {
         titleLabel.text = viewModel?.title
         dateLabel.text = viewModel?.uploadDate
     }
-    
-    private func setBindings() {
-        viewModel?.publisher
-            .receive(on: RunLoop.main)
-            .sink { image in
-                self.progressIndicator.dismiss(animated: true)
-                self.imageView.image = image
-            }
-            .store(in: &subscriptions)
-    }
 }
 
 private enum FontSize {
     static let title: CGFloat = 25
-    static let description: CGFloat = 20
     static let date: CGFloat = 15
 }
 
 private enum LayoutConstants {
     static let spacing: CGFloat = 8
-    static let widthMultiplier: CGFloat = 0.7
+    static let cornerRadius: CGFloat = 8
 }

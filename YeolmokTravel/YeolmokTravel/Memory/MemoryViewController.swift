@@ -35,10 +35,8 @@ final class MemoryViewController: UIViewController, MemoryTransfer {
     
     private lazy var memoriesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-        
         collectionView.register(MemoriesCollectionViewCell.self, forCellWithReuseIdentifier: MemoriesCollectionViewCell.identifier)
         collectionView.backgroundColor = .black
-        
         return collectionView
     }()
     
@@ -78,10 +76,11 @@ extension MemoryViewController {
         }
         
         memoriesCollectionView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
             $0.top.equalTo(titleLabel.snp.bottom)
                 .offset(LayoutConstants.memoriesCollectionViewTopOffset)
-            $0.leading.equalToSuperview().inset(LayoutConstants.spacing)
-            $0.trailing.equalToSuperview().inset(LayoutConstants.spacing)
+            $0.width.equalToSuperview()
+                .multipliedBy(0.9)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
                 .inset(LayoutConstants.spacing)
         }
@@ -95,9 +94,11 @@ extension MemoryViewController {
         let item = NSCollectionLayoutItem(layoutSize:
                                             NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                                    heightDimension: .fractionalHeight(1.0)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+        
         let group = NSCollectionLayoutGroup.vertical(layoutSize:
                                                         NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                               heightDimension: .fractionalHeight(0.55)), subitems: [item])
+                                                                               heightDimension: .fractionalHeight(0.7)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -129,7 +130,7 @@ extension MemoryViewController {
 }
 
 // MARK: - CollectionView
-extension MemoryViewController: UICollectionViewDataSource {
+extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
