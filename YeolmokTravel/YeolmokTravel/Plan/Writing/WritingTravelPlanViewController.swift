@@ -203,16 +203,23 @@ extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpAddScheduleButton() {
-        presentWritableView(setUpAddScheduleViewController())
+        present(setUpWritingView(.add), animated: true)
     }
     
-    // 자세한 일정을 추가하기 위해 프레젠테이션할 ViewController 반환
-    private func setUpAddScheduleViewController() -> WritingScheduleViewController {
-        let model = Schedule(title: "", description: "")
+    private func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
         let writingScheduleViewController = WritingScheduleViewController()
-        writingScheduleViewController.model = model
-        writingScheduleViewController.writingStyle = .add
-        writingScheduleViewController.addDelegate = self
+        switch writingStyle {
+        case .add:
+            let model = Schedule(title: "", description: "")
+            writingScheduleViewController.model = model
+            writingScheduleViewController.addDelegate = self
+        case .edit:
+            let model = model.schedules[index!]
+            writingScheduleViewController.model = model
+            writingScheduleViewController.editDelegate = self
+            writingScheduleViewController.scheduleListIndex = index
+        }
+        writingScheduleViewController.writingStyle = writingStyle
         writingScheduleViewController.modalPresentationStyle = .fullScreen
         return writingScheduleViewController
     }
@@ -257,19 +264,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(setUpModifySchduleViewController(indexPath.row), animated: true)
-    }
-    
-    // 자세한 일정을 수정하기 위해 프레젠테이션할 ViewController 반환
-    private func setUpModifySchduleViewController(_ index: Int) -> WritingScheduleViewController {
-        let model = model.schedules[index]
-        let writingScheduleViewController = WritingScheduleViewController()
-        writingScheduleViewController.model = model
-        writingScheduleViewController.writingStyle = .edit
-        writingScheduleViewController.editDelegate = self
-        writingScheduleViewController.modalPresentationStyle = .fullScreen
-        writingScheduleViewController.scheduleListIndex = index
-        return writingScheduleViewController
+        navigationController?.pushViewController(setUpWritingView(at: indexPath.row, .edit), animated: true)
     }
 }
 
