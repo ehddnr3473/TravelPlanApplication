@@ -41,6 +41,8 @@ final class MemoriesLoader {
         imageLoader.download(model.index) { image in
             if let image = image {
                 self.publisher.send(image)
+            } else {
+                self.publisher.send(UIImage(named: "sky")!)
             }
         }
     }
