@@ -138,6 +138,7 @@ extension WritingScheduleViewController {
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
+        // 수정을 위한 ViewController라면 navigationBar 사용
         if !isAdding {
             navigationItem.titleView = topBarView.barTitleLabel
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: topBarView.cancelBarButton)
@@ -153,6 +154,7 @@ extension WritingScheduleViewController {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
             dateBackgroundView.addSubview($0)
         }
+        // 추가를 위한 ViewController라면 커스텀 바를 사용
         if isAdding {
             view.addSubview(topBarView)
         }
