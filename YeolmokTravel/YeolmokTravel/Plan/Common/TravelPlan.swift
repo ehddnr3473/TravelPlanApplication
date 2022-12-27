@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 여행 계획 엔티티
+/// 여행 계획 모델
 struct TravelPlan: Plan {
     var title: String
     var description: String
