@@ -27,6 +27,7 @@ protocol Writable: AnyObject {
 }
 
 extension Writable {
+    /// writingStyle이 add인가를 나타내는 연산 프로퍼티
     var isAdding: Bool {
         switch writingStyle {
         case .add:
