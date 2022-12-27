@@ -44,6 +44,7 @@ final class TravelPlanView: UIViewController {
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = LayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
+        tableView.isScrollEnabled = false
         
         return tableView
     }()
@@ -128,6 +129,16 @@ extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.planCount
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.delete(indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            planTableView.snp.updateConstraints {
+                $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

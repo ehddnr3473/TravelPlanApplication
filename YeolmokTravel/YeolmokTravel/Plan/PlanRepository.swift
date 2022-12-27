@@ -12,6 +12,7 @@ import FirebaseFirestore
 struct PlanRepository {
     private var database = Firestore.firestore()
     
+    // create & update
     func write(at index: Int, _ travelPlan: TravelPlan) async {
         try? await database.collection(DatabasePath.plans).document("\(index)").setData([
             Key.title: travelPlan.title,
@@ -35,6 +36,7 @@ struct PlanRepository {
         }
     }
     
+    // read
     // Firebase에서 다운로드한 데이터로 실제 사용할 [TravelPlan]을 생성해서 반환
     func read() async -> [TravelPlan] {
         var travelPlans = [TravelPlan]()
@@ -73,6 +75,11 @@ struct PlanRepository {
             return Schedule(title: data[Key.title] as! String,
                             description: data[Key.description] as! String)
         }
+    }
+    
+    // delete
+    func delete(at index: Int) async {
+        try? await database.collection(DatabasePath.plans).document("\(index)").delete()
     }
 }
 

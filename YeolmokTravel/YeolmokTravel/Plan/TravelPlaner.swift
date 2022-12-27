@@ -35,6 +35,10 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         model.travelPlans[index].description 
     }
     
+    func delete(_ index: Int) {
+        Task { await model.delete(at: index) }
+    }
+    
     func writingHandler(_ plan: some Plan, _ index: Int?) {
         guard let plan = plan as? TravelPlan else { return }
         if let index = index {
