@@ -119,13 +119,11 @@ extension MemoryViewController {
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
-    
-    func MemoryHandler(_ image: UIImage, _ memory: Memory) {
+    // task말고 await 처리해서 해결
+    func memoryHandler(_ image: UIImage, _ memory: Memory) async {
         model.add(memory)
-        Task {
-            await imageLoader.upload(memory.index, image)
-            await model.write(at: memory.index)
-        }
+        await imageLoader.upload(memory.index, image)
+        await model.write(at: memory.index)
         reload()
     }
 }
