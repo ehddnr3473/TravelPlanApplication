@@ -32,6 +32,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
  <img src="/Document/MVVM.png">
 </p>
 
+- 메모리 탭의 이미지를 다운로드해서 **View**를 업데이트하는 컬렉션 뷰 셀에 MVVM 아키텍처 패턴을 적용하였습니다.
 - **View**를 데이터와 상태로 업데이트해줄 필요가 없으며 바인딩을 수행할 필요 또한 없는 구조는 **MVC** 아키텍처 패턴을 적용하여 복잡성을 감소시킴. 대신 **Model** 레이어를 엄격하게 분리함.
 - 원격 데이터 저장소로부터 데이터를 받아와서, 또는 콘텐츠를 작성하는 사용자 액션을 통해 **Model**을 업데이트.
 - Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행하여 **View** 업데이트.
@@ -39,6 +40,10 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-## 동작
+## 뷰 및 동작
+<p align="center">
+ <img src="/Document/Simulator Recording.gif" width="25%">
+</p>
+
 - 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage). 
 - **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
