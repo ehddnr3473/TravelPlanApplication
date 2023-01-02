@@ -37,6 +37,7 @@ final class MemoryViewController: UIViewController, MemoryTransfer {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         collectionView.register(MemoriesCollectionViewCell.self, forCellWithReuseIdentifier: MemoriesCollectionViewCell.identifier)
         collectionView.backgroundColor = .black
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -80,7 +81,7 @@ extension MemoryViewController {
             $0.top.equalTo(titleLabel.snp.bottom)
                 .offset(LayoutConstants.memoriesCollectionViewTopOffset)
             $0.width.equalToSuperview()
-                .multipliedBy(0.9)
+                .multipliedBy(LayoutConstants.memoriesCollectionViewWidthMultiplier)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
                 .inset(LayoutConstants.spacing)
         }
@@ -92,13 +93,13 @@ extension MemoryViewController {
     
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let item = NSCollectionLayoutItem(layoutSize:
-                                            NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                   heightDimension: .fractionalHeight(1.0)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
+                                            NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutConstants.original),
+                                                                   heightDimension: .fractionalHeight(LayoutConstants.original)))
+        item.contentInsets = NSDirectionalEdgeInsets(top: LayoutConstants.inset, leading: .zero, bottom: LayoutConstants.inset, trailing: .zero)
         
         let group = NSCollectionLayoutGroup.vertical(layoutSize:
-                                                        NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                                               heightDimension: .fractionalHeight(0.7)), subitems: [item])
+                                                        NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutConstants.original),
+                                                                               heightDimension: .fractionalWidth(LayoutConstants.magnification)), subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -153,4 +154,8 @@ private enum LayoutConstants {
     static let spacing: CGFloat = 8
     static let buttonSize = CGSize(width: 44.44, height: 44.44)
     static let memoriesCollectionViewTopOffset: CGFloat = 20
+    static let memoriesCollectionViewWidthMultiplier: CGFloat = 0.9
+    static let inset: CGFloat = 10
+    static let original: CGFloat = 1.0
+    static let magnification: CGFloat = 1.3
 }
