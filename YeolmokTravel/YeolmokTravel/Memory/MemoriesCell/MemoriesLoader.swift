@@ -37,16 +37,11 @@ final class MemoriesLoader {
         Task { uploadImage(index, image: image) }
     }
     
-    // Firebase Storage 할당량을 절약하기 위해 임시로 asset 이미지 반환
     func downloadImage() {
-        publisher.send(UIImage(named: "sky")!)
-//        imageLoader.download(model.index) { image in
-//            if let image = image {
-//                self.publisher.send(image)
-//            } else {
-//                // defalt UIImage
-//                self.publisher.send(UIImage(named: "sky")!)
-//            }
-//        }
+        imageLoader.download(model.index) { image in
+            if let image = image {
+                self.publisher.send(image)
+            }
+        }
     }
 }
