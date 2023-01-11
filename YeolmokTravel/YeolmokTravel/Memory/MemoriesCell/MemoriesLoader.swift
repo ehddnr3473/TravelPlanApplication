@@ -52,9 +52,12 @@ final class MemoriesLoader: MemoryLoadable {
     }
     
     func downloadImage() {
-        imageLoader.download(model.index) { image in
-            if let image = image {
+        imageLoader.download(model.index) { result in
+            switch result {
+            case .success(let image):
                 self.publisher.send(image)
+            case .failure(let error):
+                print(error.rawValue)
             }
         }
     }
