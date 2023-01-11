@@ -9,15 +9,27 @@ import Foundation
 import Combine
 import UIKit
 
-protocol PlanTransfer: AnyObject {
-    func writingHandler(_ plan: some Plan, _ index: Int?)
+/// Plan View Model Protocol
+protocol PlanConfigurable: AnyObject {
+    // output
+    var publisher: PassthroughSubject<Void, Never> { get set }
+    var planCount: Int { get }
+    func title(_ index: Int) -> String
+    func date(_ index: Int) -> String
+    func description(_ index: Int) -> String
+    func setUpWritingView(at index: Int?, _ writingStyle: WritingStyle) -> UINavigationController
+    
+    // input
+    func delete(_ index: Int)
+    
+    init(_ model: OwnTravelPlan)
 }
 
 /// TravelPlan View Model
 final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     var model: OwnTravelPlan
     
-    let publisher = PassthroughSubject<Void, Never>()
+    var publisher = PassthroughSubject<Void, Never>()
     
     var planCount: Int {
         model.travelPlans.count
@@ -43,6 +55,7 @@ final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
         Task { await model.delete(at: index) }
     }
     
+    // input
     func writingHandler(_ plan: some Plan, _ index: Int?) {
         guard let plan = plan as? TravelPlan else { return }
         if let index = index {
