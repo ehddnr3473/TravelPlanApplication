@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import FirebaseStorage
 
+enum ImageLoadError: String, Error {
+    case uploadError = "업로드에 실패했습니다."
+    case downloadError = "다운로드에 실패했습니다."
+}
+
 /// Firebase Storage 서비스를 사용
 /// 이미지를 다운로드하고 캐시 전략 적용
 final class ImageLoader {
@@ -32,14 +37,14 @@ final class ImageLoader {
         cachedImages["\(index)"] = image
     }
     
-    func upload(_ index: Int, _ image: UIImage) async {
+    func upload(_ index: Int, _ image: UIImage) async throws {
         if let data = image.pngData() {
             let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
             do {
                 let _ = try await imageReference.putDataAsync(data)
                 // using metadata
             } catch {
-                print(error)
+                throw ImageLoadError.uploadError
             }
         }
     }
@@ -48,24 +53,28 @@ final class ImageLoader {
     /// - Parameters:
     ///   - index: Memories에서 Memory의 index이자, 이미지의 이름
     ///   - completion: UIImage publish
-    func download(_ index: Int, _ completion: @escaping ((UIImage?) -> Void)) {
+    func download(_ index: Int, _ completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void)) {
         if let image = cachedImage(index) {
-            completion(image)
+            completion(.success(image))
             return
         }
         
         let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
         imageReference.getData(maxSize: .max) { data, error in
-            if let error = error {
-                print(error)
+            if error != nil {
+                completion(.failure(ImageLoadError.downloadError))
+                return
             }
             if let data = data {
-                let image = UIImage(data: data)
-                self.cacheImage(index, image: image!)
-                completion(image)
+                guard let image = UIImage(data: data) else {
+                    completion(.failure(ImageLoadError.downloadError))
+                    return
+                }
+                self.cacheImage(index, image: image)
+                completion(.success(image))
                 return
             } else {
-                completion(nil)
+                completion(.failure(ImageLoadError.downloadError))
                 return
             }
         }
