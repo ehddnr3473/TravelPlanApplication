@@ -16,7 +16,6 @@
 		6B17E3082956C54100AF59EE /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3072956C54100AF59EE /* ImageLoader.swift */; };
 		6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */; };
 		6B17E3132956D67F00AF59EE /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3122956D67F00AF59EE /* TopBarView.swift */; };
-		6B17E3152957195B00AF59EE /* MemoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3142957195B00AF59EE /* MemoryTransfer.swift */; };
 		6B17E31829575BA800AF59EE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B17E31729575BA800AF59EE /* FirebaseFirestore */; };
 		6B17E31A29575BA800AF59EE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6B17E31929575BA800AF59EE /* FirebaseStorage */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
@@ -29,7 +28,6 @@
 		6B37A4BD2951786800BBB8EE /* TravelPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4BC2951786800BBB8EE /* TravelPlan.swift */; };
 		6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4BE2951789400BBB8EE /* Schedule.swift */; };
 		6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4C829519C8800BBB8EE /* Alert.swift */; };
-		6B37A4CD2951A7A800BBB8EE /* PlanTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */; };
 		6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */; };
 		6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */; };
 		6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0529513D4A000430C7 /* AppDelegate.swift */; };
@@ -75,7 +73,6 @@
 		6B17E3072956C54100AF59EE /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewController.swift; sourceTree = "<group>"; };
 		6B17E3122956D67F00AF59EE /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
-		6B17E3142957195B00AF59EE /* MemoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTransfer.swift; sourceTree = "<group>"; };
 		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
 		6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingTravelPlanViewController.swift; sourceTree = "<group>"; };
 		6B37A4AF295163E100BBB8EE /* Writable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writable.swift; sourceTree = "<group>"; };
@@ -85,7 +82,6 @@
 		6B37A4BC2951786800BBB8EE /* TravelPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlan.swift; sourceTree = "<group>"; };
 		6B37A4BE2951789400BBB8EE /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		6B37A4C829519C8800BBB8EE /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
-		6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTransfer.swift; sourceTree = "<group>"; };
 		6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTableViewCell.swift; sourceTree = "<group>"; };
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
 		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,8 +185,6 @@
 			children = (
 				6B37A4AF295163E100BBB8EE /* Writable.swift */,
 				6B37A4B72951751100BBB8EE /* PlanConfigurable.swift */,
-				6B37A4CC2951A7A800BBB8EE /* PlanTransfer.swift */,
-				6B17E3142957195B00AF59EE /* MemoryTransfer.swift */,
 				6BA9F47329526BB000403DCC /* Plan.swift */,
 			);
 			path = Protocols;
@@ -475,7 +469,6 @@
 				6B46FA3729513DDB000430C7 /* TabBarController.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
 				6B37A4BF2951789400BBB8EE /* Schedule.swift in Sources */,
-				6B17E3152957195B00AF59EE /* MemoryTransfer.swift in Sources */,
 				6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */,
 				6B17E2FE2956A72800AF59EE /* MemoriesLoader.swift in Sources */,
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
@@ -483,7 +476,6 @@
 				6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */,
 				6B17E3082956C54100AF59EE /* ImageLoader.swift in Sources */,
 				6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */,
-				6B37A4CD2951A7A800BBB8EE /* PlanTransfer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
