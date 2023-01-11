@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class MemoryViewController: UIViewController, MemoryTransfer {
+protocol Uploadable {
+    func uploadHandler(_ image: UIImage, _ memory: Memory) async
+}
+
+final class MemoryViewController: UIViewController, Uploadable {
     // MARK: - Properties
     var model: Memories!
     private let imageLoader = ImageLoader()
@@ -119,10 +123,16 @@ extension MemoryViewController {
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
-    // task말고 await 처리해서 해결
-    func memoryHandler(_ image: UIImage, _ memory: Memory) async {
+    
+    func uploadHandler(_ image: UIImage, _ memory: Memory) async {
         model.add(memory)
-        await imageLoader.upload(memory.index, image)
+        do {
+            try await imageLoader.upload(memory.index, image)
+        } catch {
+            if let error = error as? ImageLoadError {
+                alertWillAppear(error.rawValue)
+            }
+        }
         await model.write(at: memory.index)
         reload()
     }
