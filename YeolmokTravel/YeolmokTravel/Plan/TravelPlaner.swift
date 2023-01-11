@@ -9,6 +9,10 @@ import Foundation
 import Combine
 import UIKit
 
+protocol PlanTransfer: AnyObject {
+    func writingHandler(_ plan: some Plan, _ index: Int?)
+}
+
 /// TravelPlan View Model
 final class TravelPlaner: ObservableObject, PlanConfigurable, PlanTransfer {
     var model: OwnTravelPlan
