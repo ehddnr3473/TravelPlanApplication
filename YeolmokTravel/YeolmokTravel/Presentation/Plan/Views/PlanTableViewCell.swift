@@ -11,7 +11,7 @@ import UIKit
 /// - Title Label
 /// - Date Label
 /// - Description Label
-class PlanTableViewCell: UITableViewCell {
+final class PlanTableViewCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
     
     var titleLabel: UILabel = {

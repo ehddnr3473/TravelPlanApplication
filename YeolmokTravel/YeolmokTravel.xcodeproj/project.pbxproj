@@ -134,24 +134,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6B17E3092956C8F900AF59EE /* MemoriesCell */ = {
-			isa = PBXGroup;
-			children = (
-				6B17E3032956A89300AF59EE /* Memory.swift */,
-				6B17E2FD2956A72800AF59EE /* MemoriesLoader.swift */,
-				6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */,
-			);
-			path = MemoriesCell;
-			sourceTree = "<group>";
-		};
-		6B17E30C2956D36A00AF59EE /* Writing */ = {
-			isa = PBXGroup;
-			children = (
-				6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */,
-			);
-			path = Writing;
-			sourceTree = "<group>";
-		};
 		6B17E30F2956D48F00AF59EE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,16 +152,6 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
-		6B37A4AB2951637700BBB8EE /* Writing */ = {
-			isa = PBXGroup;
-			children = (
-				6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */,
-				6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */,
-				6BA9F4762952862E00403DCC /* PlanTracker.swift */,
-			);
-			path = Writing;
-			sourceTree = "<group>";
-		};
 		6B37A4AE295163C900BBB8EE /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,16 +168,6 @@
 				6B37A4C829519C8800BBB8EE /* Alert.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		6B465E662953E0E200E63595 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */,
-				6B37A4BC2951786800BBB8EE /* TravelPlan.swift */,
-				6B37A4BE2951789400BBB8EE /* Schedule.swift */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		6B46F9F929513D4A000430C7 = {
@@ -234,8 +196,8 @@
 				6BE1249A2959B0F00068B788 /* Resources */,
 				6B37A4AE295163C900BBB8EE /* Protocols */,
 				6B37A4C729519C7C00BBB8EE /* Extensions */,
-				6B46FA3D295140CD000430C7 /* Plan */,
-				6BB277C22955890B00534B68 /* Memory */,
+				6BFB44FA296EF3E700AEAD77 /* Presentation */,
+				6BFB44FF296EF46700AEAD77 /* Data */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B17E30F2956D48F00AF59EE /* Views */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
@@ -269,32 +231,6 @@
 			path = Delegate;
 			sourceTree = "<group>";
 		};
-		6B46FA3D295140CD000430C7 /* Plan */ = {
-			isa = PBXGroup;
-			children = (
-				6B465E662953E0E200E63595 /* Common */,
-				6B37A4AB2951637700BBB8EE /* Writing */,
-				6B17E3052956ADE300AF59EE /* PlanRepository.swift */,
-				6B37A4B9295175CD00BBB8EE /* OwnTravelPlan.swift */,
-				6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */,
-				6B46FA3E295140E9000430C7 /* TravelPlanView.swift */,
-			);
-			path = Plan;
-			sourceTree = "<group>";
-		};
-		6BB277C22955890B00534B68 /* Memory */ = {
-			isa = PBXGroup;
-			children = (
-				6B17E30C2956D36A00AF59EE /* Writing */,
-				6B17E3092956C8F900AF59EE /* MemoriesCell */,
-				6B17E3072956C54100AF59EE /* ImageLoader.swift */,
-				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
-				6B17E3012956A85400AF59EE /* Memories.swift */,
-				6BB277C32955893900534B68 /* MemoryViewController.swift */,
-			);
-			path = Memory;
-			sourceTree = "<group>";
-		};
 		6BE1249A2959B0F00068B788 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +240,102 @@
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		6BFB44FA296EF3E700AEAD77 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				6BFB44FB296EF40A00AEAD77 /* Plan */,
+				6BFB44FC296EF41000AEAD77 /* Memory */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		6BFB44FB296EF40A00AEAD77 /* Plan */ = {
+			isa = PBXGroup;
+			children = (
+				6BFB4500296EF47C00AEAD77 /* ViewModels */,
+				6BFB44FE296EF43000AEAD77 /* Views */,
+			);
+			path = Plan;
+			sourceTree = "<group>";
+		};
+		6BFB44FC296EF41000AEAD77 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				6BFB4508296EF54400AEAD77 /* ViewModels */,
+				6BFB44FD296EF42B00AEAD77 /* Views */,
+			);
+			path = Memory;
+			sourceTree = "<group>";
+		};
+		6BFB44FD296EF42B00AEAD77 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6BB277C32955893900534B68 /* MemoryViewController.swift */,
+				6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */,
+				6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6BFB44FE296EF43000AEAD77 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */,
+				6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */,
+				6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */,
+				6B46FA3E295140E9000430C7 /* TravelPlanView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6BFB44FF296EF46700AEAD77 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				6BFB4505296EF4CB00AEAD77 /* Repositories */,
+				6BFB4507296EF50200AEAD77 /* Models */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		6BFB4500296EF47C00AEAD77 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6BFB4505296EF4CB00AEAD77 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				6B17E3072956C54100AF59EE /* ImageLoader.swift */,
+				6B17E3052956ADE300AF59EE /* PlanRepository.swift */,
+				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		6BFB4507296EF50200AEAD77 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4BC2951786800BBB8EE /* TravelPlan.swift */,
+				6B37A4B9295175CD00BBB8EE /* OwnTravelPlan.swift */,
+				6BA9F4762952862E00403DCC /* PlanTracker.swift */,
+				6B17E3012956A85400AF59EE /* Memories.swift */,
+				6B37A4BE2951789400BBB8EE /* Schedule.swift */,
+				6B17E3032956A89300AF59EE /* Memory.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6BFB4508296EF54400AEAD77 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				6B17E2FD2956A72800AF59EE /* MemoriesLoader.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
