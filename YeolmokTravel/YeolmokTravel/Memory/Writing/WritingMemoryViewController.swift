@@ -10,7 +10,7 @@ import PhotosUI
 
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
-    var addDelegate: MemoryTransfer?
+    var addDelegate: Uploadable?
     var memoryIndex: Int!
     
     private let topBarView: TopBarView = {
@@ -155,7 +155,7 @@ extension WritingMemoryViewController {
             alertWillAppear(AlertText.nilImageMessage)
             return
         } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
-            Task { await addDelegate.memoryHandler(image, Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date())) }
+            Task { await addDelegate.uploadHandler(image, Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date())) }
             dismiss(animated: true)
         }
     }
