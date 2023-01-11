@@ -9,17 +9,26 @@ import Foundation
 import Combine
 import UIKit
 
+protocol MemoryLoadable: AnyObject {
+    // input
+    func uploadImage(_ index: Int, image: UIImage)
+    
+    // output
+    var publisher: PassthroughSubject<UIImage, Never> { get set }
+    var title: String { get }
+    var index: Int { get }
+    var uploadDate: String { get }
+    func downloadImage()
+    
+    init(_ model: Memory, _ imageLoader: ImageLoader)
+}
+
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
-final class MemoriesLoader {
-    private let model: Memory
+final class MemoriesLoader: MemoryLoadable {
+    var model: Memory
     let imageLoader: ImageLoader
-    let publisher = PassthroughSubject<UIImage, Never>()
-    
-    init(_ model: Memory, _ imageLoader: ImageLoader) {
-        self.model = model
-        self.imageLoader = imageLoader
-    }
+    var publisher = PassthroughSubject<UIImage, Never>()
     
     var title: String {
         model.title
@@ -31,6 +40,11 @@ final class MemoriesLoader {
     
     var uploadDate: String {
         DateConverter.dateToString(model.uploadDate)
+    }
+    
+    init(_ model: Memory, _ imageLoader: ImageLoader) {
+        self.model = model
+        self.imageLoader = imageLoader
     }
     
     func uploadImage(_ index: Int, image: UIImage) {
