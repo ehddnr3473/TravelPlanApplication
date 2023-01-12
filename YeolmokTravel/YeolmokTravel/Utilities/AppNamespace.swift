@@ -11,7 +11,6 @@ import Foundation
 enum DatabasePath {
     static let plans = "plans"
     static let memories = "memories"
-    
 }
 
 enum AppStyles {
