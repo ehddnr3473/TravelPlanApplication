@@ -11,6 +11,9 @@ import UIKit
 
 /// Plan View Model Protocol
 protocol PlanConfigurable: AnyObject {
+    // input
+    func delete(_ index: Int)
+    
     // output
     var publisher: PassthroughSubject<Void, Never> { get set }
     var planCount: Int { get }
@@ -18,9 +21,6 @@ protocol PlanConfigurable: AnyObject {
     func date(_ index: Int) -> String
     func description(_ index: Int) -> String
     func setUpWritingView(at index: Int?, _ writingStyle: WritingStyle) -> UINavigationController
-    
-    // input
-    func delete(_ index: Int)
     
     init(_ model: OwnTravelPlan)
 }
