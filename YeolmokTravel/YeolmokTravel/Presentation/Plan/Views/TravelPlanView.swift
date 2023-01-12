@@ -13,7 +13,7 @@ import Combine
 final class TravelPlanView: UIViewController {
     // MARK: - Properties
     var viewModel: TravelPlaner!
-    private var subscriptions = [AnyCancellable]()
+    private var subscriptions = Set<AnyCancellable>()
     private var titleLabel: UILabel = {
         let label = UILabel()
         

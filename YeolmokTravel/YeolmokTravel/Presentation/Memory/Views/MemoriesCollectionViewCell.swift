@@ -13,7 +13,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
     private(set) var viewModel: MemoriesLoader?
-    private var subscriptions = [AnyCancellable]()
+    private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
         let imageView = UIImageView()
