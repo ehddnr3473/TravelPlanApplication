@@ -199,7 +199,6 @@
 				6BFB44FA296EF3E700AEAD77 /* Presentation */,
 				6BFB44FF296EF46700AEAD77 /* Data */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
-				6B17E30F2956D48F00AF59EE /* Views */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
 			);
 			path = YeolmokTravel;
@@ -245,6 +244,7 @@
 		6BFB44FA296EF3E700AEAD77 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				6B17E30F2956D48F00AF59EE /* Views */,
 				6BFB44FB296EF40A00AEAD77 /* Plan */,
 				6BFB44FC296EF41000AEAD77 /* Memory */,
 			);
