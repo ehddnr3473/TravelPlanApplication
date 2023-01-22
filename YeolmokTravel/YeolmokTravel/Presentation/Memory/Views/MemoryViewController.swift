@@ -14,7 +14,7 @@ protocol MemoryTransfer: AnyObject {
 final class MemoryViewController: UIViewController, MemoryTransfer {
     // MARK: - Properties
     var model: Memories!
-    private let imageLoader = ImageRepository()
+    private let imageRepository = ImageRepository()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -135,7 +135,7 @@ extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = MemoriesLoader(model.memories[indexPath.row], imageLoader)
+        let viewModel = MemoriesLoader(model.memories[indexPath.row], imageRepository)
         cell.setViewModel(viewModel)
         return cell
     }
