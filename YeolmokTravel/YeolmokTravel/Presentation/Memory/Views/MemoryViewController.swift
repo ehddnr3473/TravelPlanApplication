@@ -6,15 +6,13 @@
 //
 
 import UIKit
+import Combine
 
-protocol MemoryTransfer: AnyObject {
-    func writingHandler(_ memory: Memory)
-}
-
-final class MemoryViewController: UIViewController, MemoryTransfer {
+final class MemoryViewController: UIViewController {
     // MARK: - Properties
-    var model: Memories!
+    var navigator: PostsMemoryNavigator!
     private let imageRepository = ImageRepository()
+    private var subscriptions = Set<AnyCancellable>()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -117,16 +115,15 @@ extension MemoryViewController {
     }
     
     @objc func touchUpAddButton() {
-        let writingMemoryViewController = WritingMemoryViewController()
-        writingMemoryViewController.addDelegate = self
-        writingMemoryViewController.memoryIndex = model.memories.count
-        writingMemoryViewController.modalPresentationStyle = .fullScreen
-        present(writingMemoryViewController, animated: true)
+        navigator.toPosts()
     }
     
-    func writingHandler(_ memory: Memory) {
-        model.add(memory)
-        reload()
+    private func setBindings() {
+        navigator.publisher
+            .sink { [weak self] _ in
+                self?.reload()
+            }
+            .store(in: &subscriptions)
     }
 }
 
@@ -135,13 +132,13 @@ extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = MemoriesLoader(model.memories[indexPath.row], imageRepository)
+        let viewModel = MemoriesLoader(navigator.memories(indexPath.row), imageRepository)
         cell.setViewModel(viewModel)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        model.memories.count
+        navigator.count
     }
 }
 
