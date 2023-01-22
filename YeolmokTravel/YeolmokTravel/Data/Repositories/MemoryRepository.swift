@@ -41,6 +41,11 @@ struct MemoryRepository {
                               uploadDate: DateConverter.stringToDate(data[Key.uploadDate] as! String)!)
         return memories
     }
+    
+    // delete
+    func delete(at index: Int) async {
+        try? await database.collection(DatabasePath.memories).document("\(index)").delete()
+    }
 }
 
 private enum Key {
