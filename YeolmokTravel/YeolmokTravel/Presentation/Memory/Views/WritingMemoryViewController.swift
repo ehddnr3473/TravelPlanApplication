@@ -7,12 +7,15 @@
 
 import UIKit
 import PhotosUI
+import Combine
 
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
     var addDelegate: MemoryTransfer?
     var memoryIndex: Int!
     private let viewModel = WritingMemoryViewModel()
+    private let imageIsExist = CurrentValueSubject<Bool, Never>(false)
+    private var subscriptions = Set<AnyCancellable>()
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -84,6 +87,7 @@ final class WritingMemoryViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         configure()
+        setBindings()
     }
 }
 
@@ -157,14 +161,8 @@ extension WritingMemoryViewController {
             return
         } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
             addDelegate.writingHandler(Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date()))
-            do {
-                Task { try await viewModel.upload(index, image) }
-                dismiss(animated: true)
-            } catch {
-                if let error = error as? ImageLoadError {
-                    alertWillAppear(error.rawValue)
-                }
-            }
+            Task { await viewModel.upload(index, image) }
+            dismiss(animated: true)
         }
     }
     
@@ -178,10 +176,22 @@ extension WritingMemoryViewController {
     
     @objc func touchUpDeleteButton() {
         imageView.image = nil
+        self.imageIsExist.value = false
     }
     
     private func setBindings() {
+        let input = WritingMemoryViewModel.Input(
+            title: titleTextField.textPublisher.eraseToAnyPublisher(),
+            image: imageIsExist.eraseToAnyPublisher()
+        )
         
+        let output = viewModel.transform(input: input)
+        
+        output.buttonState
+            .sink{ [weak self] state in
+                self?.topBarView.saveBarButton.isEnabled = state
+            }
+            .store(in: &subscriptions)
     }
 }
 
@@ -197,6 +207,7 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
             DispatchQueue.main.async {
                 self.imageView.image = image as? UIImage
             }
+            self.imageIsExist.value = true
         }
     }
 }
