@@ -10,8 +10,9 @@ import PhotosUI
 
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
-    var addDelegate: Uploadable?
+    var addDelegate: MemoryTransfer?
     var memoryIndex: Int!
+    private let viewModel = WritingMemoryViewModel()
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -155,8 +156,15 @@ extension WritingMemoryViewController {
             alertWillAppear(AlertText.nilImageMessage)
             return
         } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
-            Task { await addDelegate.uploadHandler(image, Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date())) }
-            dismiss(animated: true)
+            addDelegate.writingHandler(Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date()))
+            do {
+                Task { try await viewModel.upload(index, image) }
+                dismiss(animated: true)
+            } catch {
+                if let error = error as? ImageLoadError {
+                    alertWillAppear(error.rawValue)
+                }
+            }
         }
     }
     
@@ -170,6 +178,10 @@ extension WritingMemoryViewController {
     
     @objc func touchUpDeleteButton() {
         imageView.image = nil
+    }
+    
+    private func setBindings() {
+        
     }
 }
 
