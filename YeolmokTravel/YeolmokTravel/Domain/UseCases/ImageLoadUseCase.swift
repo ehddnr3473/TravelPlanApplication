@@ -11,10 +11,15 @@ import UIKit
 protocol ImageLoadUseCaseType {
     func upload(_ index: Int, _ image: UIImage) async throws
     func download(_ index: Int, completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void))
+    func delete(_ index: Int)
 }
 
 struct ImageLoadUseCase: ImageLoadUseCaseType {
-    private let repository = ImageRepository()
+    var repository: ImageRepository
+    
+    init(repository: ImageRepository) {
+        self.repository = repository
+    }
     
     func upload(_ index: Int, _ image: UIImage) async throws {
         do {
@@ -26,5 +31,9 @@ struct ImageLoadUseCase: ImageLoadUseCaseType {
     
     func download(_ index: Int, completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void)) {
         repository.download(index, completion)
+    }
+    
+    func delete(_ index: Int) {
+        repository.delete(index)
     }
 }
