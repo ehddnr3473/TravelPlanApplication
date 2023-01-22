@@ -50,6 +50,7 @@
 		6BB883AB297C662100C3E2E4 /* PlanPostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */; };
 		6BB883B1297D1C9100C3E2E4 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B0297D1C9100C3E2E4 /* TextField.swift */; };
 		6BB883B5297D1EE200C3E2E4 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B4297D1EE200C3E2E4 /* Control.swift */; };
+		6BB883BB297DA1C200C3E2E4 /* MemoryDeleteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883BA297DA1C200C3E2E4 /* MemoryDeleteUseCase.swift */; };
 		6BFB44F9296EF03100AEAD77 /* PlanTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */; };
 /* End PBXBuildFile section */
 
@@ -114,6 +115,7 @@
 		6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanPostsUseCase.swift; sourceTree = "<group>"; };
 		6BB883B0297D1C9100C3E2E4 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		6BB883B4297D1EE200C3E2E4 /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
+		6BB883BA297DA1C200C3E2E4 /* MemoryDeleteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryDeleteUseCase.swift; sourceTree = "<group>"; };
 		6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTransfer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -259,6 +261,7 @@
 			children = (
 				6BB883A8297C65B300C3E2E4 /* ImageLoadUseCase.swift */,
 				6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */,
+				6BB883BA297DA1C200C3E2E4 /* MemoryDeleteUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				6BB883B1297D1C9100C3E2E4 /* TextField.swift in Sources */,
 				6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */,
 				6B17E2FE2956A72800AF59EE /* MemoriesLoader.swift in Sources */,
+				6BB883BB297DA1C200C3E2E4 /* MemoryDeleteUseCase.swift in Sources */,
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
 				6BA3402229532E29002E7502 /* PlanTracker.swift in Sources */,
 				6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */,
