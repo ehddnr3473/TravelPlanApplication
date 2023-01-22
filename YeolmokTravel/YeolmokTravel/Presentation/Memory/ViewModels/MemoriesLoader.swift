@@ -48,7 +48,7 @@ final class MemoriesLoader: MemoryLoadable {
     }
     
     func uploadImage(_ index: Int, image: UIImage) {
-        Task { await imageLoadUseCase.upload(index, image) }
+        imageLoadUseCase.upload(index, image)
     }
     
     func downloadImage() {
