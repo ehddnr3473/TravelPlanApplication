@@ -160,8 +160,9 @@ extension WritingMemoryViewController {
             alertWillAppear(AlertText.nilImageMessage)
             return
         } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
-            addDelegate.writingHandler(Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date()))
-            Task { await viewModel.upload(index, image) }
+            let memory = Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date())
+            addDelegate.writingHandler(memory)
+            viewModel.upload(index, image, memory)
             dismiss(animated: true)
         }
     }
