@@ -20,7 +20,8 @@ final class WritingMemoryViewModel: WritingViewModelType {
         let buttonState: AnyPublisher<Bool, Never>
     }
     
-    private let useCase = ImageLoadUseCase(repository: ImageRepository())
+    private let imageLoadUseCase = ImageLoadUseCase(repository: ImageRepository())
+    private let memoryPostsUseCase = MemoryPostsUseCase()
     
     func transform(input: Input) -> Output {
         let buttonStatePublisher = input.title.combineLatest(input.image)
@@ -32,7 +33,8 @@ final class WritingMemoryViewModel: WritingViewModelType {
         return Output(buttonState: buttonStatePublisher)
     }
     
-    func upload(_ index: Int, _ image: UIImage) async {
-        await useCase.upload(index, image)
+    func upload(_ index: Int, _ image: UIImage, _ memory: Memory) {
+        imageLoadUseCase.upload(index, image)
+        memoryPostsUseCase.upload(memory)
     }
 }
