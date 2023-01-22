@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol Uploadable {
-    func uploadHandler(_ image: UIImage, _ memory: Memory) async
+protocol MemoryTransfer: AnyObject {
+    func writingHandler(_ memory: Memory)
 }
 
-final class MemoryViewController: UIViewController, Uploadable {
+final class MemoryViewController: UIViewController, MemoryTransfer {
     // MARK: - Properties
     var model: Memories!
-    private let imageLoader = ImageLoader()
+    private let imageLoader = ImageRepository()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -124,16 +124,8 @@ extension MemoryViewController {
         present(writingMemoryViewController, animated: true)
     }
     
-    func uploadHandler(_ image: UIImage, _ memory: Memory) async {
+    func writingHandler(_ memory: Memory) {
         model.add(memory)
-        do {
-            try await imageLoader.upload(memory.index, image)
-        } catch {
-            if let error = error as? ImageLoadError {
-                alertWillAppear(error.rawValue)
-            }
-        }
-        await model.write(at: memory.index)
         reload()
     }
 }
