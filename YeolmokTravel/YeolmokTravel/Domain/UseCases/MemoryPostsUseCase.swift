@@ -7,7 +7,12 @@
 
 import Foundation
 
-struct MemoryPostsUseCase {
+protocol MemoryPostsUseCaseType {
+    func upload(_ memory: Memory)
+    func delete(_ index: Int)
+}
+
+struct MemoryPostsUseCase: MemoryPostsUseCaseType {
     private let repository = MemoryRepository()
     
     func upload(_ memory: Memory) {
