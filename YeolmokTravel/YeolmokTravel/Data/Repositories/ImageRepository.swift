@@ -79,6 +79,12 @@ final class ImageRepository {
             }
         }
     }
+    
+    func delete(_ index: Int) {
+        let reference = storageReference.child("\(index)")
+        
+        reference.delete { _ in }
+    }
 }
 
 private enum DocumentConstants {
