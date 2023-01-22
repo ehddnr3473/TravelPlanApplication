@@ -23,21 +23,17 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: FontSize.title)
         label.textColor = .white
-        
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: FontSize.date)
         label.textColor = .white
-        
         return label
     }()
     
