@@ -37,6 +37,8 @@ final class TopBarView: UIView {
         let button = UIButton(type: .custom)
         button.setTitle(TextConstants.saveButtonTitle, for: .normal)
         button.setTitleColor(AppStyles.mainColor, for: .normal)
+        button.setTitleColor(.systemGray, for: .disabled)
+        button.isEnabled = false
         return button
     }()
     
