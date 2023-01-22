@@ -20,14 +20,14 @@ protocol MemoryLoadable: AnyObject {
     var uploadDate: String { get }
     func downloadImage()
     
-    init(_ model: Memory)
+    init(_ model: Memory, _ repository: ImageRepository)
 }
 
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
 final class MemoriesLoader: MemoryLoadable {
     var model: Memory
-    private let imageLoadUseCase = ImageLoadUseCase()
+    var imageLoadUseCase: ImageLoadUseCase
     var publisher = PassthroughSubject<UIImage, Never>()
     
     var title: String {
@@ -42,8 +42,9 @@ final class MemoriesLoader: MemoryLoadable {
         DateConverter.dateToString(model.uploadDate)
     }
     
-    init(_ model: Memory) {
+    init(_ model: Memory, _ repository: ImageRepository) {
         self.model = model
+        self.imageLoadUseCase = ImageLoadUseCase(repository: repository)
     }
     
     func uploadImage(_ index: Int, image: UIImage) {
@@ -59,5 +60,9 @@ final class MemoriesLoader: MemoryLoadable {
                 print(error.rawValue)
             }
         }
+    }
+    
+    func delete(_ index: Int) {
+        imageLoadUseCase.delete(index)
     }
 }
