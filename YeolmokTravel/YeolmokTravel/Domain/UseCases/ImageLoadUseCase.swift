@@ -21,12 +21,8 @@ struct ImageLoadUseCase: ImageLoadUseCaseType {
         self.repository = repository
     }
     
-    func upload(_ index: Int, _ image: UIImage) async throws {
-        do {
-            try await repository.upload(index, image)
-        } catch {
-            throw error
-        }
+    func upload(_ index: Int, _ image: UIImage) async {
+        await repository.upload(index, image)
     }
     
     func download(_ index: Int, completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void)) {

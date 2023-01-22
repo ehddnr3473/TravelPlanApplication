@@ -37,15 +37,13 @@ final class ImageRepository {
         cachedImages["\(index)"] = image
     }
     
-    func upload(_ index: Int, _ image: UIImage) async throws {
+    func upload(_ index: Int, _ image: UIImage) async {
         if let data = image.pngData() {
             let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
             do {
                 let _ = try await imageReference.putDataAsync(data)
                 // using metadata
-            } catch {
-                throw ImageLoadError.uploadError
-            }
+            } catch { }
         }
     }
     
