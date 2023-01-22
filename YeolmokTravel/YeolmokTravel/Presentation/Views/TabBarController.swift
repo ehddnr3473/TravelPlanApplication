@@ -39,29 +39,31 @@ final class TabBarController: UITabBarController {
     }
     
     // 첫 번째 탭: Plans
-    private func setUpPlanView() async -> TravelPlanView {
+    private func setUpPlanView() async -> UINavigationController {
         // Assembing of MVVM
         let model = OwnTravelPlan(travelPlans: await planRepository.read())
         let viewModel = TravelPlaner(model)
         let travelPlanView = TravelPlanView()
         travelPlanView.viewModel = viewModel
-        travelPlanView.tabBarItem = UITabBarItem(title: TitleConstants.plan,
+        
+        let navigationController = UINavigationController(rootViewController: travelPlanView)
+        navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
                                            tag: NumberConstants.first)
-        return travelPlanView
+        return navigationController
     }
     
     // 두 번째 탭: Memories
-    private func setUpMemoryView() async -> MemoryViewController {
+    private func setUpMemoryView() async -> UINavigationController {
         // Assembing of MVC
         let model = Memories(memories: await memoryRepository.readMemories())
         let memoryView = MemoryViewController()
-        memoryView.model = model
-        
-        memoryView.tabBarItem = UITabBarItem(title: TitleConstants.memory,
+        let navigationController = UINavigationController(rootViewController: memoryView)
+        memoryView.navigator = PostsMemoryNavigator(navigationController: navigationController, model: model)
+        navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
-        return memoryView
+        return navigationController
     }
 }
 
