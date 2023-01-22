@@ -188,6 +188,7 @@ extension WritingMemoryViewController {
         let output = viewModel.transform(input: input)
         
         output.buttonState
+            .receive(on: RunLoop.main)
             .sink{ [weak self] state in
                 self?.topBarView.saveBarButton.isEnabled = state
             }
