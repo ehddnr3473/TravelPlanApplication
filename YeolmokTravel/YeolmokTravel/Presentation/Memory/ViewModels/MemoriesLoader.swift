@@ -10,9 +10,6 @@ import Combine
 import UIKit
 
 protocol MemoryLoadable: AnyObject {
-    // input
-    func uploadImage(_ index: Int, image: UIImage)
-    
     // output
     var publisher: PassthroughSubject<UIImage, Never> { get set }
     var title: String { get }
@@ -45,10 +42,6 @@ final class MemoriesLoader: MemoryLoadable {
     init(_ model: Memory, _ repository: ImageRepository) {
         self.model = model
         self.imageLoadUseCase = ImageLoadUseCase(repository: repository)
-    }
-    
-    func uploadImage(_ index: Int, image: UIImage) {
-        imageLoadUseCase.upload(index, image)
     }
     
     func downloadImage() {
