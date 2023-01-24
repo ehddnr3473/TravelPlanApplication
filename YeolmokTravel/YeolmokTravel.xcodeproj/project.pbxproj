@@ -48,6 +48,8 @@
 		6BB76BC4297F6E8F00C8C596 /* MemoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC3297F6E8F00C8C596 /* MemoryTransfer.swift */; };
 		6BB76BC6297F701F00C8C596 /* DefaultPlanUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC5297F701F00C8C596 /* DefaultPlanUseCase.swift */; };
 		6BB76BC8297F7F8800C8C596 /* WritingPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */; };
+		6BB76BCD297FBCB200C8C596 /* TravelPlanDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BCC297FBCB200C8C596 /* TravelPlanDTO.swift */; };
+		6BB76BD4297FC27900C8C596 /* ScheduleDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BD3297FC27800C8C596 /* ScheduleDTO.swift */; };
 		6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */; };
 		6BB883A3297C5F9D00C3E2E4 /* WritingViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A2297C5F9D00C3E2E4 /* WritingViewModelType.swift */; };
 		6BB883A9297C65B300C3E2E4 /* ImageLoadUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A8297C65B300C3E2E4 /* ImageLoadUseCase.swift */; };
@@ -117,6 +119,8 @@
 		6BB76BC3297F6E8F00C8C596 /* MemoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTransfer.swift; sourceTree = "<group>"; };
 		6BB76BC5297F701F00C8C596 /* DefaultPlanUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPlanUseCase.swift; sourceTree = "<group>"; };
 		6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanViewModel.swift; sourceTree = "<group>"; };
+		6BB76BCC297FBCB200C8C596 /* TravelPlanDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanDTO.swift; sourceTree = "<group>"; };
+		6BB76BD3297FC27800C8C596 /* ScheduleDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDTO.swift; sourceTree = "<group>"; };
 		6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewModel.swift; sourceTree = "<group>"; };
 		6BB883A2297C5F9D00C3E2E4 /* WritingViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingViewModelType.swift; sourceTree = "<group>"; };
 		6BB883A8297C65B300C3E2E4 /* ImageLoadUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadUseCase.swift; sourceTree = "<group>"; };
@@ -257,9 +261,26 @@
 			path = Delegate;
 			sourceTree = "<group>";
 		};
+		6BB76BCB297FBC8300C8C596 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		6BB76BD2297FC14C00C8C596 /* Data Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				6BB76BCC297FBCB200C8C596 /* TravelPlanDTO.swift */,
+				6BB76BD3297FC27800C8C596 /* ScheduleDTO.swift */,
+			);
+			path = "Data Mapping";
+			sourceTree = "<group>";
+		};
 		6BB883A4297C651F00C3E2E4 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				6BB76BCB297FBC8300C8C596 /* Entities */,
 				6BB883A5297C652F00C3E2E4 /* UseCases */,
 				6BFB4507296EF50200AEAD77 /* Models */,
 			);
@@ -358,6 +379,7 @@
 		6BFB4505296EF4CB00AEAD77 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				6BB76BD2297FC14C00C8C596 /* Data Mapping */,
 				6B17E3052956ADE300AF59EE /* PlanRepository.swift */,
 				6B17E3072956C54100AF59EE /* ImageRepository.swift */,
 				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
@@ -536,6 +558,8 @@
 				6B46FA3F295140E9000430C7 /* TravelPlanView.swift in Sources */,
 				6BB76BC0297F4F6700C8C596 /* MemoryViewModel.swift in Sources */,
 				6B17E3062956ADE300AF59EE /* PlanRepository.swift in Sources */,
+				6BB76BCD297FBCB200C8C596 /* TravelPlanDTO.swift in Sources */,
+				6BB76BD4297FC27900C8C596 /* ScheduleDTO.swift in Sources */,
 				6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */,
 				6BB883A9297C65B300C3E2E4 /* ImageLoadUseCase.swift in Sources */,
 				6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */,
