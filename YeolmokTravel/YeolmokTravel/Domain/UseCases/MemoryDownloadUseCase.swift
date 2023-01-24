@@ -11,20 +11,20 @@ protocol MemoryDownloadUseCaseType {
     func download() async
 }
 
-final class MemoryDownloadUseCase {
+final class MemoryDownloadUseCase: MemoryDownloadUseCaseType {
     private let repository = MemoryRepository()
-    private(set) var model = [Memory]()
+    private(set) var memories = [Memory]()
     
     var count: Int {
-        model.count
+        memories.count
     }
     
     func memory(_ index: Int) -> Memory {
-        model[index]
+        memories[index]
     }
     
     func download() async {
-        let memories = await repository.readMemories()
-        model = memories
+        let memories = await repository.downloadMemories()
+        self.memories = memories
     }
 }
