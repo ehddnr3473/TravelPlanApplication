@@ -10,7 +10,7 @@ import SnapKit
 import Combine
 
 /// TravelPlan View
-final class TravelPlanView: UIViewController {
+final class PlanView: UIViewController {
     // MARK: - Properties
     var viewModel: TravelPlaner!
     private var subscriptions = Set<AnyCancellable>()
@@ -58,7 +58,7 @@ final class TravelPlanView: UIViewController {
 }
 
 // MARK: - SetUp View
-extension TravelPlanView {
+extension PlanView {
     private func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
@@ -118,7 +118,7 @@ extension TravelPlanView {
 }
 
 // MARK: - TableView
-extension TravelPlanView: UITableViewDelegate, UITableViewDataSource {
+extension PlanView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.title(indexPath.row)
