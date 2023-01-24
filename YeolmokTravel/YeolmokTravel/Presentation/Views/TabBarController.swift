@@ -29,7 +29,7 @@ final class TabBarController: UITabBarController {
     private func setUp() async {
         showIndicatorView()
         let travelPlanView = await setUpPlanView()
-        let memoryView = await setUpMemoryView()
+        let memoryView = setUpMemoryView()
         
         viewControllers = [travelPlanView, memoryView]
         setViewControllers(viewControllers, animated: true)
@@ -54,12 +54,9 @@ final class TabBarController: UITabBarController {
     }
     
     // 두 번째 탭: Memories
-    private func setUpMemoryView() async -> UINavigationController {
-        // Assembing of MVC
-        let model = Memories(memories: await memoryRepository.readMemories())
+    private func setUpMemoryView() -> UINavigationController {
         let memoryView = MemoryViewController()
         let navigationController = UINavigationController(rootViewController: memoryView)
-        memoryView.navigator = PostsMemoryNavigator(navigationController: navigationController, model: model)
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
