@@ -19,12 +19,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
+        let planView = PlanView()
         let planRepository = PlanRepository()
+        let planViewBuilder = PlanViewBuilder(planView: planView, planRepository: planRepository)
+        
+        let memoryView = MemoryView()
         let memoryRepository = MemoryRepository()
+        let memoryViewBuilder = MemoryViewBuilder(memoryView: memoryView, memoryRepository: memoryRepository)
         
         let tabBarController = TabBarController()
-        tabBarController.planRepository = planRepository
-        tabBarController.memoryRepository = memoryRepository
+        tabBarController.planViewBuilder = planViewBuilder
+        tabBarController.memoryViewBuilder = memoryViewBuilder
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
