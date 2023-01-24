@@ -9,19 +9,23 @@ import Foundation
 import Combine
 
 final class MemoryViewModel {
-    private let useCase = MemoryDownloadUseCase()
+    private let useCase: DefaultMemoryUseCase
     private(set) var publisher = PassthroughSubject<Void, Never>()
     
     var count: Int {
         useCase.count
     }
     
+    init(useCase: DefaultMemoryUseCase) {
+        self.useCase = useCase
+    }
+    
     func memory(_ index: Int) -> Memory {
         useCase.memory(index)
     }
     
-    func downloadMemories() async {
-        await useCase.download()
+    func add(_ memory: Memory) {
+        useCase.add(memory)
         publisher.send()
     }
 }

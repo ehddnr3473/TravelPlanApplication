@@ -10,7 +10,7 @@ import Combine
 
 final class MemoryViewController: UIViewController {
     // MARK: - Properties
-    private var viewModel = MemoryViewModel()
+    var viewModel: MemoryViewModel!
     private let imageRepository = ImageRepository()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -48,11 +48,6 @@ final class MemoryViewController: UIViewController {
         setUpUI()
         configure()
         setBindings()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Task { await viewModel.downloadMemories() }
     }
 }
 
@@ -148,6 +143,16 @@ extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.count
+    }
+}
+
+protocol MemoryTransfer {
+    func writingHandler(_ memory: Memory)
+}
+
+extension MemoryViewController: MemoryTransfer {
+    func writingHandler(_ memory: Memory) {
+        viewModel.add(memory)
     }
 }
 
