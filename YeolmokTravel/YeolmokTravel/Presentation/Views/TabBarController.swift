@@ -9,8 +9,8 @@ import UIKit
 import JGProgressHUD
 
 final class TabBarController: UITabBarController {
-    var planRepository: PlanRepository!
-    var memoryRepository: MemoryRepository!
+    var planViewBuilder: PlanViewBuilder!
+    var memoryViewBuilder: MemoryViewBuilder!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,14 +40,7 @@ final class TabBarController: UITabBarController {
     
     // 첫 번째 탭: Plans
     private func setUpPlanView() async -> UINavigationController {
-        // Assembing of MVVM
-        let model = OwnTravelPlan(travelPlans: await planRepository.read().map { $0.toDomain() })
-        let useCase = DefaultPlanUseCase(model: model)
-        let viewModel = TravelPlaner(useCase)
-        let travelPlanView = TravelPlanView()
-        travelPlanView.viewModel = viewModel
-        
-        let navigationController = UINavigationController(rootViewController: travelPlanView)
+        let navigationController = UINavigationController(rootViewController: await planViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
                                            tag: NumberConstants.first)
@@ -56,12 +49,7 @@ final class TabBarController: UITabBarController {
     
     // 두 번째 탭: Memories
     private func setUpMemoryView() async -> UINavigationController {
-        // Assembing of MVVM
-        let memoryView = MemoryViewController()
-        let memories = await memoryRepository.downloadMemories()
-        let useCase = DefaultMemoryUseCase(memories: memories.map { $0.toDomain() })
-        memoryView.viewModel = MemoryViewModel(useCase: useCase)
-        let navigationController = UINavigationController(rootViewController: memoryView)
+        let navigationController = await UINavigationController(rootViewController: memoryViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
