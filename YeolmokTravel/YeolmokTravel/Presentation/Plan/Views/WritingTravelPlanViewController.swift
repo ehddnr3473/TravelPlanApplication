@@ -8,7 +8,7 @@
 import UIKit
 
 /// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
-final class WritingTravelPlanViewController: UIViewController, Writable, PlanTransfer {
+final class WritingTravelPlanViewController: UIViewController, Writable {
     typealias ModelType = TravelPlan
     // MARK: - Properties
     var planTracker: PlanTracker<ModelType>!
@@ -224,19 +224,6 @@ extension WritingTravelPlanViewController {
         return writingScheduleViewController
     }
     
-    func writingHandler(_ plan: some Plan, _ index: Int?) {
-        guard let plan = plan as? Schedule else { return }
-        if let index = index {
-            // edit
-            model.editSchedule(at: index, plan)
-            reload()
-        } else {
-            // add
-            model.addSchedule(plan)
-            reload()
-        }
-    }
-    
     @MainActor private func reload() {
         scheduleTableView.snp.updateConstraints {
             $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
@@ -265,6 +252,21 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.pushViewController(setUpWritingView(at: indexPath.row, .edit), animated: true)
+    }
+}
+
+extension WritingTravelPlanViewController: PlanTransfer {
+    func writingHandler(_ plan: some Plan, _ index: Int?) {
+        guard let plan = plan as? Schedule else { return }
+        if let index = index {
+            // edit
+            model.editSchedule(at: index, plan)
+            reload()
+        } else {
+            // add
+            model.addSchedule(plan)
+            reload()
+        }
     }
 }
 
