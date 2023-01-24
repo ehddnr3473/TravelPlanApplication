@@ -90,3 +90,13 @@ struct TravelPlan: Plan {
         schedules.append(schedule)
     }
 }
+
+extension TravelPlan {
+    func toData() -> TravelPlanDTO {
+        .init(
+            title: title,
+            description: description,
+            schedules: schedules.map { $0.toData() }
+        )
+    }
+}

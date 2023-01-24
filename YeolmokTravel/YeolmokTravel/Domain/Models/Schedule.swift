@@ -34,3 +34,14 @@ struct Schedule: Plan {
         self.toDate = toDate
     }
 }
+
+extension Schedule {
+    func toData() -> ScheduleDTO {
+        .init(
+            title: title,
+            description: description,
+            fromDate: fromDate,
+            toDate: toDate
+        )
+    }
+}
