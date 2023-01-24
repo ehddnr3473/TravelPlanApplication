@@ -13,7 +13,7 @@ protocol MemoryDownloadUseCaseType {
 
 final class MemoryDownloadUseCase: MemoryDownloadUseCaseType {
     private let repository = MemoryRepository()
-    private(set) var memories = [Memory]()
+    private var memories = [Memory]()
     
     var count: Int {
         memories.count
@@ -24,7 +24,6 @@ final class MemoryDownloadUseCase: MemoryDownloadUseCaseType {
     }
     
     func download() async {
-        let memories = await repository.downloadMemories()
-        self.memories = memories
+        memories = await repository.downloadMemories()
     }
 }
