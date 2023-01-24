@@ -10,7 +10,6 @@ import Foundation
 /// TravelPlan Model
 struct OwnTravelPlan {
     private(set) var travelPlans: [TravelPlan]
-    private let repository = PlanRepository()
     
     mutating func add(_ plan: TravelPlan) {
         travelPlans.append(plan)
@@ -20,21 +19,7 @@ struct OwnTravelPlan {
         travelPlans[index] = plan
     }
     
-    mutating func delete(at index: Int) async {
+    mutating func delete(at index: Int) {
         travelPlans.remove(at: index)
-        await repository.delete(at: index)
     }
-    
-    func write(at index: Int?) async {
-        if let index = index {
-            await repository.write(at: index, travelPlans[index])
-        } else {
-            let lastIndex = travelPlans.count - NumberConstants.one
-            await repository.write(at: lastIndex, travelPlans[lastIndex])
-        }
-    }
-}
-
-private enum NumberConstants {
-    static let one = 1
 }
