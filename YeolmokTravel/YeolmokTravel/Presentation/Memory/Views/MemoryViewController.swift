@@ -47,6 +47,7 @@ final class MemoryViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         configure()
+        setBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
