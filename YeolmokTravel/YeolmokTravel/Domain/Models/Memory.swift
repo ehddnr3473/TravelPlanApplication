@@ -13,3 +13,13 @@ struct Memory {
     let index: Int
     let uploadDate: Date
 }
+
+extension Memory {
+    func toData() -> MemoryDTO {
+        .init(
+            title: title,
+            index: index,
+            uploadDate: uploadDate
+        )
+    }
+}
