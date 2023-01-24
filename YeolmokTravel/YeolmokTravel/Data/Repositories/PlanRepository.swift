@@ -13,7 +13,7 @@ struct PlanRepository {
     private var database = Firestore.firestore()
     
     // create & update
-    func write(at index: Int, _ travelPlan: TravelPlan) async {
+    func write(at index: Int, _ travelPlan: TravelPlanDTO) async {
         try? await database.collection(DatabasePath.plans).document("\(index)").setData([
             Key.title: travelPlan.title,
             Key.description: travelPlan.description
@@ -37,43 +37,52 @@ struct PlanRepository {
     }
     
     // read
-    // Firebase에서 다운로드한 데이터로 실제 사용할 [TravelPlan]을 생성해서 반환
-    func read() async -> [TravelPlan] {
-        var travelPlans = [TravelPlan]()
+    // Firebase에서 다운로드한 데이터로 TravelPlanDTO를 생성해서 반환
+    func read() async -> [TravelPlanDTO] {
+        var travelPlans = [TravelPlanDTO]()
         let travelPlansSnapshot = try? await database.collection(DatabasePath.plans).getDocuments()
         var documentIndex = NumberConstants.zero
         
         for document in travelPlansSnapshot!.documents {
             let data = document.data()
-            travelPlans.append(self.createTravelPlan(data))
             let scheduleSnapshot = try? await database.collection(DatabasePath.plans)
                 .document("\(documentIndex)").collection(DocumentConstants.schedulesCollection).getDocuments()
+            var schedules = [ScheduleDTO]()
             
             for documentation in scheduleSnapshot!.documents {
-                travelPlans[documentIndex].schedules.append(self.createSchedule(documentation.data()))
+                schedules.append(self.createSchedule(documentation.data()))
             }
+            travelPlans.append(self.createTravelPlan(data, schedules))
             documentIndex += NumberConstants.one
         }
         return travelPlans
     }
     
     // Firebase에서 다운로드한 데이터로 TravelPlan을 생성해서 반환
-    private func createTravelPlan(_ data: Dictionary<String, Any>) -> TravelPlan {
-        TravelPlan(title: data[Key.title] as! String,
-                   description: data[Key.description] as! String,
-                   schedules: [])
+    private func createTravelPlan(_ data: Dictionary<String, Any>, _ schedules: [ScheduleDTO]) -> TravelPlanDTO {
+        TravelPlanDTO(
+            title: data[Key.title] as! String,
+            description: data[Key.description] as! String,
+            schedules: schedules
+        )
     }
     
     // Firebase에서 다운로드한 데이터로 Schedule을 생성해서 반환
-    private func createSchedule(_ data: Dictionary<String, Any>) -> Schedule {
+    private func createSchedule(_ data: Dictionary<String, Any>) -> ScheduleDTO {
         if let fromDate = data[Key.fromDate] as? String, let toDate = data[Key.toDate] as? String {
-            return Schedule(title: data[Key.title] as! String,
-                            description: data[Key.description] as! String,
-                            fromDate: DateConverter.stringToDate(fromDate),
-                            toDate: DateConverter.stringToDate(toDate))
+            return ScheduleDTO(
+                title: data[Key.title] as! String,
+                description: data[Key.description] as! String,
+                fromDate: DateConverter.stringToDate(fromDate),
+                toDate: DateConverter.stringToDate(toDate)
+            )
         } else {
-            return Schedule(title: data[Key.title] as! String,
-                            description: data[Key.description] as! String)
+            return ScheduleDTO(
+                title: data[Key.title] as! String,
+                description: data[Key.description] as! String,
+                fromDate: nil,
+                toDate: nil
+            )
         }
     }
     
