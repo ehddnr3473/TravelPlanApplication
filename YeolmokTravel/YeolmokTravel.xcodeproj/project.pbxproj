@@ -259,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				6BB883A5297C652F00C3E2E4 /* UseCases */,
+				6BFB4507296EF50200AEAD77 /* Models */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -339,7 +340,6 @@
 			isa = PBXGroup;
 			children = (
 				6BFB4505296EF4CB00AEAD77 /* Repositories */,
-				6BFB4507296EF50200AEAD77 /* Models */,
 			);
 			path = Data;
 			sourceTree = "<group>";
