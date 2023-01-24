@@ -19,7 +19,7 @@ final class MemoryDownloadUseCase {
         model.count
     }
     
-    func memories(_ index: Int) -> Memory {
+    func memory(_ index: Int) -> Memory {
         model[index]
     }
     

@@ -16,8 +16,8 @@ final class MemoryViewModel {
         memoryDownloadUseCase.count
     }
     
-    func memories(_ index: Int) -> Memory {
-        memoryDownloadUseCase.memories(index)
+    func memory(_ index: Int) -> Memory {
+        memoryDownloadUseCase.memory(index)
     }
     
     func downloadMemories() async {

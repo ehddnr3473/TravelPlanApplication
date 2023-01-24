@@ -51,8 +51,7 @@ final class MemoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        
+        Task { await viewModel.downloadMemories() }
     }
 }
 
@@ -141,7 +140,7 @@ extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = MemoriesLoader(viewModel.memories(indexPath.row), imageRepository)
+        let viewModel = MemoriesLoader(viewModel.memory(indexPath.row), imageRepository)
         cell.setViewModel(viewModel)
         return cell
     }
