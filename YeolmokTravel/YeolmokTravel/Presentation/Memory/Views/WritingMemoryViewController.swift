@@ -11,7 +11,6 @@ import Combine
 
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
-    var addDelegate: MemoryTransfer?
     var memoryIndex: Int!
     private let viewModel = WritingMemoryViewModel()
     private let imageIsExist = CurrentValueSubject<Bool, Never>(false)
@@ -159,9 +158,8 @@ extension WritingMemoryViewController {
         } else if imageView.image == nil {
             alertWillAppear(AlertText.nilImageMessage)
             return
-        } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
+        } else if let image = imageView.image, let index = memoryIndex {
             let memory = Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date())
-            addDelegate.writingHandler(memory)
             viewModel.upload(index, image, memory)
             dismiss(animated: true)
         }
