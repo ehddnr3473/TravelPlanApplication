@@ -16,7 +16,7 @@ struct MemoryPostsUseCase: MemoryPostsUseCaseType {
     private let repository = MemoryRepository()
     
     func upload(_ memory: Memory) {
-        Task { await repository.uploadMemory(memory) }
+        Task { await repository.uploadMemory(memory.toData()) }
     }
     
     func delete(_ index: Int) {
