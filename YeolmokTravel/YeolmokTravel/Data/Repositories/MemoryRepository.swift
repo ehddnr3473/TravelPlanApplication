@@ -13,7 +13,7 @@ struct MemoryRepository {
     private var database = Firestore.firestore()
 
     // write
-    func writeMemory(_ memory: Memory) async {
+    func uploadMemory(_ memory: Memory) async {
         try? await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(memory.index)").setData([
             Key.title: memory.title,
             Key.index: memory.index,
@@ -22,7 +22,7 @@ struct MemoryRepository {
     }
     
     // read & return
-    func readMemories() async -> [Memory] {
+    func downloadMemories() async -> [Memory] {
         var memories = [Memory]()
         let memoriesSnapshot = try? await database.collection(DatabasePath.memories).getDocuments()
         
