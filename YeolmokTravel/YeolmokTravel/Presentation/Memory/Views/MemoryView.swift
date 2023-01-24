@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class MemoryViewController: UIViewController {
+final class MemoryView: UIViewController {
     // MARK: - Properties
     var viewModel: MemoryViewModel!
     private let imageRepository = ImageRepository()
@@ -52,7 +52,7 @@ final class MemoryViewController: UIViewController {
 }
 
 // MARK: - SetUp View
-extension MemoryViewController {
+extension MemoryView {
     private func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
@@ -132,7 +132,7 @@ extension MemoryViewController {
 }
 
 // MARK: - CollectionView
-extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MemoryView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
@@ -146,7 +146,7 @@ extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
-extension MemoryViewController: MemoryTransfer {
+extension MemoryView: MemoryTransfer {
     func writingHandler(_ memory: Memory) {
         viewModel.add(memory)
     }
