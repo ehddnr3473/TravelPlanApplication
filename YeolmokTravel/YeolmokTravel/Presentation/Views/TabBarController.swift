@@ -59,7 +59,7 @@ final class TabBarController: UITabBarController {
         // Assembing of MVVM
         let memoryView = MemoryViewController()
         let memories = await memoryRepository.downloadMemories()
-        let useCase = DefaultMemoryUseCase(memories: memories)
+        let useCase = DefaultMemoryUseCase(memories: memories.map { $0.toDomain() })
         memoryView.viewModel = MemoryViewModel(useCase: useCase)
         let navigationController = UINavigationController(rootViewController: memoryView)
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
