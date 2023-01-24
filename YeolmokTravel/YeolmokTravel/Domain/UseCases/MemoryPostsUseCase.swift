@@ -1,5 +1,5 @@
 //
-//  MemoryUploadUseCase.swift
+//  MemoryPostsUseCase.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/01/23.
@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol MemoryUploadUseCaseType {
+protocol MemoryPostsUseCaseType {
     func upload(_ memory: Memory)
     func delete(_ index: Int)
 }
 
-struct MemoryUploadUseCase: MemoryUploadUseCaseType {
+struct MemoryPostsUseCase: MemoryPostsUseCaseType {
     private let repository = MemoryRepository()
     
     func upload(_ memory: Memory) {
