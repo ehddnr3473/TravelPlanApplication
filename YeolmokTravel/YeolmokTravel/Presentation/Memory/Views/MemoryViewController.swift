@@ -10,7 +10,7 @@ import Combine
 
 final class MemoryViewController: UIViewController {
     // MARK: - Properties
-    var navigator: PostsMemoryNavigator!
+    private var viewModel = MemoryViewModel()
     private let imageRepository = ImageRepository()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -47,6 +47,12 @@ final class MemoryViewController: UIViewController {
         super.viewDidLoad()
         setUpUI()
         configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
     }
 }
 
@@ -115,11 +121,14 @@ extension MemoryViewController {
     }
     
     @objc func touchUpAddButton() {
-        navigator.toPosts()
+        let writingMemoryViewController = WritingMemoryViewController()
+        writingMemoryViewController.memoryIndex = viewModel.count
+        writingMemoryViewController.modalPresentationStyle = .fullScreen
+        present(writingMemoryViewController, animated: true)
     }
     
     private func setBindings() {
-        navigator.publisher
+        viewModel.publisher
             .sink { [weak self] _ in
                 self?.reload()
             }
@@ -132,13 +141,13 @@ extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = MemoriesLoader(navigator.memories(indexPath.row), imageRepository)
+        let viewModel = MemoriesLoader(viewModel.memories(indexPath.row), imageRepository)
         cell.setViewModel(viewModel)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        navigator.count
+        viewModel.count
     }
 }
 
