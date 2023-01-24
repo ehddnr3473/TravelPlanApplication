@@ -46,7 +46,7 @@ final class TravelPlaner: PlanConfigurable {
     }
     
     func description(_ index: Int) -> String {
-        useCase.date(index)
+        useCase.description(index)
     }
     
     func delete(_ index: Int) {
