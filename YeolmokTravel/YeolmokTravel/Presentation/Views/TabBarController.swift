@@ -41,7 +41,7 @@ final class TabBarController: UITabBarController {
     // 첫 번째 탭: Plans
     private func setUpPlanView() async -> UINavigationController {
         // Assembing of MVVM
-        let model = OwnTravelPlan(travelPlans: await planRepository.read())
+        let model = OwnTravelPlan(travelPlans: await planRepository.read().map { $0.toDomain() })
         let useCase = DefaultPlanUseCase(model: model)
         let viewModel = TravelPlaner(useCase)
         let travelPlanView = TravelPlanView()
