@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 /// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
 final class WritingTravelPlanViewController: UIViewController, Writable {
@@ -21,6 +22,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var planListIndex: Int?
+    private var viewModel = WritingPlanViewModel()
+    private var subscriptions = Set<AnyCancellable>()
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -99,6 +102,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         super.viewDidLoad()
         setUpUI()
         configure()
+        setBindings()
     }
 }
 
@@ -204,6 +208,19 @@ extension WritingTravelPlanViewController {
     
     @objc func touchUpAddScheduleButton() {
         present(setUpWritingView(.add), animated: true)
+    }
+    
+    private func setBindings() {
+        let input = WritingPlanViewModel.Input(title: titleTextField.textPublisher)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.buttonState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                self?.topBarView.saveBarButton.isEnabled = state
+            }
+            .store(in: &subscriptions)
     }
     
     private func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
