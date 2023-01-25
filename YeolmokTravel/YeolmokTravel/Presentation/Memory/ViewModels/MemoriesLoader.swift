@@ -24,7 +24,7 @@ protocol MemoryLoadable: AnyObject {
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
 final class MemoriesLoader: MemoryLoadable {
     var model: Memory
-    var imageLoadUseCase: ImageLoadUseCase
+    var imageLoadUseCase: ImageLoadUseCaseType
     var publisher = PassthroughSubject<UIImage, Never>()
     
     var title: String {
@@ -39,6 +39,7 @@ final class MemoriesLoader: MemoryLoadable {
         DateConverter.dateToString(model.uploadDate)
     }
     
+    // 레포지토리 추상화 및 수정 필요
     init(_ model: Memory, _ repository: ImageRepository) {
         self.model = model
         self.imageLoadUseCase = ImageLoadUseCase(repository: repository)
