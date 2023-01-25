@@ -13,7 +13,7 @@ struct PlanRepository {
     private var database = Firestore.firestore()
     
     // create & update
-    func write(at index: Int, _ travelPlan: TravelPlanDTO) async {
+    func upload(at index: Int, _ travelPlan: TravelPlanDTO) async {
         try? await database.collection(DatabasePath.plans).document("\(index)").setData([
             Key.title: travelPlan.title,
             Key.description: travelPlan.description
@@ -38,7 +38,7 @@ struct PlanRepository {
     
     // read
     // Firebase에서 다운로드한 데이터로 TravelPlanDTO를 생성해서 반환
-    func read() async -> [TravelPlanDTO] {
+    func download() async -> [TravelPlanDTO] {
         var travelPlans = [TravelPlanDTO]()
         let travelPlansSnapshot = try? await database.collection(DatabasePath.plans).getDocuments()
         var documentIndex = NumberConstants.zero
@@ -56,6 +56,11 @@ struct PlanRepository {
             documentIndex += NumberConstants.one
         }
         return travelPlans
+    }
+    
+    // delete
+    func delete(at index: Int) async {
+        try? await database.collection(DatabasePath.plans).document("\(index)").delete()
     }
     
     // Firebase에서 다운로드한 데이터로 TravelPlan을 생성해서 반환
@@ -84,11 +89,6 @@ struct PlanRepository {
                 toDate: nil
             )
         }
-    }
-    
-    // delete
-    func delete(at index: Int) async {
-        try? await database.collection(DatabasePath.plans).document("\(index)").delete()
     }
 }
 

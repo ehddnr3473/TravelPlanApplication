@@ -13,7 +13,7 @@ struct MemoryRepository {
     private var database = Firestore.firestore()
 
     // write
-    func uploadMemory(_ memory: MemoryDTO) async {
+    func upload(_ memory: MemoryDTO) async {
         try? await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(memory.index)").setData([
             Key.title: memory.title,
             Key.index: memory.index,
@@ -22,7 +22,7 @@ struct MemoryRepository {
     }
     
     // read & return
-    func downloadMemories() async -> [MemoryDTO] {
+    func download() async -> [MemoryDTO] {
         var memories = [MemoryDTO]()
         let memoriesSnapshot = try? await database.collection(DatabasePath.memories).getDocuments()
         
@@ -34,17 +34,17 @@ struct MemoryRepository {
         return memories
     }
     
+    // delete
+    func delete(at index: Int) async {
+        try? await database.collection(DatabasePath.memories).document("\(index)").delete()
+    }
+    
     // 다운로드한 데이터로 Memory 생성하여 반환
     private func createMemory(_ data: Dictionary<String, Any>) -> MemoryDTO {
         let memories = MemoryDTO(title: data[Key.title] as! String,
                               index: data[Key.index] as! Int,
                               uploadDate: DateConverter.stringToDate(data[Key.uploadDate] as! String)!)
         return memories
-    }
-    
-    // delete
-    func delete(at index: Int) async {
-        try? await database.collection(DatabasePath.memories).document("\(index)").delete()
     }
 }
 
