@@ -16,7 +16,7 @@ final class MemoryViewModel {
         useCase.count
     }
     
-    init(useCase: DefaultMemoryUseCase) {
+    init(_ useCase: DefaultMemoryUseCase) {
         self.useCase = useCase
     }
     

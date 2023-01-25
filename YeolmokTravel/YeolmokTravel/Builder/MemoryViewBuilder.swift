@@ -25,7 +25,7 @@ struct MemoryViewBuilder {
     }
     
     private func setUpViewModel(_ useCase: DefaultMemoryUseCase) {
-        memoryView.viewModel = MemoryViewModel(useCase: useCase)
+        memoryView.viewModel = MemoryViewModel(useCase)
     }
     
     func build() async -> MemoryView {
