@@ -22,7 +22,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var scheduleListIndex: Int?
-    private var viewModel = WritingPlanViewModel()
+    var viewModel: WritingPlanViewModel!
     private var subscriptions = Set<AnyCancellable>()
     
     private let topBarView: TopBarView = {
