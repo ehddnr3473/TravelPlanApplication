@@ -49,10 +49,10 @@ final class DefaultPlanUseCase {
     
     func write(at index: Int?) async {
         if let index = index {
-            await repository.write(at: index, model.travelPlans[index].toData())
+            await repository.upload(at: index, model.travelPlans[index].toData())
         } else {
             let lastIndex = model.travelPlans.count - NumberConstants.one
-            await repository.write(at: lastIndex, model.travelPlans[lastIndex].toData())
+            await repository.upload(at: lastIndex, model.travelPlans[lastIndex].toData())
         }
     }
 }
@@ -81,6 +81,8 @@ extension DefaultPlanUseCase: PlanTransfer {
             writingView.editDelegate = self
             writingView.planListIndex = index
         }
+        let viewModel = WritingPlanViewModel()
+        writingView.viewModel = viewModel
         writingView.writingStyle = writingStyle
         let navigationController = UINavigationController(rootViewController: writingView)
         navigationController.modalPresentationStyle = .fullScreen

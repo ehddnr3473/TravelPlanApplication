@@ -17,7 +17,7 @@ struct PlanViewBuilder {
     }
     
     private func downloadModel() async -> OwnTravelPlan {
-        OwnTravelPlan(travelPlans: await planRepository.read().map { $0.toDomain() })
+        OwnTravelPlan(travelPlans: await planRepository.download().map { $0.toDomain() })
     }
     
     private func setUpUseCase(_ model: OwnTravelPlan) -> DefaultPlanUseCase {

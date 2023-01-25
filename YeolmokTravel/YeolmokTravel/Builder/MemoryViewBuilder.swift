@@ -17,7 +17,7 @@ struct MemoryViewBuilder {
     }
     
     private func downloadModel() async -> [Memory] {
-        await memoryRepository.downloadMemories().map { $0.toDomain() }
+        await memoryRepository.download().map { $0.toDomain() }
     }
     
     private func setUpUseCase(_ model: [Memory]) -> DefaultMemoryUseCase {
