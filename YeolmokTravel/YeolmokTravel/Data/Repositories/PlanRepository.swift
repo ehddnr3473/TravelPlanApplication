@@ -9,8 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 /// Plan 관련 Firebase Firestore 연동
-struct PlanRepository: Repository {
-    
+struct PlanRepository: FirestoreRepository {
     private var database = Firestore.firestore()
     
     // create & update

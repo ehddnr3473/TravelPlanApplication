@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 /// Memory 관련 Firebase Firestore 연동
-struct MemoryRepository: Repository {
+struct MemoryRepository: FirestoreRepository {
     private var database = Firestore.firestore()
 
     // write
