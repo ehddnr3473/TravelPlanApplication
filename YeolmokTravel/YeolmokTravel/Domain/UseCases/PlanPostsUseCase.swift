@@ -7,8 +7,18 @@
 
 import Foundation
 
-protocol PlanPostsUseCase {
-    func save()
-    func update()
-    func delete()
+struct PlanPostsUseCase: FirebaseStorePostsUseCase {
+    var repository: PlanRepository
+    
+    init(repository: PlanRepository) {
+        self.repository = repository
+    }
+    
+    func upload(at index: Int, entity: TravelPlan) {
+        Task { await repository.upload(at: index, entity: entity.toData()) }
+    }
+    
+    func delete(at index: Int) {
+        Task { await repository.delete(at: index) }
+    }
 }

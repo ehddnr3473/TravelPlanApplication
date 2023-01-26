@@ -7,19 +7,18 @@
 
 import Foundation
 
-protocol MemoryPostsUseCaseType {
-    func upload(_ memory: Memory)
-    func delete(_ index: Int)
-}
-
-struct MemoryPostsUseCase: MemoryPostsUseCaseType {
-    private let repository = MemoryRepository()
+struct MemoryPostsUseCase: FirebaseStorePostsUseCase {
+    var repository: MemoryRepository
     
-    func upload(_ memory: Memory) {
-        Task { await repository.upload(at: memory.index, entity: memory.toData()) }
+    init(repository: MemoryRepository) {
+        self.repository = repository
     }
     
-    func delete(_ index: Int) {
+    func upload(at index: Int, entity: Memory) {
+        Task { await repository.upload(at: index, entity: entity.toData()) }
+    }
+    
+    func delete(at index: Int) {
         Task { await repository.delete(at: index) }
     }
 }
