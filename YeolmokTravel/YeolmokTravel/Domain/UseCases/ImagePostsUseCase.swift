@@ -22,7 +22,7 @@ struct ImageLoadUseCase: ImageLoadUseCaseType {
     }
     
     func upload(_ index: Int, _ image: UIImage) {
-        Task { await repository.upload(index, image) }
+        Task { await repository.upload(at: index, image) }
     }
     
     func download(_ index: Int, completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void)) {

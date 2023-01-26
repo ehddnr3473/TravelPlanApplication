@@ -49,10 +49,10 @@ final class DefaultPlanUseCase {
     
     func write(at index: Int?) async {
         if let index = index {
-            await repository.upload(at: index, model.travelPlans[index].toData())
+            await repository.upload(at: index, entity: model.travelPlans[index].toData())
         } else {
             let lastIndex = model.travelPlans.count - NumberConstants.one
-            await repository.upload(at: lastIndex, model.travelPlans[lastIndex].toData())
+            await repository.upload(at: lastIndex, entity: model.travelPlans[lastIndex].toData())
         }
     }
 }
