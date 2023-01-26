@@ -1,5 +1,5 @@
 //
-//  Repository.swift
+//  FirestoreRepository.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/01/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol Repository {
+protocol FirestoreRepository {
     associatedtype DTOType
     
     func upload(at index: Int, entity: DTOType) async
