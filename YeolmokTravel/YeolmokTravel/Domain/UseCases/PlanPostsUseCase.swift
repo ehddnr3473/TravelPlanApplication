@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlanPostsUseCase: FirebaseStorePostsUseCase {
+struct PlanPostsUseCase: FirestorePostsUseCase {
     var repository: PlanRepository
     
     init(repository: PlanRepository) {

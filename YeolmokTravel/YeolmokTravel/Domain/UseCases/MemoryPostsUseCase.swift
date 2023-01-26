@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemoryPostsUseCase: FirebaseStorePostsUseCase {
+struct MemoryPostsUseCase: FirestorePostsUseCase {
     var repository: MemoryRepository
     
     init(repository: MemoryRepository) {
