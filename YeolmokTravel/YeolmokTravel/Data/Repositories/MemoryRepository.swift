@@ -9,15 +9,15 @@ import Foundation
 import FirebaseFirestore
 
 /// Memory 관련 Firebase Firestore 연동
-struct MemoryRepository {
+struct MemoryRepository: Repository {
     private var database = Firestore.firestore()
 
     // write
-    func upload(_ memory: MemoryDTO) async {
-        try? await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(memory.index)").setData([
-            Key.title: memory.title,
-            Key.index: memory.index,
-            Key.uploadDate: DateConverter.dateToString(memory.uploadDate)
+    func upload(at index: Int, entity: MemoryDTO) async {
+        try? await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(entity.index)").setData([
+            Key.title: entity.title,
+            Key.index: entity.index,
+            Key.uploadDate: DateConverter.dateToString(entity.uploadDate)
         ])
     }
     

@@ -9,29 +9,30 @@ import Foundation
 import FirebaseFirestore
 
 /// Plan 관련 Firebase Firestore 연동
-struct PlanRepository {
+struct PlanRepository: Repository {
+    
     private var database = Firestore.firestore()
     
     // create & update
-    func upload(at index: Int, _ travelPlan: TravelPlanDTO) async {
+    func upload(at index: Int, entity: TravelPlanDTO) async {
         try? await database.collection(DatabasePath.plans).document("\(index)").setData([
-            Key.title: travelPlan.title,
-            Key.description: travelPlan.description
+            Key.title: entity.title,
+            Key.description: entity.description
         ])
         
-        for scheduleIndex in travelPlan.schedules.indices {
+        for scheduleIndex in entity.schedules.indices {
             try? await database.collection(DatabasePath.plans)
                 .document("\(index)").collection(DocumentConstants.schedulesCollection).document("\(scheduleIndex)")
                 .setData([
                     // Key-Value Pair
                     Key.title:
-                        travelPlan.schedules[scheduleIndex].title,
+                        entity.schedules[scheduleIndex].title,
                     Key.description:
-                        travelPlan.schedules[scheduleIndex].description,
+                        entity.schedules[scheduleIndex].description,
                     Key.fromDate:
-                        DateConverter.dateToString(travelPlan.schedules[scheduleIndex].fromDate),
+                        DateConverter.dateToString(entity.schedules[scheduleIndex].fromDate),
                     Key.toDate:
-                        DateConverter.dateToString(travelPlan.schedules[scheduleIndex].toDate)
+                        DateConverter.dateToString(entity.schedules[scheduleIndex].toDate)
                 ])
         }
     }
