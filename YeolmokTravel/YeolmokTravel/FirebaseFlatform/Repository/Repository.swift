@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol AbstractRepository {
-    associatedtype T
+protocol Repository {
+    associatedtype DTOType
     
-    func upload(entity: T) async
-    func download(entity: T) async -> [T]
+    func upload(at index: Int, entity: DTOType) async
+    func download() async -> [DTOType]
     func delete(at index: Int) async
 }
