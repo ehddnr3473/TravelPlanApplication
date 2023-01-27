@@ -20,8 +20,13 @@ final class WritingMemoryViewModel: WritingViewModelType {
         let buttonState: AnyPublisher<Bool, Never>
     }
     
-    private let imageLoadUseCase = ImageLoadUseCase(repository: ImageRepository())
-    private let memoryPostsUseCase = MemoryPostsUseCase(repository: MemoryRepository())
+    private let imagePostsUseCase: StoragePostsUseCase
+    private let memoryPostsUseCase: FirestorePostsUseCase
+    
+    init(imagePostsUseCase: StoragePostsUseCase, memoryPostsUseCase: FirestorePostsUseCase) {
+        self.imagePostsUseCase = imagePostsUseCase
+        self.memoryPostsUseCase = memoryPostsUseCase
+    }
     
     func transform(input: Input) -> Output {
         let buttonStatePublisher = input.title.combineLatest(input.image)
@@ -34,7 +39,7 @@ final class WritingMemoryViewModel: WritingViewModelType {
     }
     
     func upload(_ index: Int, _ image: UIImage, _ memory: Memory) {
-        imageLoadUseCase.upload(index, image)
+        imagePostsUseCase.upload(index, image)
         memoryPostsUseCase.upload(at: index, entity: memory)
     }
 }
