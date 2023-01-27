@@ -11,7 +11,7 @@ import Combine
 final class MemoryView: UIViewController {
     // MARK: - Properties
     var viewModel: MemoryViewModel!
-    private let imageRepository = ImageRepository()
+    var useCaseProvider: UseCaseProvider!
     private var subscriptions = Set<AnyCancellable>()
     
     private let titleLabel: UILabel = {
@@ -116,8 +116,11 @@ extension MemoryView {
     }
     
     @objc func touchUpAddButton() {
+        let viewModel = WritingMemoryViewModel(imagePostsUseCase: useCaseProvider.createImagePostsUseCase(),
+                                               memoryPostsUseCase: useCaseProvider.createMemoryPostsUseCase())
         let writingMemoryViewController = WritingMemoryViewController()
-        writingMemoryViewController.memoryIndex = viewModel.count
+        writingMemoryViewController.viewModel = viewModel
+        writingMemoryViewController.memoryIndex = self.viewModel.count
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
@@ -136,7 +139,7 @@ extension MemoryView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = MemoriesLoader(viewModel.memory(indexPath.row), imageRepository)
+        let viewModel = ImageLoader(viewModel.memory(indexPath.row), useCaseProvider.createImagePostsUseCase())
         cell.setViewModel(viewModel)
         return cell
     }
