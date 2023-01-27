@@ -21,39 +21,76 @@ protocol PlanConfigurable: AnyObject {
     func date(_ index: Int) -> String
     func description(_ index: Int) -> String
     
-    init(_ useCase: DefaultPlanUseCase)
+    init(_ model: OwnTravelPlan, _ planControllableUseCase: PlanControllableUseCase, _ planPostsUseCase: PlanPostsUseCase)
 }
 
 /// TravelPlan View Model
 final class TravelPlaner: PlanConfigurable {
-    private let useCase: DefaultPlanUseCase
+    var model: OwnTravelPlan
+    private let planControllableUseCase: PlanControllableUseCase
+    private let planPostsUseCase: PlanPostsUseCase
+    
     var publisher = PassthroughSubject<Void, Never>()
     
     var planCount: Int {
-        useCase.planCount
+        model.travelPlans.count
     }
     
-    required init(_ useCase: DefaultPlanUseCase) {
-        self.useCase = useCase
+    required init(_ model: OwnTravelPlan, _ planControllableUseCase: PlanControllableUseCase, _ planPostsUseCase: PlanPostsUseCase) {
+        self.model = model
+        self.planControllableUseCase = planControllableUseCase
+        self.planPostsUseCase = planPostsUseCase
     }
     
     func title(_ index: Int) -> String {
-        useCase.title(index)
+        model.travelPlans[index].title
     }
     
     func date(_ index: Int) -> String {
-        useCase.date(index)
+        model.travelPlans[index].date
     }
     
     func description(_ index: Int) -> String {
-        useCase.description(index)
+        model.travelPlans[index].description
     }
     
     func delete(_ index: Int) {
-        Task { await useCase.delete(index) }
+        Task { planPostsUseCase.delete(at: index) }
+    }
+}
+
+extension TravelPlaner: PlanTransfer {
+    func writingHandler(_ plan: some Plan, _ index: Int?) {
+        guard let plan = plan as? TravelPlan else { return }
+        if let index = index {
+            planControllableUseCase.update(at: index, plan)
+            Task { await planPostsUseCase.write(at: index) }
+            
+        } else {
+            planControllableUseCase.add(plan)
+            Task { await planPostsUseCase.write(at: nil) }
+        }
     }
     
+    // 여행 계획을 작성(수정, 추가)하기 위해 프레젠테이션할 ViewController 반환
     func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> UINavigationController {
-        useCase.setUpWritingView(at: index, writingStyle)
+        let writingView = WritingTravelPlanViewController()
+        switch writingStyle {
+        case .add:
+            let model = TravelPlan(title: "", description: "", schedules: [])
+            writingView.model = model
+            writingView.addDelegate = self
+        case .edit:
+            let model = model.travelPlans[index!]
+            writingView.model = model
+            writingView.editDelegate = self
+            writingView.planListIndex = index
+        }
+        let viewModel = WritingPlanViewModel()
+        writingView.viewModel = viewModel
+        writingView.writingStyle = writingStyle
+        let navigationController = UINavigationController(rootViewController: writingView)
+        navigationController.modalPresentationStyle = .fullScreen
+        return navigationController
     }
 }
