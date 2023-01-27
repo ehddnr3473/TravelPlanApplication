@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let memoryRepository = MemoryRepository()
         let imageRepository = ImageRepository()
         
-        let useCaseProvider = UseCaseProvider(firestoreRepository: planRepository, 
+        let useCaseProvider = UseCaseProvider(planRepository: planRepository,
+                                              memoryRepository: memoryRepository,
                                               storageRepository: imageRepository)
         let planView = PlanView()
         let planViewBuilder = PlanViewBuilder(planView: planView,
