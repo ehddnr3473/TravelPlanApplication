@@ -10,7 +10,7 @@ import Combine
 
 final class MemoryViewModel {
     private let useCase: ModelControllableUseCase
-    private(set) var publisher = PassthroughSubject<Void, Never>()
+    let reloadPublisher = PassthroughSubject<Void, Never>()
     
     var count: Int {
         useCase.count
@@ -26,6 +26,6 @@ final class MemoryViewModel {
     
     func add(_ memory: Memory) {
         useCase.add(memory)
-        publisher.send()
+        reloadPublisher.send()
     }
 }

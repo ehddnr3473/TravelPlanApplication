@@ -121,12 +121,13 @@ extension MemoryView {
         let writingMemoryViewController = WritingMemoryViewController()
         writingMemoryViewController.viewModel = viewModel
         writingMemoryViewController.memoryIndex = self.viewModel.count
+        writingMemoryViewController.addDelegate = self
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
     
     private func setBindings() {
-        viewModel.publisher
+        viewModel.reloadPublisher
             .sink { [weak self] _ in
                 self?.reload()
             }
