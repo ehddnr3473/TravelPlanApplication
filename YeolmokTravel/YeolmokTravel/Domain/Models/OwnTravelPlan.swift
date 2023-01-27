@@ -8,18 +8,22 @@
 import Foundation
 
 /// TravelPlan Model
-struct OwnTravelPlan {
+final class OwnTravelPlan {
     private(set) var travelPlans: [TravelPlan]
     
-    mutating func add(_ plan: TravelPlan) {
+    init(travelPlans: [TravelPlan]) {
+        self.travelPlans = travelPlans
+    }
+    
+    func add(_ plan: TravelPlan) {
         travelPlans.append(plan)
     }
     
-    mutating func update(at index: Int, _ plan: TravelPlan) {
+    func update(at index: Int, _ plan: TravelPlan) {
         travelPlans[index] = plan
     }
     
-    mutating func delete(at index: Int) {
+    func delete(at index: Int) {
         travelPlans.remove(at: index)
     }
 }
