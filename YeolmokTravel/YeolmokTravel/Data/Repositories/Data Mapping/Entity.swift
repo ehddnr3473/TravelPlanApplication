@@ -8,6 +8,5 @@
 import Foundation
 
 protocol Entity {
-    associatedtype DomainType: Model
-    func toDomain() -> DomainType
+    func toDomain() -> Model
 }

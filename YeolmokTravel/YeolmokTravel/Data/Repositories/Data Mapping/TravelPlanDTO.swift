@@ -15,12 +15,8 @@ struct TravelPlanDTO: Entity {
 
 // MARK: - Mapping to domain
 extension TravelPlanDTO {
-    func toDomain() -> TravelPlan {
-        let schedules = schedules.map { $0.toDomain() }
-        return .init(
-            title: title,
-            description: description,
-            schedules: schedules
-        )
+    func toDomain() -> Model {
+        let schedules = schedules.map { $0.toDomain() as! Schedule }
+        return TravelPlan(title: title, description: description, schedules: schedules)
     }
 }

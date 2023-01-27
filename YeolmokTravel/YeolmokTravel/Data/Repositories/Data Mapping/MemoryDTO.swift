@@ -14,11 +14,7 @@ struct MemoryDTO: Entity {
 }
 
 extension MemoryDTO {
-    func toDomain() -> Memory {
-        .init(
-            title: title,
-            index: index,
-            uploadDate: uploadDate
-        )
+    func toDomain() -> Model {
+        Memory(title: title, index: index, uploadDate: uploadDate)
     }
 }

@@ -16,12 +16,7 @@ struct ScheduleDTO: Entity {
 
 // MARK: - Mapping to domain
 extension ScheduleDTO {
-    func toDomain() -> Schedule {
-        .init(
-            title: title,
-            description: description,
-            fromDate: fromDate,
-            toDate: toDate
-        )
+    func toDomain() -> Model {
+        Schedule(title: title, description: description, fromDate: fromDate, toDate: toDate)
     }
 }

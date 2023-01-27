@@ -13,7 +13,8 @@ struct PlanRepository: FirestoreRepository {
     private var database = Firestore.firestore()
     
     // create & update
-    func upload(at index: Int, entity: TravelPlanDTO) async {
+    func upload(at index: Int, entity: some Entity) async {
+        guard let entity = entity as? TravelPlanDTO else { return }
         try? await database.collection(DatabasePath.plans).document("\(index)").setData([
             Key.title: entity.title,
             Key.description: entity.description
@@ -38,7 +39,7 @@ struct PlanRepository: FirestoreRepository {
     
     // read
     // Firebase에서 다운로드한 데이터로 TravelPlanDTO를 생성해서 반환
-    func download() async -> [TravelPlanDTO] {
+    func download() async -> [Entity] {
         var travelPlans = [TravelPlanDTO]()
         let travelPlansSnapshot = try? await database.collection(DatabasePath.plans).getDocuments()
         var documentIndex = NumberConstants.zero
