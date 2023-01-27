@@ -44,6 +44,6 @@ final class WritingMemoryViewModel: WritingViewModelType {
     
     func upload(_ index: Int, _ image: UIImage, _ memory: Memory) {
         imagePostsUseCase.upload(index, image)
-        memoryPostsUseCase.upload(at: index, entity: memory)
+        memoryPostsUseCase.upload(at: index, model: memory)
     }
 }
