@@ -8,8 +8,6 @@
 import Foundation
 
 protocol FirestorePostsUseCase {
-    associatedtype ModelType: Model
-    
-    func upload(at index: Int, entity: ModelType)
+    func upload(at index: Int, entity: Model)
     func delete(at index: Int)
 }

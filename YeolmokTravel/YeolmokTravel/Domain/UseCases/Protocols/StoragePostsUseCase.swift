@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol StoragePostsUseCase {
-    func upload(_ index: Int, _ image: UIImage) async throws
+    func upload(_ index: Int, _ image: UIImage)
     func download(_ index: Int, completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void))
     func delete(_ index: Int)
 }
