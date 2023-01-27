@@ -10,11 +10,11 @@ import Foundation
 struct MemoryPostsUseCase: FirestorePostsUseCase {
     private let repository: FirestoreRepository
     
-    init(repository: MemoryRepository) {
+    init(repository: FirestoreRepository) {
         self.repository = repository
     }
     
-    func upload(at index: Int, entity: Memory) {
+    func upload(at index: Int, entity: Model) {
         Task { await repository.upload(at: index, entity: entity.toData()) }
     }
     

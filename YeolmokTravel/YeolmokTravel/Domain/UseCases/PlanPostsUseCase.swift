@@ -8,17 +8,32 @@
 import Foundation
 
 struct PlanPostsUseCase: FirestorePostsUseCase {
-    var repository: PlanRepository
+    private let model: OwnTravelPlan
+    private let repository: FirestoreRepository
     
-    init(repository: PlanRepository) {
+    init(model: OwnTravelPlan, repository: FirestoreRepository) {
+        self.model = model
         self.repository = repository
     }
     
-    func upload(at index: Int, entity: TravelPlan) {
+    func upload(at index: Int, entity: Model) {
         Task { await repository.upload(at: index, entity: entity.toData()) }
     }
     
     func delete(at index: Int) {
         Task { await repository.delete(at: index) }
     }
+    
+    func write(at index: Int?) async {
+        if let index = index {
+            await repository.upload(at: index, entity: model.travelPlans[index].toData() as! TravelPlanDTO)
+        } else {
+            let lastIndex = model.travelPlans.count - NumberConstants.one
+            await repository.upload(at: lastIndex, entity: model.travelPlans[lastIndex].toData() as! TravelPlanDTO)
+        }
+    }
+}
+
+private enum NumberConstants {
+    static let one = 1
 }

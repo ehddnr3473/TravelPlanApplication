@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B0FF61C29839EFB005729CC /* UseCaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61B29839EFB005729CC /* UseCaseProvider.swift */; };
+		6B0FF61E2983A247005729CC /* StoragePostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */; };
+		6B0FF6202983A4B7005729CC /* StorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61F2983A4B7005729CC /* StorageRepository.swift */; };
 		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
-		6B17E2FE2956A72800AF59EE /* MemoriesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FD2956A72800AF59EE /* MemoriesLoader.swift */; };
+		6B17E2FE2956A72800AF59EE /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FD2956A72800AF59EE /* ImageLoader.swift */; };
 		6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */; };
 		6B17E3042956A89300AF59EE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3032956A89300AF59EE /* Memory.swift */; };
 		6B17E3062956ADE300AF59EE /* PlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3052956ADE300AF59EE /* PlanRepository.swift */; };
@@ -50,7 +53,7 @@
 		6BB76BC0297F4F6700C8C596 /* MemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BBF297F4F6700C8C596 /* MemoryViewModel.swift */; };
 		6BB76BC2297F503E00C8C596 /* DefaultMemoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC1297F503E00C8C596 /* DefaultMemoryUseCase.swift */; };
 		6BB76BC4297F6E8F00C8C596 /* MemoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC3297F6E8F00C8C596 /* MemoryTransfer.swift */; };
-		6BB76BC6297F701F00C8C596 /* DefaultPlanUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC5297F701F00C8C596 /* DefaultPlanUseCase.swift */; };
+		6BB76BC6297F701F00C8C596 /* PlanControllableUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC5297F701F00C8C596 /* PlanControllableUseCase.swift */; };
 		6BB76BC8297F7F8800C8C596 /* WritingPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */; };
 		6BB76BCD297FBCB200C8C596 /* TravelPlanDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BCC297FBCB200C8C596 /* TravelPlanDTO.swift */; };
 		6BB76BD4297FC27900C8C596 /* ScheduleDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BD3297FC27800C8C596 /* ScheduleDTO.swift */; };
@@ -85,7 +88,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		6B17E2FD2956A72800AF59EE /* MemoriesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesLoader.swift; sourceTree = "<group>"; };
+		6B0FF61B29839EFB005729CC /* UseCaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProvider.swift; sourceTree = "<group>"; };
+		6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePostsUseCase.swift; sourceTree = "<group>"; };
+		6B0FF61F2983A4B7005729CC /* StorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
+		6B17E2FD2956A72800AF59EE /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryRepository.swift; sourceTree = "<group>"; };
 		6B17E3032956A89300AF59EE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
 		6B17E3052956ADE300AF59EE /* PlanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRepository.swift; sourceTree = "<group>"; };
@@ -128,7 +134,7 @@
 		6BB76BBF297F4F6700C8C596 /* MemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewModel.swift; sourceTree = "<group>"; };
 		6BB76BC1297F503E00C8C596 /* DefaultMemoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMemoryUseCase.swift; sourceTree = "<group>"; };
 		6BB76BC3297F6E8F00C8C596 /* MemoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTransfer.swift; sourceTree = "<group>"; };
-		6BB76BC5297F701F00C8C596 /* DefaultPlanUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPlanUseCase.swift; sourceTree = "<group>"; };
+		6BB76BC5297F701F00C8C596 /* PlanControllableUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanControllableUseCase.swift; sourceTree = "<group>"; };
 		6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanViewModel.swift; sourceTree = "<group>"; };
 		6BB76BCC297FBCB200C8C596 /* TravelPlanDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanDTO.swift; sourceTree = "<group>"; };
 		6BB76BD3297FC27800C8C596 /* ScheduleDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDTO.swift; sourceTree = "<group>"; };
@@ -174,6 +180,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B0FF61A29839EE8005729CC /* UseCaseProvider */ = {
+			isa = PBXGroup;
+			children = (
+				6B0FF61B29839EFB005729CC /* UseCaseProvider.swift */,
+			);
+			path = UseCaseProvider;
+			sourceTree = "<group>";
+		};
 		6B17E30F2956D48F00AF59EE /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,7 +257,6 @@
 				6BFB44FA296EF3E700AEAD77 /* Presentation */,
 				6BB883A4297C651F00C3E2E4 /* Domain */,
 				6BFB44FF296EF46700AEAD77 /* Data */,
-				6BB76BD7297FCEA200C8C596 /* Builder */,
 				6B73199B2980C860007ED670 /* FirebaseFlatform */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
@@ -289,6 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				6B73199D2980C898007ED670 /* FirestoreRepository.swift */,
+				6B0FF61F2983A4B7005729CC /* StorageRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -297,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				6B7A176929834A48004E2ABC /* FirestorePostsUseCase.swift */,
+				6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -333,12 +348,13 @@
 		6BB883A5297C652F00C3E2E4 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				6B0FF61A29839EE8005729CC /* UseCaseProvider */,
 				6B7A176829834A0F004E2ABC /* Protocols */,
 				6BB883A8297C65B300C3E2E4 /* ImagePostsUseCase.swift */,
 				6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */,
 				6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */,
 				6BB76BC1297F503E00C8C596 /* DefaultMemoryUseCase.swift */,
-				6BB76BC5297F701F00C8C596 /* DefaultPlanUseCase.swift */,
+				6BB76BC5297F701F00C8C596 /* PlanControllableUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -347,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				6B46FA3529513DA2000430C7 /* Delegate */,
+				6BB76BD7297FCEA200C8C596 /* Builder */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
@@ -448,7 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				6BB76BBF297F4F6700C8C596 /* MemoryViewModel.swift */,
-				6B17E2FD2956A72800AF59EE /* MemoriesLoader.swift */,
+				6B17E2FD2956A72800AF59EE /* ImageLoader.swift */,
 				6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */,
 			);
 			path = ViewModels;
@@ -609,6 +626,7 @@
 				6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */,
 				6BB883A9297C65B300C3E2E4 /* ImagePostsUseCase.swift in Sources */,
 				6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */,
+				6B0FF61C29839EFB005729CC /* UseCaseProvider.swift in Sources */,
 				6BA9F47429526BB000403DCC /* Plan.swift in Sources */,
 				6B37A4B62951743D00BBB8EE /* TravelPlaner.swift in Sources */,
 				6B37A4BD2951786800BBB8EE /* TravelPlan.swift in Sources */,
@@ -616,8 +634,10 @@
 				6B17E3042956A89300AF59EE /* Memory.swift in Sources */,
 				6B73199E2980C898007ED670 /* FirestoreRepository.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
+				6B0FF6202983A4B7005729CC /* StorageRepository.swift in Sources */,
 				6BB76BC2297F503E00C8C596 /* DefaultMemoryUseCase.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
+				6B0FF61E2983A247005729CC /* StoragePostsUseCase.swift in Sources */,
 				6BB277C42955893900534B68 /* MemoryView.swift in Sources */,
 				6B17E3132956D67F00AF59EE /* TopBarView.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
@@ -628,7 +648,7 @@
 				6BB883B1297D1C9100C3E2E4 /* TextField.swift in Sources */,
 				6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */,
 				6B7A176A29834A48004E2ABC /* FirestorePostsUseCase.swift in Sources */,
-				6B17E2FE2956A72800AF59EE /* MemoriesLoader.swift in Sources */,
+				6B17E2FE2956A72800AF59EE /* ImageLoader.swift in Sources */,
 				6BB76BD9297FCEF100C8C596 /* MemoryViewBuilder.swift in Sources */,
 				6BB883BB297DA1C200C3E2E4 /* MemoryPostsUseCase.swift in Sources */,
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
@@ -642,7 +662,7 @@
 				6BB76BC4297F6E8F00C8C596 /* MemoryTransfer.swift in Sources */,
 				6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */,
 				6BB883AB297C662100C3E2E4 /* PlanPostsUseCase.swift in Sources */,
-				6BB76BC6297F701F00C8C596 /* DefaultPlanUseCase.swift in Sources */,
+				6BB76BC6297F701F00C8C596 /* PlanControllableUseCase.swift in Sources */,
 				6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

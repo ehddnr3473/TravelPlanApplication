@@ -1,5 +1,5 @@
 //
-//  ImageLoadUseCase.swift
+//  ImagePostsUseCase.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/01/22.
@@ -8,16 +8,10 @@
 import Foundation
 import UIKit
 
-protocol ImageLoadUseCaseType {
-    func upload(_ index: Int, _ image: UIImage) async throws
-    func download(_ index: Int, completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void))
-    func delete(_ index: Int)
-}
-
-struct ImageLoadUseCase: ImageLoadUseCaseType {
-    var repository: ImageRepository
+struct ImagePostsUseCase: StoragePostsUseCase {
+    private let repository: StorageRepository
     
-    init(repository: ImageRepository) {
+    init(repository: StorageRepository) {
         self.repository = repository
     }
     
