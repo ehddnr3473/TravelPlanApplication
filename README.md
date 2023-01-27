@@ -8,7 +8,7 @@
 ## 사용 기술
 |구현 내용|도구|
 |---|---|
-|아키텍처|MVC 및 MVVM|
+|아키텍처|MVVM|
 |UI|UIKit|
 |동시성 프로그래밍|Swift Concurrency|
 |원격 데이터 저장소|Firebase Firestore 및 Storage|
@@ -32,10 +32,8 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
  <img src="/Document/MVVM.png">
 </p>
 
-- 이미지를 다운로드해서 **View**를 업데이트하는 메모리 탭의 셀 클래스에 MVVM 아키텍처 패턴을 적용
-- **View**를 데이터와 상태로 업데이트해줄 필요가 없으며 바인딩을 수행할 필요 또한 없는 구조는 **MVC** 아키텍처 패턴을 적용하여 복잡성을 감소시킴. 대신 **Model** 레이어를 엄격하게 분리함.
 - 원격 데이터 저장소로부터 데이터를 받아와서, 또는 콘텐츠를 작성하는 사용자 액션을 통해 **Model**을 업데이트.
-- Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행하여 **View** 업데이트.
+- Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행
 
 
 
