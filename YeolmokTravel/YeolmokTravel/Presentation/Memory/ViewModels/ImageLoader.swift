@@ -1,5 +1,5 @@
 //
-//  MemoriesLoader.swift
+//  ImageLoader.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/24.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import UIKit
 
-protocol MemoryLoadable: AnyObject {
+protocol ImageLoadable: AnyObject {
     // output
     var publisher: PassthroughSubject<UIImage, Never> { get set }
     var title: String { get }
@@ -17,14 +17,14 @@ protocol MemoryLoadable: AnyObject {
     var uploadDate: String { get }
     func downloadImage()
     
-    init(_ model: Memory, _ repository: ImageRepository)
+    init(_ model: Memory, _ useCase: StoragePostsUseCase)
 }
 
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
-final class MemoriesLoader: MemoryLoadable {
+final class ImageLoader: ImageLoadable {
     var model: Memory
-    var imageLoadUseCase: ImageLoadUseCaseType
+    private let useCase: StoragePostsUseCase
     var publisher = PassthroughSubject<UIImage, Never>()
     
     var title: String {
@@ -39,14 +39,13 @@ final class MemoriesLoader: MemoryLoadable {
         DateConverter.dateToString(model.uploadDate)
     }
     
-    // 레포지토리 추상화 및 수정 필요
-    init(_ model: Memory, _ repository: ImageRepository) {
+    init(_ model: Memory, _ useCase: StoragePostsUseCase) {
         self.model = model
-        self.imageLoadUseCase = ImageLoadUseCase(repository: repository)
+        self.useCase = useCase
     }
     
     func downloadImage() {
-        imageLoadUseCase.download(model.index) { result in
+        useCase.download(model.index) { result in
             switch result {
             case .success(let image):
                 self.publisher.send(image)
