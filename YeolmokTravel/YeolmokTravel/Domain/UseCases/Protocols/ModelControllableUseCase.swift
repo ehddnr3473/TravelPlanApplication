@@ -8,6 +8,8 @@
 import Foundation
 
 protocol ModelControllableUseCase {
+    var count: Int { get }
+    func query(_ index: Int) -> Model
     func add(_ model: Model)
     func update(at index: Int, _ model: Model)
     func delete(_ index: Int)

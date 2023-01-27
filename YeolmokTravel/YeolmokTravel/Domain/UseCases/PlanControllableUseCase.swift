@@ -8,32 +8,33 @@
 import Foundation
 import UIKit
 
-protocol ModelControllableUseCase {
-    func add(_ plan: TravelPlan)
-    func update(at index: Int, _ plan: TravelPlan)
-    func delete(_ index: Int) async
-}
-
 /// OwnTravelPlan 모델을 직접 조작하는 use case
 final class PlanControllableUseCase: ModelControllableUseCase {
-    private var model: OwnTravelPlan
-    private let repository: FirestoreRepository
+    private var plans: OwnTravelPlan
     
-    init(model: OwnTravelPlan, repository: FirestoreRepository) {
-        self.model = model
-        self.repository = repository
+    init(model: OwnTravelPlan) {
+        plans = model
     }
     
-    func add(_ plan: TravelPlan) {
-        model.add(plan)
+    var count: Int {
+        plans.travelPlans.count
     }
     
-    func update(at index: Int, _ plan: TravelPlan) {
-        model.update(at: index, plan)
+    func query(_ index: Int) -> Model {
+        plans.travelPlans[index]
     }
     
-    func delete(_ index: Int) async {
-        model.delete(at: index)
-        await repository.delete(at: index)
+    func add(_ model: Model) {
+        guard let plan = model as? TravelPlan else { return }
+        plans.add(plan)
+    }
+    
+    func update(at index: Int, _ model: Model) {
+        guard let plan = model as? TravelPlan else { return }
+        plans.update(at: index, plan)
+    }
+    
+    func delete(_ index: Int) {
+        plans.delete(at: index)
     }
 }
