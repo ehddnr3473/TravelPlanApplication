@@ -51,7 +51,7 @@
 		6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C029553C5F00534B68 /* DateConverter.swift */; };
 		6BB277C42955893900534B68 /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C32955893900534B68 /* MemoryView.swift */; };
 		6BB76BC0297F4F6700C8C596 /* MemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BBF297F4F6700C8C596 /* MemoryViewModel.swift */; };
-		6BB76BC2297F503E00C8C596 /* DefaultMemoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC1297F503E00C8C596 /* DefaultMemoryUseCase.swift */; };
+		6BB76BC2297F503E00C8C596 /* MemoryControllableUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC1297F503E00C8C596 /* MemoryControllableUseCase.swift */; };
 		6BB76BC4297F6E8F00C8C596 /* MemoryTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC3297F6E8F00C8C596 /* MemoryTransfer.swift */; };
 		6BB76BC6297F701F00C8C596 /* PlanControllableUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC5297F701F00C8C596 /* PlanControllableUseCase.swift */; };
 		6BB76BC8297F7F8800C8C596 /* WritingPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */; };
@@ -67,6 +67,7 @@
 		6BB883B1297D1C9100C3E2E4 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B0297D1C9100C3E2E4 /* TextField.swift */; };
 		6BB883B5297D1EE200C3E2E4 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B4297D1EE200C3E2E4 /* Control.swift */; };
 		6BB883BB297DA1C200C3E2E4 /* MemoryPostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */; };
+		6BCFFDBE2983E02F0008D608 /* ModelControllableUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCFFDBD2983E02F0008D608 /* ModelControllableUseCase.swift */; };
 		6BFB44F9296EF03100AEAD77 /* PlanTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */; };
 /* End PBXBuildFile section */
 
@@ -132,7 +133,7 @@
 		6BB277C029553C5F00534B68 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 		6BB277C32955893900534B68 /* MemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
 		6BB76BBF297F4F6700C8C596 /* MemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewModel.swift; sourceTree = "<group>"; };
-		6BB76BC1297F503E00C8C596 /* DefaultMemoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMemoryUseCase.swift; sourceTree = "<group>"; };
+		6BB76BC1297F503E00C8C596 /* MemoryControllableUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryControllableUseCase.swift; sourceTree = "<group>"; };
 		6BB76BC3297F6E8F00C8C596 /* MemoryTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTransfer.swift; sourceTree = "<group>"; };
 		6BB76BC5297F701F00C8C596 /* PlanControllableUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanControllableUseCase.swift; sourceTree = "<group>"; };
 		6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanViewModel.swift; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		6BB883B0297D1C9100C3E2E4 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		6BB883B4297D1EE200C3E2E4 /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryPostsUseCase.swift; sourceTree = "<group>"; };
+		6BCFFDBD2983E02F0008D608 /* ModelControllableUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelControllableUseCase.swift; sourceTree = "<group>"; };
 		6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTransfer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -312,6 +314,7 @@
 			children = (
 				6B7A176929834A48004E2ABC /* FirestorePostsUseCase.swift */,
 				6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */,
+				6BCFFDBD2983E02F0008D608 /* ModelControllableUseCase.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -353,7 +356,7 @@
 				6BB883A8297C65B300C3E2E4 /* ImagePostsUseCase.swift */,
 				6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */,
 				6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */,
-				6BB76BC1297F503E00C8C596 /* DefaultMemoryUseCase.swift */,
+				6BB76BC1297F503E00C8C596 /* MemoryControllableUseCase.swift */,
 				6BB76BC5297F701F00C8C596 /* PlanControllableUseCase.swift */,
 			);
 			path = UseCases;
@@ -635,7 +638,7 @@
 				6B73199E2980C898007ED670 /* FirestoreRepository.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B0FF6202983A4B7005729CC /* StorageRepository.swift in Sources */,
-				6BB76BC2297F503E00C8C596 /* DefaultMemoryUseCase.swift in Sources */,
+				6BB76BC2297F503E00C8C596 /* MemoryControllableUseCase.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
 				6B0FF61E2983A247005729CC /* StoragePostsUseCase.swift in Sources */,
 				6BB277C42955893900534B68 /* MemoryView.swift in Sources */,
@@ -657,6 +660,7 @@
 				6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */,
 				6B7A1770298359DE004E2ABC /* Model.swift in Sources */,
 				6BB76BD6297FCBA900C8C596 /* MemoryDTO.swift in Sources */,
+				6BCFFDBE2983E02F0008D608 /* ModelControllableUseCase.swift in Sources */,
 				6BFB44F9296EF03100AEAD77 /* PlanTransfer.swift in Sources */,
 				6B17E3082956C54100AF59EE /* ImageRepository.swift in Sources */,
 				6BB76BC4297F6E8F00C8C596 /* MemoryTransfer.swift in Sources */,

@@ -15,8 +15,8 @@ struct MemoryPostsUseCase: FirestorePostsUseCase {
         self.repository = repository
     }
     
-    func upload(at index: Int, entity: Model) {
-        Task { await repository.upload(at: index, entity: entity.toData()) }
+    func upload(at index: Int, model: Model) {
+        Task { await repository.upload(at: index, entity: model.toData()) }
     }
     
     func delete(at index: Int) {

@@ -26,8 +26,8 @@ final class UseCaseProvider {
         MemoryPostsUseCase(repository: memoryRepository)
     }
     
-    func createDefaultMemoryUseCase(_ model: [Memory]) -> DefaultMemoryUseCase {
-        DefaultMemoryUseCase(memories: model, repository: memoryRepository)
+    func createDefaultMemoryUseCase(_ model: [Memory]) -> MemoryControllableUseCase {
+        MemoryControllableUseCase(memories: model)
     }
     
     func createPlanPostsUseCase(_ model: OwnTravelPlan) -> PlanPostsUseCase {
@@ -35,6 +35,6 @@ final class UseCaseProvider {
     }
     
     func createPlanControllableUseCase(_ model: OwnTravelPlan) -> PlanControllableUseCase {
-        PlanControllableUseCase(model: model, repository: planRepository)
+        PlanControllableUseCase(model: model)
     }
 }
