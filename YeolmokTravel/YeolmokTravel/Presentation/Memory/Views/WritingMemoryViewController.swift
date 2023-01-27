@@ -13,7 +13,7 @@ final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
     var addDelegate: MemoryTransfer?
     var memoryIndex: Int!
-    private let viewModel = WritingMemoryViewModel()
+    var viewModel: WritingMemoryViewModel!
     private let imageIsExist = CurrentValueSubject<Bool, Never>(false)
     private var subscriptions = Set<AnyCancellable>()
     

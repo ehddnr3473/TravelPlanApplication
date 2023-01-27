@@ -12,7 +12,7 @@ import JGProgressHUD
 final class MemoriesCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    private(set) var viewModel: MemoriesLoader?
+    private(set) var viewModel: ImageLoader?
     private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
@@ -63,7 +63,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         dateLabel.text = ""
     }
     
-    func setViewModel(_ viewModel: MemoriesLoader) {
+    func setViewModel(_ viewModel: ImageLoader) {
         self.viewModel = viewModel
         setBindings()
         configure()
