@@ -91,7 +91,7 @@ struct TravelPlan: Plan {
     }
 }
 
-extension TravelPlan {
+extension TravelPlan: Model {
     func toData() -> TravelPlanDTO {
         .init(
             title: title,

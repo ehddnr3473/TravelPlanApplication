@@ -35,7 +35,7 @@ struct Schedule: Plan {
     }
 }
 
-extension Schedule {
+extension Schedule: Model {
     func toData() -> ScheduleDTO {
         .init(
             title: title,

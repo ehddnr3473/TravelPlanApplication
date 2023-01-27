@@ -14,7 +14,7 @@ struct Memory {
     let uploadDate: Date
 }
 
-extension Memory {
+extension Memory: Model {
     func toData() -> MemoryDTO {
         .init(
             title: title,
