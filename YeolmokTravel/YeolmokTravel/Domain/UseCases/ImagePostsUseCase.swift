@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+/// Storage 관련 use case
 struct ImagePostsUseCase: StoragePostsUseCase {
     private let repository: StorageRepository
     

@@ -13,6 +13,7 @@ struct MemoryDTO: Entity {
     let uploadDate: Date
 }
 
+// MARK: - Mapping to domain
 extension MemoryDTO {
     func toDomain() -> Model {
         Memory(title: title, index: index, uploadDate: uploadDate)

@@ -14,7 +14,7 @@ protocol ModelControllableUseCase {
     func delete(_ index: Int) async
 }
 
-/// OwnTravelPlan 모델을 직접 조작하는 유스케이스
+/// OwnTravelPlan 모델을 직접 조작하는 use case
 final class PlanControllableUseCase: ModelControllableUseCase {
     private var model: OwnTravelPlan
     private let repository: FirestoreRepository

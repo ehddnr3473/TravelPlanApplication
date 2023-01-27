@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Firestore 관련 use case
 struct MemoryPostsUseCase: FirestorePostsUseCase {
     private let repository: FirestoreRepository
     
