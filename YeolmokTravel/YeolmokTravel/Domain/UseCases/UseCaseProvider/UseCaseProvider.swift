@@ -8,11 +8,13 @@
 import Foundation
 
 final class UseCaseProvider {
-    private let firestoreRepository: FirestoreRepository
+    private let planRepository: PlanRepository
+    private let memoryRepository: MemoryRepository
     private let storageRepository: StorageRepository
 
-    init(firestoreRepository: FirestoreRepository, storageRepository: StorageRepository) {
-        self.firestoreRepository = firestoreRepository
+    init(planRepository: PlanRepository, memoryRepository: MemoryRepository, storageRepository: StorageRepository) {
+        self.planRepository = planRepository
+        self.memoryRepository = memoryRepository
         self.storageRepository = storageRepository
     }
     
@@ -21,18 +23,18 @@ final class UseCaseProvider {
     }
     
     func createMemoryPostsUseCase() -> MemoryPostsUseCase {
-        MemoryPostsUseCase(repository: firestoreRepository)
+        MemoryPostsUseCase(repository: memoryRepository)
     }
     
     func createDefaultMemoryUseCase(_ model: [Memory]) -> DefaultMemoryUseCase {
-        DefaultMemoryUseCase(memories: model, repository: firestoreRepository)
+        DefaultMemoryUseCase(memories: model, repository: memoryRepository)
     }
     
     func createPlanPostsUseCase(_ model: OwnTravelPlan) -> PlanPostsUseCase {
-        PlanPostsUseCase(model: model, repository: firestoreRepository)
+        PlanPostsUseCase(model: model, repository: planRepository)
     }
     
     func createPlanControllableUseCase(_ model: OwnTravelPlan) -> PlanControllableUseCase {
-        PlanControllableUseCase(model: model, repository: firestoreRepository)
+        PlanControllableUseCase(model: model, repository: planRepository)
     }
 }
