@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScheduleDTO {
+struct ScheduleDTO: Entity {
     let title: String
     let description: String
     let fromDate: Date?

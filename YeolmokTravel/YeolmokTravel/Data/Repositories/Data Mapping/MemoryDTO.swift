@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemoryDTO {
+struct MemoryDTO: Entity {
     let title: String
     let index: Int
     let uploadDate: Date
