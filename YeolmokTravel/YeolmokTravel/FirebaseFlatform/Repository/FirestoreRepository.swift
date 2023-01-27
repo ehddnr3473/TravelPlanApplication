@@ -8,9 +8,7 @@
 import Foundation
 
 protocol FirestoreRepository {
-    associatedtype EntityType: Entity
-    
-    func upload(at index: Int, entity: EntityType) async
-    func download() async -> [EntityType]
+    func upload(at index: Int, entity: Entity) async
+    func download() async -> [Entity]
     func delete(at index: Int) async
 }
