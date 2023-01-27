@@ -7,31 +7,33 @@
 
 import Foundation
 
-struct PlanViewBuilder {
+final class PlanViewBuilder {
     private var planView: PlanView
     private var planRepository: PlanRepository
+    private let useCaseProvider: UseCaseProvider
     
-    init(planView: PlanView, planRepository: PlanRepository) {
+    init(planView: PlanView, planRepository: PlanRepository, useCaseProvider: UseCaseProvider) {
         self.planView = planView
         self.planRepository = planRepository
+        self.useCaseProvider = useCaseProvider
     }
     
     private func downloadModel() async -> OwnTravelPlan {
         OwnTravelPlan(travelPlans: await planRepository.download().map { $0.toDomain() as! TravelPlan })
     }
     
-    private func setUpUseCase(_ model: OwnTravelPlan) -> DefaultPlanUseCase {
-        DefaultPlanUseCase(model: model, repository: planRepository)
-    }
-    
-    private func setUpViewModel(_ useCase: DefaultPlanUseCase) {
-        planView.viewModel = TravelPlaner(useCase)
+    private func setUpViewModel(_ model: OwnTravelPlan) {
+        planView.viewModel = TravelPlaner(
+            model,
+            useCaseProvider.createPlanControllableUseCase(model),
+            useCaseProvider.createPlanPostsUseCase(model)
+        )
+        
     }
     
     func build() async -> PlanView {
         let model = await downloadModel()
-        let useCase = setUpUseCase(model)
-        setUpViewModel(useCase)
+        setUpViewModel(model)
         return planView
     }
 }
