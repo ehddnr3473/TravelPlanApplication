@@ -66,10 +66,12 @@ extension TravelPlaner: PlanTransfer {
         if let index = index {
             planControllableUseCase.update(at: index, plan)
             planPostsUseCase.upload(at: index, model: plan)
+            publisher.send()
         } else {
             planControllableUseCase.add(plan)
             let lastIndex = model.travelPlans.count - NumberConstants.one
             planPostsUseCase.upload(at: lastIndex, model: model.travelPlans[lastIndex])
+            publisher.send()
         }
     }
     
