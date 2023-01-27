@@ -36,12 +36,7 @@ struct Schedule: Plan {
 }
 
 extension Schedule: Model {
-    func toData() -> ScheduleDTO {
-        .init(
-            title: title,
-            description: description,
-            fromDate: fromDate,
-            toDate: toDate
-        )
+    func toData() -> Entity {
+        ScheduleDTO(title: title, description: description, fromDate: fromDate, toDate: toDate)
     }
 }

@@ -15,11 +15,7 @@ struct Memory {
 }
 
 extension Memory: Model {
-    func toData() -> MemoryDTO {
-        .init(
-            title: title,
-            index: index,
-            uploadDate: uploadDate
-        )
+    func toData() -> Entity {
+        MemoryDTO(title: title, index: index, uploadDate: uploadDate)
     }
 }

@@ -8,6 +8,5 @@
 import Foundation
 
 protocol Model {
-    associatedtype EntityType: Entity
-    func toData() -> EntityType
+    func toData() -> Entity
 }

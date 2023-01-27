@@ -92,11 +92,11 @@ struct TravelPlan: Plan {
 }
 
 extension TravelPlan: Model {
-    func toData() -> TravelPlanDTO {
-        .init(
+    func toData() -> Entity {
+        TravelPlanDTO(
             title: title,
             description: description,
-            schedules: schedules.map { $0.toData() }
+            schedules: schedules.map { $0.toData() as! ScheduleDTO }
         )
     }
 }
