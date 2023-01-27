@@ -8,7 +8,7 @@
 import Foundation
 
 struct MemoryPostsUseCase: FirestorePostsUseCase {
-    var repository: MemoryRepository
+    private let repository: FirestoreRepository
     
     init(repository: MemoryRepository) {
         self.repository = repository

@@ -10,10 +10,11 @@ import UIKit
 
 final class DefaultPlanUseCase {
     private var model: OwnTravelPlan
-    private let repository = PlanRepository()
+    private let repository: FirestoreRepository
     
-    init(model: OwnTravelPlan) {
+    init(model: OwnTravelPlan, repository: FirestoreRepository) {
         self.model = model
+        self.repository = repository
     }
     
     var planCount: Int {
@@ -49,10 +50,10 @@ final class DefaultPlanUseCase {
     
     func write(at index: Int?) async {
         if let index = index {
-            await repository.upload(at: index, entity: model.travelPlans[index].toData())
+            await repository.upload(at: index, entity: model.travelPlans[index].toData() as! TravelPlanDTO)
         } else {
             let lastIndex = model.travelPlans.count - NumberConstants.one
-            await repository.upload(at: lastIndex, entity: model.travelPlans[lastIndex].toData())
+            await repository.upload(at: lastIndex, entity: model.travelPlans[lastIndex].toData() as! TravelPlanDTO)
         }
     }
 }

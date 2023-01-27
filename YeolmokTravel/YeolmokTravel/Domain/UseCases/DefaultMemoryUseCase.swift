@@ -9,13 +9,15 @@ import Foundation
 
 final class DefaultMemoryUseCase {
     private var memories: [Memory]
+    private let repository: FirestoreRepository
     
     var count: Int {
         memories.count
     }
     
-    init(memories: [Memory]) {
+    init(memories: [Memory], repository: FirestoreRepository) {
         self.memories = memories
+        self.repository = repository
     }
     
     func memory(_ index: Int) -> Memory {
