@@ -19,13 +19,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let planView = PlanView()
         let planRepository = PlanRepository()
-        let planViewBuilder = PlanViewBuilder(planView: planView, planRepository: planRepository)
+        let memoryRepository = MemoryRepository()
+        let imageRepository = ImageRepository()
+        
+        let useCaseProvider = UseCaseProvider(firestoreRepository: planRepository, 
+                                              storageRepository: imageRepository)
+        let planView = PlanView()
+        let planViewBuilder = PlanViewBuilder(planView: planView,
+                                              planRepository: planRepository,
+                                              useCaseProvider: useCaseProvider)
         
         let memoryView = MemoryView()
-        let memoryRepository = MemoryRepository()
-        let memoryViewBuilder = MemoryViewBuilder(memoryView: memoryView, memoryRepository: memoryRepository)
+        let memoryViewBuilder = MemoryViewBuilder(memoryView: memoryView,
+                                                  memoryRepository: memoryRepository,
+                                                  imageRepository: imageRepository, 
+                                                  useCaseProvider: useCaseProvider)
         
         let tabBarController = TabBarController()
         tabBarController.planViewBuilder = planViewBuilder
