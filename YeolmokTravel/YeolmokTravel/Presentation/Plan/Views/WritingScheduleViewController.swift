@@ -25,6 +25,10 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var viewModel: WritingPlanViewModel!
     private var subscriptions = Set<AnyCancellable>()
     
+    deinit {
+        print("deinit: WritingScheduleViewController")
+    }
+    
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
         return topBarView

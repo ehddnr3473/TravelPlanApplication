@@ -28,6 +28,10 @@ final class WritingMemoryViewModel: WritingViewModelType {
         self.memoryPostsUseCase = memoryPostsUseCase
     }
     
+    deinit {
+        print("deinit: WritingMemoryViewModel")
+    }
+    
     func transform(input: Input) -> Output {
         let buttonStatePublisher = input.title.combineLatest(input.image)
             .map { title, image in

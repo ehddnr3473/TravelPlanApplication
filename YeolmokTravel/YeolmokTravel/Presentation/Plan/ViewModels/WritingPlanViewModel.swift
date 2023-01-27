@@ -17,6 +17,10 @@ final class WritingPlanViewModel: WritingViewModelType {
         let buttonState: AnyPublisher<Bool, Never>
     }
     
+    deinit {
+        print("deinit: WritingPlanViewModel")
+    }
+    
     func transform(input: Input) -> Output {
         let buttonStatePublisher = input.title
             .map { $0.count > 0 }

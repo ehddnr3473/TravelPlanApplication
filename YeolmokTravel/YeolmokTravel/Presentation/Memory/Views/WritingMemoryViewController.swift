@@ -17,6 +17,10 @@ final class WritingMemoryViewController: UIViewController {
     private let imageIsExist = CurrentValueSubject<Bool, Never>(false)
     private var subscriptions = Set<AnyCancellable>()
     
+    deinit {
+        print("deinit: WritingMemoryViewController")
+    }
+    
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
         return topBarView
