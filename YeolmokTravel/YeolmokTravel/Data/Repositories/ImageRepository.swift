@@ -16,7 +16,7 @@ enum ImageLoadError: String, Error {
 
 /// Firebase Storage 서비스를 사용
 /// 이미지를 다운로드하고 캐시 전략 적용
-final class ImageRepository {
+final class ImageRepository: StorageRepository {
     private var cachedImages = [String: UIImage]()
     private let storageReference: StorageReference
     
