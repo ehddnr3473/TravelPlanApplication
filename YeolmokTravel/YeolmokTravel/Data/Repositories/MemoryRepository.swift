@@ -13,7 +13,7 @@ struct MemoryRepository: FirestoreRepository {
     private var database = Firestore.firestore()
 
     // write
-    func upload(at index: Int, entity: some Entity) async {
+    func upload(at index: Int, entity: Entity) async {
         guard let entity = entity as? MemoryDTO else { return }
         try? await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(entity.index)").setData([
             Key.title: entity.title,

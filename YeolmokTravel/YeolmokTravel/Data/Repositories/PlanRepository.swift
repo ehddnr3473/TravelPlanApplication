@@ -13,7 +13,7 @@ struct PlanRepository: FirestoreRepository {
     private var database = Firestore.firestore()
     
     // create & update
-    func upload(at index: Int, entity: some Entity) async {
+    func upload(at index: Int, entity: Entity) async {
         guard let entity = entity as? TravelPlanDTO else { return }
         try? await database.collection(DatabasePath.plans).document("\(index)").setData([
             Key.title: entity.title,
