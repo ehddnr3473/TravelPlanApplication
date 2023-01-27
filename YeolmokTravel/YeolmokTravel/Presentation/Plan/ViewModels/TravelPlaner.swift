@@ -21,14 +21,14 @@ protocol PlanConfigurable: AnyObject {
     func date(_ index: Int) -> String
     func description(_ index: Int) -> String
     
-    init(_ model: OwnTravelPlan, _ planControllableUseCase: PlanControllableUseCase, _ planPostsUseCase: PlanPostsUseCase)
+    init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControllableUseCase, _ planPostsUseCase: FirestorePostsUseCase)
 }
 
 /// TravelPlan View Model
 final class TravelPlaner: PlanConfigurable {
-    var model: OwnTravelPlan
-    private let planControllableUseCase: PlanControllableUseCase
-    private let planPostsUseCase: PlanPostsUseCase
+    private var model: OwnTravelPlan
+    private let planControllableUseCase: ModelControllableUseCase
+    private let planPostsUseCase: FirestorePostsUseCase
     
     var publisher = PassthroughSubject<Void, Never>()
     
@@ -36,7 +36,7 @@ final class TravelPlaner: PlanConfigurable {
         model.travelPlans.count
     }
     
-    required init(_ model: OwnTravelPlan, _ planControllableUseCase: PlanControllableUseCase, _ planPostsUseCase: PlanPostsUseCase) {
+    required init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControllableUseCase, _ planPostsUseCase: FirestorePostsUseCase) {
         self.model = model
         self.planControllableUseCase = planControllableUseCase
         self.planPostsUseCase = planPostsUseCase
@@ -55,6 +55,7 @@ final class TravelPlaner: PlanConfigurable {
     }
     
     func delete(_ index: Int) {
+        planControllableUseCase.delete(index)
         Task { planPostsUseCase.delete(at: index) }
     }
 }
@@ -64,11 +65,11 @@ extension TravelPlaner: PlanTransfer {
         guard let plan = plan as? TravelPlan else { return }
         if let index = index {
             planControllableUseCase.update(at: index, plan)
-            Task { await planPostsUseCase.write(at: index) }
-            
+            planPostsUseCase.upload(at: index, model: plan)
         } else {
             planControllableUseCase.add(plan)
-            Task { await planPostsUseCase.write(at: nil) }
+            let lastIndex = model.travelPlans.count - NumberConstants.one
+            planPostsUseCase.upload(at: lastIndex, model: model.travelPlans[lastIndex])
         }
     }
     
@@ -93,4 +94,8 @@ extension TravelPlaner: PlanTransfer {
         navigationController.modalPresentationStyle = .fullScreen
         return navigationController
     }
+}
+
+private enum NumberConstants {
+    static let one = 1
 }
