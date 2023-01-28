@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol StorageRepository {
+protocol StorageRepository: AnyObject {
     func cachedImage(_ index: Int) -> UIImage?
     func cacheImage(_ index: Int, image: UIImage)
     func upload(at index: Int, _ image: UIImage) async

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ModelControllableUseCase {
+protocol ModelControllableUseCase: AnyObject {
     var count: Int { get }
     func query(_ index: Int) -> Model
     func add(_ model: Model)
