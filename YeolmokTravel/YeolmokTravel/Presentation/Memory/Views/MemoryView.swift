@@ -150,6 +150,10 @@ extension MemoryView: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 }
 
+protocol MemoryTransfer {
+    func writingHandler(_ memory: Memory)
+}
+
 extension MemoryView: MemoryTransfer {
     func writingHandler(_ memory: Memory) {
         viewModel.add(memory)
