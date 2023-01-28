@@ -8,9 +8,9 @@
 import Foundation
 
 final class MemoryViewBuilder {
-    private var memoryView: MemoryView
-    private var memoryRepository: MemoryRepository
-    private var imageRepository: ImageRepository
+    private let memoryView: MemoryView
+    private let memoryRepository: MemoryRepository
+    private let imageRepository: ImageRepository
     private let useCaseProvider: UseCaseProvider
     
     init(memoryView: MemoryView, memoryRepository: MemoryRepository, imageRepository: ImageRepository, useCaseProvider: UseCaseProvider) {

@@ -8,8 +8,8 @@
 import Foundation
 
 final class PlanViewBuilder {
-    private var planView: PlanView
-    private var planRepository: PlanRepository
+    private let planView: PlanView
+    private let planRepository: PlanRepository
     private let useCaseProvider: UseCaseProvider
     
     init(planView: PlanView, planRepository: PlanRepository, useCaseProvider: UseCaseProvider) {
