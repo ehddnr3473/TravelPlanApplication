@@ -256,7 +256,6 @@
 				6BFB44FA296EF3E700AEAD77 /* Presentation */,
 				6BB883A4297C651F00C3E2E4 /* Domain */,
 				6BFB44FF296EF46700AEAD77 /* Data */,
-				6B73199B2980C860007ED670 /* FirebaseFlatform */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
 			);
@@ -289,21 +288,13 @@
 			path = Delegate;
 			sourceTree = "<group>";
 		};
-		6B73199B2980C860007ED670 /* FirebaseFlatform */ = {
-			isa = PBXGroup;
-			children = (
-				6B73199C2980C88A007ED670 /* Repository */,
-			);
-			path = FirebaseFlatform;
-			sourceTree = "<group>";
-		};
-		6B73199C2980C88A007ED670 /* Repository */ = {
+		6B73199B2980C860007ED670 /* FirebasePlugPoint */ = {
 			isa = PBXGroup;
 			children = (
 				6B73199D2980C898007ED670 /* FirestoreRepository.swift */,
 				6B0FF61F2983A4B7005729CC /* StorageRepository.swift */,
 			);
-			path = Repository;
+			path = FirebasePlugPoint;
 			sourceTree = "<group>";
 		};
 		6B7A176829834A0F004E2ABC /* Protocols */ = {
@@ -440,6 +431,7 @@
 		6BFB4505296EF4CB00AEAD77 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				6B73199B2980C860007ED670 /* FirebasePlugPoint */,
 				6BB76BD2297FC14C00C8C596 /* Data Mapping */,
 				6B17E3052956ADE300AF59EE /* PlanRepository.swift */,
 				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
