@@ -71,20 +71,20 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - SetUp View
-extension MemoriesCollectionViewCell {
+private extension MemoriesCollectionViewCell {
     private func setUpUI() {
         contentView.backgroundColor = .clear
         setUpHierachy()
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [imageView, titleLabel, dateLabel].forEach {
             contentView.addSubview($0)
         }
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         imageView.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top)
             $0.leading.equalTo(contentView.snp.leading)
@@ -105,7 +105,7 @@ extension MemoriesCollectionViewCell {
         }
     }
     
-    private func setBindings() {
+    func setBindings() {
         viewModel?.publisher
             .receive(on: RunLoop.main)
             .sink { image in
@@ -115,7 +115,7 @@ extension MemoriesCollectionViewCell {
             .store(in: &subscriptions)
     }
     
-    private func configure() {
+    func configure() {
         progressIndicator.show(in: imageView)
         viewModel?.downloadImage()
         titleLabel.text = viewModel?.title
