@@ -111,8 +111,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
 }
 
 // MARK: - SetUp View
-extension WritingTravelPlanViewController {
-    private func setUpUI() {
+private extension WritingTravelPlanViewController {
+    func setUpUI() {
         view.backgroundColor = .black
         
         switch writingStyle {
@@ -131,13 +131,13 @@ extension WritingTravelPlanViewController {
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [topBarView, titleTextField, descriptionTextView, scheduleTitleLabel, addScheduleButton, scheduleTableView].forEach {
             view.addSubview($0)
         }
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         topBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.width.equalToSuperview()
@@ -180,7 +180,7 @@ extension WritingTravelPlanViewController {
         }
     }
     
-    private func configure() {
+    func configure() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
@@ -214,7 +214,7 @@ extension WritingTravelPlanViewController {
         present(setUpWritingView(.add), animated: true)
     }
     
-    private func setBindings() {
+    func setBindings() {
         let input = WritingPlanViewModel.Input(title: titleTextField.textPublisher)
         
         let output = viewModel.transform(input: input)
@@ -227,7 +227,7 @@ extension WritingTravelPlanViewController {
             .store(in: &subscriptions)
     }
     
-    private func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
+    func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
         let writingScheduleViewController = WritingScheduleViewController()
         switch writingStyle {
         case .add:
@@ -247,7 +247,7 @@ extension WritingTravelPlanViewController {
         return writingScheduleViewController
     }
     
-    @MainActor private func reload() {
+    @MainActor func reload() {
         scheduleTableView.snp.updateConstraints {
             $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
         }

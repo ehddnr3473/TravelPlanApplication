@@ -140,8 +140,8 @@ final class WritingScheduleViewController: UIViewController, Writable {
     }
 }
 
-extension WritingScheduleViewController {
-    private func setUpUI() {
+private extension WritingScheduleViewController {
+    func setUpUI() {
         view.backgroundColor = .black
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
@@ -158,7 +158,7 @@ extension WritingScheduleViewController {
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
             dateBackgroundView.addSubview($0)
         }
@@ -172,7 +172,7 @@ extension WritingScheduleViewController {
         }
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         if isAdding {
             topBarView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -242,7 +242,7 @@ extension WritingScheduleViewController {
         }
     }
     
-    private func setUpUIValue() {
+    func setUpUIValue() {
         titleTextField.text = model.title
         descriptionTextView.text = model.description
         
@@ -317,7 +317,7 @@ extension WritingScheduleViewController {
         }
     }
     
-    private func setBindings() {
+    func setBindings() {
         let input = WritingPlanViewModel.Input(title: titleTextField.textPublisher)
         
         let output = viewModel.transform(input: input)
