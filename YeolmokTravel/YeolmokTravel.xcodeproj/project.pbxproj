@@ -297,14 +297,14 @@
 			path = FirebasePlugPoint;
 			sourceTree = "<group>";
 		};
-		6B7A176829834A0F004E2ABC /* Protocols */ = {
+		6B7A176829834A0F004E2ABC /* UseCasePlugPoint */ = {
 			isa = PBXGroup;
 			children = (
 				6B7A176929834A48004E2ABC /* FirestorePostsUseCase.swift */,
 				6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */,
 				6BCFFDBD2983E02F0008D608 /* ModelControllableUseCase.swift */,
 			);
-			path = Protocols;
+			path = UseCasePlugPoint;
 			sourceTree = "<group>";
 		};
 		6BB76BD2297FC14C00C8C596 /* Data Mapping */ = {
@@ -340,7 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				6B0FF61A29839EE8005729CC /* UseCaseProvider */,
-				6B7A176829834A0F004E2ABC /* Protocols */,
+				6B7A176829834A0F004E2ABC /* UseCasePlugPoint */,
 				6BB883A8297C65B300C3E2E4 /* ImagePostsUseCase.swift */,
 				6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */,
 				6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */,
