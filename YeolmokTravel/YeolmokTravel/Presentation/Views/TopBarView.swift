@@ -56,20 +56,22 @@ final class TopBarView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
-    private func setUpUI() {
+}
+
+private extension TopBarView {
+    func setUpUI() {
         setUpHierachy()
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [cancelBarButton, barTitleLabel, saveBarButton].forEach {
             topBarStackView.addArrangedSubview($0)
         }
         addSubview(topBarStackView)
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         topBarStackView.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.width.equalToSuperview()
