@@ -58,20 +58,20 @@ final class PlanView: UIViewController {
 }
 
 // MARK: - SetUp View
-extension PlanView {
+private extension PlanView {
     private func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [titleLabel, addButton, planTableView].forEach {
             view.addSubview($0)
         }
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview()
@@ -94,12 +94,12 @@ extension PlanView {
         }
     }
     
-    private func configure() {
+    func configure() {
         planTableView.delegate = self
         planTableView.dataSource = self
     }
     
-    private func setBindings() {
+    func setBindings() {
         viewModel.publisher
             .sink { self.reload() }
             .store(in: &subscriptions)
@@ -109,7 +109,7 @@ extension PlanView {
         present(viewModel.setUpWritingView(.add), animated: true)
     }
     
-    @MainActor private func reload() {
+    @MainActor func reload() {
         planTableView.snp.updateConstraints {
             $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
         }
