@@ -10,7 +10,7 @@ import Combine
 import UIKit
 
 /// Plan View Model Protocol
-protocol PlanConfigurable: AnyObject {
+fileprivate protocol PlanConfigurable: AnyObject {
     // input
     func delete(_ index: Int)
     
