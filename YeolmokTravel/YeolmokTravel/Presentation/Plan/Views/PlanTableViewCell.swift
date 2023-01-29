@@ -61,7 +61,10 @@ final class PlanTableViewCell: UITableViewCell {
         dateLabel.text = ""
         descriptionLabel.text = ""
     }
-    
+}
+
+// MARK: - SetUp View
+private extension PlanTableViewCell {
     private func setUpUI() {
         self.backgroundColor = .darkGray
         self.layer.borderWidth = LayoutConstants.borderWidth
