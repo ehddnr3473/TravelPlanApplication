@@ -52,20 +52,20 @@ final class MemoryView: UIViewController {
 }
 
 // MARK: - SetUp View
-extension MemoryView {
-    private func setUpUI() {
+private extension MemoryView {
+    func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [titleLabel, addButton, memoriesCollectionView].forEach {
             view.addSubview($0)
         }
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview()
@@ -90,11 +90,11 @@ extension MemoryView {
         }
     }
     
-    private func configure() {
+    func configure() {
         memoriesCollectionView.dataSource = self
     }
     
-    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
+    func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let item = NSCollectionLayoutItem(layoutSize:
                                             NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutConstants.original),
                                                                    heightDimension: .fractionalHeight(LayoutConstants.original)))
@@ -111,7 +111,7 @@ extension MemoryView {
     }
     
     @MainActor
-    private func reload() {
+    func reload() {
         memoriesCollectionView.reloadData()
     }
     
@@ -126,7 +126,7 @@ extension MemoryView {
         present(writingMemoryViewController, animated: true)
     }
     
-    private func setBindings() {
+    func setBindings() {
         viewModel.reloadPublisher
             .sink { [weak self] _ in
                 self?.reload()
