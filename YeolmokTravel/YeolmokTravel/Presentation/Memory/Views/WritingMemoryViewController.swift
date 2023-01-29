@@ -97,19 +97,19 @@ final class WritingMemoryViewController: UIViewController {
 
 // MARK: - SetUp View
 extension WritingMemoryViewController {
-    private func setUpUI() {
+    func setUpUI() {
         view.backgroundColor = .black
         setUpHierachy()
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    func setUpHierachy() {
         [topBarView, titleTextField, imageView, addButton, deleteButton].forEach {
             view.addSubview($0)
         }
     }
     
-    private func setUpLayout() {
+    func setUpLayout() {
         topBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.width.equalToSuperview()
@@ -149,7 +149,7 @@ extension WritingMemoryViewController {
         }
     }
     
-    private func configure() {
+    func configure() {
         topBarView.barTitleLabel.text = TextConstants.title
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
@@ -184,7 +184,7 @@ extension WritingMemoryViewController {
         self.imageIsExist.value = false
     }
     
-    private func setBindings() {
+    func setBindings() {
         let input = WritingMemoryViewModel.Input(
             title: titleTextField.textPublisher.eraseToAnyPublisher(),
             image: imageIsExist.eraseToAnyPublisher()
