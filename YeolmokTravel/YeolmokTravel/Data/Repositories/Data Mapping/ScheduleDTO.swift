@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScheduleDTO: Entity {
+struct ScheduleDTO {
     let title: String
     let description: String
     let fromDate: Date?
@@ -15,7 +15,7 @@ struct ScheduleDTO: Entity {
 }
 
 // MARK: - Mapping to domain
-extension ScheduleDTO {
+extension ScheduleDTO: Entity {
     func toDomain() -> Model {
         Schedule(title: title, description: description, fromDate: fromDate, toDate: toDate)
     }

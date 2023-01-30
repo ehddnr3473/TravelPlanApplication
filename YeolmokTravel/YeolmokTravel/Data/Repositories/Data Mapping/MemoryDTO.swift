@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct MemoryDTO: Entity {
+struct MemoryDTO {
     let title: String
     let index: Int
     let uploadDate: Date
 }
 
 // MARK: - Mapping to domain
-extension MemoryDTO {
+extension MemoryDTO: Entity {
     func toDomain() -> Model {
         Memory(title: title, index: index, uploadDate: uploadDate)
     }
