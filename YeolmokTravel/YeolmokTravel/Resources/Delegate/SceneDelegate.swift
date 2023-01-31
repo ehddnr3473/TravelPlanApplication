@@ -19,9 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let planRepository = PlanRepository()
-        let memoryRepository = MemoryRepository()
-        let imageRepository = ImageRepository()
+        let planRepository = FirestorePlanRepository()
+        let memoryRepository = FirestoreMemoryRepository()
+        let imageRepository = StorageMemoryRepository()
         
         let useCaseProvider = UseCaseProvider(planRepository: planRepository,
                                               memoryRepository: memoryRepository,

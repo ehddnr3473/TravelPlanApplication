@@ -9,11 +9,11 @@ import Foundation
 
 final class MemoryViewBuilder {
     private let memoryView: MemoryView
-    private let memoryRepository: MemoryRepository
-    private let imageRepository: ImageRepository
+    private let memoryRepository: FirestoreMemoryRepository
+    private let imageRepository: StorageMemoryRepository
     private let useCaseProvider: UseCaseProvider
     
-    init(memoryView: MemoryView, memoryRepository: MemoryRepository, imageRepository: ImageRepository, useCaseProvider: UseCaseProvider) {
+    init(memoryView: MemoryView, memoryRepository: FirestoreMemoryRepository, imageRepository: StorageMemoryRepository, useCaseProvider: UseCaseProvider) {
         self.memoryView = memoryView
         self.memoryRepository = memoryRepository
         self.imageRepository = imageRepository

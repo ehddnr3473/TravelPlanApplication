@@ -9,10 +9,10 @@ import Foundation
 
 final class PlanViewBuilder {
     private let planView: PlanView
-    private let planRepository: PlanRepository
+    private let planRepository: FirestorePlanRepository
     private let useCaseProvider: UseCaseProvider
     
-    init(planView: PlanView, planRepository: PlanRepository, useCaseProvider: UseCaseProvider) {
+    init(planView: PlanView, planRepository: FirestorePlanRepository, useCaseProvider: UseCaseProvider) {
         self.planView = planView
         self.planRepository = planRepository
         self.useCaseProvider = useCaseProvider
