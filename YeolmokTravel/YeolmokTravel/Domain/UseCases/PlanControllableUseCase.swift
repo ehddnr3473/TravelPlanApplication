@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// OwnTravelPlan 모델을 직접 조작하는 use case
-final class PlanControllableUseCase: ModelControllableUseCase {
+final class PlanControllableUseCase: ModelControllableUsable {
     private var plans: OwnTravelPlan
     
     init(model: OwnTravelPlan) {

@@ -20,10 +20,10 @@ final class WritingMemoryViewModel: WritingViewModelType {
         let buttonState: AnyPublisher<Bool, Never>
     }
     
-    private let imagePostsUseCase: StoragePostsUseCase
-    private let memoryPostsUseCase: FirestorePostsUseCase
+    private let imagePostsUseCase: ImagePostsUseCase
+    private let memoryPostsUseCase: TextPostsUsable
     
-    init(imagePostsUseCase: StoragePostsUseCase, memoryPostsUseCase: FirestorePostsUseCase) {
+    init(imagePostsUseCase: ImagePostsUseCase, memoryPostsUseCase: TextPostsUsable) {
         self.imagePostsUseCase = imagePostsUseCase
         self.memoryPostsUseCase = memoryPostsUseCase
     }

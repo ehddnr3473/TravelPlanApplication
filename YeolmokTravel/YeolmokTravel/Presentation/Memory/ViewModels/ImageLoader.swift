@@ -17,14 +17,14 @@ protocol ImageLoadable: AnyObject {
     var uploadDate: String { get }
     func downloadImage()
     
-    init(_ model: Memory, _ useCase: StoragePostsUseCase)
+    init(_ model: Memory, _ useCase: ImagePostsUseCase)
 }
 
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
 final class ImageLoader: ImageLoadable {
     var model: Memory
-    private let useCase: StoragePostsUseCase
+    private let useCase: ImagePostsUseCase
     var publisher = PassthroughSubject<UIImage, Never>()
     
     var title: String {
@@ -39,7 +39,7 @@ final class ImageLoader: ImageLoadable {
         DateConverter.dateToString(model.uploadDate)
     }
     
-    init(_ model: Memory, _ useCase: StoragePostsUseCase) {
+    init(_ model: Memory, _ useCase: ImagePostsUseCase) {
         self.model = model
         self.useCase = useCase
     }

@@ -9,7 +9,7 @@ import Foundation
 
 
 /// Firestore 관련 use case
-struct PlanPostsUseCase: FirestorePostsUseCase {
+struct PlanPostsUseCase: TextPostsUsable {
     private let model: OwnTravelPlan
     private let repository: TextRepository
     

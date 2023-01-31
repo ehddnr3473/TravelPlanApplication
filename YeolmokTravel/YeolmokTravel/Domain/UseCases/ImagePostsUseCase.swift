@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 /// Storage 관련 use case
-struct ImagePostsUseCase: StoragePostsUseCase {
+struct ImagePostsUseCase: ImagePostsUsable {
     private let repository: ImageRepository
     
     init(repository: ImageRepository) {

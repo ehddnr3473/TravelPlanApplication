@@ -8,7 +8,7 @@
 import Foundation
 
 /// Firestore 관련 use case
-struct MemoryPostsUseCase: FirestorePostsUseCase {
+struct MemoryPostsUseCase: TextPostsUsable {
     private let repository: TextRepository
     
     init(repository: TextRepository) {
