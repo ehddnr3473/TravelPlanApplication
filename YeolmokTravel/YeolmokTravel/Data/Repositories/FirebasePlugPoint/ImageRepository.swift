@@ -1,5 +1,5 @@
 //
-//  StorageRepository.swift
+//  ImageRepository.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/01/27.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol StorageRepository: AnyObject {
+protocol ImageRepository: AnyObject {
     func cachedImage(_ index: Int) -> UIImage?
     func cacheImage(_ index: Int, image: UIImage)
     func upload(at index: Int, _ image: UIImage) async

@@ -8,11 +8,11 @@
 import Foundation
 
 final class UseCaseProvider {
-    private let planRepository: PlanRepository
-    private let memoryRepository: MemoryRepository
-    private let storageRepository: StorageRepository
+    private let planRepository: FirestorePlanRepository
+    private let memoryRepository: FirestoreMemoryRepository
+    private let storageRepository: ImageRepository
 
-    init(planRepository: PlanRepository, memoryRepository: MemoryRepository, storageRepository: StorageRepository) {
+    init(planRepository: FirestorePlanRepository, memoryRepository: FirestoreMemoryRepository, storageRepository: ImageRepository) {
         self.planRepository = planRepository
         self.memoryRepository = memoryRepository
         self.storageRepository = storageRepository
