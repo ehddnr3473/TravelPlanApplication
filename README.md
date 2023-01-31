@@ -46,6 +46,10 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
  출처: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 </p>
 
+- MVVM 아키텍처 패턴을 기반으로 Presentation layer, Domain layer, Data layer로 나눔.
+- Clean Architecture의 핵심은 계층을 나누고 의존성 규칙을 정의하여 그것을 지키는 것이라고 생각함. 올바른 의존성(방향)에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있음.
+- 또한 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의되어 있는 인터페이스(프로토콜)를 청사진으로 삼아 확장하고 연결해주기만 하면 됨.
+
 
 
 <br></br>
