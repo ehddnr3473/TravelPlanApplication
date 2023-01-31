@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		6B0FF61C29839EFB005729CC /* UseCaseProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61B29839EFB005729CC /* UseCaseProvider.swift */; };
 		6B0FF61E2983A247005729CC /* StoragePostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */; };
-		6B0FF6202983A4B7005729CC /* StorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61F2983A4B7005729CC /* StorageRepository.swift */; };
+		6B0FF6202983A4B7005729CC /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0FF61F2983A4B7005729CC /* ImageRepository.swift */; };
 		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
 		6B17E2FE2956A72800AF59EE /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FD2956A72800AF59EE /* ImageLoader.swift */; };
-		6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */; };
+		6B17E3002956A82F00AF59EE /* FirestoreMemoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FF2956A82F00AF59EE /* FirestoreMemoryRepository.swift */; };
 		6B17E3042956A89300AF59EE /* Memory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3032956A89300AF59EE /* Memory.swift */; };
-		6B17E3062956ADE300AF59EE /* PlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3052956ADE300AF59EE /* PlanRepository.swift */; };
-		6B17E3082956C54100AF59EE /* ImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3072956C54100AF59EE /* ImageRepository.swift */; };
+		6B17E3062956ADE300AF59EE /* FirestorePlanRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3052956ADE300AF59EE /* FirestorePlanRepository.swift */; };
+		6B17E3082956C54100AF59EE /* StorageMemoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3072956C54100AF59EE /* StorageMemoryRepository.swift */; };
 		6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */; };
 		6B17E3132956D67F00AF59EE /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3122956D67F00AF59EE /* TopBarView.swift */; };
 		6B17E31829575BA800AF59EE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B17E31729575BA800AF59EE /* FirebaseFirestore */; };
@@ -42,7 +42,7 @@
 		6B46FA3F295140E9000430C7 /* PlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* PlanView.swift */; };
 		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
 		6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */; };
-		6B73199E2980C898007ED670 /* FirestoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73199D2980C898007ED670 /* FirestoreRepository.swift */; };
+		6B73199E2980C898007ED670 /* TextRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73199D2980C898007ED670 /* TextRepository.swift */; };
 		6B7A176A29834A48004E2ABC /* FirestorePostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176929834A48004E2ABC /* FirestorePostsUseCase.swift */; };
 		6B7A176E29835898004E2ABC /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176D29835898004E2ABC /* Entity.swift */; };
 		6B7A1770298359DE004E2ABC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176F298359DE004E2ABC /* Model.swift */; };
@@ -90,12 +90,12 @@
 /* Begin PBXFileReference section */
 		6B0FF61B29839EFB005729CC /* UseCaseProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProvider.swift; sourceTree = "<group>"; };
 		6B0FF61D2983A247005729CC /* StoragePostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoragePostsUseCase.swift; sourceTree = "<group>"; };
-		6B0FF61F2983A4B7005729CC /* StorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
+		6B0FF61F2983A4B7005729CC /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
 		6B17E2FD2956A72800AF59EE /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryRepository.swift; sourceTree = "<group>"; };
+		6B17E2FF2956A82F00AF59EE /* FirestoreMemoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreMemoryRepository.swift; sourceTree = "<group>"; };
 		6B17E3032956A89300AF59EE /* Memory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memory.swift; sourceTree = "<group>"; };
-		6B17E3052956ADE300AF59EE /* PlanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanRepository.swift; sourceTree = "<group>"; };
-		6B17E3072956C54100AF59EE /* ImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRepository.swift; sourceTree = "<group>"; };
+		6B17E3052956ADE300AF59EE /* FirestorePlanRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePlanRepository.swift; sourceTree = "<group>"; };
+		6B17E3072956C54100AF59EE /* StorageMemoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageMemoryRepository.swift; sourceTree = "<group>"; };
 		6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewController.swift; sourceTree = "<group>"; };
 		6B17E3122956D67F00AF59EE /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		6B46FA3E295140E9000430C7 /* PlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanView.swift; sourceTree = "<group>"; };
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesCollectionViewCell.swift; sourceTree = "<group>"; };
-		6B73199D2980C898007ED670 /* FirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRepository.swift; sourceTree = "<group>"; };
+		6B73199D2980C898007ED670 /* TextRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRepository.swift; sourceTree = "<group>"; };
 		6B7A176929834A48004E2ABC /* FirestorePostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorePostsUseCase.swift; sourceTree = "<group>"; };
 		6B7A176D29835898004E2ABC /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		6B7A176F298359DE004E2ABC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -291,8 +291,8 @@
 		6B73199B2980C860007ED670 /* FirebasePlugPoint */ = {
 			isa = PBXGroup;
 			children = (
-				6B73199D2980C898007ED670 /* FirestoreRepository.swift */,
-				6B0FF61F2983A4B7005729CC /* StorageRepository.swift */,
+				6B73199D2980C898007ED670 /* TextRepository.swift */,
+				6B0FF61F2983A4B7005729CC /* ImageRepository.swift */,
 			);
 			path = FirebasePlugPoint;
 			sourceTree = "<group>";
@@ -433,9 +433,9 @@
 			children = (
 				6B73199B2980C860007ED670 /* FirebasePlugPoint */,
 				6BB76BD2297FC14C00C8C596 /* Data Mapping */,
-				6B17E3052956ADE300AF59EE /* PlanRepository.swift */,
-				6B17E2FF2956A82F00AF59EE /* MemoryRepository.swift */,
-				6B17E3072956C54100AF59EE /* ImageRepository.swift */,
+				6B17E3052956ADE300AF59EE /* FirestorePlanRepository.swift */,
+				6B17E2FF2956A82F00AF59EE /* FirestoreMemoryRepository.swift */,
+				6B17E3072956C54100AF59EE /* StorageMemoryRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -611,7 +611,7 @@
 				6BB883B5297D1EE200C3E2E4 /* Control.swift in Sources */,
 				6B46FA3F295140E9000430C7 /* PlanView.swift in Sources */,
 				6BB76BC0297F4F6700C8C596 /* MemoryViewModel.swift in Sources */,
-				6B17E3062956ADE300AF59EE /* PlanRepository.swift in Sources */,
+				6B17E3062956ADE300AF59EE /* FirestorePlanRepository.swift in Sources */,
 				6B7A176E29835898004E2ABC /* Entity.swift in Sources */,
 				6BB76BCD297FBCB200C8C596 /* TravelPlanDTO.swift in Sources */,
 				6BB76BD4297FC27900C8C596 /* ScheduleDTO.swift in Sources */,
@@ -624,9 +624,9 @@
 				6B37A4BD2951786800BBB8EE /* TravelPlan.swift in Sources */,
 				6BB883A3297C5F9D00C3E2E4 /* WritingViewModelType.swift in Sources */,
 				6B17E3042956A89300AF59EE /* Memory.swift in Sources */,
-				6B73199E2980C898007ED670 /* FirestoreRepository.swift in Sources */,
+				6B73199E2980C898007ED670 /* TextRepository.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
-				6B0FF6202983A4B7005729CC /* StorageRepository.swift in Sources */,
+				6B0FF6202983A4B7005729CC /* ImageRepository.swift in Sources */,
 				6BB76BC2297F503E00C8C596 /* MemoryControllableUseCase.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* PlanTableViewCell.swift in Sources */,
 				6B0FF61E2983A247005729CC /* StoragePostsUseCase.swift in Sources */,
@@ -646,12 +646,12 @@
 				6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */,
 				6BB76BDB297FE31500C8C596 /* PlanViewBuilder.swift in Sources */,
 				6BA3402229532E29002E7502 /* PlanTracker.swift in Sources */,
-				6B17E3002956A82F00AF59EE /* MemoryRepository.swift in Sources */,
+				6B17E3002956A82F00AF59EE /* FirestoreMemoryRepository.swift in Sources */,
 				6B7A1770298359DE004E2ABC /* Model.swift in Sources */,
 				6BB76BD6297FCBA900C8C596 /* MemoryDTO.swift in Sources */,
 				6BCFFDBE2983E02F0008D608 /* ModelControllableUseCase.swift in Sources */,
 				6BFB44F9296EF03100AEAD77 /* PlanTransfer.swift in Sources */,
-				6B17E3082956C54100AF59EE /* ImageRepository.swift in Sources */,
+				6B17E3082956C54100AF59EE /* StorageMemoryRepository.swift in Sources */,
 				6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */,
 				6BB883AB297C662100C3E2E4 /* PlanPostsUseCase.swift in Sources */,
 				6BB76BC6297F701F00C8C596 /* PlanControllableUseCase.swift in Sources */,

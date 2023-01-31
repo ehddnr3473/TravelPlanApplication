@@ -1,5 +1,5 @@
 //
-//  MemoryRepository.swift
+//  FirestoreMemoryRepository.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/24.
@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 /// Memory 관련 Firebase Firestore 연동
-struct MemoryRepository: FirestoreRepository {
+struct FirestoreMemoryRepository: TextRepository {
     private var database = Firestore.firestore()
 
     // write
