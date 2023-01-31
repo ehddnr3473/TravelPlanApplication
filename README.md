@@ -8,7 +8,7 @@
 ## 사용 기술
 |구현 내용|도구|
 |---|---|
-|아키텍처|MVVM|
+|아키텍처|MVVM + Clean Architecture|
 |UI|UIKit|
 |동시성 프로그래밍|Swift Concurrency|
 |원격 데이터 저장소|Firebase Firestore 및 Storage|
@@ -27,13 +27,18 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-## 아키텍처
+## MVVM 아키텍처
 <p align="center">
  <img src="/Document/MVVM.png">
 </p>
 
-- 원격 데이터 저장소로부터 데이터를 받아와서, 또는 콘텐츠를 작성하는 사용자 액션을 통해 **Model**을 업데이트.
 - Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행
+- 원격 데이터 저장소로부터 데이터를 받아와서, 또는 콘텐츠를 작성하는 사용자 액션을 통해 **Model**을 업데이트.
+
+## Clean Architecture
+
+
+
 
 
 
