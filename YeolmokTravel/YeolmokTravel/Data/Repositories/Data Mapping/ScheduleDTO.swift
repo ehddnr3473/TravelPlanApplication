@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Data Transfer Object
+/// ScheduleDTO(Data) -> Schedule(Domain)
 struct ScheduleDTO {
     let title: String
     let description: String

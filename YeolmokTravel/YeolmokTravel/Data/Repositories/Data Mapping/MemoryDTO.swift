@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Data Transfer Object
+/// MemoryDTO(Data) -> Memory(Domain)
 struct MemoryDTO {
     let title: String
     let index: Int

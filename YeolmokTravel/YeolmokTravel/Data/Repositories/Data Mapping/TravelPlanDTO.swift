@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Data Transfer Object
+/// TravelPlanDTO(Data) -> TravelPlan(Domain)
 struct TravelPlanDTO {
     let title: String
     let description: String
