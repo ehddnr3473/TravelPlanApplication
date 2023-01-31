@@ -1,5 +1,5 @@
 //
-//  ImageLoader.swift
+//  StorageMemoryRepository.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/24.
@@ -16,7 +16,7 @@ enum ImageLoadError: String, Error {
 
 /// Firebase Storage 서비스를 사용
 /// 이미지를 다운로드하고 캐시 전략 적용
-final class ImageRepository: StorageRepository {
+final class StorageMemoryRepository: ImageRepository {
     private var cachedImages = [String: UIImage]()
     private let storageReference: StorageReference
     
