@@ -51,8 +51,11 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 - 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의되어 있는 Repository 인터페이스를 청사진으로 삼아 확장하고 연결해주기만 하면 되도록 구성.
 
 ### 의존성 규칙
+<p align="center">
+ <img src="/Document/Dependency policy.png" height=300">
+</p>
+
 - 코드의 의존성은 Presentation layer -> Domain layer -> Data layer와 같이 안쪽으로 향하되, 계층의 경계마다 Plug Point 인터페이스(프로토콜)를 두고 의존성을 역전시킴.
-- Presentation layer -> UseCase interface <- Domain layer -> Repository interface <- Data layer
 
 
 <br></br>
