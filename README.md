@@ -27,7 +27,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-## MVVM 아키텍처
+## MVVM Architecture
 <p align="center">
  <img src="/Document/MVVM.png">
 </p>
@@ -35,10 +35,16 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 - Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행
 - 원격 데이터 저장소로부터 데이터를 받아와서, 또는 콘텐츠를 작성하는 사용자 액션을 통해 **Model**을 업데이트.
 
+
+<br></br>
 ## Clean Architecture
+<p align="center">
+ <img src="/Document/CleanArchitecture.jpg" height=300>
+</p>
 
-
-
+<p align="center">
+ 출처: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+</p>
 
 
 
