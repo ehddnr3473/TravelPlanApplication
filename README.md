@@ -50,6 +50,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 - Clean Architecture의 핵심은 계층을 나누고 의존성 규칙을 정의하여 그것을 지키는 것이라고 생각함. 올바른 의존성(방향)에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있음.
 - 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의되어 있는 Repository 인터페이스를 청사진으로 삼아 확장하고 연결해주기만 하면 되도록 구성.
 
+<br></br>
 ### 의존성 규칙
 <p align="center">
  <img src="/Document/Dependency policy.png" height=300">
