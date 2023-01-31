@@ -8,7 +8,7 @@
 import Foundation
 
 /// [Memory] 모델을 직접 조작하는 use case
-final class MemoryControllableUseCase: ModelControllableUsable {
+final class MemoryControllableUseCase: ModelControlUsable {
     private var memories: [Memory]
     
     var count: Int {

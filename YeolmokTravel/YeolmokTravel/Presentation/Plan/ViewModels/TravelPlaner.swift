@@ -21,13 +21,13 @@ fileprivate protocol PlanConfigurable: AnyObject {
     func date(_ index: Int) -> String
     func description(_ index: Int) -> String
     
-    init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControllableUsable, _ planPostsUseCase: TextPostsUsable)
+    init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControlUsable, _ planPostsUseCase: TextPostsUsable)
 }
 
 /// TravelPlan View Model
 final class TravelPlaner: PlanConfigurable {
     private var model: OwnTravelPlan
-    private let planControllableUseCase: ModelControllableUsable
+    private let planControllableUseCase: ModelControlUsable
     private let planPostsUseCase: TextPostsUsable
     
     var publisher = PassthroughSubject<Void, Never>()
@@ -36,7 +36,7 @@ final class TravelPlaner: PlanConfigurable {
         model.travelPlans.count
     }
     
-    required init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControllableUsable, _ planPostsUseCase: TextPostsUsable) {
+    required init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControlUsable, _ planPostsUseCase: TextPostsUsable) {
         self.model = model
         self.planControllableUseCase = planControllableUseCase
         self.planPostsUseCase = planPostsUseCase

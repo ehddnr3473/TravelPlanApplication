@@ -9,14 +9,14 @@ import Foundation
 import Combine
 
 final class MemoryViewModel {
-    private let useCase: ModelControllableUsable
+    private let useCase: ModelControlUsable
     let reloadPublisher = PassthroughSubject<Void, Never>()
     
     var count: Int {
         useCase.count
     }
     
-    init(_ useCase: ModelControllableUsable) {
+    init(_ useCase: ModelControlUsable) {
         self.useCase = useCase
     }
     

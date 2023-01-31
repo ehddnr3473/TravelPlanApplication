@@ -1,5 +1,5 @@
 //
-//  ModelControllableUsable.swift
+//  ModelControlUsable.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/01/27.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ModelControllableUsable: AnyObject {
+protocol ModelControlUsable: AnyObject {
     var count: Int { get }
     func query(_ index: Int) -> Model
     func add(_ model: Model)

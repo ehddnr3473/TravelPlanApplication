@@ -66,7 +66,7 @@
 		6BB883B1297D1C9100C3E2E4 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B0297D1C9100C3E2E4 /* TextField.swift */; };
 		6BB883B5297D1EE200C3E2E4 /* Control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B4297D1EE200C3E2E4 /* Control.swift */; };
 		6BB883BB297DA1C200C3E2E4 /* MemoryPostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */; };
-		6BCFFDBE2983E02F0008D608 /* ModelControllableUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCFFDBD2983E02F0008D608 /* ModelControllableUsable.swift */; };
+		6BCFFDBE2983E02F0008D608 /* ModelControlUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCFFDBD2983E02F0008D608 /* ModelControlUsable.swift */; };
 		6BFB44F9296EF03100AEAD77 /* PlanTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */; };
 /* End PBXBuildFile section */
 
@@ -147,7 +147,7 @@
 		6BB883B0297D1C9100C3E2E4 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		6BB883B4297D1EE200C3E2E4 /* Control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Control.swift; sourceTree = "<group>"; };
 		6BB883BA297DA1C200C3E2E4 /* MemoryPostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryPostsUseCase.swift; sourceTree = "<group>"; };
-		6BCFFDBD2983E02F0008D608 /* ModelControllableUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelControllableUsable.swift; sourceTree = "<group>"; };
+		6BCFFDBD2983E02F0008D608 /* ModelControlUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelControlUsable.swift; sourceTree = "<group>"; };
 		6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTransfer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -302,7 +302,7 @@
 			children = (
 				6B7A176929834A48004E2ABC /* TextPostsUsable.swift */,
 				6B0FF61D2983A247005729CC /* ImagePostsUsable.swift */,
-				6BCFFDBD2983E02F0008D608 /* ModelControllableUsable.swift */,
+				6BCFFDBD2983E02F0008D608 /* ModelControlUsable.swift */,
 			);
 			path = UseCasePlugPoint;
 			sourceTree = "<group>";
@@ -649,7 +649,7 @@
 				6B17E3002956A82F00AF59EE /* FirestoreMemoryRepository.swift in Sources */,
 				6B7A1770298359DE004E2ABC /* Model.swift in Sources */,
 				6BB76BD6297FCBA900C8C596 /* MemoryDTO.swift in Sources */,
-				6BCFFDBE2983E02F0008D608 /* ModelControllableUsable.swift in Sources */,
+				6BCFFDBE2983E02F0008D608 /* ModelControlUsable.swift in Sources */,
 				6BFB44F9296EF03100AEAD77 /* PlanTransfer.swift in Sources */,
 				6B17E3082956C54100AF59EE /* StorageMemoryRepository.swift in Sources */,
 				6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */,
