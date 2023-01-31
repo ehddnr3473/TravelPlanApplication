@@ -10,9 +10,9 @@ import UIKit
 
 /// Storage 관련 use case
 struct ImagePostsUseCase: StoragePostsUseCase {
-    private let repository: StorageRepository
+    private let repository: ImageRepository
     
-    init(repository: StorageRepository) {
+    init(repository: ImageRepository) {
         self.repository = repository
     }
     

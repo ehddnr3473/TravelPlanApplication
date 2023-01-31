@@ -11,9 +11,9 @@ import Foundation
 /// Firestore 관련 use case
 struct PlanPostsUseCase: FirestorePostsUseCase {
     private let model: OwnTravelPlan
-    private let repository: FirestoreRepository
+    private let repository: TextRepository
     
-    init(model: OwnTravelPlan, repository: FirestoreRepository) {
+    init(model: OwnTravelPlan, repository: TextRepository) {
         self.model = model
         self.repository = repository
     }
