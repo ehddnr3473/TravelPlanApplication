@@ -127,11 +127,11 @@ private extension WritingTravelPlanViewController {
         titleTextField.text = model.title
         descriptionTextView.text = model.description
         
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [topBarView, titleTextField, descriptionTextView, scheduleTitleLabel, addScheduleButton, scheduleTableView].forEach {
             view.addSubview($0)
         }

@@ -69,11 +69,11 @@ private extension PlanTableViewCell {
         self.backgroundColor = .darkGray
         self.layer.borderWidth = LayoutConstants.borderWidth
         self.selectionStyle = .none
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    private func setUpHierachy() {
+    private func setUpHierarchy() {
         [titleLabel, dateLabel, descriptionLabel].forEach {
             self.addSubview($0)
         }

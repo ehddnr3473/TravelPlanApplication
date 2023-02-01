@@ -99,11 +99,11 @@ final class WritingMemoryViewController: UIViewController {
 extension WritingMemoryViewController {
     func setUpUI() {
         view.backgroundColor = .black
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [topBarView, titleTextField, imageView, addButton, deleteButton].forEach {
             view.addSubview($0)
         }

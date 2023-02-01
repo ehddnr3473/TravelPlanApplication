@@ -60,11 +60,11 @@ final class TopBarView: UIView {
 
 private extension TopBarView {
     func setUpUI() {
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [cancelBarButton, barTitleLabel, saveBarButton].forEach {
             topBarStackView.addArrangedSubview($0)
         }

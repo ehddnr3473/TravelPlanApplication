@@ -74,11 +74,11 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
 private extension MemoriesCollectionViewCell {
     private func setUpUI() {
         contentView.backgroundColor = .clear
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [imageView, titleLabel, dateLabel].forEach {
             contentView.addSubview($0)
         }

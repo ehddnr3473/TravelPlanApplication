@@ -154,11 +154,11 @@ private extension WritingScheduleViewController {
         }
         
         setUpUIValue()
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
             dateBackgroundView.addSubview($0)
         }

@@ -55,11 +55,11 @@ final class MemoryView: UIViewController {
 private extension MemoryView {
     func setUpUI() {
         view.backgroundColor = .black
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [titleLabel, addButton, memoriesCollectionView].forEach {
             view.addSubview($0)
         }

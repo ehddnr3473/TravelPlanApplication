@@ -61,11 +61,11 @@ final class PlanView: UIViewController {
 private extension PlanView {
     private func setUpUI() {
         view.backgroundColor = .black
-        setUpHierachy()
+        setUpHierarchy()
         setUpLayout()
     }
     
-    func setUpHierachy() {
+    func setUpHierarchy() {
         [titleLabel, addButton, planTableView].forEach {
             view.addSubview($0)
         }
