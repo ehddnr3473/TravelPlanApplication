@@ -28,7 +28,12 @@ final class MemoryControllableUseCase: ModelControlUsable {
         memories.append(memory)
     }
     
-    func update(at index: Int, _ model: Model) { }
+    func update(at index: Int, _ model: Model) {
+        guard let memory = model as? Memory else { return }
+        memories[index] = memory
+    }
     
-    func delete(_ index: Int) { }
+    func delete(_ index: Int) {
+        memories.remove(at: index)
+    }
 }
