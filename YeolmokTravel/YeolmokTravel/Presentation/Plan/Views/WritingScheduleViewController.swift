@@ -154,12 +154,10 @@ private extension WritingScheduleViewController {
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
-        // 수정을 위한 ViewController라면 navigationBar 사용
-        if !isAdding {
-            navigationItem.titleView = topBarView.barTitleLabel
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: topBarView.cancelBarButton)
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topBarView.saveBarButton)
-        }
+        navigationItem.titleView = topBarView.barTitleLabel
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: topBarView.cancelBarButton)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topBarView.saveBarButton)
+        
         
         configureViewValue()
         configureHierarchy()
@@ -171,10 +169,6 @@ private extension WritingScheduleViewController {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
             dateBackgroundView.addSubview($0)
         }
-        // 추가를 위한 ViewController라면 커스텀 바를 사용
-        if isAdding {
-            view.addSubview(topBarView)
-        }
         
         [titleTextField, descriptionTextView, dateBackgroundView, coordinateView].forEach {
             view.addSubview($0)
@@ -182,21 +176,12 @@ private extension WritingScheduleViewController {
     }
     
     func configureLayoutConstraint() {
-        if isAdding {
-            topBarView.snp.makeConstraints {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                $0.width.equalToSuperview()
-                $0.height.greaterThanOrEqualTo(LayoutConstants.stackViewHeight)
-            }
-        }
         
         titleTextField.snp.makeConstraints {
-            if isAdding {
-                $0.top.equalTo(topBarView.snp.bottom).offset(LayoutConstants.largeSpacing)
-            } else {
-                $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                    .inset(LayoutConstants.largeSpacing)
-            }
+            
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+                .inset(LayoutConstants.largeSpacing)
+            
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
         }
@@ -282,7 +267,8 @@ private extension WritingScheduleViewController {
         output.buttonState
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
-                self?.topBarView.saveBarButton.isEnabled = state
+                //                self?.topBarView.saveBarButton.isEnabled = state
+                self?.navigationItem.rightBarButtonItem?.isEnabled = state
             }
             .store(in: &subscriptions)
     }
@@ -295,11 +281,11 @@ private extension WritingScheduleViewController {
         if titleTextField.text == "" {
             alertWillAppear(AlertText.titleMessage)
             return
-        // 시작 날짜가 종료 날짜 이후인지 검증
+            // 시작 날짜가 종료 날짜 이후인지 검증
         } else if fromDatePicker.date > toDatePicker.date {
             alertWillAppear(AlertText.dateMessage)
             return
-        // 날짜를 설정할건지 확인
+            // 날짜를 설정할건지 확인
         } else if dateSwitch.isOn {
             do {
                 model.setSchedule(titleTextField.text ?? "",
@@ -313,18 +299,19 @@ private extension WritingScheduleViewController {
             }
         } else {
             do {
-                model.setSchedule(titleTextField.text ?? "", descriptionTextView.text, try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
-                                                                                                                     coordinateView.longitudeTextField.text ?? ""))
+                model.setSchedule(
+                    titleTextField.text ?? "",
+                    descriptionTextView.text,
+                    try convertStringToCoordinate(
+                        coordinateView.latitudeTextField.text ?? "",
+                        coordinateView.longitudeTextField.text ?? "")
+                )
             } catch {
                 alertWillAppear(AlertText.coordinateMessage)
             }
         }
         save(model, scheduleListIndex)
-        if !isAdding {
-            navigationController?.popViewController(animated: true)
-        } else {
-            dismiss(animated: true)
-        }
+        navigationController?.popViewController(animated: true)
         
     }
     
@@ -354,11 +341,7 @@ private extension WritingScheduleViewController {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1, writingStyle)
         } else {
-            if !isAdding {
-                navigationController?.popViewController(animated: true)
-            } else {
-                dismiss(animated: true)
-            }
+            navigationController?.popViewController(animated: true)
         }
     }
     
