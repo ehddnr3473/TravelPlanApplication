@@ -412,16 +412,12 @@ private enum TextConstants {
 private extension UIButton {
     var isValid: Bool {
         get {
-            isEnabled
+            backgroundColor == .systemGreen
         }
         
         set {
-            self.isEnabled = newValue
-            if newValue {
-                self.backgroundColor = .systemGreen
-            } else {
-                self.backgroundColor = .systemGray
-            }
+            isEnabled = newValue
+            backgroundColor = newValue ? .systemGreen : .systemGray
         }
     }
 }
