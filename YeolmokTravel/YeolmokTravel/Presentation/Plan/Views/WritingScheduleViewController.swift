@@ -142,14 +142,14 @@ final class WritingScheduleViewController: UIViewController, Writable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        configureView()
         setBindings()
     }
 }
 
 // MARK: - View
 private extension WritingScheduleViewController {
-    func setUpUI() {
+    func configureView() {
         view.backgroundColor = .black
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
@@ -161,13 +161,13 @@ private extension WritingScheduleViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topBarView.saveBarButton)
         }
         
-        setUpUIValue()
-        setUpHierarchy()
-        setUpLayout()
+        configureViewValue()
+        configureHierarchy()
+        configureLayoutConstraint()
         configureCoordinateView()
     }
     
-    func setUpHierarchy() {
+    func configureHierarchy() {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
             dateBackgroundView.addSubview($0)
         }
@@ -181,7 +181,7 @@ private extension WritingScheduleViewController {
         }
     }
     
-    func setUpLayout() {
+    func configureLayoutConstraint() {
         if isAdding {
             topBarView.snp.makeConstraints {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -259,9 +259,11 @@ private extension WritingScheduleViewController {
         }
     }
     
-    func setUpUIValue() {
+    func configureViewValue() {
         titleTextField.text = model.title
         descriptionTextView.text = model.description
+        coordinateView.latitudeTextField.text = String(model.coordinate.latitude)
+        coordinateView.longitudeTextField.text = String(model.coordinate.longitude)
         
         if let fromDate = model.fromDate, let toDate = model.toDate {
             dateSwitch.isOn = true
