@@ -23,7 +23,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var scheduleListIndex: Int?
-    var viewModel: WritingPlanViewModel!
+    var viewModel: WritingScheduleViewModel!
     private var subscriptions = Set<AnyCancellable>()
     
     deinit {
@@ -83,7 +83,6 @@ final class WritingScheduleViewController: UIViewController, Writable {
         let `switch` = UISwitch()
         
         `switch`.isOn = false
-        `switch`.addTarget(self, action: #selector(toggleSwitch), for: .valueChanged)
         
         return `switch`
     }()
@@ -258,20 +257,6 @@ private extension WritingScheduleViewController {
             toDatePicker.date = toDate
         }
     }
-    
-    func setBindings() {
-        let input = WritingPlanViewModel.Input(title: titleTextField.textPublisher)
-        
-        let output = viewModel.transform(input: input)
-        
-        output.buttonState
-            .receive(on: RunLoop.main)
-            .sink { [weak self] state in
-                //                self?.topBarView.saveBarButton.isEnabled = state
-                self?.navigationItem.rightBarButtonItem?.isEnabled = state
-            }
-            .store(in: &subscriptions)
-    }
 }
 
 // MARK: - User Interaction
@@ -345,18 +330,44 @@ private extension WritingScheduleViewController {
         }
     }
     
-    @objc func toggleSwitch() {
-        if dateSwitch.isOn {
-            fromDatePicker.backgroundColor = .white
-            fromDatePicker.isEnabled = true
-            toDatePicker.backgroundColor = .white
-            toDatePicker.isEnabled = true
-        } else {
-            fromDatePicker.backgroundColor = .systemGray
-            fromDatePicker.isEnabled = false
-            toDatePicker.backgroundColor = .systemGray
-            toDatePicker.isEnabled = false
-        }
+    func setBindings() {
+        titleBinding()
+        switchBinding()
+    }
+    
+    func titleBinding() {
+        let input = WritingScheduleViewModel.TitleInput(title: titleTextField.textPublisher)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.buttonState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                //                self?.topBarView.saveBarButton.isEnabled = state
+                self?.navigationItem.rightBarButtonItem?.isEnabled = state
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func switchBinding() {
+        let input = WritingScheduleViewModel.SwitchInput(statePublisher: dateSwitch.isOnPublisher)
+        let output = viewModel.transform(input)
+        
+        output.datePickerStatePublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                self?.fromDatePicker.isEnabled = state
+                self?.toDatePicker.isEnabled = state
+            }
+            .store(in: &subscriptions)
+        
+        output.backgroundColorPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] color in
+                self?.fromDatePicker.backgroundColor = color
+                self?.toDatePicker.backgroundColor = color
+            }
+            .store(in: &subscriptions)
     }
     
     @objc func presentMap() {
