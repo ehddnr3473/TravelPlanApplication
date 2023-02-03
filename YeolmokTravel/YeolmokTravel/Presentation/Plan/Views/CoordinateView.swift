@@ -18,6 +18,7 @@ final class CoordinateView: UIView {
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.latitudePlaceholder
+        textField.keyboardType = .decimalPad
         
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
@@ -38,6 +39,7 @@ final class CoordinateView: UIView {
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.longitudePlaceholder
+        textField.keyboardType = .decimalPad
         
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
