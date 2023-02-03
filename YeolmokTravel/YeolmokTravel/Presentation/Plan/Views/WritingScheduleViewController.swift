@@ -278,7 +278,6 @@ private extension WritingScheduleViewController {
                               fromDatePicker.date,
                               toDatePicker.date)
         } else {
-            
             model.setSchedule(
                 titleTextField.text ?? "",
                 descriptionTextView.text,
