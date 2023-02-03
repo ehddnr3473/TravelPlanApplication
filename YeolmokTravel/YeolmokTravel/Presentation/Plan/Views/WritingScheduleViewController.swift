@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import CoreLocation
 
 /// 여행 계획 추가 및 수정을 위한 ViewController
 final class WritingScheduleViewController: UIViewController, Writable {
@@ -133,6 +134,54 @@ final class WritingScheduleViewController: UIViewController, Writable {
         return datePicker
     }()
     
+    private let mapStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = LayoutConstants.spacing
+        
+        return stackView
+    }()
+    
+    private let latitudeTextField: UITextField = {
+        let textField = UITextField()
+        
+        textField.textColor = .white
+        textField.backgroundColor = .black
+        textField.layer.cornerRadius = LayoutConstants.cornerRadius
+        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        
+        return textField
+    }()
+    
+    private let longitudeTextField: UITextField = {
+        let textField = UITextField()
+        
+        textField.textColor = .white
+        textField.backgroundColor = .black
+        textField.layer.cornerRadius = LayoutConstants.cornerRadius
+        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        
+        return textField
+    }()
+    
+    private lazy var mapButton: UIButton = {
+        let button = UIButton(type: .custom)
+        
+        button.setTitle("View Map", for: .normal)
+        button.setImage(UIImage(systemName: "map"), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
+        
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
@@ -140,6 +189,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     }
 }
 
+// MARK: - View
 private extension WritingScheduleViewController {
     func setUpUI() {
         view.backgroundColor = .black
@@ -167,7 +217,11 @@ private extension WritingScheduleViewController {
             view.addSubview(topBarView)
         }
         
-        [titleTextField, descriptionTextView, dateBackgroundView].forEach {
+        [latitudeTextField, longitudeTextField, mapButton].forEach {
+            mapStackView.addArrangedSubview($0)
+        }
+        
+        [titleTextField, descriptionTextView, dateBackgroundView, mapStackView].forEach {
             view.addSubview($0)
         }
     }
@@ -239,6 +293,14 @@ private extension WritingScheduleViewController {
             $0.centerY.equalTo(toLabel.snp.centerY)
             $0.trailing.equalToSuperview()
                 .inset(LayoutConstants.largeSpacing)
+        }
+        
+        mapStackView.snp.makeConstraints {
+            $0.top.equalTo(dateBackgroundView.snp.bottom)
+                .offset(LayoutConstants.largeSpacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(LayoutConstants.spacing)
+            $0.height.equalTo(200)
         }
     }
     
@@ -315,6 +377,10 @@ private extension WritingScheduleViewController {
             toDatePicker.backgroundColor = .systemGray
             toDatePicker.isEnabled = false
         }
+    }
+    
+    @objc func presentMap() {
+        
     }
     
     func setBindings() {
