@@ -70,7 +70,6 @@ final class CoordinateView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-
 }
 
 private extension CoordinateView {
