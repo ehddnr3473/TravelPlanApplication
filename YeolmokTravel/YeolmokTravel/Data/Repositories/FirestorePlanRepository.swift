@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import CoreLocation
 
 /// Plan 관련 Firebase Firestore 연동
 struct FirestorePlanRepository: TextRepository {
@@ -21,6 +22,10 @@ struct FirestorePlanRepository: TextRepository {
         ])
         
         for scheduleIndex in entity.schedules.indices {
+            let coordinate = GeoPoint(
+                latitude: entity.schedules[scheduleIndex].coordinate.latitude,
+                longitude: entity.schedules[scheduleIndex].coordinate.longitude
+            )
             try? await database.collection(DatabasePath.plans)
                 .document("\(index)").collection(DocumentConstants.schedulesCollection).document("\(scheduleIndex)")
                 .setData([
@@ -32,7 +37,9 @@ struct FirestorePlanRepository: TextRepository {
                     Key.fromDate:
                         DateConverter.dateToString(entity.schedules[scheduleIndex].fromDate),
                     Key.toDate:
-                        DateConverter.dateToString(entity.schedules[scheduleIndex].toDate)
+                        DateConverter.dateToString(entity.schedules[scheduleIndex].toDate),
+                    Key.coordinate:
+                        coordinate
                 ])
         }
     }
@@ -75,19 +82,23 @@ struct FirestorePlanRepository: TextRepository {
     
     // Firebase에서 다운로드한 데이터로 Schedule을 생성해서 반환
     private func createSchedule(_ data: Dictionary<String, Any>) -> ScheduleDTO {
-        if let fromDate = data[Key.fromDate] as? String, let toDate = data[Key.toDate] as? String {
+        guard let coordinate = data[Key.coordinate] as? GeoPoint else { fatalError() }
+        if let fromDate = data[Key.fromDate] as? String,
+           let toDate = data[Key.toDate] as? String {
             return ScheduleDTO(
                 title: data[Key.title] as! String,
                 description: data[Key.description] as! String,
                 fromDate: DateConverter.stringToDate(fromDate),
-                toDate: DateConverter.stringToDate(toDate)
+                toDate: DateConverter.stringToDate(toDate),
+                coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
             )
         } else {
             return ScheduleDTO(
                 title: data[Key.title] as! String,
                 description: data[Key.description] as! String,
                 fromDate: nil,
-                toDate: nil
+                toDate: nil,
+                coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
             )
         }
     }
@@ -106,4 +117,5 @@ private enum Key {
     static let description = "description"
     static let fromDate = "fromDate"
     static let toDate = "toDate"
+    static let coordinate = "coordinate"
 }
