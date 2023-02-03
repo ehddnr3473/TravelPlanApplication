@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import CoreLocation
 
 /// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
 final class WritingTravelPlanViewController: UIViewController, Writable {
@@ -231,7 +232,7 @@ private extension WritingTravelPlanViewController {
         let writingScheduleViewController = WritingScheduleViewController()
         switch writingStyle {
         case .add:
-            let model = Schedule(title: "", description: "")
+            let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
             writingScheduleViewController.model = model
             writingScheduleViewController.addDelegate = self
         case .edit:
