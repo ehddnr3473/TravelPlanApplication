@@ -377,7 +377,14 @@ private extension WritingScheduleViewController {
     }
     
     @objc func presentMap() {
-        
+        let mapView = MapViewController()
+        do {
+            mapView.coordinate = try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "", coordinateView.longitudeTextField.text ?? "")
+            mapView.pinTitle = titleTextField.text
+            navigationController?.pushViewController(mapView, animated: true)
+        } catch {
+            
+        }
     }
 }
 

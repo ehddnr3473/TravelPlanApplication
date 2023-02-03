@@ -43,6 +43,7 @@
 		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
 		6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */; };
 		6B73199E2980C898007ED670 /* TextRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73199D2980C898007ED670 /* TextRepository.swift */; };
+		6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371D298D0E220038E9C8 /* MapViewController.swift */; };
 		6B7A176A29834A48004E2ABC /* TextPostsUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176929834A48004E2ABC /* TextPostsUsable.swift */; };
 		6B7A176E29835898004E2ABC /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176D29835898004E2ABC /* Entity.swift */; };
 		6B7A1770298359DE004E2ABC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176F298359DE004E2ABC /* Model.swift */; };
@@ -125,6 +126,7 @@
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		6B73199D2980C898007ED670 /* TextRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRepository.swift; sourceTree = "<group>"; };
+		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6B7A176929834A48004E2ABC /* TextPostsUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPostsUsable.swift; sourceTree = "<group>"; };
 		6B7A176D29835898004E2ABC /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		6B7A176F298359DE004E2ABC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */,
 				6B46FA3E295140E9000430C7 /* PlanView.swift */,
 				6B84E460298CF60200EE83AB /* CoordinateView.swift */,
+				6B77371D298D0E220038E9C8 /* MapViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -617,6 +620,7 @@
 				6B17E3062956ADE300AF59EE /* FirestorePlanRepository.swift in Sources */,
 				6B7A176E29835898004E2ABC /* Entity.swift in Sources */,
 				6BB76BCD297FBCB200C8C596 /* TravelPlanDTO.swift in Sources */,
+				6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */,
 				6BB76BD4297FC27900C8C596 /* ScheduleDTO.swift in Sources */,
 				6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */,
 				6BB883A9297C65B300C3E2E4 /* ImagePostsUseCase.swift in Sources */,
