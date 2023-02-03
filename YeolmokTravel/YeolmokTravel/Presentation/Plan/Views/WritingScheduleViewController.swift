@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import MapKit
 
 /// 여행 계획 추가 및 수정을 위한 ViewController
 final class WritingScheduleViewController: UIViewController, Writable {
@@ -131,6 +132,11 @@ final class WritingScheduleViewController: UIViewController, Writable {
         datePicker.isEnabled = false
         
         return datePicker
+    }()
+    
+    private let mapView: MKMapView = {
+        let mapView = MKMapView()
+        return mapView
     }()
     
     override func viewDidLoad() {
