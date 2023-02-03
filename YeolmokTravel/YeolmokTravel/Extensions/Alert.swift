@@ -41,5 +41,4 @@ enum AlertText {
     static let cancelActionTitle = "취소"
     static let dateMessage = "시작 날짜가 종료 날짜 이후입니다."
     static let nilImageMessage = "사진을 선택해주세요."
-    static let coordinateMessage = "올바른 위도와 경도를 입력해주세요."
 }
