@@ -44,6 +44,8 @@
 		6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */; };
 		6B73199E2980C898007ED670 /* TextRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B73199D2980C898007ED670 /* TextRepository.swift */; };
 		6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371D298D0E220038E9C8 /* MapViewController.swift */; };
+		6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */; };
+		6B773722298D21EE0038E9C8 /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B773721298D21EE0038E9C8 /* Switch.swift */; };
 		6B7A176A29834A48004E2ABC /* TextPostsUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176929834A48004E2ABC /* TextPostsUsable.swift */; };
 		6B7A176E29835898004E2ABC /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176D29835898004E2ABC /* Entity.swift */; };
 		6B7A1770298359DE004E2ABC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176F298359DE004E2ABC /* Model.swift */; };
@@ -62,7 +64,6 @@
 		6BB76BD9297FCEF100C8C596 /* MemoryViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BD8297FCEF100C8C596 /* MemoryViewBuilder.swift */; };
 		6BB76BDB297FE31500C8C596 /* PlanViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BDA297FE31500C8C596 /* PlanViewBuilder.swift */; };
 		6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */; };
-		6BB883A3297C5F9D00C3E2E4 /* WritingViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A2297C5F9D00C3E2E4 /* WritingViewModelType.swift */; };
 		6BB883A9297C65B300C3E2E4 /* ImagePostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A8297C65B300C3E2E4 /* ImagePostsUseCase.swift */; };
 		6BB883AB297C662100C3E2E4 /* PlanPostsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */; };
 		6BB883B1297D1C9100C3E2E4 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883B0297D1C9100C3E2E4 /* TextField.swift */; };
@@ -127,6 +128,8 @@
 		6B62A0CE2955CA0800450DB2 /* MemoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		6B73199D2980C898007ED670 /* TextRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRepository.swift; sourceTree = "<group>"; };
 		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewModel.swift; sourceTree = "<group>"; };
+		6B773721298D21EE0038E9C8 /* Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Switch.swift; sourceTree = "<group>"; };
 		6B7A176929834A48004E2ABC /* TextPostsUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPostsUsable.swift; sourceTree = "<group>"; };
 		6B7A176D29835898004E2ABC /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		6B7A176F298359DE004E2ABC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
@@ -145,7 +148,6 @@
 		6BB76BD8297FCEF100C8C596 /* MemoryViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewBuilder.swift; sourceTree = "<group>"; };
 		6BB76BDA297FE31500C8C596 /* PlanViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanViewBuilder.swift; sourceTree = "<group>"; };
 		6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewModel.swift; sourceTree = "<group>"; };
-		6BB883A2297C5F9D00C3E2E4 /* WritingViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingViewModelType.swift; sourceTree = "<group>"; };
 		6BB883A8297C65B300C3E2E4 /* ImagePostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePostsUseCase.swift; sourceTree = "<group>"; };
 		6BB883AA297C662100C3E2E4 /* PlanPostsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanPostsUseCase.swift; sourceTree = "<group>"; };
 		6BB883B0297D1C9100C3E2E4 /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
@@ -216,7 +218,6 @@
 				6B37A4AF295163E100BBB8EE /* Writable.swift */,
 				6BA9F47329526BB000403DCC /* Plan.swift */,
 				6BFB44F8296EF03100AEAD77 /* PlanTransfer.swift */,
-				6BB883A2297C5F9D00C3E2E4 /* WritingViewModelType.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -227,6 +228,7 @@
 				6B37A4C829519C8800BBB8EE /* Alert.swift */,
 				6BB883B0297D1C9100C3E2E4 /* TextField.swift */,
 				6BB883B4297D1EE200C3E2E4 /* Control.swift */,
+				6B773721298D21EE0038E9C8 /* Switch.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -430,6 +432,7 @@
 			children = (
 				6B37A4B52951743D00BBB8EE /* TravelPlaner.swift */,
 				6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */,
+				6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -625,11 +628,12 @@
 				6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */,
 				6BB883A9297C65B300C3E2E4 /* ImagePostsUseCase.swift in Sources */,
 				6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */,
+				6B773722298D21EE0038E9C8 /* Switch.swift in Sources */,
 				6B0FF61C29839EFB005729CC /* UseCaseProvider.swift in Sources */,
 				6BA9F47429526BB000403DCC /* Plan.swift in Sources */,
 				6B37A4B62951743D00BBB8EE /* TravelPlaner.swift in Sources */,
 				6B37A4BD2951786800BBB8EE /* TravelPlan.swift in Sources */,
-				6BB883A3297C5F9D00C3E2E4 /* WritingViewModelType.swift in Sources */,
+				6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */,
 				6B17E3042956A89300AF59EE /* Memory.swift in Sources */,
 				6B73199E2980C898007ED670 /* TextRepository.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,

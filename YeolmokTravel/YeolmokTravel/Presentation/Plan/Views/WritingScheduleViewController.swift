@@ -343,7 +343,6 @@ private extension WritingScheduleViewController {
         output.buttonState
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
-                //                self?.topBarView.saveBarButton.isEnabled = state
                 self?.navigationItem.rightBarButtonItem?.isEnabled = state
             }
             .store(in: &subscriptions)
