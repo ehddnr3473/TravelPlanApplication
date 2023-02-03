@@ -8,7 +8,14 @@
 import Foundation
 import Combine
 
-final class WritingPlanViewModel: WritingViewModelType {
+protocol WritingPlanViewModelType: AnyObject {
+    associatedtype Input
+    associatedtype Output
+    
+    func transform(input: Input) -> Output
+}
+
+final class WritingPlanViewModel: WritingPlanViewModelType {
     struct Input {
         let title: AnyPublisher<String, Never>
     }
