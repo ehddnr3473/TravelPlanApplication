@@ -29,7 +29,7 @@ struct Schedule: Plan {
         }
     }
     
-    mutating func setSchedule(_ title: String, _ description: String, _ fromDate: Date? = nil, _ toDate: Date? = nil, _ coordinate: CLLocationCoordinate2D) {
+    mutating func setSchedule(_ title: String, _ description: String, _ coordinate: CLLocationCoordinate2D, _ fromDate: Date? = nil, _ toDate: Date? = nil) {
         self.title = title
         self.description = description
         self.fromDate = fromDate
