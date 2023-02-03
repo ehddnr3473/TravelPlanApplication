@@ -120,6 +120,6 @@ private enum LayoutConstants {
 private enum TextConstants {
     static let latitudePlaceholder = "latitude"
     static let longitudePlaceholder = "longitude"
-    static let buttonTitle = "View Map"
+    static let buttonTitle = "Show Map"
     static let mapIcon = "map"
 }
