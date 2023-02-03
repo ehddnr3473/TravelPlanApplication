@@ -272,28 +272,18 @@ private extension WritingScheduleViewController {
             return
             // 날짜를 설정할건지 확인
         } else if dateSwitch.isOn {
-            do {
-                model.setSchedule(titleTextField.text ?? "",
-                                  descriptionTextView.text,
-                                  try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
-                                                                coordinateView.longitudeTextField.text ?? ""),
-                                  fromDatePicker.date,
-                                  toDatePicker.date)
-            } catch {
-                alertWillAppear(AlertText.coordinateMessage)
-            }
+            model.setSchedule(titleTextField.text ?? "",
+                              descriptionTextView.text,
+                              viewModel.coordinate,
+                              fromDatePicker.date,
+                              toDatePicker.date)
         } else {
-            do {
-                model.setSchedule(
-                    titleTextField.text ?? "",
-                    descriptionTextView.text,
-                    try convertStringToCoordinate(
-                        coordinateView.latitudeTextField.text ?? "",
-                        coordinateView.longitudeTextField.text ?? "")
-                )
-            } catch {
-                alertWillAppear(AlertText.coordinateMessage)
-            }
+            
+            model.setSchedule(
+                titleTextField.text ?? "",
+                descriptionTextView.text,
+                viewModel.coordinate
+            )
         }
         save(model, scheduleListIndex)
         navigationController?.popViewController(animated: true)
@@ -302,25 +292,15 @@ private extension WritingScheduleViewController {
     
     @objc func touchUpCancelBarButton() {
         if dateSwitch.isOn {
-            do {
-                planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
-                                             description: descriptionTextView.text,
-                                             fromDate: fromDatePicker.date,
-                                             toDate: toDatePicker.date,
-                                             coordinate: try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
-                                                                                       coordinateView.longitudeTextField.text ?? "")))
-            } catch {
-                alertWillAppear(AlertText.coordinateMessage)
-            }
+            planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
+                                         description: descriptionTextView.text,
+                                         fromDate: fromDatePicker.date,
+                                         toDate: toDatePicker.date,
+                                         coordinate: viewModel.coordinate))
         } else {
-            do {
-                planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
-                                             description: descriptionTextView.text,
-                                             coordinate: try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
-                                                                                       coordinateView.longitudeTextField.text ?? "")))
-            } catch {
-                alertWillAppear(AlertText.coordinateMessage)
-            }
+            planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
+                                         description: descriptionTextView.text,
+                                         coordinate: viewModel.coordinate))
         }
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
@@ -331,14 +311,15 @@ private extension WritingScheduleViewController {
     }
     
     func setBindings() {
-        titleBinding()
-        switchBinding()
+        bindingTitle()
+        bindingSwitch()
+        bindingCoordinate()
     }
     
-    func titleBinding() {
+    func bindingTitle() {
         let input = WritingScheduleViewModel.TitleInput(title: titleTextField.textPublisher)
         
-        let output = viewModel.transform(input: input)
+        let output = viewModel.transform(input)
         
         output.buttonState
             .receive(on: RunLoop.main)
@@ -348,7 +329,7 @@ private extension WritingScheduleViewController {
             .store(in: &subscriptions)
     }
     
-    func switchBinding() {
+    func bindingSwitch() {
         let input = WritingScheduleViewModel.SwitchInput(statePublisher: dateSwitch.isOnPublisher)
         let output = viewModel.transform(input)
         
@@ -369,15 +350,25 @@ private extension WritingScheduleViewController {
             .store(in: &subscriptions)
     }
     
+    func bindingCoordinate() {
+        let input = WritingScheduleViewModel.CoordinateInput(latitude: coordinateView.latitudeTextField.textPublisher,
+                                                             longitude: coordinateView.longitudeTextField.textPublisher)
+        let output = viewModel.transform(input)
+        
+        output.buttonState
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                self?.coordinateView.mapButton.isValid = state
+            }
+            .store(in: &subscriptions)
+    }
+    
+    
     @objc func presentMap() {
         let mapView = MapViewController()
-        do {
-            mapView.coordinate = try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "", coordinateView.longitudeTextField.text ?? "")
-            mapView.pinTitle = titleTextField.text
-            navigationController?.pushViewController(mapView, animated: true)
-        } catch {
-            
-        }
+        mapView.coordinate = viewModel.coordinate
+        mapView.pinTitle = titleTextField.text
+        navigationController?.pushViewController(mapView, animated: true)
     }
 }
 
@@ -389,11 +380,6 @@ private extension WritingScheduleViewController {
     
     enum ConvertCoordinateError: Error {
         case convertError
-    }
-    
-    func convertStringToCoordinate(_ latitudeString: String, _ longitudeString: String) throws -> CLLocationCoordinate2D {
-        guard let latitude = Double(latitudeString), let longitude = Double(longitudeString) else { throw ConvertCoordinateError.convertError }
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
 
@@ -422,4 +408,21 @@ private enum TextConstants {
     static let schedule = "Schedules"
     static let from = "From"
     static let to = "To"
+}
+
+private extension UIButton {
+    var isValid: Bool {
+        get {
+            isEnabled
+        }
+        
+        set {
+            self.isEnabled = newValue
+            if newValue {
+                self.backgroundColor = .systemGreen
+            } else {
+                self.backgroundColor = .systemGray
+            }
+        }
+    }
 }
