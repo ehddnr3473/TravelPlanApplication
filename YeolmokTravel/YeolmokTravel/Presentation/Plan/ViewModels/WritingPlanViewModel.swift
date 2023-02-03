@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol WritingPlanViewModelType: AnyObject {
+private protocol WritingPlanViewModelType: AnyObject {
     associatedtype Input
     associatedtype Output
     
