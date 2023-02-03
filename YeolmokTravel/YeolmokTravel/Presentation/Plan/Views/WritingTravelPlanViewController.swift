@@ -241,7 +241,7 @@ private extension WritingTravelPlanViewController {
             writingScheduleViewController.editDelegate = self
             writingScheduleViewController.scheduleListIndex = index
         }
-        let viewModel = WritingPlanViewModel()
+        let viewModel = WritingScheduleViewModel()
         writingScheduleViewController.viewModel = viewModel
         writingScheduleViewController.writingStyle = writingStyle
         writingScheduleViewController.modalPresentationStyle = .fullScreen
