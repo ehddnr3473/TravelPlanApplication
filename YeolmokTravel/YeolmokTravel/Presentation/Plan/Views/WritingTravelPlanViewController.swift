@@ -212,7 +212,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpAddScheduleButton() {
-        present(setUpWritingView(.add), animated: true)
+        navigationController?.pushViewController(setUpWritingView(.add), animated: true)
     }
     
     func setBindings() {
