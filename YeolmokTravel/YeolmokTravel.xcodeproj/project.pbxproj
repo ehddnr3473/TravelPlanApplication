@@ -46,6 +46,7 @@
 		6B7A176A29834A48004E2ABC /* TextPostsUsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176929834A48004E2ABC /* TextPostsUsable.swift */; };
 		6B7A176E29835898004E2ABC /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176D29835898004E2ABC /* Entity.swift */; };
 		6B7A1770298359DE004E2ABC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7A176F298359DE004E2ABC /* Model.swift */; };
+		6B84E461298CF60200EE83AB /* CoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B84E460298CF60200EE83AB /* CoordinateView.swift */; };
 		6BA3402229532E29002E7502 /* PlanTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* PlanTracker.swift */; };
 		6BA9F47429526BB000403DCC /* Plan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F47329526BB000403DCC /* Plan.swift */; };
 		6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C029553C5F00534B68 /* DateConverter.swift */; };
@@ -127,6 +128,7 @@
 		6B7A176929834A48004E2ABC /* TextPostsUsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPostsUsable.swift; sourceTree = "<group>"; };
 		6B7A176D29835898004E2ABC /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
 		6B7A176F298359DE004E2ABC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		6B84E460298CF60200EE83AB /* CoordinateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateView.swift; sourceTree = "<group>"; };
 		6BA9F47329526BB000403DCC /* Plan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plan.swift; sourceTree = "<group>"; };
 		6BA9F4762952862E00403DCC /* PlanTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanTracker.swift; sourceTree = "<group>"; };
 		6BB277C029553C5F00534B68 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */,
 				6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */,
 				6B46FA3E295140E9000430C7 /* PlanView.swift */,
+				6B84E460298CF60200EE83AB /* CoordinateView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -655,6 +658,7 @@
 				6B62A0CF2955CA0800450DB2 /* MemoriesCollectionViewCell.swift in Sources */,
 				6BB883AB297C662100C3E2E4 /* PlanPostsUseCase.swift in Sources */,
 				6BB76BC6297F701F00C8C596 /* PlanControllableUseCase.swift in Sources */,
+				6B84E461298CF60200EE83AB /* CoordinateView.swift in Sources */,
 				6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

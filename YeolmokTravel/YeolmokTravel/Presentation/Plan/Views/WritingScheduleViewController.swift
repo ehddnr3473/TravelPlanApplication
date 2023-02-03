@@ -30,7 +30,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         print("deinit: WritingScheduleViewController")
     }
     
-    private let topBarView: TopBarView = {
+    private lazy var topBarView: TopBarView = {
         let topBarView = TopBarView()
         return topBarView
     }()
@@ -134,52 +134,10 @@ final class WritingScheduleViewController: UIViewController, Writable {
         return datePicker
     }()
     
-    private let mapStackView: UIStackView = {
-        let stackView = UIStackView()
-        
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = LayoutConstants.spacing
-        
-        return stackView
-    }()
-    
-    private let latitudeTextField: UITextField = {
-        let textField = UITextField()
-        
-        textField.textColor = .white
-        textField.backgroundColor = .black
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        
-        return textField
-    }()
-    
-    private let longitudeTextField: UITextField = {
-        let textField = UITextField()
-        
-        textField.textColor = .white
-        textField.backgroundColor = .black
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        
-        return textField
-    }()
-    
-    private lazy var mapButton: UIButton = {
-        let button = UIButton(type: .custom)
-        
-        button.setTitle("View Map", for: .normal)
-        button.setImage(UIImage(systemName: "map"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
-        
-        return button
+    private let coordinateView: CoordinateView = {
+        let coordinateView = CoordinateView()
+        coordinateView.backgroundColor = .black
+        return coordinateView
     }()
     
     override func viewDidLoad() {
@@ -206,6 +164,7 @@ private extension WritingScheduleViewController {
         setUpUIValue()
         setUpHierarchy()
         setUpLayout()
+        configureCoordinateView()
     }
     
     func setUpHierarchy() {
@@ -217,11 +176,7 @@ private extension WritingScheduleViewController {
             view.addSubview(topBarView)
         }
         
-        [latitudeTextField, longitudeTextField, mapButton].forEach {
-            mapStackView.addArrangedSubview($0)
-        }
-        
-        [titleTextField, descriptionTextView, dateBackgroundView, mapStackView].forEach {
+        [titleTextField, descriptionTextView, dateBackgroundView, coordinateView].forEach {
             view.addSubview($0)
         }
     }
@@ -240,7 +195,7 @@ private extension WritingScheduleViewController {
                 $0.top.equalTo(topBarView.snp.bottom).offset(LayoutConstants.largeSpacing)
             } else {
                 $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                    .offset(LayoutConstants.largeSpacing)
+                    .inset(LayoutConstants.largeSpacing)
             }
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
@@ -295,12 +250,12 @@ private extension WritingScheduleViewController {
                 .inset(LayoutConstants.largeSpacing)
         }
         
-        mapStackView.snp.makeConstraints {
+        coordinateView.snp.makeConstraints {
             $0.top.equalTo(dateBackgroundView.snp.bottom)
                 .offset(LayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(LayoutConstants.spacing)
-            $0.height.equalTo(200)
+            $0.height.equalTo(LayoutConstants.coordinateViewHeight)
         }
     }
     
@@ -347,7 +302,8 @@ private extension WritingScheduleViewController {
             do {
                 model.setSchedule(titleTextField.text ?? "",
                                   descriptionTextView.text,
-                                  try convertStringToCoordinate(latitudeTextField.text ?? "", longitudeTextField.text ?? ""),
+                                  try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
+                                                                coordinateView.longitudeTextField.text ?? ""),
                                   fromDatePicker.date,
                                   toDatePicker.date)
             } catch {
@@ -355,7 +311,8 @@ private extension WritingScheduleViewController {
             }
         } else {
             do {
-                model.setSchedule(titleTextField.text ?? "", descriptionTextView.text, try convertStringToCoordinate(latitudeTextField.text ?? "", longitudeTextField.text ?? ""))
+                model.setSchedule(titleTextField.text ?? "", descriptionTextView.text, try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
+                                                                                                                     coordinateView.longitudeTextField.text ?? ""))
             } catch {
                 alertWillAppear(AlertText.coordinateMessage)
             }
@@ -376,7 +333,8 @@ private extension WritingScheduleViewController {
                                              description: descriptionTextView.text,
                                              fromDate: fromDatePicker.date,
                                              toDate: toDatePicker.date,
-                                             coordinate: try convertStringToCoordinate(latitudeTextField.text ?? "", longitudeTextField.text ?? "")))
+                                             coordinate: try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
+                                                                                       coordinateView.longitudeTextField.text ?? "")))
             } catch {
                 alertWillAppear(AlertText.coordinateMessage)
             }
@@ -384,7 +342,8 @@ private extension WritingScheduleViewController {
             do {
                 planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
                                              description: descriptionTextView.text,
-                                             coordinate: try convertStringToCoordinate(latitudeTextField.text ?? "", longitudeTextField.text ?? "")))
+                                             coordinate: try convertStringToCoordinate(coordinateView.latitudeTextField.text ?? "",
+                                                                                       coordinateView.longitudeTextField.text ?? "")))
             } catch {
                 alertWillAppear(AlertText.coordinateMessage)
             }
@@ -422,6 +381,10 @@ private extension WritingScheduleViewController {
 
 // MARK: - Coordinate
 private extension WritingScheduleViewController {
+    func configureCoordinateView() {
+        coordinateView.mapButton.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
+    }
+    
     enum ConvertCoordinateError: Error {
         case convertError
     }
@@ -448,6 +411,7 @@ private enum LayoutConstants {
     static let cellHeight: CGFloat = 100
     static let descriptionTextViewHeight: CGFloat = 100
     static let dateBackgroundViewHeight: CGFloat = 170
+    static let coordinateViewHeight: CGFloat = 150
 }
 
 private enum TextConstants {
