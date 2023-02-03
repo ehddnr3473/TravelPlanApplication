@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 /// Data Transfer Object
 /// ScheduleDTO(Data) -> Schedule(Domain)
@@ -14,11 +15,18 @@ struct ScheduleDTO {
     let description: String
     let fromDate: Date?
     let toDate: Date?
+    let coordinate: CLLocationCoordinate2D
 }
 
 // MARK: - Mapping to domain
 extension ScheduleDTO: Entity {
     func toDomain() -> Model {
-        Schedule(title: title, description: description, fromDate: fromDate, toDate: toDate)
+        Schedule(
+            title: title,
+            description: description,
+            fromDate: fromDate,
+            toDate: toDate,
+            coordinate: coordinate
+        )
     }
 }

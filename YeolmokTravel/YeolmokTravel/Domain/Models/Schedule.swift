@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 /// 자세한 일정을 나타내는 모델
 /// TravelPlan의 하위 데이터
@@ -14,6 +15,7 @@ struct Schedule: Plan {
     var description: String
     var fromDate: Date?
     var toDate: Date?
+    var coordinate: CLLocationCoordinate2D
     
     var date: String {
         if let fromDate = fromDate, let toDate = toDate {
@@ -37,6 +39,23 @@ struct Schedule: Plan {
 
 extension Schedule: Model {
     func toData() -> Entity {
-        ScheduleDTO(title: title, description: description, fromDate: fromDate, toDate: toDate)
+        ScheduleDTO(
+            title: title,
+            description: description,
+            fromDate: fromDate,
+            toDate: toDate,
+            coordinate: coordinate
+        )
+    }
+}
+
+extension Schedule {
+    static func == (lhs: Schedule, rhs: Schedule) -> Bool {
+        lhs.title == rhs.title &&
+        lhs.description == rhs.description &&
+        lhs.fromDate == rhs.fromDate &&
+        lhs.toDate == rhs.toDate &&
+        lhs.coordinate.latitude == rhs.coordinate.latitude &&
+        lhs.coordinate.longitude == rhs.coordinate.longitude
     }
 }
