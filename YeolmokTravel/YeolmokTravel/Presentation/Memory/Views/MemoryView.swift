@@ -139,8 +139,8 @@ private extension MemoryView {
 extension MemoryView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell else { return UICollectionViewCell() }
-        let viewModel = ImageLoader(viewModel.memory(indexPath.row), useCaseProvider.createImagePostsUseCase())
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell, let model = viewModel.memory(indexPath.row) else { return UICollectionViewCell() }
+        let viewModel = ImageLoader(model, useCaseProvider.createImagePostsUseCase())
         cell.setViewModel(viewModel)
         return cell
     }
