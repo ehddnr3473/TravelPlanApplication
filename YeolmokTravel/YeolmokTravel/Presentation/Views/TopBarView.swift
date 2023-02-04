@@ -73,7 +73,7 @@ private extension TopBarView {
     
     func setUpLayout() {
         topBarStackView.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.center.equalToSuperview()
             $0.width.equalToSuperview()
             $0.height.greaterThanOrEqualToSuperview()
         }
