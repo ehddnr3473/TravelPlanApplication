@@ -19,12 +19,22 @@ final class WritingScheduleViewController: UIViewController, Writable {
             planTracker = PlanTracker(model)
         }
     }
-    var writingStyle: WritingStyle!
+    var writingStyle: WritingStyle
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var scheduleListIndex: Int?
-    var viewModel: WritingScheduleViewModel!
+    var viewModel: WritingScheduleViewModel
     private var subscriptions = Set<AnyCancellable>()
+    
+    init(_ viewModel: WritingScheduleViewModel, writingStyle: WritingStyle) {
+        self.viewModel = viewModel
+        self.writingStyle = writingStyle
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented")
+    }
     
     deinit {
         print("deinit: WritingScheduleViewController")
