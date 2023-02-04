@@ -8,12 +8,14 @@
 import UIKit
 import Foundation
 
-enum DatabasePath {
-    static let plans = "plans"
-    static let memories = "memories"
+enum AppStyles {
+    static let mainColor = UIColor.systemGreen
 }
 
-enum AppStyles {
+enum AppLayoutConstants {
+    static let spacing: CGFloat = 8
+    static let largeSpacing: CGFloat = 20
+    static let borderWidth: CGFloat = 1
     static let titleFontSize: CGFloat = 30
-    static let mainColor = UIColor.systemGreen
+    static let largeFontSize: CGFloat = 25
 }
