@@ -31,10 +31,6 @@ struct TravelPlan: Plan {
         setToDate()
     }
     
-    var schedulesCount: Int {
-        schedules.count
-    }
-    
     var date: String {
         if let fromDate = fromDate, let toDate = toDate {
             if fromDate == toDate {
