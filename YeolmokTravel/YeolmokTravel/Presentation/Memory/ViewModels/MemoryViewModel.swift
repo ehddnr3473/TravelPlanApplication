@@ -8,7 +8,16 @@
 import Foundation
 import Combine
 
-final class MemoryViewModel {
+private protocol MemoryViewModelType {
+    // Input
+    func add(_ memory: Memory)
+    // Input & Output
+    func memory(_ index: Int) -> Memory?
+    // Output
+    var reloadPublisher: PassthroughSubject<Void, Never> { get }
+}
+
+final class MemoryViewModel: MemoryViewModelType {
     private let useCase: ModelControlUsable
     let reloadPublisher = PassthroughSubject<Void, Never>()
     
@@ -20,12 +29,12 @@ final class MemoryViewModel {
         self.useCase = useCase
     }
     
-    func memory(_ index: Int) -> Memory {
-        useCase.query(index) as! Memory
-    }
-    
     func add(_ memory: Memory) {
         useCase.add(memory)
         reloadPublisher.send()
+    }
+    
+    func memory(_ index: Int) -> Memory? {
+        useCase.query(index) as? Memory
     }
 }
