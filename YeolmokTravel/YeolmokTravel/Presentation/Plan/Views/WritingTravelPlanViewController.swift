@@ -35,59 +35,16 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return topBarView
     }()
     
-    private let titleTextField: UITextField = {
-        let textField = UITextField()
-        
-        textField.textColor = .white
-        textField.backgroundColor = .black
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        
-        textField.leftView = UIView(frame: CGRect(x: .zero,
-                                                  y: .zero,
-                                                  width: LayoutConstants.spacing,
-                                                  height: .zero))
-        textField.leftViewMode = .always
-        
-        return textField
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
     }()
     
-    private let descriptionTextView: UITextView = {
-        let textView = UITextView()
-        
-        textView.textColor = .white
-        textView.backgroundColor = .black
-        textView.layer.cornerRadius = LayoutConstants.cornerRadius
-        textView.layer.borderWidth = LayoutConstants.borderWidth
-        textView.layer.borderColor = UIColor.white.cgColor
-        textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        
-        return textView
-    }()
-    
-    private let scheduleTitleLabel: UILabel = {
-        let label = UILabel()
-        
-        label.text = TextConstants.schedule
-        label.textAlignment = .center
-        label.textColor = .white
-        label.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
-        
-        return label
-    }()
-    
-    private lazy var addScheduleButton: UIButton = {
-        let button = UIButton(type: .custom)
-        
-        button.setImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
-        button.addTarget(self, action: #selector(touchUpAddScheduleButton), for: .touchUpInside)
-        button.tintColor = AppStyles.mainColor
-        
-        return button
+    private let writingTravelPlanView: WritingTravelPlanView = {
+        let writingTravelPlanView = WritingTravelPlanView()
+        writingTravelPlanView.backgroundColor = .black
+        return writingTravelPlanView
     }()
     
     private let scheduleTableView: UITableView = {
@@ -97,7 +54,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
                            forCellReuseIdentifier: PlanTableViewCell.identifier)
         tableView.backgroundColor = .black
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
-        tableView.layer.borderWidth = LayoutConstants.borderWidth
+        tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
         
         return tableView
@@ -106,6 +63,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpUI()
+        configureWritingTravelPlanViewValue()
         configure()
         setBindings()
     }
@@ -125,15 +83,22 @@ private extension WritingTravelPlanViewController {
             break
         }
         
-        titleTextField.text = model.title
-        descriptionTextView.text = model.description
-        
         setUpHierarchy()
         setUpLayout()
     }
     
+    func configureWritingTravelPlanViewValue() {
+        writingTravelPlanView.titleTextField.text = model.title
+        writingTravelPlanView.descriptionTextView.text = model.description
+        writingTravelPlanView.addScheduleButton.addTarget(self, action: #selector(touchUpAddScheduleButton), for: .touchUpInside)
+    }
+    
     func setUpHierarchy() {
-        [topBarView, titleTextField, descriptionTextView, scheduleTitleLabel, addScheduleButton, scheduleTableView].forEach {
+        [writingTravelPlanView, scheduleTableView].forEach {
+            scrollView.addSubview($0)
+        }
+        
+        [topBarView, scrollView].forEach {
             view.addSubview($0)
         }
     }
@@ -145,38 +110,24 @@ private extension WritingTravelPlanViewController {
             $0.height.greaterThanOrEqualTo(LayoutConstants.stackViewHeight)
         }
         
-        titleTextField.snp.makeConstraints {
-            $0.top.equalTo(topBarView.snp.bottom).offset(LayoutConstants.largeSpacing)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(topBarView.snp.bottom)
+                .offset(AppLayoutConstants.largeSpacing)
+            $0.leading.bottom.trailing.equalToSuperview()
+        }
+        
+        writingTravelPlanView.snp.makeConstraints {
+            $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
-        }
-        
-        descriptionTextView.snp.makeConstraints {
-            $0.top.equalTo(titleTextField.snp.bottom)
-                .offset(LayoutConstants.spacing)
-            $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
-            $0.height.equalTo(LayoutConstants.cellHeight)
-        }
-        
-        scheduleTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(descriptionTextView.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
-            $0.leading.equalToSuperview()
-                .inset(LayoutConstants.schedultTitleLeading)
-        }
-        
-        addScheduleButton.snp.makeConstraints {
-            $0.centerY.equalTo(scheduleTitleLabel)
-            $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.spacing)
+            $0.height.equalTo(300)
         }
         
         scheduleTableView.snp.makeConstraints {
-            $0.top.equalTo(scheduleTitleLabel.snp.bottom)
-                .offset(LayoutConstants.spacing)
+            $0.top.equalTo(writingTravelPlanView.snp.bottom)
+                .offset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(model.schedulesCount * Int(LayoutConstants.cellHeight))
         }
     }
@@ -189,19 +140,19 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpSaveBarButton() {
-        if titleTextField.text == "" {
+        if writingTravelPlanView.titleTextField.text == "" {
             alertWillAppear(AlertText.titleMessage)
             return
         } else {
-            model.setTravelPlan(titleTextField.text ?? "", descriptionTextView.text)
+            model.setTravelPlan(writingTravelPlanView.titleTextField.text ?? "", writingTravelPlanView.descriptionTextView.text)
             save(model, planListIndex)
             dismiss(animated: true)
         }
     }
     
     @objc func touchUpCancelBarButton() {
-        planTracker.setPlan(TravelPlan(title: titleTextField.text ?? "",
-                                       description: descriptionTextView.text,
+        planTracker.setPlan(TravelPlan(title: writingTravelPlanView.titleTextField.text ?? "",
+                                       description: writingTravelPlanView.descriptionTextView.text,
                                        schedules: model.schedules))
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
@@ -218,7 +169,7 @@ private extension WritingTravelPlanViewController {
     }
     
     func setBindings() {
-        let input = WritingPlanViewModel.Input(title: titleTextField.textPublisher)
+        let input = WritingPlanViewModel.Input(title: writingTravelPlanView.titleTextField.textPublisher)
         
         let output = viewModel.transform(input: input)
         
@@ -297,26 +248,11 @@ extension WritingTravelPlanViewController: PlanTransfer {
 }
 
 private enum LayoutConstants {
-    static let spacing: CGFloat = 8
-    static let largeSpacing: CGFloat = 20
-    static let stackViewCornerRadius: CGFloat = 10
-    static let cornerRadius: CGFloat = 5
     static let tableViewCornerRadius: CGFloat = 10
-    static let borderWidth: CGFloat = 1
-    static let largeFontSize: CGFloat = 25
-    static let mediumFontSize: CGFloat = 20
-    static let topBottomMargin: CGFloat = 10
-    static let sideMargin: CGFloat = 15
     static let stackViewHeight: CGFloat = 50
-    static let schedultTitleLeading: CGFloat = 15
     static let cellHeight: CGFloat = 100
 }
 
 private enum TextConstants {
-    static let saveButtonTitle = "Save"
-    static let cancelButtonTItle = "Cancel"
     static let plan = "Plan"
-    static let descriptionPlaceolder = "상세"
-    static let schedule = "Schedule"
-    static let plusIcon = "plus"
 }

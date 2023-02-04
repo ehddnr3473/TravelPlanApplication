@@ -20,7 +20,7 @@ final class PlanView: UIViewController {
         label.textAlignment = .center
         label.textColor = .white
         label.text = TextConstants.title
-        label.font = .boldSystemFont(ofSize: AppStyles.titleFontSize)
+        label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
         
         return label
     }()
@@ -42,7 +42,7 @@ final class PlanView: UIViewController {
                            forCellReuseIdentifier: PlanTableViewCell.identifier)
         tableView.backgroundColor = .black
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
-        tableView.layer.borderWidth = LayoutConstants.borderWidth
+        tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
         tableView.isScrollEnabled = false
         
@@ -75,13 +75,13 @@ private extension PlanView {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         addButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
         
@@ -89,7 +89,7 @@ private extension PlanView {
             $0.top.equalTo(titleLabel.snp.bottom)
                 .offset(LayoutConstants.planTableViewTopOffset)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
         }
     }
@@ -156,10 +156,8 @@ private enum TextConstants {
 }
 
 private enum LayoutConstants {
-    static let spacing: CGFloat = 8
     static let buttonSize = CGSize(width: 44.44, height: 44.44)
     static let planTableViewTopOffset: CGFloat = 20
-    static let borderWidth: CGFloat = 1
     static let cornerRadius: CGFloat = 10
     static let cellHeight: CGFloat = 100
 }

@@ -20,7 +20,7 @@ final class MemoryView: UIViewController {
         label.textAlignment = .center
         label.textColor = .white
         label.text = TextConstants.title
-        label.font = .boldSystemFont(ofSize: AppStyles.titleFontSize)
+        label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
         
         return label
     }()

@@ -33,12 +33,12 @@ final class WritingMemoryViewController: UIViewController {
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = LayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
+        textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
-                                                  width: LayoutConstants.spacing,
+                                                  width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
         
@@ -118,14 +118,14 @@ extension WritingMemoryViewController {
         
         titleTextField.snp.makeConstraints {
             $0.top.equalTo(topBarView.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         imageView.snp.makeConstraints {
             $0.top.equalTo(titleTextField.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.centerX.equalToSuperview()
             $0.width.equalToSuperview()
                 .multipliedBy(LayoutConstants.imageViewWidthMultiplier)
@@ -134,18 +134,18 @@ extension WritingMemoryViewController {
         
         deleteButton.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(LayoutConstants.buttonWidth)
             $0.trailing.equalTo(view.snp.centerX)
-                .offset(-LayoutConstants.spacing)
+                .offset(-AppLayoutConstants.spacing)
         }
         
         addButton.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(LayoutConstants.buttonWidth)
             $0.leading.equalTo(view.snp.centerX)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
         }
     }
     
@@ -220,9 +220,6 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
 
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 5
-    static let largeFontSize: CGFloat = 25
-    static let spacing: CGFloat = 8
-    static let largeSpacing: CGFloat = 20
     static let topBarViewHeight: CGFloat = 50
     static let borderWidth: CGFloat = 1
     static let imageViewWidthMultiplier: CGFloat = 0.8

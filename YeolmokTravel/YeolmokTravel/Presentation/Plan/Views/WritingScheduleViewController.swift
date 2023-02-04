@@ -43,7 +43,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = LayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.largeFontSize)
+        textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         
