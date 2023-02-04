@@ -13,7 +13,7 @@ import CoreLocation
 final class WritingTravelPlanViewController: UIViewController, Writable {
     typealias ModelType = TravelPlan
     // MARK: - Properties
-    var writingStyle: WritingStyle!
+    var writingStyle: WritingStyle
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var planListIndex: Int?
@@ -22,15 +22,15 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     private let descriptionTextPublisher = PassthroughSubject<String, Never>()
     private var subscriptions = Set<AnyCancellable>()
     
-//    init(_ viewModel: WritingTravelPlanViewModel, _ writingStyle: WritingStyle) {
-//        self.viewModel = viewModel
-//        self.writingStyle = writingStyle
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) not implemented")
-//    }
+    init(_ viewModel: WritingTravelPlanViewModel, _ writingStyle: WritingStyle) {
+        self.viewModel = viewModel
+        self.writingStyle = writingStyle
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented")
+    }
     
     deinit {
         print("deinit: WritingTravelPlanViewController")
@@ -86,8 +86,6 @@ private extension WritingTravelPlanViewController {
             topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
         case .edit:
             topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        case .none:
-            fatalError("WritingStyle injection is required.")
         }
         
         setUpHierarchy()
@@ -195,23 +193,25 @@ private extension WritingTravelPlanViewController {
     }
     
     func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
-        let writingScheduleViewController = WritingScheduleViewController()
         switch writingStyle {
         case .add:
             let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
-            writingScheduleViewController.model = model
-            writingScheduleViewController.addDelegate = self
+            let viewModel = WritingScheduleViewModel()
+            let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+            writingView.model = model
+            writingView.addDelegate = self
+            writingView.modalPresentationStyle = .fullScreen
+            return writingView
         case .edit:
             let model = viewModel.schedules[index!]
-            writingScheduleViewController.model = model
-            writingScheduleViewController.editDelegate = self
-            writingScheduleViewController.scheduleListIndex = index
+            let viewModel = WritingScheduleViewModel()
+            let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+            writingView.model = model
+            writingView.editDelegate = self
+            writingView.scheduleListIndex = index
+            writingView.modalPresentationStyle = .fullScreen
+            return writingView
         }
-        let viewModel = WritingScheduleViewModel()
-        writingScheduleViewController.viewModel = viewModel
-        writingScheduleViewController.writingStyle = writingStyle
-        writingScheduleViewController.modalPresentationStyle = .fullScreen
-        return writingScheduleViewController
     }
     
     @MainActor func reload() {

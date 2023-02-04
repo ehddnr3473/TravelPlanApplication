@@ -77,23 +77,25 @@ extension TravelPlaner: PlanTransfer {
     
     // 여행 계획을 작성(수정, 추가)하기 위해 프레젠테이션할 ViewController 반환
     func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> UINavigationController {
-        let writingView = WritingTravelPlanViewController()
         switch writingStyle {
         case .add:
             let model = TravelPlan(title: "", description: "", schedules: [])
+            let writingView = WritingTravelPlanViewController(WritingTravelPlanViewModel(model), writingStyle)
             writingView.viewModel = WritingTravelPlanViewModel(model)
             writingView.addDelegate = self
+            let navigationController = UINavigationController(rootViewController: writingView)
+            navigationController.modalPresentationStyle = .fullScreen
+            return navigationController
         case .edit:
             let model = model.travelPlans[index!]
+            let writingView = WritingTravelPlanViewController(WritingTravelPlanViewModel(model), writingStyle)
             writingView.viewModel = WritingTravelPlanViewModel(model)
             writingView.editDelegate = self
             writingView.planListIndex = index
+            let navigationController = UINavigationController(rootViewController: writingView)
+            navigationController.modalPresentationStyle = .fullScreen
+            return navigationController
         }
-        
-        writingView.writingStyle = writingStyle
-        let navigationController = UINavigationController(rootViewController: writingView)
-        navigationController.modalPresentationStyle = .fullScreen
-        return navigationController
     }
 }
 
