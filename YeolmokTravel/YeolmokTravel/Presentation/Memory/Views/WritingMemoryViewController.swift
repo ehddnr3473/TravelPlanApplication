@@ -31,7 +31,7 @@ final class WritingMemoryViewController: UIViewController {
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
@@ -54,7 +54,7 @@ final class WritingMemoryViewController: UIViewController {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.borderWidth = LayoutConstants.borderWidth
+        imageView.layer.borderWidth = AppLayoutConstants.borderWidth
         imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
@@ -66,7 +66,7 @@ final class WritingMemoryViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = AppStyles.mainColor
         button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = LayoutConstants.borderWidth
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
         return button
     }()
     
@@ -77,7 +77,7 @@ final class WritingMemoryViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = .systemGray
         button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = LayoutConstants.borderWidth
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
         return button
     }()
     
@@ -221,7 +221,6 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 5
     static let topBarViewHeight: CGFloat = 50
-    static let borderWidth: CGFloat = 1
     static let imageViewWidthMultiplier: CGFloat = 0.8
     static let buttonWidth: CGFloat = 100
 }
