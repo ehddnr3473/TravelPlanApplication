@@ -364,10 +364,9 @@ private extension WritingScheduleViewController {
             .store(in: &subscriptions)
     }
     
-    
     @objc func presentMap() {
-        let mapView = MapViewController(coordinate: viewModel.coordinate,
-                                        pinTitle: titleTextField.text ?? "")
+        let annotatedCoordinate = [AnnotatedCoordinate(coordinate: viewModel.coordinate, title: titleTextField.text ?? "")]
+        let mapView = MapViewController(annotatedCoordinate)
         navigationController?.pushViewController(mapView, animated: true)
     }
 }
