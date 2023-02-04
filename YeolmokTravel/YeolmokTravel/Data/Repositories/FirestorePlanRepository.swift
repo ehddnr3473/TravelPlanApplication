@@ -88,17 +88,17 @@ struct FirestorePlanRepository: TextRepository {
             return ScheduleDTO(
                 title: data[Key.title] as! String,
                 description: data[Key.description] as! String,
+                coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude),
                 fromDate: DateConverter.stringToDate(fromDate),
-                toDate: DateConverter.stringToDate(toDate),
-                coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                toDate: DateConverter.stringToDate(toDate)
             )
         } else {
             return ScheduleDTO(
                 title: data[Key.title] as! String,
                 description: data[Key.description] as! String,
+                coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude),
                 fromDate: nil,
-                toDate: nil,
-                coordinate: CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                toDate: nil
             )
         }
     }

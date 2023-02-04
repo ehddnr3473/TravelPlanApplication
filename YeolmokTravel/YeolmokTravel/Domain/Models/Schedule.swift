@@ -13,9 +13,9 @@ import CoreLocation
 struct Schedule: Plan {
     var title: String
     var description: String
+    var coordinate: CLLocationCoordinate2D
     var fromDate: Date?
     var toDate: Date?
-    var coordinate: CLLocationCoordinate2D
     
     var date: String {
         if let fromDate = fromDate, let toDate = toDate {
@@ -43,9 +43,9 @@ extension Schedule: Model {
         ScheduleDTO(
             title: title,
             description: description,
+            coordinate: coordinate,
             fromDate: fromDate,
-            toDate: toDate,
-            coordinate: coordinate
+            toDate: toDate
         )
     }
 }

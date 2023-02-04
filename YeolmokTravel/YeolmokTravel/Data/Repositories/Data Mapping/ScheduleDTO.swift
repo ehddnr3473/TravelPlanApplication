@@ -13,9 +13,9 @@ import CoreLocation
 struct ScheduleDTO {
     let title: String
     let description: String
+    let coordinate: CLLocationCoordinate2D
     let fromDate: Date?
     let toDate: Date?
-    let coordinate: CLLocationCoordinate2D
 }
 
 // MARK: - Mapping to domain
@@ -24,9 +24,9 @@ extension ScheduleDTO: Entity {
         Schedule(
             title: title,
             description: description,
+            coordinate: coordinate,
             fromDate: fromDate,
-            toDate: toDate,
-            coordinate: coordinate
+            toDate: toDate
         )
     }
 }
