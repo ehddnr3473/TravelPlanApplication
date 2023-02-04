@@ -28,6 +28,10 @@ extension UIViewController {
     }
 }
 
+enum AlertError: Error {
+    case titleError
+}
+
 enum AlertText {
     static let alertTitle = "알림"
     static let titleMessage = "제목을 입력해주세요."
