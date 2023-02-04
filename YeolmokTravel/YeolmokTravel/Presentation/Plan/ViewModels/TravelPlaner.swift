@@ -81,16 +81,15 @@ extension TravelPlaner: PlanTransfer {
         switch writingStyle {
         case .add:
             let model = TravelPlan(title: "", description: "", schedules: [])
-            writingView.model = model
+            writingView.viewModel = WritingTravelPlanViewModel(model)
             writingView.addDelegate = self
         case .edit:
             let model = model.travelPlans[index!]
-            writingView.model = model
+            writingView.viewModel = WritingTravelPlanViewModel(model)
             writingView.editDelegate = self
             writingView.planListIndex = index
         }
-        let viewModel = WritingPlanViewModel()
-        writingView.viewModel = viewModel
+        
         writingView.writingStyle = writingStyle
         let navigationController = UINavigationController(rootViewController: writingView)
         navigationController.modalPresentationStyle = .fullScreen
