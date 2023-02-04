@@ -18,7 +18,7 @@ final class MapViewController: UIViewController {
     }()
     
     var coordinate: CLLocationCoordinate2D!
-    let span: CLLocationDegrees = 0.005
+    let span: CLLocationDegrees = CoordinateConstants.mapSpan
     var pinTitle: String!
     
     override func viewDidLoad() {
@@ -44,4 +44,8 @@ final class MapViewController: UIViewController {
         
         mapView.addAnnotation(annotation)
     }
+}
+
+private enum CoordinateConstants {
+    static let mapSpan: CLLocationDegrees = 0.005
 }
