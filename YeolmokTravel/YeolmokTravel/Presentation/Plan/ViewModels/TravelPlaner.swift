@@ -11,10 +11,10 @@ import UIKit
 
 /// Plan View Model Protocol
 fileprivate protocol PlanConfigurable: AnyObject {
-    // input
+    // Input
     func delete(_ index: Int)
     
-    // output
+    // Output
     var publisher: PassthroughSubject<Void, Never> { get set }
     var planCount: Int { get }
     func title(_ index: Int) -> String
