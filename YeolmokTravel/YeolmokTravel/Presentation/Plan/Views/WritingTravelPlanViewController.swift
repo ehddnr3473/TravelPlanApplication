@@ -203,17 +203,15 @@ private extension WritingTravelPlanViewController {
         switch writingStyle {
         case .add:
             let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
-            let viewModel = WritingScheduleViewModel()
+            let viewModel = WritingScheduleViewModel(model)
             let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
-            writingView.model = model
             writingView.addDelegate = self
             writingView.modalPresentationStyle = .fullScreen
             return writingView
         case .edit:
             let model = viewModel.schedules[index!]
-            let viewModel = WritingScheduleViewModel()
+            let viewModel = WritingScheduleViewModel(model)
             let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
-            writingView.model = model
             writingView.editDelegate = self
             writingView.scheduleListIndex = index
             writingView.modalPresentationStyle = .fullScreen
