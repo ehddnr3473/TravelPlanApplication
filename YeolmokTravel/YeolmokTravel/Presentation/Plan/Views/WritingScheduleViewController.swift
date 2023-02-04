@@ -18,6 +18,8 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var editDelegate: PlanTransfer?
     var scheduleListIndex: Int?
     var viewModel: WritingScheduleViewModel
+    
+    private let descriptionTextPublisher = CurrentValueSubject<String, Never>("")
     private var subscriptions = Set<AnyCancellable>()
     
     init(_ viewModel: WritingScheduleViewModel, writingStyle: WritingStyle) {
@@ -146,6 +148,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
+        configure()
         setBindings()
     }
 }
@@ -179,12 +182,9 @@ private extension WritingScheduleViewController {
     }
     
     func configureLayoutConstraint() {
-        
         titleTextField.snp.makeConstraints {
-            
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.largeSpacing)
-            
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
         }
@@ -247,6 +247,10 @@ private extension WritingScheduleViewController {
         }
     }
     
+    func configure() {
+        descriptionTextView.delegate = self
+    }
+    
     func configureViewValue() {
         titleTextField.text = viewModel.modelTitle
         descriptionTextView.text = viewModel.modelDescription
@@ -270,7 +274,14 @@ private extension WritingScheduleViewController {
             alertWillAppear(AlertText.dateMessage)
             return
         }
-        viewModel.setSchedule()
+        
+        do {
+            try viewModel.setSchedule()
+        } catch {
+            alertWillAppear(AlertText.titleMessage)
+            return
+        }
+        
         save(viewModel.model, scheduleListIndex)
         navigationController?.popViewController(animated: true)
     }
@@ -295,14 +306,21 @@ private extension WritingScheduleViewController {
     }
     
     func bindingTitle() {
-        let input = WritingScheduleViewModel.TitleInput(title: titleTextField.textPublisher)
+        let input = WritingScheduleViewModel.TextInput(title: titleTextField.textPublisher, description: descriptionTextPublisher)
         
         let output = viewModel.transform(input)
         
         output.buttonState
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
-                self?.navigationItem.rightBarButtonItem?.isEnabled = state
+                self?.navigationItem.rightBarButtonItem?.customView?.isUserInteractionEnabled = state
+            }
+            .store(in: &subscriptions)
+        
+        output.backgroundColorPublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] color in
+                self?.navigationItem.rightBarButtonItem?.customView?.tintColor = color
             }
             .store(in: &subscriptions)
     }
@@ -313,10 +331,7 @@ private extension WritingScheduleViewController {
         
         output.datePickerStatePublisher
             .receive(on: RunLoop.main)
-            .sink { [weak self] state in
-                self?.fromDatePicker.isEnabled = state
-                self?.toDatePicker.isEnabled = state
-            }
+            .assign(to: \.isEnabled, on: fromDatePicker)
             .store(in: &subscriptions)
         
         output.backgroundColorPublisher
@@ -335,9 +350,7 @@ private extension WritingScheduleViewController {
         
         output.buttonState
             .receive(on: RunLoop.main)
-            .sink { [weak self] state in
-                self?.coordinateView.mapButton.isValid = state
-            }
+            .assign(to: \.isValid, on: coordinateView.mapButton)
             .store(in: &subscriptions)
     }
     
@@ -371,6 +384,12 @@ private extension WritingScheduleViewController {
     
     enum ConvertCoordinateError: Error {
         case convertError
+    }
+}
+
+extension WritingScheduleViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        descriptionTextPublisher.send(textView.text)
     }
 }
 
