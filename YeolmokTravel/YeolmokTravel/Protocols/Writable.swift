@@ -35,7 +35,7 @@ extension Writable {
         case .edit:
             return false
         case .none:
-            fatalError()
+            fatalError("WritingStyle injection is required.")
         }
     }
     
@@ -46,7 +46,7 @@ extension Writable {
         case .edit:
             return (WritableAlertText.editTitle, WritableAlertText.message)
         case .none:
-            fatalError()
+            fatalError("WritingStyle injection is required.")
         }
     }
     
@@ -57,7 +57,7 @@ extension Writable {
         case .edit:
             editDelegate?.writingHandler(plan, index)
         case .none:
-            fatalError()
+            fatalError("WritingStyle injection is required.")
         }
     }
 }
