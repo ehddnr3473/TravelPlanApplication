@@ -303,7 +303,9 @@ private extension WritingScheduleViewController {
         }
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1, writingStyle)
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
         } else {
             navigationController?.popViewController(animated: true)
         }

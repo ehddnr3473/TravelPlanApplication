@@ -205,7 +205,9 @@ private extension WritingTravelPlanViewController {
                                        schedules: model.schedules))
         if planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1)
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+                self?.dismiss(animated: true)
+            }
         } else {
             dismiss(animated: true)
         }

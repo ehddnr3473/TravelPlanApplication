@@ -18,15 +18,9 @@ extension UIViewController {
     }
     
     @MainActor
-    func actionSheetWillApear(_ title: String, _ message: String, _ writingStyle: WritingStyle? = nil) {
+    func actionSheetWillApear(_ title: String, _ message: String, _ okHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        let okAction = UIAlertAction(title: AlertText.okActionTitle, style: .destructive) { _ in
-            if writingStyle == .edit {
-                self.navigationController?.popViewController(animated: true)
-            } else {
-                self.dismiss(animated: true)
-            }
-        }
+        let okAction = UIAlertAction(title: AlertText.okActionTitle, style: .destructive) { _ in okHandler() }
         let cancelAction = UIAlertAction(title: AlertText.cancelActionTitle, style: .cancel)
         alert.addAction(okAction)
         alert.addAction(cancelAction)
