@@ -13,12 +13,6 @@ import CoreLocation
 final class WritingScheduleViewController: UIViewController, Writable {
     typealias ModelType = Schedule
     // MARK: - Properties
-    var planTracker: PlanTracker<ModelType>!
-    var model: ModelType! {
-        didSet {
-            planTracker = PlanTracker(model)
-        }
-    }
     var writingStyle: WritingStyle
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
@@ -254,12 +248,12 @@ private extension WritingScheduleViewController {
     }
     
     func configureViewValue() {
-        titleTextField.text = model.title
-        descriptionTextView.text = model.description
-        coordinateView.latitudeTextField.text = String(model.coordinate.latitude)
-        coordinateView.longitudeTextField.text = String(model.coordinate.longitude)
+        titleTextField.text = viewModel.modelTitle
+        descriptionTextView.text = viewModel.modelDescription
+        coordinateView.latitudeTextField.text = String(viewModel.coordinate.latitude)
+        coordinateView.longitudeTextField.text = String(viewModel.coordinate.longitude)
         
-        if let fromDate = model.fromDate, let toDate = model.toDate {
+        if let fromDate = viewModel.modelFromDate, let toDate = viewModel.modelToDate {
             dateSwitch.isOn = true
             fromDatePicker.isEnabled = true
             toDatePicker.isEnabled = true
@@ -272,46 +266,18 @@ private extension WritingScheduleViewController {
 // MARK: - User Interaction
 private extension WritingScheduleViewController {
     @objc func touchUpSaveBarButton() {
-        // title이 비어있는지 검증
-        if titleTextField.text == "" {
-            alertWillAppear(AlertText.titleMessage)
-            return
-            // 시작 날짜가 종료 날짜 이후인지 검증
-        } else if fromDatePicker.date > toDatePicker.date {
+        if fromDatePicker.date > toDatePicker.date {
             alertWillAppear(AlertText.dateMessage)
             return
-            // 날짜를 설정할건지 확인
-        } else if dateSwitch.isOn {
-            model.setSchedule(titleTextField.text ?? "",
-                              descriptionTextView.text,
-                              viewModel.coordinate,
-                              fromDatePicker.date,
-                              toDatePicker.date)
-        } else {
-            model.setSchedule(
-                titleTextField.text ?? "",
-                descriptionTextView.text,
-                viewModel.coordinate
-            )
         }
-        save(model, scheduleListIndex)
+        viewModel.setSchedule()
+        save(viewModel.model, scheduleListIndex)
         navigationController?.popViewController(animated: true)
-        
     }
     
     @objc func touchUpCancelBarButton() {
-        if dateSwitch.isOn {
-            planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
-                                         description: descriptionTextView.text,
-                                         fromDate: fromDatePicker.date,
-                                         toDate: toDatePicker.date,
-                                         coordinate: viewModel.coordinate))
-        } else {
-            planTracker.setPlan(Schedule(title: titleTextField.text ?? "",
-                                         description: descriptionTextView.text,
-                                         coordinate: viewModel.coordinate))
-        }
-        if planTracker.isChanged {
+        viewModel.setPlan()
+        if viewModel.planTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)

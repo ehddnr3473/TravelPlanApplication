@@ -19,13 +19,63 @@ private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype CoordinateOutput
 }
 
-final class WritingScheduleViewModel: WritingScheduleViewModelType {
+final class WritingScheduleViewModel {
+    private(set) var planTracker: PlanTracker<Schedule>
+    private(set) var model: Schedule
+    
+    private var title = ""
+    private var description = ""
+    private var fromDate: Date?
+    private var toDate: Date?
     private(set) var coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(), longitude: CLLocationDegrees())
+    
+    var modelTitle: String {
+        model.title
+    }
+    
+    var modelDescription: String {
+        model.description
+    }
+    
+    var modelFromDate: Date? {
+        model.fromDate
+    }
+    
+    var modelToDate: Date? {
+        model.toDate
+    }
+    
+    var modelLatitude: CLLocationDegrees {
+        model.coordinate.latitude
+    }
+    
+    var modelLongitude: CLLocationDegrees {
+        model.coordinate.longitude
+    }
+    
+    init(_ model: Schedule) {
+        self.model = model
+        self.planTracker = PlanTracker(model)
+    }
     
     deinit {
         print("deinit: WritingScheduleViewModel")
     }
     
+    func setSchedule() {
+        model.setSchedule(title, description, coordinate, fromDate, toDate)
+    }
+    
+    func setPlan() {
+        planTracker.setPlan(Schedule(title: title,
+                                     description: description,
+                                     coordinate: coordinate,
+                                     fromDate: fromDate,
+                                     toDate: toDate))
+    }
+}
+
+extension WritingScheduleViewModel: WritingScheduleViewModelType {
     // Title UITextField
     struct TitleInput {
         let title: AnyPublisher<String, Never>
