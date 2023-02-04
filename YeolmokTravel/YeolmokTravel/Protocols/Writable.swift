@@ -15,7 +15,7 @@ enum WritingStyle: String {
 protocol Writable: AnyObject {
     associatedtype ModelType: Plan
     
-    var writingStyle: WritingStyle! { get }
+    var writingStyle: WritingStyle { get }
     var addDelegate: PlanTransfer? { get set }
     var editDelegate: PlanTransfer? { get set }
     var isEditing: Bool { get }
@@ -32,8 +32,6 @@ extension Writable {
             return true
         case .edit:
             return false
-        case .none:
-            fatalError("WritingStyle injection is required.")
         }
     }
     
@@ -43,8 +41,6 @@ extension Writable {
             return (WritableAlertText.addTitle, WritableAlertText.message)
         case .edit:
             return (WritableAlertText.editTitle, WritableAlertText.message)
-        case .none:
-            fatalError("WritingStyle injection is required.")
         }
     }
     
@@ -54,8 +50,6 @@ extension Writable {
             addDelegate?.writingHandler(plan, nil)
         case .edit:
             editDelegate?.writingHandler(plan, index)
-        case .none:
-            fatalError("WritingStyle injection is required.")
         }
     }
 }
