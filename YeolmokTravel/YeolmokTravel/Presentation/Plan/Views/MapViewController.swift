@@ -17,9 +17,19 @@ final class MapViewController: UIViewController {
         return mapView
     }()
     
-    var coordinate: CLLocationCoordinate2D!
-    let span: CLLocationDegrees = CoordinateConstants.mapSpan
-    var pinTitle: String!
+    private let coordinate: CLLocationCoordinate2D
+    private let span: CLLocationDegrees = CoordinateConstants.mapSpan
+    private let pinTitle: String
+    
+    init(coordinate: CLLocationCoordinate2D, pinTitle: String) {
+        self.coordinate = coordinate
+        self.pinTitle = pinTitle
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented.")
+    }
     
     deinit {
         print("deinit: MapViewController")

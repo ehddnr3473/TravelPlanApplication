@@ -366,9 +366,8 @@ private extension WritingScheduleViewController {
     
     
     @objc func presentMap() {
-        let mapView = MapViewController()
-        mapView.coordinate = viewModel.coordinate
-        mapView.pinTitle = titleTextField.text
+        let mapView = MapViewController(coordinate: viewModel.coordinate,
+                                        pinTitle: titleTextField.text ?? "")
         navigationController?.pushViewController(mapView, animated: true)
     }
 }
