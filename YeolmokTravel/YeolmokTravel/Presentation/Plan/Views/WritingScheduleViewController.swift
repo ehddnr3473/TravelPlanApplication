@@ -291,6 +291,7 @@ private extension WritingScheduleViewController {
         bindingTitle()
         bindingSwitch()
         bindingCoordinate()
+        bindingDatePicker()
     }
     
     func bindingTitle() {
@@ -336,6 +337,21 @@ private extension WritingScheduleViewController {
             .receive(on: RunLoop.main)
             .sink { [weak self] state in
                 self?.coordinateView.mapButton.isValid = state
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func bindingDatePicker() {
+        let input = WritingScheduleViewModel.DateInput(fromDatePublisher: fromDatePicker.datePublisher,
+                                                       toDatePublisher: toDatePicker.datePublisher)
+        let output = viewModel.transform(input)
+        
+        output.isVaildDatePublisher
+            .receive(on: RunLoop.main)
+            .sink { [weak self] isValidDate in
+                if !isValidDate {
+                    self?.alertWillAppear(AlertText.dateMessage)
+                }
             }
             .store(in: &subscriptions)
     }

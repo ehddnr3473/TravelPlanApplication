@@ -13,10 +13,17 @@ import CoreLocation
 private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype TitleInput
     associatedtype TitleOutput
-    associatedtype SwitchInput
-    associatedtype SwitchOutput
     associatedtype CoordinateInput
     associatedtype CoordinateOutput
+    associatedtype SwitchInput
+    associatedtype SwitchOutput
+    associatedtype DateInput
+    associatedtype DateOutput
+    
+    func transform(_ input: TitleInput) -> TitleOutput
+    func transform(_ input: CoordinateInput) -> CoordinateOutput
+    func transform(_ input: SwitchInput) -> SwitchOutput
+    func transform(_ input: DateInput) -> DateOutput
 }
 
 final class WritingScheduleViewModel {
@@ -85,6 +92,16 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
         let buttonState: AnyPublisher<Bool, Never>
     }
     
+    // Coordinate
+    struct CoordinateInput {
+        let latitude: AnyPublisher<String, Never>
+        let longitude: AnyPublisher<String, Never>
+    }
+    
+    struct CoordinateOutput {
+        let buttonState: AnyPublisher<Bool, Never>
+    }
+    
     // UISwitch
     struct SwitchInput {
         let statePublisher: AnyPublisher<Bool, Never>
@@ -95,14 +112,14 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
         let backgroundColorPublisher: AnyPublisher<UIColor, Never>
     }
     
-    // Coordinate
-    struct CoordinateInput {
-        let latitude: AnyPublisher<String, Never>
-        let longitude: AnyPublisher<String, Never>
+    // UIDatePicker
+    struct DateInput {
+        let fromDatePublisher: AnyPublisher<Date, Never>
+        let toDatePublisher: AnyPublisher<Date, Never>
     }
     
-    struct CoordinateOutput {
-        let buttonState: AnyPublisher<Bool, Never>
+    struct DateOutput {
+        let isVaildDatePublisher: AnyPublisher<Bool, Never>
     }
     
     /// UITextField <-> Save UIButton
@@ -114,26 +131,6 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
             .eraseToAnyPublisher()
         
         return TitleOutput(buttonState: buttonStatePublisher)
-    }
-    
-    /// UISwitch <-> UIDatePicker
-    /// - Parameter input: UISwitch IsOn Publisher
-    /// - Returns: UIDatePicker - isEnabled, UIDatePicker - backgroundColor Publisher
-    func transform(_ input: SwitchInput) -> SwitchOutput {
-        let statePublisher = input.statePublisher
-            .eraseToAnyPublisher()
-        
-        let backgroundColorPublisher = statePublisher
-            .map {
-                if $0 {
-                    return UIColor.white
-                } else {
-                    return UIColor.systemGray
-                }
-            }
-            .eraseToAnyPublisher()
-        
-        return SwitchOutput(datePickerStatePublisher: statePublisher, backgroundColorPublisher: backgroundColorPublisher)
     }
     
     /// Coordinate TextFIelds <-> Show Map UIButton
@@ -150,5 +147,45 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
             .eraseToAnyPublisher()
         
         return CoordinateOutput(buttonState: buttonStatePublisher)
+    }
+    
+    /// UISwitch <-> UIDatePicker
+    /// - Parameter input: UISwitch IsOn Publisher
+    /// - Returns: UIDatePicker - isEnabled, UIDatePicker - backgroundColor Publisher
+    func transform(_ input: SwitchInput) -> SwitchOutput {
+        let statePublisher = input.statePublisher
+        
+        let backgroundColorPublisher = statePublisher
+            .map { [weak self] in
+                if $0 {
+                    return UIColor.white
+                } else {
+                    self?.fromDate = nil
+                    self?.toDate = nil
+                    return UIColor.systemGray
+                }
+            }
+            .eraseToAnyPublisher()
+        
+        return SwitchOutput(datePickerStatePublisher: statePublisher, backgroundColorPublisher: backgroundColorPublisher)
+    }
+    
+    /// UIDatePicker <-> fromDate, toDate
+    /// - Parameter input: UIDatePicker Date Publisher
+    /// - Returns: isValid Date Publisher
+    func transform(_ input: DateInput) -> DateOutput {
+        let dateCombineLatest = input.fromDatePublisher.combineLatest(input.toDatePublisher)
+            .map { [weak self] combinedValue in
+                if combinedValue.0 > combinedValue.1 {
+                    return false
+                } else {
+                    self?.fromDate = combinedValue.0
+                    self?.toDate = combinedValue.1
+                    return true
+                }
+            }
+            .eraseToAnyPublisher()
+        
+        return DateOutput(isVaildDatePublisher: dateCombineLatest)
     }
 }
