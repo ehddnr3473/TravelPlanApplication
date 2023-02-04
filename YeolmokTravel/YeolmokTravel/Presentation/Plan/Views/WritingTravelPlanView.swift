@@ -89,6 +89,7 @@ private extension WritingTravelPlanView {
     func configureLayoutConstraint() {
         titleTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
         }
@@ -112,6 +113,7 @@ private extension WritingTravelPlanView {
             $0.centerY.equalTo(scheduleTitleLabel)
             $0.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.largeSpacing)
+            $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
     }
 }
@@ -121,6 +123,7 @@ private enum LayoutConstants {
     static let mediumFontSize: CGFloat = 20
     static let schedultTitleLeading: CGFloat = 15
     static let textViewHeight: CGFloat = 100
+    static let buttonLength: CGFloat = 30
 }
 
 private enum TextConstants {

@@ -44,6 +44,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.isScrollEnabled = true
         return scrollView
     }()
     
@@ -105,8 +106,10 @@ private extension WritingTravelPlanViewController {
     func setUpLayout() {
         topBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.width.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(LayoutConstants.stackViewHeight)
+                .inset(AppLayoutConstants.spacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
+            $0.height.equalTo(LayoutConstants.topBarViewHeight)
         }
         
         scrollView.snp.makeConstraints {
@@ -118,8 +121,9 @@ private extension WritingTravelPlanViewController {
         
         writingTravelPlanView.snp.makeConstraints {
             $0.top.equalTo(scrollView.contentLayoutGuide.snp.top)
+                .inset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
-            $0.height.equalTo(300)
+            $0.height.equalTo(LayoutConstants.writingTravelPlanViewHeight)
         }
         
         scheduleTableView.snp.makeConstraints {
@@ -150,7 +154,10 @@ private extension WritingTravelPlanViewController {
         addChild(mapViewController)
         mapViewController.didMove(toParent: self)
     }
-    
+}
+
+// MARK: - User Interaction
+private extension WritingTravelPlanViewController {
     @objc func touchUpSaveBarButton() {
         viewModel.setTravelPlan()
         save(viewModel.model, planListIndex)
@@ -222,6 +229,7 @@ private extension WritingTravelPlanViewController {
     }
 }
 
+// MARK: - Schedule TableView
 extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
@@ -268,8 +276,9 @@ extension WritingTravelPlanViewController: UITextViewDelegate {
 
 private enum LayoutConstants {
     static let tableViewCornerRadius: CGFloat = 10
-    static let stackViewHeight: CGFloat = 50
+    static let topBarViewHeight: CGFloat = 50
     static let cellHeight: CGFloat = 100
+    static let writingTravelPlanViewHeight: CGFloat = 200
 }
 
 private enum TextConstants {
