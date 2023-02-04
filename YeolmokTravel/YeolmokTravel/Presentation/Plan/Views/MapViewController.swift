@@ -9,6 +9,11 @@ import UIKit
 import MapKit
 import CoreLocation
 
+struct AnnotatedCoordinate {
+    let coordinate: CLLocationCoordinate2D
+    let title: String
+}
+
 final class MapViewController: UIViewController {
 
     private let mapView: MKMapView = {
@@ -17,13 +22,10 @@ final class MapViewController: UIViewController {
         return mapView
     }()
     
-    private let coordinate: CLLocationCoordinate2D
-    private let span: CLLocationDegrees = CoordinateConstants.mapSpan
-    private let pinTitle: String
+    private let annotatedCoordinates: [AnnotatedCoordinate]
     
-    init(coordinate: CLLocationCoordinate2D, pinTitle: String) {
-        self.coordinate = coordinate
-        self.pinTitle = pinTitle
+    init(_ annotatedCoordinates: [AnnotatedCoordinate]) {
+        self.annotatedCoordinates = annotatedCoordinates
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,21 +47,62 @@ final class MapViewController: UIViewController {
         super.viewDidLayoutSubviews()
         mapView.frame = view.frame
     }
-    
-    private func configureMapView() {
+}
+
+private extension MapViewController {
+    func configureMapView() {
+        guard let span = calculateSpan() else { return }
         mapView.region = MKCoordinateRegion(
-            center: coordinate,
-            span: MKCoordinateSpan(latitudeDelta: span, longitudeDelta: span)
+            center: calculateCenter(),
+            span: span
         )
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = pinTitle
+        for annotatedCoordinate in annotatedCoordinates {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = annotatedCoordinate.coordinate
+            annotation.title = annotatedCoordinate.title
+            mapView.addAnnotation(annotation)
+        }
+    }
+    
+    // reduce
+    func calculateCenter() -> CLLocationCoordinate2D {
+        var latitude: CLLocationDegrees = 0
+        var longitude: CLLocationDegrees = 0
         
-        mapView.addAnnotation(annotation)
+        for annotatedCoordinate in annotatedCoordinates {
+            latitude += annotatedCoordinate.coordinate.latitude
+            longitude += annotatedCoordinate.coordinate.longitude
+        }
+        
+        latitude /= Double(annotatedCoordinates.count)
+        longitude /= Double(annotatedCoordinates.count)
+        
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+    
+    // 최대 차이 + 조금
+    func calculateSpan() -> MKCoordinateSpan? {
+        if annotatedCoordinates.count == 1 {
+            return MKCoordinateSpan(
+                latitudeDelta: CoordinateConstants.mapSpan,
+                longitudeDelta: CoordinateConstants.mapSpan
+            )
+        }
+        
+        guard let minLatitude = annotatedCoordinates.min(by: { $0.coordinate.latitude < $1.coordinate.latitude }) else { return nil }
+        guard let maxLatitude = annotatedCoordinates.max(by: { $0.coordinate.latitude < $1.coordinate.latitude }) else { return nil }
+        let latitudeGap = maxLatitude.coordinate.latitude - minLatitude.coordinate.latitude + CoordinateConstants.littleSpan
+        
+        guard let minLongitude = annotatedCoordinates.min(by: { $0.coordinate.longitude < $1.coordinate.longitude }) else { return nil }
+        guard let maxLongitude = annotatedCoordinates.max(by: { $0.coordinate.longitude < $1.coordinate.longitude }) else { return nil }
+        let longitudeGap = maxLongitude.coordinate.latitude - minLongitude.coordinate.latitude + CoordinateConstants.littleSpan
+        
+        return MKCoordinateSpan(latitudeDelta: latitudeGap, longitudeDelta: longitudeGap)
     }
 }
 
 private enum CoordinateConstants {
     static let mapSpan: CLLocationDegrees = 0.005
+    static let littleSpan: CLLocationDegrees = 0.01
 }
