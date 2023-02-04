@@ -23,7 +23,7 @@ final class WritingScheduleViewModel: WritingScheduleViewModelType {
     private(set) var coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(), longitude: CLLocationDegrees())
     
     deinit {
-        print("deinit: WritingPlanViewModel")
+        print("deinit: WritingScheduleViewModel")
     }
     
     // Title UITextField
