@@ -93,15 +93,15 @@ private extension MemoriesCollectionViewCell {
         }
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(imageView.snp.bottom)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.leading.equalTo(contentView.snp.leading)
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         dateLabel.snp.makeConstraints {
             $0.bottom.equalTo(contentView.snp.bottom)
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.trailing.equalTo(contentView.snp.trailing)
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
     }
     
@@ -129,6 +129,5 @@ private enum FontSize {
 }
 
 private enum LayoutConstants {
-    static let spacing: CGFloat = 8
     static let cornerRadius: CGFloat = 8
 }

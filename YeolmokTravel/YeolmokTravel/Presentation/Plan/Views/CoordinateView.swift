@@ -14,7 +14,7 @@ final class CoordinateView: UIView {
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.latitudePlaceholder
@@ -22,7 +22,7 @@ final class CoordinateView: UIView {
         
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
-                                                  width: LayoutConstants.spacing,
+                                                  width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
         
@@ -35,7 +35,7 @@ final class CoordinateView: UIView {
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.longitudePlaceholder
@@ -43,7 +43,7 @@ final class CoordinateView: UIView {
         
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
-                                                  width: LayoutConstants.spacing,
+                                                  width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
         
@@ -56,7 +56,7 @@ final class CoordinateView: UIView {
         button.setTitle(TextConstants.buttonTitle, for: .normal)
         button.setImage(UIImage(systemName: TextConstants.mapIcon), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: LayoutConstants.mediumFontSize, weight: .bold)
-        button.layer.borderWidth = LayoutConstants.borderWidth
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.backgroundColor = .systemGreen
@@ -89,20 +89,20 @@ private extension CoordinateView {
     func configureLayoutConstraint() {
         latitudeTextField.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         longitudeTextField.snp.makeConstraints {
             $0.top.equalTo(latitudeTextField.snp.bottom)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         mapButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(longitudeTextField.snp.bottom)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.height.equalTo(LayoutConstants.buttonHeight)
             $0.width.equalTo(mapButton.snp.height)
                 .multipliedBy(LayoutConstants.buttonWidthMultiplier)
@@ -111,9 +111,7 @@ private extension CoordinateView {
 }
 
 private enum LayoutConstants {
-    static let spacing: CGFloat = 8
     static let cornerRadius: CGFloat = 5
-    static let borderWidth: CGFloat = 1
     static let mediumFontSize: CGFloat = 20
     static let buttonHeight: CGFloat = 44.44
     static let buttonWidthMultiplier: CGFloat = 3

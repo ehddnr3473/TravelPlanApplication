@@ -69,13 +69,13 @@ private extension MemoryView {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         addButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
         
@@ -86,7 +86,7 @@ private extension MemoryView {
             $0.width.equalToSuperview()
                 .multipliedBy(LayoutConstants.memoriesCollectionViewWidthMultiplier)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
     }
     
@@ -166,7 +166,6 @@ private enum TextConstants {
 }
 
 private enum LayoutConstants {
-    static let spacing: CGFloat = 8
     static let buttonSize = CGSize(width: 44.44, height: 44.44)
     static let memoriesCollectionViewTopOffset: CGFloat = 20
     static let memoriesCollectionViewWidthMultiplier: CGFloat = 0.9

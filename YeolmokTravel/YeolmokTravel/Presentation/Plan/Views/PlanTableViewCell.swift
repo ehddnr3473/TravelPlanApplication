@@ -19,7 +19,7 @@ final class PlanTableViewCell: UITableViewCell {
         
         label.textAlignment = .left
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: LayoutConstants.titleFontSize)
+        label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
         
         return label
     }()
@@ -82,32 +82,30 @@ private extension PlanTableViewCell {
     private func setUpLayout() {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         dateLabel.snp.makeConstraints {
             $0.bottom.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         descriptionLabel.snp.makeConstraints {
             $0.centerY.equalTo(dateLabel.snp.centerY)
             $0.leading.equalTo(dateLabel.snp.trailing)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
     }
 }
 
 // Layout magic number
 private enum LayoutConstants {
-    static let spacing: CGFloat = 15
     static let borderWidth: CGFloat = 0.5
-    static let titleFontSize: CGFloat = 25
     static let fontSize: CGFloat = 15
 }

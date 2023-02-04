@@ -41,7 +41,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = LayoutConstants.borderWidth
+        textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
@@ -49,7 +49,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
-                                                  width: LayoutConstants.spacing,
+                                                  width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
         
@@ -62,7 +62,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         textView.textColor = .white
         textView.backgroundColor = .black
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
-        textView.layer.borderWidth = LayoutConstants.borderWidth
+        textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         
@@ -72,7 +72,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     private let dateBackgroundView: UIView = {
         let view = UIView()
         
-        view.layer.borderWidth = LayoutConstants.borderWidth
+        view.layer.borderWidth = AppLayoutConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         view.backgroundColor = .darkGray
         
@@ -179,66 +179,66 @@ private extension WritingScheduleViewController {
         titleTextField.snp.makeConstraints {
             
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.largeSpacing)
             
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
         }
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(titleTextField.snp.bottom)
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(LayoutConstants.descriptionTextViewHeight)
         }
         
         dateBackgroundView.snp.makeConstraints {
             $0.top.equalTo(descriptionTextView.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(LayoutConstants.dateBackgroundViewHeight)
         }
         
         dateSwitch.snp.makeConstraints {
             $0.top.equalToSuperview()
-                .offset(LayoutConstants.spacing)
+                .offset(AppLayoutConstants.spacing)
             $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.largeSpacing)
         }
         
         fromLabel.snp.makeConstraints {
             $0.top.equalTo(dateSwitch.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.largeSpacing)
         }
         
         fromDatePicker.snp.makeConstraints {
             $0.centerY.equalTo(fromLabel.snp.centerY)
             $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.largeSpacing)
         }
         
         toLabel.snp.makeConstraints {
             $0.top.equalTo(fromLabel.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.largeSpacing)
         }
         
         toDatePicker.snp.makeConstraints {
             $0.centerY.equalTo(toLabel.snp.centerY)
             $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.largeSpacing)
         }
         
         coordinateView.snp.makeConstraints {
             $0.top.equalTo(dateBackgroundView.snp.bottom)
-                .offset(LayoutConstants.largeSpacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
-                .inset(LayoutConstants.spacing)
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(LayoutConstants.coordinateViewHeight)
         }
     }
@@ -384,27 +384,14 @@ private extension WritingScheduleViewController {
 }
 
 private enum LayoutConstants {
-    static let spacing: CGFloat = 8
-    static let largeSpacing: CGFloat = 20
-    static let stackViewCornerRadius: CGFloat = 10
     static let cornerRadius: CGFloat = 5
-    static let tableViewCornerRadius: CGFloat = 10
-    static let borderWidth: CGFloat = 1
-    static let largeFontSize: CGFloat = 25
     static let mediumFontSize: CGFloat = 20
-    static let topBottomMargin: CGFloat = 10
-    static let sideMargin: CGFloat = 15
-    static let stackViewHeight: CGFloat = 50
-    static let schedultTitleLeading: CGFloat = 15
-    static let cellHeight: CGFloat = 100
     static let descriptionTextViewHeight: CGFloat = 100
     static let dateBackgroundViewHeight: CGFloat = 170
     static let coordinateViewHeight: CGFloat = 150
 }
 
 private enum TextConstants {
-    static let saveButtonTitle = "Save"
-    static let cancelButtonTItle = "Cancel"
     static let schedule = "Schedules"
     static let from = "From"
     static let to = "To"
