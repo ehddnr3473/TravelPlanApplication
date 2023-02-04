@@ -12,6 +12,7 @@
 |UI|UIKit|
 |동시성 프로그래밍|Swift Concurrency|
 |원격 데이터 저장소|Firebase Firestore 및 Storage|
+|지도 서비스|MapKit & Core Location|
 
 
 
