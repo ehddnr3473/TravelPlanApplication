@@ -21,6 +21,10 @@ final class MapViewController: UIViewController {
     let span: CLLocationDegrees = CoordinateConstants.mapSpan
     var pinTitle: String!
     
+    deinit {
+        print("deinit: MapViewController")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(mapView)
