@@ -19,7 +19,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     var planListIndex: Int?
     var viewModel: WritingTravelPlanViewModel!
     
-    private let descriptionTextPublisher = PassthroughSubject<String, Never>()
+    private let descriptionTextPublisher = CurrentValueSubject<String, Never>("")
     private var subscriptions = Set<AnyCancellable>()
     
     init(_ viewModel: WritingTravelPlanViewModel, _ writingStyle: WritingStyle) {
