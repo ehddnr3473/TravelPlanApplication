@@ -10,8 +10,8 @@ import MapKit
 import CoreLocation
 
 struct AnnotatedCoordinate {
-    let coordinate: CLLocationCoordinate2D
     let title: String
+    let coordinate: CLLocationCoordinate2D
 }
 
 final class MapViewController: UIViewController {

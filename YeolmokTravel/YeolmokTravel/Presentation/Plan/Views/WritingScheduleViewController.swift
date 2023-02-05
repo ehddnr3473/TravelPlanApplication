@@ -346,7 +346,8 @@ private extension WritingScheduleViewController {
     }
     
     @objc func presentMap() {
-        let annotatedCoordinate = [AnnotatedCoordinate(coordinate: viewModel.coordinate, title: titleTextField.text ?? "")]
+        let annotatedCoordinate = [AnnotatedCoordinate(title: viewModel.modelTitle,
+                                                       coordinate: viewModel.coordinate)]
         let mapView = MapViewController(annotatedCoordinate)
         navigationController?.pushViewController(mapView, animated: true)
     }
