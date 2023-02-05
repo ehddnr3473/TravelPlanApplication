@@ -71,6 +71,15 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return tableView
     }()
     
+    private lazy var mapTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = TextConstants.map
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
+        return label
+    }()
+    
     private lazy var mapViewController: MapViewController = {
         let mapViewController = MapViewController(viewModel.coordinatesOfSchedules())
         return mapViewController
@@ -166,13 +175,21 @@ private extension WritingTravelPlanViewController {
     func configureAndEmbedMapView() {
         guard viewModel.coordinatesOfSchedules().count != 0 else { return }
         
+        scrollViewContainer.addSubview(mapTitleLabel)
+        mapTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(scheduleTableView.snp.bottom)
+                .offset(AppLayoutConstants.largeSpacing)
+            $0.leading.equalToSuperview()
+                .inset(LayoutConstants.mapTitleLeading)
+        }
+        
         addChild(mapViewController)
         mapViewController.didMove(toParent: self)
         
         scrollViewContainer.addSubview(mapViewController.mapView)
         mapViewController.mapView.snp.makeConstraints {
-            $0.top.equalTo(scheduleTableView.snp.bottom)
-                .offset(AppLayoutConstants.largeSpacing)
+            $0.top.equalTo(mapTitleLabel.snp.bottom)
+                .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
             $0.height.equalTo(AppLayoutConstants.mapViewHeight)
         }
@@ -303,8 +320,10 @@ extension WritingTravelPlanViewController: UITextViewDelegate {
 private enum LayoutConstants {
     static let tableViewCornerRadius: CGFloat = 10
     static let topBarViewHeight: CGFloat = 50
+    static let mapTitleLeading: CGFloat = 15
 }
 
 private enum TextConstants {
     static let plan = "Plan"
+    static let map = "Map"
 }
