@@ -28,7 +28,7 @@ final class WritingScheduleViewModel {
     private(set) var planTracker: PlanTracker<Schedule>
     private(set) var model: Schedule
     
-    private var title: String
+    private(set) var title: String
     private var description: String
     private var fromDate: Date?
     private var toDate: Date?
