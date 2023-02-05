@@ -16,32 +16,26 @@ final class PlanTableViewCell: UITableViewCell {
     
     var titleLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = .white
-        label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
-        
+        label.font = .boldSystemFont(ofSize: LayoutConstants.titleFontSize)
         return label
     }()
     
     var dateLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = .lightGray
         label.font = .boldSystemFont(ofSize: LayoutConstants.fontSize)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
         return label
     }()
     
     var descriptionLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .left
         label.textColor = .lightGray
         label.font = .boldSystemFont(ofSize: LayoutConstants.fontSize)
-        
         return label
     }()
     
@@ -106,6 +100,7 @@ private extension PlanTableViewCell {
 
 // Layout magic number
 private enum LayoutConstants {
+    static let titleFontSize: CGFloat = 20
     static let borderWidth: CGFloat = 0.5
     static let fontSize: CGFloat = 15
 }
