@@ -71,7 +71,7 @@ final class WritingTravelPlanViewModel {
 extension WritingTravelPlanViewModel: WritingTravelPlanViewModelType {
     struct TextInput {
         let title: AnyPublisher<String, Never>
-        let description: CurrentValueSubject<String, Never>
+        let description: PassthroughSubject<String, Never>
     }
     
     struct TextOutput {
