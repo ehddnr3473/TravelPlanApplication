@@ -159,8 +159,8 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     /// - Returns: UIButton - isEnabled Publisher
     func transform(_ input: CoordinateInput) -> CoordinateOutput {
         let buttonStatePublisher = input.latitude.combineLatest(input.longitude)
-            .map { [weak self] in
-                guard let latitude = Double($0), let longitude = Double($1) else { return false }
+            .map { [weak self] latitude, longitude in
+                guard let latitude = Double(latitude), let longitude = Double(longitude) else { return false }
                 self?.coordinate.latitude = latitude
                 self?.coordinate.longitude = longitude
                 return CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
