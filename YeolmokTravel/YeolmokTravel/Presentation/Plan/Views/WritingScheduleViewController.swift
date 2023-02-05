@@ -375,16 +375,3 @@ private enum TextConstants {
     static let from = "From"
     static let to = "To"
 }
-
-private extension UIButton {
-    var isValid: Bool {
-        get {
-            backgroundColor == .systemGreen
-        }
-        
-        set {
-            isEnabled = newValue
-            backgroundColor = newValue ? .systemGreen : .systemGray
-        }
-    }
-}
