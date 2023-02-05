@@ -12,7 +12,6 @@ import CoreLocation
 
 private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype TextInput
-    associatedtype TextOutput
     associatedtype CoordinateInput
     associatedtype CoordinateOutput
     associatedtype SwitchInput
@@ -20,7 +19,7 @@ private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype DateInput
     associatedtype DateOutput
     
-    func transform(_ input: TextInput) -> TextOutput
+    func subscribeText(_ input: TextInput)
     func transform(_ input: CoordinateInput) -> CoordinateOutput
     func transform(_ input: SwitchInput) -> SwitchOutput
     func transform(_ input: DateInput) -> DateOutput
@@ -30,11 +29,21 @@ final class WritingScheduleViewModel {
     private(set) var planTracker: PlanTracker<Schedule>
     private(set) var model: Schedule
     
-    private var title: String
-    private var description: String
+    private var title: String {
+        didSet {
+            print("title: \(title)")
+        }
+    }
+    private var description: String {
+        didSet {
+            print("description: \(description)")
+        }
+    }
     private var fromDate: Date?
     private var toDate: Date?
     private(set) var coordinate: CLLocationCoordinate2D
+    
+    private var subscriptions = Set<AnyCancellable>()
     
     var modelTitle: String {
         model.title
@@ -95,12 +104,7 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     // Title UITextField
     struct TextInput {
         let title: AnyPublisher<String, Never>
-        let description: CurrentValueSubject<String, Never>
-    }
-    
-    struct TextOutput {
-        let buttonState: AnyPublisher<Bool, Never>
-        let backgroundColorPublisher: AnyPublisher<UIColor, Never>
+        let description: PassthroughSubject<String, Never>
     }
     
     // Coordinate
@@ -135,31 +139,19 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     
     /// UITextField <-> Save UIButton
     /// - Parameter input: Title Text Publisher
-    /// - Returns: UIButton - isEnabled Publisher
-    func transform(_ input: TextInput) -> TextOutput {
-        let buttonStatePublisher = input.title.combineLatest(input.description)
-            .map { [weak self] combinedValue in
-                self?.title = combinedValue.0
-                self?.description = combinedValue.1
-                if combinedValue.0.count > 0 && combinedValue.1.count > 0 {
-                    return true
-                } else {
-                    return false
-                }
+    /// - Operation: Subscribe view's value
+    func subscribeText(_ input: TextInput) {
+        input.title
+            .sink { [weak self] titleText in
+                self?.title = titleText
             }
-            .eraseToAnyPublisher()
+            .store(in: &subscriptions)
         
-        let backgroundColorPublisher = input.title.combineLatest(input.description)
-            .map { combinedValue in
-                if combinedValue.0.count > 0 && combinedValue.1.count > 0 {
-                    return UIColor.systemGreen
-                } else {
-                    return UIColor.systemGray
-                }
+        input.description
+            .sink { [weak self] descriptionText in
+                self?.description = descriptionText
             }
-            .eraseToAnyPublisher()
-        
-        return TextOutput(buttonState: buttonStatePublisher, backgroundColorPublisher: backgroundColorPublisher)
+            .store(in: &subscriptions)
     }
     
     /// Coordinate TextFIelds <-> Show Map UIButton

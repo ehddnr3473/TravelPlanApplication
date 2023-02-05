@@ -19,7 +19,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var scheduleListIndex: Int?
     var viewModel: WritingScheduleViewModel
     
-    private let descriptionTextPublisher = CurrentValueSubject<String, Never>("")
+    private let descriptionTextPublisher = PassthroughSubject<String, Never>()
     private var subscriptions = Set<AnyCancellable>()
     
     init(_ viewModel: WritingScheduleViewModel, writingStyle: WritingStyle) {
@@ -164,7 +164,6 @@ private extension WritingScheduleViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: topBarView.cancelBarButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topBarView.saveBarButton)
         
-        
         configureViewValue()
         configureHierarchy()
         configureLayoutConstraint()
@@ -299,30 +298,15 @@ private extension WritingScheduleViewController {
     }
     
     func setBindings() {
-        bindingTitle()
+        bindingText()
         bindingSwitch()
         bindingCoordinate()
         bindingDatePicker()
     }
     
-    func bindingTitle() {
+    func bindingText() {
         let input = WritingScheduleViewModel.TextInput(title: titleTextField.textPublisher, description: descriptionTextPublisher)
-        
-        let output = viewModel.transform(input)
-        
-        output.buttonState
-            .receive(on: RunLoop.main)
-            .sink { [weak self] state in
-                self?.navigationItem.rightBarButtonItem?.customView?.isUserInteractionEnabled = state
-            }
-            .store(in: &subscriptions)
-        
-        output.backgroundColorPublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] color in
-                self?.navigationItem.rightBarButtonItem?.customView?.tintColor = color
-            }
-            .store(in: &subscriptions)
+        viewModel.subscribeText(input)
     }
     
     func bindingSwitch() {
