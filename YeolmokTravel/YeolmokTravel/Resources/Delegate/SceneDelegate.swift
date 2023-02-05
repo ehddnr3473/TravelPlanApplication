@@ -26,14 +26,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let useCaseProvider = UseCaseProvider(planRepository: planRepository,
                                               memoryRepository: memoryRepository,
                                               storageRepository: imageRepository)
-        let planView = PlanView()
-        let planViewBuilder = PlanViewBuilder(planView: planView,
-                                              planRepository: planRepository,
+        let planViewBuilder = PlanViewBuilder(planRepository: planRepository,
                                               useCaseProvider: useCaseProvider)
         
-        let memoryView = MemoryView()
-        let memoryViewBuilder = MemoryViewBuilder(memoryView: memoryView,
-                                                  memoryRepository: memoryRepository,
+        let memoryViewBuilder = MemoryViewBuilder(memoryRepository: memoryRepository,
                                                   imageRepository: imageRepository, 
                                                   useCaseProvider: useCaseProvider)
         
