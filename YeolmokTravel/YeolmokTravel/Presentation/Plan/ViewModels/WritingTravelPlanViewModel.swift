@@ -22,6 +22,7 @@ final class WritingTravelPlanViewModel {
     
     private var title: String
     private var description: String
+    private(set) var annotatedCoordinatesPublisher = PassthroughSubject<[AnnotatedCoordinate], Never>()
     
     var modelTitle: String {
         model.title
@@ -40,11 +41,17 @@ final class WritingTravelPlanViewModel {
     }
     
     var scrollViewContainerheight: CGFloat {
-        AppLayoutConstants.writingTravelPlanViewHeight +
-        Double(schedulesCount) * AppLayoutConstants.cellHeight +
-        AppLayoutConstants.mapViewHeight +
-        AppLayoutConstants.largeFontSize +
-        AppLayoutConstants.largeSpacing * 3.0
+        if schedulesCount == 0 {
+            return AppLayoutConstants.writingTravelPlanViewHeight +
+            Double(schedulesCount) * AppLayoutConstants.cellHeight +
+            AppLayoutConstants.largeSpacing * 2.0
+        } else {
+            return AppLayoutConstants.writingTravelPlanViewHeight +
+            Double(schedulesCount) * AppLayoutConstants.cellHeight +
+            AppLayoutConstants.mapViewHeight +
+            AppLayoutConstants.largeFontSize +
+            AppLayoutConstants.largeSpacing * 3.0
+        }
     }
     
     init(_ model: TravelPlan) {
@@ -64,10 +71,17 @@ final class WritingTravelPlanViewModel {
     
     func editSchedule(at index: Int, _ schedule: Schedule) {
         model.editSchedule(at: index, schedule)
+        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
     }
     
     func addSchedule(_ schedule: Schedule) {
         model.addSchedule(schedule)
+        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
+    }
+    
+    func removeSchedule(at index: Int) {
+        model.removeSchedule(at: index)
+        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
     }
     
     func coordinatesOfSchedules() -> [AnnotatedCoordinate] {
