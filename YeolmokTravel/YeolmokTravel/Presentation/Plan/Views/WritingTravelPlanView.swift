@@ -98,7 +98,7 @@ private extension WritingTravelPlanView {
             $0.top.equalTo(descriptionTextView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.schedultTitleLeading)
+                .inset(AppLayoutConstants.spacing)
         }
         
         addScheduleButton.snp.makeConstraints {
@@ -113,7 +113,6 @@ private extension WritingTravelPlanView {
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 5
     static let mediumFontSize: CGFloat = 20
-    static let schedultTitleLeading: CGFloat = 15
     static let textViewHeight: CGFloat = 100
     static let buttonLength: CGFloat = 30
 }

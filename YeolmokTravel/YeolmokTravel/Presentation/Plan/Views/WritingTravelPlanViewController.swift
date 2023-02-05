@@ -197,7 +197,7 @@ private extension WritingTravelPlanViewController {
             $0.top.equalTo(scheduleTableView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.equalToSuperview()
-                .inset(LayoutConstants.mapTitleLeading)
+                .inset(AppLayoutConstants.spacing)
         }
     }
 }
@@ -355,7 +355,6 @@ extension WritingTravelPlanViewController: UITextViewDelegate {
 private enum LayoutConstants {
     static let tableViewCornerRadius: CGFloat = 10
     static let topBarViewHeight: CGFloat = 50
-    static let mapTitleLeading: CGFloat = 15
 }
 
 private enum TextConstants {
