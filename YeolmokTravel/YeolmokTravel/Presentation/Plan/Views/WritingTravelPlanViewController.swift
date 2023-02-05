@@ -9,7 +9,10 @@ import UIKit
 import Combine
 import CoreLocation
 
-/// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
+/*
+ - 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
+ - Schedules의 coordinate(좌표 - 위도(latitude) 및 경도(longitude)) 정보를 취합해서 MKMapView로 표현
+ */
 final class WritingTravelPlanViewController: UIViewController, Writable {
     typealias WritableModelType = TravelPlan
     // MARK: - Properties
@@ -174,14 +177,43 @@ private extension WritingTravelPlanViewController {
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
     }
-    
+}
+
+// MARK: - MapView
+private extension WritingTravelPlanViewController {
     func embedMapViewController() {
-        guard viewModel.coordinatesOfSchedules().count != 0 else { return }
-        addMapTitleLabel()
-        
         addChild(mapViewController)
         mapViewController.didMove(toParent: self)
-        
+        /*
+         좌표 값이 없다면(새로운 TavelPlan 추가를 위한 초기 상태인 경우 or Schedule 추가를 안한 경우)
+         불필요한 뷰 추가 없이, 임베드만 하고 종료
+         */
+        guard viewModel.coordinatesOfSchedules().count != .zero else { return }
+        addMapTitleLabel()
+        addMapView()
+    }
+    
+    func addMapContentsViews() {
+        addMapTitleLabel()
+        addMapView()
+    }
+    
+    @MainActor func removeMapContentsView() {
+        removeMapView()
+        removeMapTitleLabel()
+    }
+    
+    @MainActor func addMapTitleLabel() {
+        scrollViewContainer.addSubview(mapTitleLabel)
+        mapTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(scheduleTableView.snp.bottom)
+                .offset(AppLayoutConstants.largeSpacing)
+            $0.leading.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
+        }
+    }
+    
+    @MainActor func addMapView() {
         scrollViewContainer.addSubview(mapViewController.mapView)
         mapViewController.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
@@ -191,13 +223,52 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    func addMapTitleLabel() {
-        scrollViewContainer.addSubview(mapTitleLabel)
-        mapTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(scheduleTableView.snp.bottom)
-                .offset(AppLayoutConstants.largeSpacing)
-            $0.leading.equalToSuperview()
-                .inset(AppLayoutConstants.spacing)
+    func removeMapView() {
+        mapViewController.mapView.snp.removeConstraints()
+        mapViewController.mapView.removeFromSuperview()
+    }
+    
+    func removeMapTitleLabel() {
+        mapTitleLabel.snp.removeConstraints()
+        mapTitleLabel.removeFromSuperview()
+    }
+    
+    // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
+    func mapContentsIsAdded() -> Bool {
+        scrollViewContainer.subviews.contains {
+            guard let label = $0.accessibilityLabel else { return false }
+            return label == AppTextConstants.mapViewAccessibilityLabel
+        }
+    }
+    
+    func updateMapView(_ annotatedCoordinates: [AnnotatedCoordinate]) {
+        // Map 관련 뷰가 없다면, ScrollView 높이를 갱신하고, Map 관련 뷰 추가
+        if !mapContentsIsAdded() {
+            updateScrollViewContainerHeight()
+            addMapContentsViews()
+        }
+        // 모든 어노테이션을 지우고 다시 추가 - 비효율적
+        mapViewController.removeAnnotation()
+        mapViewController.annotatedCoordinates = annotatedCoordinates
+        mapViewController.configureMapView()
+        mapViewController.addAnnotation()
+    }
+    
+    @MainActor func reload() {
+        updateScrollViewContainerHeight()
+        updateTableViewConstraints()
+        scheduleTableView.reloadData()
+    }
+    
+    @MainActor func updateScrollViewContainerHeight() {
+        scrollViewContainer.snp.updateConstraints {
+            $0.height.equalTo(viewModel.scrollViewContainerheight)
+        }
+    }
+    
+    @MainActor func updateTableViewConstraints() {
+        scheduleTableView.snp.updateConstraints {
+            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
         }
     }
 }
@@ -247,17 +318,16 @@ private extension WritingTravelPlanViewController {
     
     func bindingMapView() {
         viewModel.annotatedCoordinatesPublisher
+            .receive(on: RunLoop.main)
             .sink { [weak self] annotatedCoordinates in
-                self?.updateMapView(annotatedCoordinates)
+                if annotatedCoordinates.count == .zero {
+                    self?.removeMapContentsView()
+                    self?.updateScrollViewContainerHeight()
+                } else {
+                    self?.updateMapView(annotatedCoordinates)
+                }
             }
             .store(in: &subscriptions)
-    }
-    
-    func updateMapView(_ annotatedCoordinates: [AnnotatedCoordinate]) {
-        mapViewController.removeAnnotation()
-        mapViewController.annotatedCoordinates = annotatedCoordinates
-        mapViewController.configureMapView()
-        mapViewController.addAnnotation()
     }
     
     func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
@@ -277,20 +347,6 @@ private extension WritingTravelPlanViewController {
             writingView.scheduleListIndex = index
             writingView.modalPresentationStyle = .fullScreen
             return writingView
-        }
-    }
-    
-    @MainActor func reload() {
-        updateTableViewConstraints()
-        scrollViewContainer.snp.updateConstraints {
-            $0.height.equalTo(viewModel.scrollViewContainerheight)
-        }
-        scheduleTableView.reloadData()
-    }
-    
-    @MainActor func updateTableViewConstraints() {
-        scheduleTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
         }
     }
 }
