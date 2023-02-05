@@ -10,28 +10,34 @@ import Combine
 
 final class MemoryView: UIViewController {
     // MARK: - Properties
-    var viewModel: MemoryViewModel!
-    var useCaseProvider: UseCaseProvider!
+    private let viewModel: MemoryViewModel
+    private let useCaseProvider: UseCaseProvider
     private var subscriptions = Set<AnyCancellable>()
+    
+    init(_ viewModel: MemoryViewModel, useCaseProvider: UseCaseProvider) {
+        self.viewModel = viewModel
+        self.useCaseProvider = useCaseProvider
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented")
+    }
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .center
         label.textColor = .white
         label.text = TextConstants.title
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
-        
         return label
     }()
     
     private lazy var addButton: UIButton = {
         let button = UIButton(type: .custom)
-        
         button.setBackgroundImage(UIImage(systemName: TextConstants.plusIconName), for: .normal)
         button.tintColor = AppStyles.mainColor
         button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
-        
         return button
     }()
     

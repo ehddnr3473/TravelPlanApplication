@@ -12,32 +12,36 @@ import Combine
 /// TravelPlan View
 final class PlanView: UIViewController {
     // MARK: - Properties
-    var viewModel: TravelPlaner!
+    private let viewModel: TravelPlaner
     private var subscriptions = Set<AnyCancellable>()
+    
+    init(_ viewModel: TravelPlaner) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) not implemented")
+    }
     private var titleLabel: UILabel = {
         let label = UILabel()
-        
         label.textAlignment = .center
         label.textColor = .white
         label.text = TextConstants.title
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
-        
         return label
     }()
     
     private lazy var addButton: UIButton = {
         let button = UIButton(type: .custom)
-        
         button.setBackgroundImage(UIImage(systemName: TextConstants.plusIconName), for: .normal)
         button.tintColor = AppStyles.mainColor
         button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
-        
         return button
     }()
     
     private var planTableView: UITableView = {
         let tableView = UITableView()
-        
         tableView.register(PlanTableViewCell.self,
                            forCellReuseIdentifier: PlanTableViewCell.identifier)
         tableView.backgroundColor = .black
@@ -45,7 +49,6 @@ final class PlanView: UIViewController {
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
         tableView.isScrollEnabled = false
-        
         return tableView
     }()
     
