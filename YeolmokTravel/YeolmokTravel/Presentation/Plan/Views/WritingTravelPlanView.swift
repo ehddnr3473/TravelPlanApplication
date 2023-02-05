@@ -50,7 +50,7 @@ final class WritingTravelPlanView: UIView {
     
     lazy var addScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
+        button.setBackgroundImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
         return button
     }()
@@ -104,7 +104,7 @@ private extension WritingTravelPlanView {
         addScheduleButton.snp.makeConstraints {
             $0.centerY.equalTo(scheduleTitleLabel)
             $0.trailing.equalToSuperview()
-                .inset(AppLayoutConstants.largeSpacing)
+                .inset(AppLayoutConstants.spacing)
             $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
     }
