@@ -82,13 +82,15 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private lazy var mapViewController: MapViewController = {
         let mapViewController = MapViewController(viewModel.coordinatesOfSchedules())
+        mapViewController.configureMapView()
+        mapViewController.addAnnotation()
         return mapViewController
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        configureAndEmbedMapView()
+        embedMapViewController()
         configure()
         setBindings()
         configureWritingTravelPlanViewValue()
@@ -172,16 +174,9 @@ private extension WritingTravelPlanViewController {
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
     }
     
-    func configureAndEmbedMapView() {
+    func embedMapViewController() {
         guard viewModel.coordinatesOfSchedules().count != 0 else { return }
-        
-        scrollViewContainer.addSubview(mapTitleLabel)
-        mapTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(scheduleTableView.snp.bottom)
-                .offset(AppLayoutConstants.largeSpacing)
-            $0.leading.equalToSuperview()
-                .inset(LayoutConstants.mapTitleLeading)
-        }
+        addMapTitleLabel()
         
         addChild(mapViewController)
         mapViewController.didMove(toParent: self)
@@ -193,8 +188,16 @@ private extension WritingTravelPlanViewController {
             $0.width.equalTo(scrollViewContainer.snp.width)
             $0.height.equalTo(AppLayoutConstants.mapViewHeight)
         }
-        mapViewController.configureMapView()
-        mapViewController.addAnnotation()
+    }
+    
+    func addMapTitleLabel() {
+        scrollViewContainer.addSubview(mapTitleLabel)
+        mapTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(scheduleTableView.snp.bottom)
+                .offset(AppLayoutConstants.largeSpacing)
+            $0.leading.equalToSuperview()
+                .inset(LayoutConstants.mapTitleLeading)
+        }
     }
 }
 
@@ -224,6 +227,7 @@ private extension WritingTravelPlanViewController {
     
     func setBindings() {
         bindingText()
+        bindingMapView()
     }
     
     func bindingText() {
@@ -237,6 +241,21 @@ private extension WritingTravelPlanViewController {
             .receive(on: RunLoop.main)
             .assign(to: \.isValid, on: topBarView.saveBarButton)
             .store(in: &subscriptions)
+    }
+    
+    func bindingMapView() {
+        viewModel.annotatedCoordinatesPublisher
+            .sink { [weak self] annotatedCoordinates in
+                self?.updateMapView(annotatedCoordinates)
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func updateMapView(_ annotatedCoordinates: [AnnotatedCoordinate]) {
+        mapViewController.removeAnnotation()
+        mapViewController.annotatedCoordinates = annotatedCoordinates
+        mapViewController.configureMapView()
+        mapViewController.addAnnotation()
     }
     
     func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
@@ -260,13 +279,17 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func reload() {
-        scheduleTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
-        }
+        updateTableViewConstraints()
         scrollViewContainer.snp.updateConstraints {
             $0.height.equalTo(viewModel.scrollViewContainerheight)
         }
         scheduleTableView.reloadData()
+    }
+    
+    @MainActor func updateTableViewConstraints() {
+        scheduleTableView.snp.updateConstraints {
+            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
+        }
     }
 }
 
@@ -291,6 +314,18 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.pushViewController(setUpWritingView(at: indexPath.row, .edit), animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            removeSchedule(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            updateTableViewConstraints()
+        }
+    }
+    
+    private func removeSchedule(at index: Int) {
+        viewModel.removeSchedule(at: index)
     }
 }
 
