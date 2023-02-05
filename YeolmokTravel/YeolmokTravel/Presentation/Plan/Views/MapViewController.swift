@@ -18,7 +18,7 @@ final class MapViewController: UIViewController {
     // MARK: - Properties
     let mapView: MKMapView = {
         let mapView = MKMapView()
-        mapView.preferredConfiguration = MKStandardMapConfiguration(emphasisStyle: .muted)
+        mapView.preferredConfiguration = MKHybridMapConfiguration(elevationStyle: .realistic)
         mapView.layer.cornerRadius = LayoutConstants.cornerRadius
         mapView.layer.borderWidth = AppLayoutConstants.borderWidth
         mapView.layer.borderColor = UIColor.white.cgColor
@@ -74,6 +74,30 @@ extension MapViewController {
     
     @MainActor func removeAnnotation() {
         mapView.removeAnnotations(mapView.annotations)
+    }
+    
+    func presentRoute() {
+        for index in 0..<annotatedCoordinates.count - 1 {
+            let origin = MKPlacemark(coordinate: annotatedCoordinates[index].coordinate)
+            let destination = MKPlacemark(coordinate: annotatedCoordinates[index + 1].coordinate)
+            
+            let request = MKDirections.Request()
+            request.source = MKMapItem(placemark: origin)
+            request.destination = MKMapItem(placemark: destination)
+            
+            Task {
+                let direction = MKDirections(request: request)
+                do {
+                    let respons = try await direction.calculate()
+                    
+                    for route in respons.routes {
+                        self.mapView.addOverlay(route.polyline, level: .aboveRoads)
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
     }
     
     // reduce
