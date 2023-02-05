@@ -17,7 +17,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var planListIndex: Int?
-    var viewModel: WritingTravelPlanViewModel
+    private let viewModel: WritingTravelPlanViewModel
     
     private let descriptionTextPublisher = CurrentValueSubject<String, Never>("")
     private var subscriptions = Set<AnyCancellable>()

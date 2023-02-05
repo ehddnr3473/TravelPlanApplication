@@ -17,7 +17,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var addDelegate: PlanTransfer?
     var editDelegate: PlanTransfer?
     var scheduleListIndex: Int?
-    var viewModel: WritingScheduleViewModel
+    private let viewModel: WritingScheduleViewModel
     
     private let descriptionTextPublisher = PassthroughSubject<String, Never>()
     private var subscriptions = Set<AnyCancellable>()
