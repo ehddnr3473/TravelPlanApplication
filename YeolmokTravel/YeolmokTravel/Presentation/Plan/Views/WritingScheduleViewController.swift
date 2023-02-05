@@ -305,7 +305,8 @@ private extension WritingScheduleViewController {
     }
     
     func bindingText() {
-        let input = WritingScheduleViewModel.TextInput(title: titleTextField.textPublisher, description: descriptionTextPublisher)
+        let input = WritingScheduleViewModel.TextInput(title: titleTextField.textPublisher,
+                                                       description: descriptionTextPublisher)
         viewModel.subscribeText(input)
     }
     
