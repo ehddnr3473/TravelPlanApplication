@@ -17,12 +17,11 @@ private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype SwitchInput
     associatedtype SwitchOutput
     associatedtype DateInput
-    associatedtype DateOutput
     
     func subscribeText(_ input: TextInput)
     func transform(_ input: CoordinateInput) -> CoordinateOutput
     func transform(_ input: SwitchInput) -> SwitchOutput
-    func transform(_ input: DateInput) -> DateOutput
+    func subscribeDate(_ input: DateInput)
 }
 
 final class WritingScheduleViewModel {
@@ -129,9 +128,9 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
         let isVaildDatePublisher: AnyPublisher<Bool, Never>
     }
     
-    /// UITextField <-> Save UIButton
-    /// - Parameter input: Title Text Publisher
-    /// - Operation: Subscribe view's value
+    /// UITextField
+    /// - Parameter input: Title, Description text publisher
+    /// - Operation: Subscribe view's value - titleTextField.text, descriptionTextField.text
     func subscribeText(_ input: TextInput) {
         input.title
             .sink { [weak self] titleText in
@@ -185,22 +184,19 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
         return SwitchOutput(datePickerStatePublisher: statePublisher, backgroundColorPublisher: backgroundColorPublisher)
     }
     
-    /// UIDatePicker <-> fromDate, toDate
+    /// UIDatePicker
     /// - Parameter input: UIDatePicker Date Publisher
-    /// - Returns: isValid Date Publisher
-    func transform(_ input: DateInput) -> DateOutput {
-        let dateCombineLatest = input.fromDatePublisher.combineLatest(input.toDatePublisher)
-            .map { [weak self] combinedValue in
-                if combinedValue.0 > combinedValue.1 {
-                    return false
+    /// - Operation: Subscribe view's value - fromDatePicker.date, toDatePicker.date
+    func subscribeDate(_ input: DateInput) {
+        input.fromDatePublisher.combineLatest(input.toDatePublisher)
+            .sink { [weak self] fromDate, toDate in
+                if fromDate > toDate {
+                    return
                 } else {
-                    self?.fromDate = combinedValue.0
-                    self?.toDate = combinedValue.1
-                    return true
+                    self?.fromDate = fromDate
+                    self?.toDate = toDate
                 }
             }
-            .eraseToAnyPublisher()
-        
-        return DateOutput(isVaildDatePublisher: dateCombineLatest)
+            .store(in: &subscriptions)
     }
 }
