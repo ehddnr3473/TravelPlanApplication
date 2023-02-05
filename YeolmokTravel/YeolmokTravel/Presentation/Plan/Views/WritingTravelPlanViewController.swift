@@ -19,12 +19,13 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     var planListIndex: Int?
     private let viewModel: WritingTravelPlanViewModel
     
-    private let descriptionTextPublisher = CurrentValueSubject<String, Never>("")
+    private let descriptionTextPublisher: CurrentValueSubject<String, Never>
     private var subscriptions = Set<AnyCancellable>()
     
     init(_ viewModel: WritingTravelPlanViewModel, _ writingStyle: WritingStyle) {
         self.viewModel = viewModel
         self.writingStyle = writingStyle
+        self.descriptionTextPublisher = CurrentValueSubject<String, Never>(viewModel.modelDescription)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -102,7 +103,6 @@ private extension WritingTravelPlanViewController {
     func configureView() {
         view.backgroundColor = .black
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        if writingStyle == .edit { topBarView.saveBarButton.isValid = true }
         configureHierarchy()
         configureLayoutConstraint()
     }
@@ -170,6 +170,7 @@ private extension WritingTravelPlanViewController {
     func configure() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
+        if writingStyle == .edit { topBarView.saveBarButton.isValid = true }
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
     }
@@ -233,7 +234,8 @@ private extension WritingTravelPlanViewController {
     func bindingText() {
         let input = WritingTravelPlanViewModel.TextInput(
             title: writingTravelPlanView.titleTextField.textPublisher,
-            description: descriptionTextPublisher)
+            description: descriptionTextPublisher
+        )
         
         let output = viewModel.transform(input: input)
         

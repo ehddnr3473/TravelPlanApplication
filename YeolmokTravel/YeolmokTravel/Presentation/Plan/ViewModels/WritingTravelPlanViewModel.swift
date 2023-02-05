@@ -23,6 +23,7 @@ final class WritingTravelPlanViewModel {
     private var title: String
     private var description: String
     private(set) var annotatedCoordinatesPublisher = PassthroughSubject<[AnnotatedCoordinate], Never>()
+    private var subscriptions = Set<AnyCancellable>()
     
     var modelTitle: String {
         model.title
@@ -113,13 +114,18 @@ extension WritingTravelPlanViewModel: WritingTravelPlanViewModelType {
     }
     
     func transform(input: TextInput) -> TextOutput {
-        let buttonStatePublisher = input.title.combineLatest(input.description)
-            .map { [weak self] titleText, descriptionText in
+        let buttonStatePublisher = input.title
+            .map { [weak self] titleText in
                 self?.title = titleText
-                self?.description = descriptionText
-                return titleText.count > 0 && descriptionText.count > 0
+                return titleText.count > 0
             }
             .eraseToAnyPublisher()
+        
+        input.description
+            .sink { [weak self] descriptionText in
+                self?.description = descriptionText
+            }
+            .store(in: &subscriptions)
         
         return TextOutput(buttonState: buttonStatePublisher)
     }
