@@ -22,6 +22,7 @@ final class MapViewController: UIViewController {
         mapView.layer.cornerRadius = LayoutConstants.cornerRadius
         mapView.layer.borderWidth = AppLayoutConstants.borderWidth
         mapView.layer.borderColor = UIColor.white.cgColor
+        mapView.accessibilityLabel = "mapView"
         return mapView
     }()
     
