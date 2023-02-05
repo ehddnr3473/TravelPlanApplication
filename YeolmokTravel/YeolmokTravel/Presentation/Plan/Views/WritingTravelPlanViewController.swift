@@ -48,6 +48,11 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return scrollView
     }()
     
+    private let scrollViewContainer: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private let writingTravelPlanView: WritingTravelPlanView = {
         let writingTravelPlanView = WritingTravelPlanView()
         writingTravelPlanView.backgroundColor = .black
@@ -69,9 +74,9 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureAndEmbedMapView()
         configureView()
         configureWritingTravelPlanViewValue()
+        configureAndEmbedMapView()
         configure()
         setBindings()
     }
@@ -89,8 +94,10 @@ private extension WritingTravelPlanViewController {
     
     func configureHierarchy() {
         [writingTravelPlanView, scheduleTableView].forEach {
-            scrollView.addSubview($0)
+            scrollViewContainer.addSubview($0)
         }
+        
+        scrollView.addSubview(scrollViewContainer)
         
         [topBarView, scrollView].forEach {
             view.addSubview($0)
@@ -113,20 +120,29 @@ private extension WritingTravelPlanViewController {
                 .inset(AppLayoutConstants.spacing)
         }
         
-        writingTravelPlanView.snp.makeConstraints {
+        scrollViewContainer.snp.makeConstraints {
             $0.top.equalTo(scrollView.contentLayoutGuide.snp.top)
-                .inset(AppLayoutConstants.spacing)
+            $0.leading.equalTo(scrollView.contentLayoutGuide.snp.leading)
+            $0.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
+            $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
+            
             $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
+            $0.height.equalTo(800)
+        }
+        
+        writingTravelPlanView.snp.makeConstraints {
+            $0.top.equalTo(scrollViewContainer.snp.top)
+                .inset(AppLayoutConstants.spacing)
+            $0.width.equalTo(scrollViewContainer.snp.width)
             $0.height.equalTo(LayoutConstants.writingTravelPlanViewHeight)
         }
         
         scheduleTableView.snp.makeConstraints {
             $0.top.equalTo(writingTravelPlanView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
+            $0.width.equalTo(scrollViewContainer.snp.width)
             $0.height.equalTo(viewModel.schedulesCount * Int(LayoutConstants.cellHeight))
         }
-        // mapViewController.view
     }
     
     func configureWritingTravelPlanViewValue() {
@@ -144,9 +160,20 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureAndEmbedMapView() {
-        let mapViewController = MapViewController([.init(coordinate: CLLocationCoordinate2D(), title: "")])
+        let coordinates = viewModel.coordinatesOfSchedules()
+        guard coordinates.count != 0 else { return }
+        
+        let mapViewController = MapViewController(coordinates)
         addChild(mapViewController)
         mapViewController.didMove(toParent: self)
+        
+        scrollViewContainer.addSubview(mapViewController.mapView)
+        mapViewController.mapView.snp.makeConstraints {
+            $0.top.equalTo(scheduleTableView.snp.bottom)
+                .offset(AppLayoutConstants.largeSpacing)
+            $0.width.equalTo(scrollViewContainer.snp.width)
+            $0.height.equalTo(500)
+        }
     }
 }
 
