@@ -39,6 +39,13 @@ final class WritingTravelPlanViewModel {
         model.schedules.count
     }
     
+    var scrollViewContainerheight: CGFloat {
+        AppLayoutConstants.writingTravelPlanViewHeight +
+        Double(schedulesCount) * AppLayoutConstants.cellHeight +
+        AppLayoutConstants.mapViewHeight +
+        AppLayoutConstants.largeSpacing * 2.0
+    }
+    
     init(_ model: TravelPlan) {
         self.model = model
         self.planTracker = PlanTracker(model)
@@ -83,7 +90,7 @@ final class WritingTravelPlanViewModel {
 extension WritingTravelPlanViewModel: WritingTravelPlanViewModelType {
     struct TextInput {
         let title: AnyPublisher<String, Never>
-        let description: PassthroughSubject<String, Never>
+        let description: CurrentValueSubject<String, Never>
     }
     
     struct TextOutput {
