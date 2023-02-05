@@ -85,6 +85,10 @@ struct TravelPlan: Plan {
     mutating func addSchedule(_ schedule: Schedule) {
         schedules.append(schedule)
     }
+    
+    mutating func removeSchedule(at index: Int) {
+        schedules.remove(at: index)
+    }
 }
 
 extension TravelPlan: Model {
