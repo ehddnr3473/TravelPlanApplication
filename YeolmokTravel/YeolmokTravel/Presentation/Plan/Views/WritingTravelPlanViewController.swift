@@ -19,7 +19,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     var planListIndex: Int?
     var viewModel: WritingTravelPlanViewModel
     
-    private let descriptionTextPublisher = PassthroughSubject<String, Never>()
+    private let descriptionTextPublisher = CurrentValueSubject<String, Never>("")
     private var subscriptions = Set<AnyCancellable>()
     
     init(_ viewModel: WritingTravelPlanViewModel, _ writingStyle: WritingStyle) {
@@ -61,24 +61,28 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private let scheduleTableView: UITableView = {
         let tableView = UITableView()
-        
         tableView.register(PlanTableViewCell.self,
                            forCellReuseIdentifier: PlanTableViewCell.identifier)
         tableView.backgroundColor = .black
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
-        
+        tableView.isScrollEnabled = false
         return tableView
+    }()
+    
+    private lazy var mapViewController: MapViewController = {
+        let mapViewController = MapViewController(viewModel.coordinatesOfSchedules())
+        return mapViewController
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        configureWritingTravelPlanViewValue()
         configureAndEmbedMapView()
         configure()
         setBindings()
+        configureWritingTravelPlanViewValue()
     }
 }
 
@@ -127,21 +131,21 @@ private extension WritingTravelPlanViewController {
             $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
             
             $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
-            $0.height.equalTo(800)
+            $0.height.equalTo(viewModel.scrollViewContainerheight)
         }
         
         writingTravelPlanView.snp.makeConstraints {
             $0.top.equalTo(scrollViewContainer.snp.top)
                 .inset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
-            $0.height.equalTo(LayoutConstants.writingTravelPlanViewHeight)
+            $0.height.equalTo(AppLayoutConstants.writingTravelPlanViewHeight)
         }
         
         scheduleTableView.snp.makeConstraints {
             $0.top.equalTo(writingTravelPlanView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
-            $0.height.equalTo(viewModel.schedulesCount * Int(LayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
         }
     }
     
@@ -160,10 +164,8 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureAndEmbedMapView() {
-        let coordinates = viewModel.coordinatesOfSchedules()
-        guard coordinates.count != 0 else { return }
+        guard viewModel.coordinatesOfSchedules().count != 0 else { return }
         
-        let mapViewController = MapViewController(coordinates)
         addChild(mapViewController)
         mapViewController.didMove(toParent: self)
         
@@ -172,8 +174,10 @@ private extension WritingTravelPlanViewController {
             $0.top.equalTo(scheduleTableView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
-            $0.height.equalTo(500)
+            $0.height.equalTo(AppLayoutConstants.mapViewHeight)
         }
+        mapViewController.configureMapView()
+        mapViewController.addAnnotation()
     }
 }
 
@@ -242,7 +246,10 @@ private extension WritingTravelPlanViewController {
     
     @MainActor func reload() {
         scheduleTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.schedulesCount * Int(LayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
+        }
+        scrollViewContainer.snp.updateConstraints {
+            $0.height.equalTo(viewModel.scrollViewContainerheight)
         }
         scheduleTableView.reloadData()
     }
@@ -264,7 +271,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        LayoutConstants.cellHeight
+        AppLayoutConstants.cellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -296,8 +303,6 @@ extension WritingTravelPlanViewController: UITextViewDelegate {
 private enum LayoutConstants {
     static let tableViewCornerRadius: CGFloat = 10
     static let topBarViewHeight: CGFloat = 50
-    static let cellHeight: CGFloat = 100
-    static let writingTravelPlanViewHeight: CGFloat = 200
 }
 
 private enum TextConstants {
