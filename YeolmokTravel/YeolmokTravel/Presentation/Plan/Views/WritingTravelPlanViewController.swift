@@ -70,7 +70,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureAndEmbedMapView()
-        setUpUI()
+        configureView()
         configureWritingTravelPlanViewValue()
         configure()
         setBindings()
@@ -79,21 +79,15 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
 
 // MARK: - View
 private extension WritingTravelPlanViewController {
-    func setUpUI() {
+    func configureView() {
         view.backgroundColor = .black
+        topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
         
-        switch writingStyle {
-        case .add:
-            topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        case .edit:
-            topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        }
-        
-        setUpHierarchy()
-        setUpLayout()
+        configureHierarchy()
+        configureLayoutConstraint()
     }
     
-    func setUpHierarchy() {
+    func configureHierarchy() {
         [writingTravelPlanView, scheduleTableView].forEach {
             scrollView.addSubview($0)
         }
@@ -103,7 +97,7 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    func setUpLayout() {
+    func configureLayoutConstraint() {
         topBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.spacing)
