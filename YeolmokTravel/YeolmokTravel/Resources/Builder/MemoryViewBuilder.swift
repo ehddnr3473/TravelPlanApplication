@@ -8,13 +8,11 @@
 import Foundation
 
 final class MemoryViewBuilder {
-    private let memoryView: MemoryView
     private let memoryRepository: FirestoreMemoryRepository
     private let imageRepository: StorageMemoryRepository
     private let useCaseProvider: UseCaseProvider
     
-    init(memoryView: MemoryView, memoryRepository: FirestoreMemoryRepository, imageRepository: StorageMemoryRepository, useCaseProvider: UseCaseProvider) {
-        self.memoryView = memoryView
+    init(memoryRepository: FirestoreMemoryRepository, imageRepository: StorageMemoryRepository, useCaseProvider: UseCaseProvider) {
         self.memoryRepository = memoryRepository
         self.imageRepository = imageRepository
         self.useCaseProvider = useCaseProvider
@@ -24,14 +22,13 @@ final class MemoryViewBuilder {
         await memoryRepository.download().map { $0.toDomain() as! Memory }
     }
     
-    private func setUpViewModel(_ model: [Memory]) {
-        memoryView.viewModel = MemoryViewModel(useCaseProvider.createDefaultMemoryUseCase(model))
-        memoryView.useCaseProvider = useCaseProvider
+    private func configureViewModel(_ model: [Memory]) -> MemoryViewModel {
+        MemoryViewModel(useCaseProvider.createDefaultMemoryUseCase(model))
     }
     
     func build() async -> MemoryView {
         let model = await downloadModel()
-        setUpViewModel(model)
-        return memoryView
+        let viewModel = configureViewModel(model)
+        return await MemoryView(viewModel, useCaseProvider: useCaseProvider)
     }
 }

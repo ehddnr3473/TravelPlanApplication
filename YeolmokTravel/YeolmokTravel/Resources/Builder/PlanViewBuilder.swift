@@ -8,12 +8,10 @@
 import Foundation
 
 final class PlanViewBuilder {
-    private let planView: PlanView
     private let planRepository: FirestorePlanRepository
     private let useCaseProvider: UseCaseProvider
     
-    init(planView: PlanView, planRepository: FirestorePlanRepository, useCaseProvider: UseCaseProvider) {
-        self.planView = planView
+    init(planRepository: FirestorePlanRepository, useCaseProvider: UseCaseProvider) {
         self.planRepository = planRepository
         self.useCaseProvider = useCaseProvider
     }
@@ -22,18 +20,13 @@ final class PlanViewBuilder {
         OwnTravelPlan(travelPlans: await planRepository.download().map { $0.toDomain() as! TravelPlan })
     }
     
-    private func setUpViewModel(_ model: OwnTravelPlan) {
-        planView.viewModel = TravelPlaner(
-            model,
-            useCaseProvider.createPlanControllableUseCase(model),
-            useCaseProvider.createPlanPostsUseCase(model)
-        )
-        
+    private func configureViewModel(_ model: OwnTravelPlan) -> TravelPlaner {
+        TravelPlaner(model, useCaseProvider.createPlanControllableUseCase(model), useCaseProvider.createPlanPostsUseCase(model))
     }
     
     func build() async -> PlanView {
         let model = await downloadModel()
-        setUpViewModel(model)
-        return planView
+        let viewModel = configureViewModel(model)
+        return await PlanView(viewModel)
     }
 }
