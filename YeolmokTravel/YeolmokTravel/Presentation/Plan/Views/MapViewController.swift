@@ -44,6 +44,7 @@ final class MapViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(mapView)
         configureMapView()
+        addAnnotation()
     }
     
     override func viewDidLayoutSubviews() {
@@ -52,14 +53,16 @@ final class MapViewController: UIViewController {
     }
 }
 
-private extension MapViewController {
+extension MapViewController {
     func configureMapView() {
         guard let span = calculateSpan() else { return }
         mapView.region = MKCoordinateRegion(
             center: calculateCenter(),
             span: span
         )
-        
+    }
+    
+    func addAnnotation() {
         for annotatedCoordinate in annotatedCoordinates {
             let annotation = MKPointAnnotation()
             annotation.coordinate = annotatedCoordinate.coordinate
