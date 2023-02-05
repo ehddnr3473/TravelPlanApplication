@@ -100,7 +100,7 @@ private extension WritingTravelPlanViewController {
     func configureView() {
         view.backgroundColor = .black
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        
+        if writingStyle == .edit { topBarView.saveBarButton.isValid = true }
         configureHierarchy()
         configureLayoutConstraint()
     }
@@ -235,9 +235,7 @@ private extension WritingTravelPlanViewController {
         
         output.buttonState
             .receive(on: RunLoop.main)
-            .sink { [weak self] state in
-                self?.topBarView.saveBarButton.isEnabled = state
-            }
+            .assign(to: \.isValid, on: topBarView.saveBarButton)
             .store(in: &subscriptions)
     }
     
