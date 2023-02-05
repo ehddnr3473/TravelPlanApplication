@@ -18,4 +18,7 @@ enum AppLayoutConstants {
     static let borderWidth: CGFloat = 1
     static let titleFontSize: CGFloat = 30
     static let largeFontSize: CGFloat = 25
+    static let writingTravelPlanViewHeight: CGFloat = 200
+    static let cellHeight: CGFloat = 100
+    static let mapViewHeight: CGFloat = 500
 }
