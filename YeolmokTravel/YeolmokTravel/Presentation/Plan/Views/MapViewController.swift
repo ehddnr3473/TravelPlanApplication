@@ -25,7 +25,7 @@ final class MapViewController: UIViewController {
         return mapView
     }()
     
-    private let annotatedCoordinates: [AnnotatedCoordinate]
+    var annotatedCoordinates: [AnnotatedCoordinate]
     
     init(_ annotatedCoordinates: [AnnotatedCoordinate]) {
         self.annotatedCoordinates = annotatedCoordinates
@@ -54,7 +54,7 @@ final class MapViewController: UIViewController {
 }
 
 extension MapViewController {
-    func configureMapView() {
+    @MainActor func configureMapView() {
         guard let span = calculateSpan() else { return }
         mapView.region = MKCoordinateRegion(
             center: calculateCenter(),
@@ -62,13 +62,17 @@ extension MapViewController {
         )
     }
     
-    func addAnnotation() {
+    @MainActor func addAnnotation() {
         for annotatedCoordinate in annotatedCoordinates {
             let annotation = MKPointAnnotation()
             annotation.coordinate = annotatedCoordinate.coordinate
             annotation.title = annotatedCoordinate.title
             mapView.addAnnotation(annotation)
         }
+    }
+    
+    @MainActor func removeAnnotation() {
+        mapView.removeAnnotations(mapView.annotations)
     }
     
     // reduce
@@ -110,7 +114,7 @@ extension MapViewController {
 
 private enum CoordinateConstants {
     static let mapSpan: CLLocationDegrees = 0.005
-    static let littleSpan: CLLocationDegrees = 0.01
+    static let littleSpan: CLLocationDegrees = 0.02
 }
 
 private enum LayoutConstants {
