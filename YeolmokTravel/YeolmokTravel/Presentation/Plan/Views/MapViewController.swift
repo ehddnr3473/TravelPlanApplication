@@ -15,7 +15,7 @@ struct AnnotatedCoordinate {
 }
 
 final class MapViewController: UIViewController {
-
+    // MARK: - Properties
     private let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.preferredConfiguration = MKStandardMapConfiguration(emphasisStyle: .muted)

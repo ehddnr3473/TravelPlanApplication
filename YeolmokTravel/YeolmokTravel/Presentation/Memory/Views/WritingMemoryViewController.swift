@@ -89,27 +89,27 @@ final class WritingMemoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpUI()
+        configureView()
         configure()
         setBindings()
     }
 }
 
-// MARK: - SetUp View
+// MARK: - Configure View
 extension WritingMemoryViewController {
-    func setUpUI() {
+    func configureView() {
         view.backgroundColor = .black
-        setUpHierarchy()
-        setUpLayout()
+        configureHierarchy()
+        configureLayoutConstraint()
     }
     
-    func setUpHierarchy() {
+    func configureHierarchy() {
         [topBarView, titleTextField, imageView, addButton, deleteButton].forEach {
             view.addSubview($0)
         }
     }
     
-    func setUpLayout() {
+    func configureLayoutConstraint() {
         topBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.width.equalToSuperview()
@@ -155,7 +155,10 @@ extension WritingMemoryViewController {
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
         phPicker.delegate = self
     }
-    
+}
+
+// MARK: - User Interaction
+private extension WritingMemoryViewController {
     @objc func touchUpSaveBarButton() {
         if titleTextField.text == "" {
             alertWillAppear(AlertText.titleMessage)

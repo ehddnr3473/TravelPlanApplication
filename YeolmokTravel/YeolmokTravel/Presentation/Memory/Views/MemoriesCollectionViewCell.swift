@@ -44,7 +44,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpUI()
+        configureView()
     }
     
     required init?(coder: NSCoder) {
@@ -70,21 +70,21 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     }
 }
 
-// MARK: - SetUp View
+// MARK: - Configure View
 private extension MemoriesCollectionViewCell {
-    private func setUpUI() {
+    private func configureView() {
         contentView.backgroundColor = .clear
-        setUpHierarchy()
-        setUpLayout()
+        configureHierarchy()
+        configureLayoutConstraint()
     }
     
-    func setUpHierarchy() {
+    func configureHierarchy() {
         [imageView, titleLabel, dateLabel].forEach {
             contentView.addSubview($0)
         }
     }
     
-    func setUpLayout() {
+    func configureLayoutConstraint() {
         imageView.snp.makeConstraints {
             $0.top.equalTo(contentView.snp.top)
             $0.leading.equalTo(contentView.snp.leading)

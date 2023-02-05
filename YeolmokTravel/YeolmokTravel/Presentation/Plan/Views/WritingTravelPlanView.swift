@@ -8,7 +8,7 @@
 import UIKit
 
 final class WritingTravelPlanView: UIView {
-    
+    // MARK: - Properties
     let titleTextField: UITextField = {
         let textField = UITextField()
         
@@ -73,7 +73,7 @@ final class WritingTravelPlanView: UIView {
     }
 }
 
-// MARK: - View
+// MARK: - Configure View
 private extension WritingTravelPlanView {
     func configureView() {
         configureHierarchy()

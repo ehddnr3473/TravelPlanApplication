@@ -13,7 +13,7 @@ import UIKit
 /// - Description Label
 final class PlanTableViewCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
-    
+    // MARK: - Properties
     var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -41,7 +41,7 @@ final class PlanTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpUI()
+        configureView()
     }
     
     required init?(coder: NSCoder) {
@@ -57,23 +57,23 @@ final class PlanTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - SetUp View
+// MARK: - Configure View
 private extension PlanTableViewCell {
-    private func setUpUI() {
+    private func configureView() {
         self.backgroundColor = .darkGray
         self.layer.borderWidth = LayoutConstants.borderWidth
         self.selectionStyle = .none
-        setUpHierarchy()
-        setUpLayout()
+        configureHierarchy()
+        configureLayoutConstraint()
     }
     
-    private func setUpHierarchy() {
+    private func configureHierarchy() {
         [titleLabel, dateLabel, descriptionLabel].forEach {
             self.addSubview($0)
         }
     }
     
-    private func setUpLayout() {
+    private func configureLayoutConstraint() {
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)

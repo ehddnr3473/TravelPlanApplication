@@ -8,6 +8,7 @@
 import UIKit
 
 final class CoordinateView: UIView {
+    // MARK: - Properties
     let latitudeTextField: UITextField = {
         let textField = UITextField()
         
@@ -74,6 +75,7 @@ final class CoordinateView: UIView {
     }
 }
 
+// MARK: - Configure View
 private extension CoordinateView {
     func configureView() {
         configureHierarchy()

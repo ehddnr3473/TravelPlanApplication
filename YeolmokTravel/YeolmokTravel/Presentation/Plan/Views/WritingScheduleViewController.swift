@@ -153,7 +153,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     }
 }
 
-// MARK: - View
+// MARK: - Configure View
 private extension WritingScheduleViewController {
     func configureView() {
         view.backgroundColor = .black

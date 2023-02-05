@@ -77,7 +77,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     }
 }
 
-// MARK: - View
+// MARK: - Configure View
 private extension WritingTravelPlanViewController {
     func configureView() {
         view.backgroundColor = .black
