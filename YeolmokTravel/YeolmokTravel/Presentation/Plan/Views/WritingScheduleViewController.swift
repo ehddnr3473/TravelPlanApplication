@@ -43,7 +43,6 @@ final class WritingScheduleViewController: UIViewController, Writable {
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
-        
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
@@ -58,38 +57,31 @@ final class WritingScheduleViewController: UIViewController, Writable {
                                                   width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
-        
         return textField
     }()
     
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
-        
         textView.textColor = .white
         textView.backgroundColor = .black
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        
         return textView
     }()
     
     private let dateBackgroundView: UIView = {
         let view = UIView()
-        
         view.layer.borderWidth = AppLayoutConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
         view.backgroundColor = .darkGray
-        
         return view
     }()
     
     private lazy var dateSwitch: UISwitch = {
         let `switch` = UISwitch()
-        
         `switch`.isOn = false
-        
         return `switch`
     }()
     
