@@ -13,7 +13,7 @@ enum WritingStyle: String {
 }
 
 protocol Writable: AnyObject {
-    associatedtype ModelType: Plan
+    associatedtype WritableModelType: Plan
     
     var writingStyle: WritingStyle { get }
     var addDelegate: PlanTransfer? { get set }
@@ -21,7 +21,7 @@ protocol Writable: AnyObject {
     var isEditing: Bool { get }
     
     func fetchActionSheetText() -> (String, String)
-    func save(_ plan: ModelType, _ index: Int?)
+    func save(_ plan: WritableModelType, _ index: Int?)
 }
 
 extension Writable {
@@ -44,7 +44,7 @@ extension Writable {
         }
     }
     
-    func save(_ plan: ModelType, _ index: Int?) {
+    func save(_ plan: WritableModelType, _ index: Int?) {
         switch writingStyle {
         case .add:
             addDelegate?.writingHandler(plan, nil)

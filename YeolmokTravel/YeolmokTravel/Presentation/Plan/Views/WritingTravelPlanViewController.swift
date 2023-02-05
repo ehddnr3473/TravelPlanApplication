@@ -11,7 +11,7 @@ import CoreLocation
 
 /// 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
 final class WritingTravelPlanViewController: UIViewController, Writable {
-    typealias ModelType = TravelPlan
+    typealias WritableModelType = TravelPlan
     // MARK: - Properties
     var writingStyle: WritingStyle
     var addDelegate: PlanTransfer?
