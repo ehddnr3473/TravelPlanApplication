@@ -43,7 +43,8 @@ final class WritingTravelPlanViewModel {
         AppLayoutConstants.writingTravelPlanViewHeight +
         Double(schedulesCount) * AppLayoutConstants.cellHeight +
         AppLayoutConstants.mapViewHeight +
-        AppLayoutConstants.largeSpacing * 2.0
+        AppLayoutConstants.largeFontSize +
+        AppLayoutConstants.largeSpacing * 3.0
     }
     
     init(_ model: TravelPlan) {
