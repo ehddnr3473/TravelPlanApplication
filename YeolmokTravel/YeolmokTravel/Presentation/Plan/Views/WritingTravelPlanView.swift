@@ -11,7 +11,6 @@ final class WritingTravelPlanView: UIView {
     // MARK: - Properties
     let titleTextField: UITextField = {
         let textField = UITextField()
-        
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
@@ -26,40 +25,33 @@ final class WritingTravelPlanView: UIView {
                                                   width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
-        
         return textField
     }()
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
-        
         textView.textColor = .white
         textView.backgroundColor = .black
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        
         return textView
     }()
     
     private let scheduleTitleLabel: UILabel = {
         let label = UILabel()
-        
         label.text = TextConstants.schedule
         label.textAlignment = .center
         label.textColor = .white
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
-        
         return label
     }()
     
     lazy var addScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
-        
         button.setImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
-        
         return button
     }()
     

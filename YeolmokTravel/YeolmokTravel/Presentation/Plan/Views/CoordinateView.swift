@@ -11,7 +11,6 @@ final class CoordinateView: UIView {
     // MARK: - Properties
     let latitudeTextField: UITextField = {
         let textField = UITextField()
-        
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
@@ -26,13 +25,11 @@ final class CoordinateView: UIView {
                                                   width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
-        
         return textField
     }()
     
     let longitudeTextField: UITextField = {
         let textField = UITextField()
-        
         textField.textColor = .white
         textField.backgroundColor = .black
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
@@ -41,19 +38,16 @@ final class CoordinateView: UIView {
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.longitudePlaceholder
         textField.keyboardType = .decimalPad
-        
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
                                                   width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
-        
         return textField
     }()
     
     lazy var mapButton: UIButton = {
         let button = UIButton(type: .custom)
-        
         button.setTitle(TextConstants.buttonTitle, for: .normal)
         button.setImage(UIImage(systemName: TextConstants.mapIcon), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: LayoutConstants.mediumFontSize, weight: .bold)
@@ -61,7 +55,6 @@ final class CoordinateView: UIView {
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.backgroundColor = .systemGreen
-        
         return button
     }()
     
