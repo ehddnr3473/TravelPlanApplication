@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import CoreLocation
 
 private protocol WritingTravelPlanViewModelType: AnyObject {
     associatedtype TextInput
@@ -59,6 +60,17 @@ final class WritingTravelPlanViewModel {
     
     func addSchedule(_ schedule: Schedule) {
         model.addSchedule(schedule)
+    }
+    
+    func coordinatesOfSchedules() -> [AnnotatedCoordinate] {
+        var coordinates = [AnnotatedCoordinate]()
+        
+        for schedule in schedules {
+            coordinates.append(AnnotatedCoordinate(title: schedule.title,
+                                                   coordinate: schedule.coordinate))
+        }
+        
+        return coordinates
     }
     
     func setPlan() {
