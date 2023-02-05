@@ -22,3 +22,7 @@ enum AppLayoutConstants {
     static let cellHeight: CGFloat = 100
     static let mapViewHeight: CGFloat = 500
 }
+
+enum AppTextConstants {
+    static let mapViewAccessibilityLabel = "mapView"
+}
