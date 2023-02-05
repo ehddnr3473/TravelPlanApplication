@@ -19,8 +19,8 @@ final class WritingTravelPlanViewModel {
     private(set) var planTracker: PlanTracker<TravelPlan>
     private(set) var model: TravelPlan
     
-    private var title = ""
-    private var description = ""
+    private var title: String
+    private var description: String
     
     var modelTitle: String {
         model.title
@@ -41,6 +41,8 @@ final class WritingTravelPlanViewModel {
     init(_ model: TravelPlan) {
         self.model = model
         self.planTracker = PlanTracker(model)
+        self.title = model.title
+        self.description = model.description
     }
     
     deinit {
@@ -78,10 +80,10 @@ extension WritingTravelPlanViewModel: WritingTravelPlanViewModelType {
     
     func transform(input: TextInput) -> TextOutput {
         let buttonStatePublisher = input.title.combineLatest(input.description)
-            .map { [weak self] in
-                self?.title = $0
-                self?.description = $1
-                return $0.count > 0 && $1.count > 0
+            .map { [weak self] titleText, descriptionText in
+                self?.title = titleText
+                self?.description = descriptionText
+                return titleText.count > 0 && descriptionText.count > 0
             }
             .eraseToAnyPublisher()
         
