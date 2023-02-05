@@ -16,9 +16,12 @@ struct AnnotatedCoordinate {
 
 final class MapViewController: UIViewController {
     // MARK: - Properties
-    private let mapView: MKMapView = {
+    let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.preferredConfiguration = MKStandardMapConfiguration(emphasisStyle: .muted)
+        mapView.layer.cornerRadius = LayoutConstants.cornerRadius
+        mapView.layer.borderWidth = AppLayoutConstants.borderWidth
+        mapView.layer.borderColor = UIColor.white.cgColor
         return mapView
     }()
     
@@ -105,4 +108,8 @@ private extension MapViewController {
 private enum CoordinateConstants {
     static let mapSpan: CLLocationDegrees = 0.005
     static let littleSpan: CLLocationDegrees = 0.01
+}
+
+private enum LayoutConstants {
+    static let cornerRadius: CGFloat = 10
 }
