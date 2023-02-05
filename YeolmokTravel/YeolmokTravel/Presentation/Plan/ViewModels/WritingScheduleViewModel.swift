@@ -29,16 +29,8 @@ final class WritingScheduleViewModel {
     private(set) var planTracker: PlanTracker<Schedule>
     private(set) var model: Schedule
     
-    private var title: String {
-        didSet {
-            print("title: \(title)")
-        }
-    }
-    private var description: String {
-        didSet {
-            print("description: \(description)")
-        }
-    }
+    private var title: String
+    private var description: String
     private var fromDate: Date?
     private var toDate: Date?
     private(set) var coordinate: CLLocationCoordinate2D
