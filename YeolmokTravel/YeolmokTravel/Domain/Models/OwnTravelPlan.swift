@@ -26,4 +26,8 @@ final class OwnTravelPlan {
     func delete(at index: Int) {
         travelPlans.remove(at: index)
     }
+    
+    func swapTravelPlans(at source: Int, to destination: Int) {
+        travelPlans.swapAt(source, destination)
+    }
 }

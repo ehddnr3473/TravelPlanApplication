@@ -10,7 +10,7 @@ import Combine
 import UIKit
 
 /// Plan View Model Protocol
-fileprivate protocol PlanConfigurable: AnyObject {
+private protocol PlanConfigurable: AnyObject {
     // Input
     func delete(_ index: Int)
     
@@ -57,6 +57,10 @@ final class TravelPlaner: PlanConfigurable {
     func delete(_ index: Int) {
         planControllableUseCase.delete(index)
         Task { planPostsUseCase.delete(at: index) }
+    }
+    
+    func swapTravelPlans(at source: Int, to destination: Int) {
+        model.swapTravelPlans(at: source, to: destination)
     }
 }
 
