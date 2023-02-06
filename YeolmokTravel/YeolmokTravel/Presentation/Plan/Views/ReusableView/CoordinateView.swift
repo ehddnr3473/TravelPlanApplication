@@ -47,10 +47,8 @@ final class CoordinateView: UIView {
     }()
     
     lazy var mapButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle(TextConstants.buttonTitle, for: .normal)
-        button.setImage(UIImage(systemName: TextConstants.mapIcon), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: LayoutConstants.mediumFontSize, weight: .bold)
+        let button = createConfigurationButton()
+        button.tintColor = .black
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.layer.borderColor = UIColor.systemGray.cgColor
@@ -103,13 +101,27 @@ private extension CoordinateView {
                 .multipliedBy(LayoutConstants.buttonWidthMultiplier)
         }
     }
+    
+    func createConfigurationButton() -> UIButton {
+        var container = AttributeContainer()
+        container.font = .systemFont(ofSize: LayoutConstants.mediumFontSize, weight: .bold)
+        
+        var configuration = UIButton.Configuration.plain()
+        configuration.attributedTitle = AttributedString(TextConstants.buttonTitle, attributes: container)
+        
+        configuration.image = UIImage(systemName: TextConstants.mapIcon)?
+            .withTintColor(.black, renderingMode: .alwaysTemplate)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = AppLayoutConstants.spacing
+        return UIButton(configuration: configuration)
+    }
 }
 
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 5
     static let mediumFontSize: CGFloat = 20
     static let buttonHeight: CGFloat = 44.44
-    static let buttonWidthMultiplier: CGFloat = 3
+    static let buttonWidthMultiplier: CGFloat = 4
 }
 
 private enum TextConstants {
