@@ -276,7 +276,7 @@ private extension WritingTravelPlanViewController {
             addMapContentsViews()
         }
         mapViewController.removeAnnotation()
-        mapViewController.annotatedCoordinates = annotatedCoordinates
+        mapViewController.updateCoordinates(annotatedCoordinates)
         mapViewController.animateCameraToCenter()
         mapViewController.addAnnotation()
     }
@@ -326,14 +326,22 @@ private extension WritingTravelPlanViewController {
     
     @objc func touchUpPreviousButton() {
         // 이전 좌표로 카메라 이동
+        mapViewController.decreasePointer()
+        // 수정 필요, 인터페이스 정의해서 쓰자.
+        mapViewController.animateCameraToPointer()
     }
     
     @objc func touchUpNextButton() {
         // 다음 좌표로 카메라 이동
+        mapViewController.increasePointer()
+        // 수정 필요, 인터페이스 정의해서 쓰자.
+        mapViewController.animateCameraToPointer()
     }
     
     @objc func touchUpCenterButton() {
         // 중심으로 카메라 이동
+        mapViewController.initalizePointer()
+        mapViewController.animateCameraToCenter()
     }
     
     func setBindings() {
