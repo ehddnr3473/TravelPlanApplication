@@ -71,7 +71,6 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
-        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -172,6 +171,7 @@ private extension WritingTravelPlanViewController {
     func configureWritingTravelPlanViewValue() {
         writingTravelPlanView.titleTextField.text = viewModel.modelTitle
         writingTravelPlanView.descriptionTextView.text = viewModel.modelDescription
+        writingTravelPlanView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
         writingTravelPlanView.addScheduleButton.addTarget(self, action: #selector(touchUpAddScheduleButton), for: .touchUpInside)
         writingTravelPlanView.descriptionTextView.delegate = self
     }
@@ -344,6 +344,14 @@ private extension WritingTravelPlanViewController {
         mapViewController.animateCameraToCenter()
     }
     
+    @objc func touchUpEditButton() {
+        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
+            scheduleTableView.isEditing.toggle()
+        }, completion: { [self] _ in
+            writingTravelPlanView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+        })
+    }
+    
     func setBindings() {
         bindingText()
         bindingMapView()
@@ -429,6 +437,14 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
         }
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        viewModel.swapSchedules(at: sourceIndexPath.row, to: destinationIndexPath.row)
+    }
+    
     private func removeSchedule(at index: Int) {
         viewModel.removeSchedule(at: index)
     }
@@ -452,6 +468,18 @@ extension WritingTravelPlanViewController: PlanTransfer {
 extension WritingTravelPlanViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         descriptionTextPublisher.send(textView.text)
+    }
+}
+
+private extension UIButton {
+    var isEditingAtTintColor: Bool {
+        get {
+            tintColor == .systemRed
+        }
+        
+        set {
+            tintColor = newValue ? .systemRed : AppStyles.mainColor
+        }
     }
 }
 
