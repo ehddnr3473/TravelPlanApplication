@@ -61,8 +61,11 @@ final class WritingScheduleViewModel {
     }
     
     private var verifyPreFromDate: Bool {
-        guard let toDate = toDate, let fromDate = fromDate else { return true }
-        return fromDate < toDate
+        guard let toDate = toDate,
+                let fromDate = fromDate,
+                let slicedFromDate = DateConverter.stringToDate(DateConverter.dateToString(fromDate)),
+                let slicedToDate = DateConverter.stringToDate(DateConverter.dateToString(toDate)) else { return true }
+        return slicedFromDate <= slicedToDate
     }
     
     init(_ model: Schedule) {
