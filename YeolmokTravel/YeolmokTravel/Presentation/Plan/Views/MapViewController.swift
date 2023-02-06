@@ -62,10 +62,10 @@ extension MapViewController {
     }
     
     func animateCameraToCenter() {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) { [weak self] in
-            guard let span = self?.calculateSpan(), let center = self?.calculateCenter() else { return }
-            self?.mapView.region = MKCoordinateRegion(
-                center: center,
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) { [self] in
+            guard let span = calculateSpan() else { return }
+            mapView.region = MKCoordinateRegion(
+                center: calculateCenter(),
                 span: span
             )
         }
@@ -126,8 +126,8 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func animateCamera(to coordinate: CLLocationCoordinate2D) {
-        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) { [weak self] in
-            self?.mapView.region = MKCoordinateRegion(center: coordinate,
+        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) { [self] in
+            mapView.region = MKCoordinateRegion(center: coordinate,
                                                       latitudinalMeters: CoordinateConstants.pointSpan,
                                                       longitudinalMeters: CoordinateConstants.pointSpan)
         }
