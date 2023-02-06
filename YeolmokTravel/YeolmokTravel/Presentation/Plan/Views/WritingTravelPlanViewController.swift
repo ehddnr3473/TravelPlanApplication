@@ -92,6 +92,11 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return mapViewController
     }()
     
+    private let mapButtonSetView: MapButtonSetView = {
+        let mapButtonSetView = MapButtonSetView()
+        return mapButtonSetView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -190,18 +195,19 @@ private extension WritingTravelPlanViewController {
          불필요한 뷰 추가 없이, 임베드만 하고 종료
          */
         guard viewModel.coordinatesOfSchedules().count != .zero else { return }
-        addMapTitleLabel()
-        addMapView()
+        addMapContentsViews()
     }
     
     func addMapContentsViews() {
         addMapTitleLabel()
         addMapView()
+        addMapButtonSet()
     }
     
     @MainActor func removeMapContentsView() {
         removeMapView()
         removeMapTitleLabel()
+        removeMapButtonSet()
     }
     
     @MainActor func addMapTitleLabel() {
@@ -224,6 +230,19 @@ private extension WritingTravelPlanViewController {
         }
     }
     
+    @MainActor func addMapButtonSet() {
+        mapButtonSetView.previousButton.addTarget(self, action: #selector(touchUpPreviousButton), for: .touchUpInside)
+        mapButtonSetView.centerButton.addTarget(self, action: #selector(touchUpCenterButton), for: .touchUpInside)
+        mapButtonSetView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
+        scrollViewContainer.addSubview(mapButtonSetView)
+        mapButtonSetView.snp.makeConstraints {
+            $0.top.equalTo(mapViewController.mapView.snp.bottom)
+                .offset(AppLayoutConstants.spacing)
+            $0.width.equalTo(scrollViewContainer.snp.width)
+            $0.height.equalTo(AppLayoutConstants.buttonHeight)
+        }
+    }
+    
     func removeMapView() {
         mapViewController.mapView.snp.removeConstraints()
         mapViewController.mapView.removeFromSuperview()
@@ -232,6 +251,14 @@ private extension WritingTravelPlanViewController {
     func removeMapTitleLabel() {
         mapTitleLabel.snp.removeConstraints()
         mapTitleLabel.removeFromSuperview()
+    }
+    
+    func removeMapButtonSet() {
+        mapButtonSetView.previousButton.removeTarget(self, action: #selector(touchUpPreviousButton), for: .touchUpInside)
+        mapButtonSetView.centerButton.removeTarget(self, action: #selector(touchUpCenterButton), for: .touchUpInside)
+        mapButtonSetView.nextButton.removeTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
+        mapButtonSetView.snp.removeConstraints()
+        mapButtonSetView.removeFromSuperview()
     }
     
     // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
@@ -295,6 +322,18 @@ private extension WritingTravelPlanViewController {
     
     @objc func touchUpAddScheduleButton() {
         navigationController?.pushViewController(setUpWritingView(.add), animated: true)
+    }
+    
+    @objc func touchUpPreviousButton() {
+        // 이전 좌표로 카메라 이동
+    }
+    
+    @objc func touchUpNextButton() {
+        // 다음 좌표로 카메라 이동
+    }
+    
+    @objc func touchUpCenterButton() {
+        // 중심으로 카메라 이동
     }
     
     func setBindings() {
