@@ -1,5 +1,5 @@
 //
-//  PlanView.swift
+//  PlanViewController.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/20.
@@ -9,8 +9,8 @@ import UIKit
 import SnapKit
 import Combine
 
-/// TravelPlan View
-final class PlanView: UIViewController {
+/// Plans tab
+final class PlanViewController: UIViewController {
     // MARK: - Properties
     private let viewModel: TravelPlaner
     private var subscriptions = Set<AnyCancellable>()
@@ -70,7 +70,7 @@ final class PlanView: UIViewController {
 }
 
 // MARK: - Configure View
-private extension PlanView {
+private extension PlanViewController {
     private func configureView() {
         view.backgroundColor = .black
         configureHierarchy()
@@ -120,7 +120,7 @@ private extension PlanView {
 }
 
 // MARK: - User Interaction
-private extension PlanView {
+private extension PlanViewController {
     @MainActor func reload() {
         updateTableViewConstraints()
         planTableView.reloadData()
@@ -152,7 +152,7 @@ private extension PlanView {
 }
 
 // MARK: - TableView
-extension PlanView: UITableViewDelegate, UITableViewDataSource {
+extension PlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.title(indexPath.row)
@@ -174,7 +174,7 @@ extension PlanView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        .none
+        .delete
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
