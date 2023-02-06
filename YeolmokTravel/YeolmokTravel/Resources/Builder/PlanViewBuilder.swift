@@ -24,9 +24,9 @@ final class PlanViewBuilder {
         TravelPlaner(model, useCaseProvider.createPlanControllableUseCase(model), useCaseProvider.createPlanPostsUseCase(model))
     }
     
-    func build() async -> PlanView {
+    func build() async -> PlanViewController {
         let model = await downloadModel()
         let viewModel = configureViewModel(model)
-        return await PlanView(viewModel)
+        return await PlanViewController(viewModel)
     }
 }

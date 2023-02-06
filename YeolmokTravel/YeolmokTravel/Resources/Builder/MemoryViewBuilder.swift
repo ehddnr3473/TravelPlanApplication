@@ -26,9 +26,9 @@ final class MemoryViewBuilder {
         MemoryViewModel(useCaseProvider.createDefaultMemoryUseCase(model))
     }
     
-    func build() async -> MemoryView {
+    func build() async -> MemoryViewController {
         let model = await downloadModel()
         let viewModel = configureViewModel(model)
-        return await MemoryView(viewModel, useCaseProvider: useCaseProvider)
+        return await MemoryViewController(viewModel, useCaseProvider: useCaseProvider)
     }
 }
