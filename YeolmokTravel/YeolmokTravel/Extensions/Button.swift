@@ -30,4 +30,14 @@ extension UIButton {
             backgroundColor = newValue ? AppStyles.mainColor : .systemGray
         }
     }
+    
+    var isEditingAtTintColor: Bool {
+        get {
+            tintColor == .systemRed
+        }
+        
+        set {
+            tintColor = newValue ? .systemRed : AppStyles.mainColor
+        }
+    }
 }
