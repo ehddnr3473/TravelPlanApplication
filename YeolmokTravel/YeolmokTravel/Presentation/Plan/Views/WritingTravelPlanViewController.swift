@@ -71,6 +71,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
+        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -468,18 +469,6 @@ extension WritingTravelPlanViewController: PlanTransfer {
 extension WritingTravelPlanViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         descriptionTextPublisher.send(textView.text)
-    }
-}
-
-private extension UIButton {
-    var isEditingAtTintColor: Bool {
-        get {
-            tintColor == .systemRed
-        }
-        
-        set {
-            tintColor = newValue ? .systemRed : AppStyles.mainColor
-        }
     }
 }
 
