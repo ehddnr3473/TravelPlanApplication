@@ -135,7 +135,8 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView()
-        guard let order = findCoordinate(annotation.coordinate),
+        guard annotatedCoordinates.count > 1,
+                let order = findCoordinate(annotation.coordinate),
                 order <= CoordinateConstants.maximumNumberOfCoordinates else { return nil }
         annotationView.image = createImage(order + 1)
         return annotationView
