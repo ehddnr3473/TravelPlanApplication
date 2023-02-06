@@ -327,7 +327,7 @@ private extension WritingScheduleViewController {
         
         output.buttonState
             .receive(on: RunLoop.main)
-            .assign(to: \.isValid, on: coordinateView.mapButton)
+            .assign(to: \.isValidAtBackgroundColor, on: coordinateView.mapButton)
             .store(in: &subscriptions)
     }
     
