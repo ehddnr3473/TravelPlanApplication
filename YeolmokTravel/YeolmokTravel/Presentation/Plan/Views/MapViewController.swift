@@ -16,7 +16,8 @@ struct AnnotatedCoordinate {
 
 final class MapViewController: UIViewController {
     // MARK: - Properties
-    var annotatedCoordinates: [AnnotatedCoordinate]
+    private var annotatedCoordinates: [AnnotatedCoordinate]
+    private lazy var coordinatePointer = -1
     
     init(_ annotatedCoordinates: [AnnotatedCoordinate]) {
         self.annotatedCoordinates = annotatedCoordinates
@@ -56,6 +57,10 @@ final class MapViewController: UIViewController {
 }
 
 extension MapViewController {
+    func updateCoordinates(_ annotatedCoordinates: [AnnotatedCoordinate]) {
+        self.annotatedCoordinates = annotatedCoordinates
+    }
+    
     func animateCameraToCenter() {
         UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) { [weak self] in
             guard let span = self?.calculateSpan(), let center = self?.calculateCenter() else { return }
@@ -139,6 +144,35 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
         animateCamera(to: annotation.coordinate)
+    }
+}
+
+// MARK: - Pointer control
+extension MapViewController {
+    private func findPointer(_ coordinate: CLLocationCoordinate2D) -> Int? {
+        annotatedCoordinates.firstIndex {
+            $0.coordinate.latitude == coordinate.latitude && $0.coordinate.longitude == coordinate.longitude
+        }
+    }
+    
+    func initalizePointer() {
+        coordinatePointer = -1
+    }
+    
+    func increasePointer() {
+        coordinatePointer = (coordinatePointer + 1) % annotatedCoordinates.count
+    }
+    
+    func decreasePointer() {
+        if coordinatePointer <= 0 {
+            coordinatePointer = annotatedCoordinates.count - 1
+        } else {
+            coordinatePointer = (coordinatePointer - 1) % annotatedCoordinates.count
+        }
+    }
+    
+    func animateCameraToPointer() {
+        animateCamera(to: annotatedCoordinates[coordinatePointer].coordinate)
     }
 }
 
