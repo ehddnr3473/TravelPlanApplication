@@ -23,6 +23,7 @@ final class PlanView: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) not implemented")
     }
+    
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -32,9 +33,17 @@ final class PlanView: UIViewController {
         return label
     }()
     
-    private lazy var addButton: UIButton = {
+    private lazy var editTravelPlanButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: TextConstants.plusIconName), for: .normal)
+        button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
+        button.tintColor = AppStyles.mainColor
+        button.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var addTravelPlanButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setBackgroundImage(UIImage(systemName: AppTextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
         button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
         return button
@@ -69,7 +78,7 @@ private extension PlanView {
     }
     
     func configureHierarchy() {
-        [titleLabel, addButton, planTableView].forEach {
+        [titleLabel, editTravelPlanButton, addTravelPlanButton, planTableView].forEach {
             view.addSubview($0)
         }
     }
@@ -81,10 +90,17 @@ private extension PlanView {
                 .inset(AppLayoutConstants.spacing)
         }
         
-        addButton.snp.makeConstraints {
+        addTravelPlanButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
+            $0.size.equalTo(LayoutConstants.buttonSize)
+        }
+        
+        editTravelPlanButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.trailing.equalTo(addTravelPlanButton.snp.leading)
+                .offset(-AppLayoutConstants.spacing)
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
         
@@ -105,6 +121,25 @@ private extension PlanView {
 
 // MARK: - User Interaction
 private extension PlanView {
+    @MainActor func reload() {
+        updateTableViewConstraints()
+        planTableView.reloadData()
+    }
+    
+    @MainActor func updateTableViewConstraints() {
+        planTableView.snp.updateConstraints {
+            $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
+        }
+    }
+    
+    @objc func touchUpEditButton() {
+        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
+            planTableView.isEditing.toggle()
+        }, completion: { [self] _ in
+            editTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
+        })
+    }
+    
     func setBindings() {
         viewModel.publisher
             .sink { self.reload() }
@@ -113,13 +148,6 @@ private extension PlanView {
     
     @objc func touchUpAddButton() {
         present(viewModel.setUpWritingView(.add), animated: true)
-    }
-    
-    @MainActor func reload() {
-        planTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
-        }
-        planTableView.reloadData()
     }
 }
 
@@ -141,10 +169,16 @@ extension PlanView: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             viewModel.delete(indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            planTableView.snp.updateConstraints {
-                $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
-            }
+            updateTableViewConstraints()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .none
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -158,7 +192,6 @@ extension PlanView: UITableViewDelegate, UITableViewDataSource {
 
 private enum TextConstants {
     static let title = "Plans"
-    static let plusIconName = "plus"
 }
 
 private enum LayoutConstants {
