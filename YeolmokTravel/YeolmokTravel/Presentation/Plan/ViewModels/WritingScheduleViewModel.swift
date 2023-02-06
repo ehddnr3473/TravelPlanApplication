@@ -60,7 +60,7 @@ final class WritingScheduleViewModel {
         model.coordinate.longitude
     }
     
-    private var verifyDate: Bool {
+    private var verifyPreFromDate: Bool {
         guard let toDate = toDate, let fromDate = fromDate else { return true }
         return fromDate < toDate
     }
@@ -82,7 +82,7 @@ final class WritingScheduleViewModel {
     func setSchedule() throws {
         if title == "" {
             throw ScheduleError.titleError
-        } else if !verifyDate {
+        } else if !verifyPreFromDate {
             throw ScheduleError.preToDateError
         } else if fromDate == nil && toDate != nil {
             throw ScheduleError.fromDateError
