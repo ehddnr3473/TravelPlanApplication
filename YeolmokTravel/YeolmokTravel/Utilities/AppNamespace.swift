@@ -26,4 +26,6 @@ enum AppLayoutConstants {
 
 enum AppTextConstants {
     static let mapViewAccessibilityLabel = "mapView"
+    static let plusIcon = "plus"
+    static let editIcon = "pencil"
 }
