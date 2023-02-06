@@ -16,17 +16,6 @@ struct AnnotatedCoordinate {
 
 final class MapViewController: UIViewController {
     // MARK: - Properties
-    let mapView: MKMapView = {
-        let mapView = MKMapView()
-        mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
-//        mapView.preferredConfiguration = MKHybridMapConfiguration(elevationStyle: .realistic)
-        mapView.layer.cornerRadius = LayoutConstants.cornerRadius
-        mapView.layer.borderWidth = AppLayoutConstants.borderWidth
-        mapView.layer.borderColor = UIColor.white.cgColor
-        mapView.accessibilityLabel = AppTextConstants.mapViewAccessibilityLabel
-        return mapView
-    }()
-    
     var annotatedCoordinates: [AnnotatedCoordinate]
     
     init(_ annotatedCoordinates: [AnnotatedCoordinate]) {
@@ -42,11 +31,21 @@ final class MapViewController: UIViewController {
         print("deinit: MapViewController")
     }
     
+    let mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
+        mapView.layer.cornerRadius = LayoutConstants.cornerRadius
+        mapView.layer.borderWidth = AppLayoutConstants.borderWidth
+        mapView.layer.borderColor = UIColor.white.cgColor
+        mapView.accessibilityLabel = AppTextConstants.mapViewAccessibilityLabel
+        return mapView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(mapView)
         configure()
-        configureMapView()
+        animateCameraToCenter()
         addAnnotation()
     }
     
@@ -57,12 +56,14 @@ final class MapViewController: UIViewController {
 }
 
 extension MapViewController {
-    @MainActor func configureMapView() {
-        guard let span = calculateSpan() else { return }
-        mapView.region = MKCoordinateRegion(
-            center: calculateCenter(),
-            span: span
-        )
+    func animateCameraToCenter() {
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) { [weak self] in
+            guard let span = self?.calculateSpan(), let center = self?.calculateCenter() else { return }
+            self?.mapView.region = MKCoordinateRegion(
+                center: center,
+                span: span
+            )
+        }
     }
     
     @MainActor func addAnnotation() {
@@ -79,7 +80,7 @@ extension MapViewController {
     }
     
     // reduce
-    func calculateCenter() -> CLLocationCoordinate2D {
+    private func calculateCenter() -> CLLocationCoordinate2D {
         var latitude: CLLocationDegrees = 0
         var longitude: CLLocationDegrees = 0
         
@@ -95,7 +96,7 @@ extension MapViewController {
     }
     
     // 최대 차이 + 조금
-    func calculateSpan() -> MKCoordinateSpan? {
+    private func calculateSpan() -> MKCoordinateSpan? {
         if annotatedCoordinates.count == 1 {
             return MKCoordinateSpan(
                 latitudeDelta: CoordinateConstants.mapSpan,
@@ -120,9 +121,11 @@ extension MapViewController: MKMapViewDelegate {
         mapView.delegate = self
     }
     
-    func animateCamera(_ annotation: MKAnnotation) {
+    func animateCamera(to coordinate: CLLocationCoordinate2D) {
         UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseInOut) { [weak self] in
-            self?.mapView.region = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 200, longitudinalMeters: 200)
+            self?.mapView.region = MKCoordinateRegion(center: coordinate,
+                                                      latitudinalMeters: CoordinateConstants.pointSpan,
+                                                      longitudinalMeters: CoordinateConstants.pointSpan)
         }
     }
     
@@ -130,14 +133,19 @@ extension MapViewController: MKMapViewDelegate {
         nil
     }
     
+    func mapView(_ mapView: MKMapView, didDeselect annotation: MKAnnotation) {
+        animateCameraToCenter()
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-        animateCamera(annotation)
+        animateCamera(to: annotation.coordinate)
     }
 }
 
 private enum CoordinateConstants {
     static let mapSpan: CLLocationDegrees = 0.005
     static let littleSpan: CLLocationDegrees = 0.02
+    static let pointSpan: CLLocationDistance = 300
 }
 
 private enum LayoutConstants {
