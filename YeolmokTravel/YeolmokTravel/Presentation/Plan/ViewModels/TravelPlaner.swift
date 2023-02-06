@@ -24,7 +24,7 @@ private protocol PlanConfigurable: AnyObject {
     init(_ model: OwnTravelPlan, _ planControllableUseCase: ModelControlUsable, _ planPostsUseCase: TextPostsUsable)
 }
 
-/// TravelPlan View Model
+/// PlanViewController View Model
 final class TravelPlaner: PlanConfigurable {
     private var model: OwnTravelPlan
     private let planControllableUseCase: ModelControlUsable
@@ -84,14 +84,18 @@ extension TravelPlaner: PlanTransfer {
         switch writingStyle {
         case .add:
             let model = TravelPlan(title: "", description: "", schedules: [])
-            let writingView = WritingTravelPlanViewController(WritingTravelPlanViewModel(model), writingStyle)
+            let coordinates = model.coordinates
+            let mapViewController = MapViewController(coordinates)
+            let writingView = WritingTravelPlanViewController(WritingTravelPlanViewModel(model), mapViewController, writingStyle)
             writingView.addDelegate = self
             let navigationController = UINavigationController(rootViewController: writingView)
             navigationController.modalPresentationStyle = .fullScreen
             return navigationController
         case .edit:
             let model = model.travelPlans[index!]
-            let writingView = WritingTravelPlanViewController(WritingTravelPlanViewModel(model), writingStyle)
+            let coordinates = model.coordinates
+            let mapViewController = MapViewController(coordinates)
+            let writingView = WritingTravelPlanViewController(WritingTravelPlanViewModel(model), mapViewController, writingStyle)
             writingView.editDelegate = self
             writingView.planListIndex = index
             let navigationController = UINavigationController(rootViewController: writingView)
