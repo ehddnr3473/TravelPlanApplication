@@ -51,6 +51,8 @@ final class WritingTravelPlanViewModel {
             Double(schedulesCount) * AppLayoutConstants.cellHeight +
             AppLayoutConstants.mapViewHeight +
             AppLayoutConstants.largeFontSize +
+            AppLayoutConstants.spacing +
+            AppLayoutConstants.buttonHeight +
             AppLayoutConstants.largeSpacing * 3.0
         }
     }
