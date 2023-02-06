@@ -262,20 +262,34 @@ private extension WritingScheduleViewController {
 // MARK: - User Interaction
 private extension WritingScheduleViewController {
     @objc func touchUpSaveBarButton() {
-        if fromDatePicker.date > toDatePicker.date {
-            alertWillAppear(AlertText.dateMessage)
-            return
+        if isSaveEnabled() {
+            save(viewModel.model, scheduleListIndex)
+            navigationController?.popViewController(animated: true)
         }
-        
+    }
+    
+    func isSaveEnabled() -> Bool {
         do {
             try viewModel.setSchedule()
+            return true
         } catch {
-            alertWillAppear(AlertText.titleMessage)
-            return
+            guard let error = error as? ScheduleError else {
+                alertWillAppear(AlertText.undefinedError)
+                return false
+            }
+            
+            switch error {
+            case .titleError:
+                alertWillAppear(AlertText.titleMessage)
+            case .preToDateError:
+                alertWillAppear(AlertText.dateMessage)
+            case .fromDateError:
+                alertWillAppear(AlertText.fromDateErrorMessage)
+            case .toDateError:
+                alertWillAppear(AlertText.toDateErrorMessage)
+            }
+            return false
         }
-        
-        save(viewModel.model, scheduleListIndex)
-        navigationController?.popViewController(animated: true)
     }
     
     @objc func touchUpCancelBarButton() {
@@ -304,19 +318,14 @@ private extension WritingScheduleViewController {
     }
     
     func bindingSwitch() {
-        let input = WritingScheduleViewModel.SwitchInput(statePublisher: dateSwitch.isOnPublisher)
+        let input = WritingScheduleViewModel.SwitchInput(switchIsOnPublisher: dateSwitch.isOnPublisher)
         let output = viewModel.transform(input)
         
         output.datePickerStatePublisher
             .receive(on: RunLoop.main)
-            .assign(to: \.isEnabled, on: fromDatePicker)
-            .store(in: &subscriptions)
-        
-        output.backgroundColorPublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] color in
-                self?.fromDatePicker.backgroundColor = color
-                self?.toDatePicker.backgroundColor = color
+            .sink { [weak self] state in
+                self?.fromDatePicker.isValidAtBackgroundColor = state
+                self?.toDatePicker.isValidAtBackgroundColor = state
             }
             .store(in: &subscriptions)
     }
@@ -359,6 +368,19 @@ private extension WritingScheduleViewController {
 extension WritingScheduleViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         descriptionTextPublisher.send(textView.text)
+    }
+}
+
+private extension UIDatePicker {
+    var isValidAtBackgroundColor: Bool {
+        get {
+            backgroundColor == .white
+        }
+        
+        set {
+            backgroundColor = newValue ? .white : .systemGray
+            isEnabled = newValue
+        }
     }
 }
 

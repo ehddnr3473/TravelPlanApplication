@@ -60,6 +60,11 @@ final class WritingScheduleViewModel {
         model.coordinate.longitude
     }
     
+    private var verifyDate: Bool {
+        guard let toDate = toDate, let fromDate = fromDate else { return true }
+        return fromDate < toDate
+    }
+    
     init(_ model: Schedule) {
         self.model = model
         self.planTracker = PlanTracker(model)
@@ -76,7 +81,13 @@ final class WritingScheduleViewModel {
     
     func setSchedule() throws {
         if title == "" {
-            throw AlertError.titleError
+            throw ScheduleError.titleError
+        } else if !verifyDate {
+            throw ScheduleError.preToDateError
+        } else if fromDate == nil && toDate != nil {
+            throw ScheduleError.fromDateError
+        } else if fromDate != nil && toDate == nil {
+            throw ScheduleError.toDateError
         } else {
             model.setSchedule(title, description, coordinate, fromDate, toDate)
         }
@@ -110,12 +121,11 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     
     // UISwitch
     struct SwitchInput {
-        let statePublisher: AnyPublisher<Bool, Never>
+        let switchIsOnPublisher: AnyPublisher<Bool, Never>
     }
     
     struct SwitchOutput {
         let datePickerStatePublisher: AnyPublisher<Bool, Never>
-        let backgroundColorPublisher: AnyPublisher<UIColor, Never>
     }
     
     // UIDatePicker
@@ -167,36 +177,42 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     /// - Parameter input: UISwitch IsOn Publisher
     /// - Returns: UIDatePicker - isEnabled, UIDatePicker - backgroundColor Publisher
     func transform(_ input: SwitchInput) -> SwitchOutput {
-        let statePublisher = input.statePublisher
-        
-        let backgroundColorPublisher = statePublisher
+        let datePickerStatePublisher = input.switchIsOnPublisher
             .map { [weak self] in
                 if $0 {
-                    return UIColor.white
+                    return true
                 } else {
                     self?.fromDate = nil
                     self?.toDate = nil
-                    return UIColor.systemGray
+                    return false
                 }
             }
             .eraseToAnyPublisher()
         
-        return SwitchOutput(datePickerStatePublisher: statePublisher, backgroundColorPublisher: backgroundColorPublisher)
+        return SwitchOutput(datePickerStatePublisher: datePickerStatePublisher)
     }
     
     /// UIDatePicker
     /// - Parameter input: UIDatePicker Date Publisher
     /// - Operation: Subscribe view's value - fromDatePicker.date, toDatePicker.date
     func subscribeDate(_ input: DateInput) {
-        input.fromDatePublisher.combineLatest(input.toDatePublisher)
-            .sink { [weak self] fromDate, toDate in
-                if fromDate > toDate {
-                    return
-                } else {
-                    self?.fromDate = fromDate
-                    self?.toDate = toDate
-                }
+        input.fromDatePublisher
+            .sink { [weak self] fromDate in
+                self?.fromDate = fromDate
+            }
+            .store(in: &subscriptions)
+        
+        input.toDatePublisher
+            .sink { [weak self] toDate in
+                self?.toDate = toDate
             }
             .store(in: &subscriptions)
     }
+}
+
+enum ScheduleError: Error {
+    case titleError
+    case preToDateError
+    case fromDateError
+    case toDateError
 }
