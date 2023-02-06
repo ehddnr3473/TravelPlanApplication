@@ -21,6 +21,7 @@ enum AppLayoutConstants {
     static let writingTravelPlanViewHeight: CGFloat = 200
     static let cellHeight: CGFloat = 100
     static let mapViewHeight: CGFloat = 500
+    static let buttonHeight: CGFloat = 44.44
 }
 
 enum AppTextConstants {
