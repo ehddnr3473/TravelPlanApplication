@@ -55,14 +55,14 @@ final class WritingTravelPlanView: UIView {
     
     let editScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: TextConstants.editIcon), for: .normal)
+        button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
         return button
     }()
     
     let addScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
+        button.setBackgroundImage(UIImage(systemName: AppTextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
         return button
     }()
@@ -138,6 +138,4 @@ private enum LayoutConstants {
 
 private enum TextConstants {
     static let schedule = "Schedule"
-    static let editIcon = "pencil"
-    static let plusIcon = "plus"
 }
