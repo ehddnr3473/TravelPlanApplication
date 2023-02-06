@@ -179,7 +179,7 @@ private extension WritingTravelPlanViewController {
     func configure() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
-        if writingStyle == .edit { topBarView.saveBarButton.isValid = true }
+        if writingStyle == .edit { topBarView.saveBarButton.isValidAtTintColor = true }
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
     }
@@ -359,7 +359,7 @@ private extension WritingTravelPlanViewController {
         
         output.buttonState
             .receive(on: RunLoop.main)
-            .assign(to: \.isValid, on: topBarView.saveBarButton)
+            .assign(to: \.isValidAtTintColor, on: topBarView.saveBarButton)
             .store(in: &subscriptions)
     }
     
