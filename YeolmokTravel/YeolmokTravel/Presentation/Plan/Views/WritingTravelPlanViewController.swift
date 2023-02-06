@@ -86,7 +86,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private lazy var mapViewController: MapViewController = {
         let mapViewController = MapViewController(viewModel.coordinatesOfSchedules())
-        mapViewController.configureMapView()
+        mapViewController.animateCameraToCenter()
         mapViewController.addAnnotation()
         mapViewController.configure()
         return mapViewController
@@ -248,10 +248,9 @@ private extension WritingTravelPlanViewController {
             updateScrollViewContainerHeight()
             addMapContentsViews()
         }
-        // 모든 어노테이션을 지우고 다시 추가 - 비효율적
         mapViewController.removeAnnotation()
         mapViewController.annotatedCoordinates = annotatedCoordinates
-        mapViewController.configureMapView()
+        mapViewController.animateCameraToCenter()
         mapViewController.addAnnotation()
     }
     
