@@ -9,14 +9,25 @@ import Foundation
 import UIKit
 
 extension UIButton {
-    var isValid: Bool {
+    var isValidAtTintColor: Bool {
         get {
-            tintColor == .systemGreen
+            tintColor == AppStyles.mainColor
         }
         
         set {
             isEnabled = newValue
-            tintColor = newValue ? .systemGreen : .systemGray
+            tintColor = newValue ? AppStyles.mainColor : .systemGray
+        }
+    }
+    
+    var isValidAtBackgroundColor: Bool {
+        get {
+            backgroundColor == AppStyles.mainColor
+        }
+        
+        set {
+            isEnabled = newValue
+            backgroundColor = newValue ? AppStyles.mainColor : .systemGray
         }
     }
 }
