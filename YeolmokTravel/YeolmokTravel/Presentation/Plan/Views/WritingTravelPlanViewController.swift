@@ -21,12 +21,14 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     var editDelegate: PlanTransfer?
     var planListIndex: Int?
     private let viewModel: WritingTravelPlanViewModel
+    private let mapProvider: Mappable
     
     private let descriptionTextPublisher: CurrentValueSubject<String, Never>
     private var subscriptions = Set<AnyCancellable>()
     
-    init(_ viewModel: WritingTravelPlanViewModel, _ writingStyle: WritingStyle) {
+    init(_ viewModel: WritingTravelPlanViewModel, _ mapProvider: Mappable, _ writingStyle: WritingStyle) {
         self.viewModel = viewModel
+        self.mapProvider = mapProvider
         self.writingStyle = writingStyle
         self.descriptionTextPublisher = CurrentValueSubject<String, Never>(viewModel.modelDescription)
         super.init(nibName: nil, bundle: nil)
@@ -84,14 +86,6 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return label
     }()
     
-    private lazy var mapViewController: MapViewController = {
-        let mapViewController = MapViewController(viewModel.coordinatesOfSchedules())
-        mapViewController.animateCameraToCenter()
-        mapViewController.addAnnotation()
-        mapViewController.configure()
-        return mapViewController
-    }()
-    
     private let mapButtonSetView: MapButtonSetView = {
         let mapButtonSetView = MapButtonSetView()
         return mapButtonSetView
@@ -100,7 +94,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        embedMapViewController()
+        embedMapView()
         configure()
         setBindings()
         configureWritingTravelPlanViewValue()
@@ -188,9 +182,10 @@ private extension WritingTravelPlanViewController {
 
 // MARK: - MapView
 private extension WritingTravelPlanViewController {
-    func embedMapViewController() {
-        addChild(mapViewController)
-        mapViewController.didMove(toParent: self)
+    func embedMapView() {
+        mapProvider.configureMapView()
+        addChild(mapProvider as! UIViewController)
+        (mapProvider as! UIViewController).didMove(toParent: self)
         /*
          좌표 값이 없다면(새로운 TavelPlan 추가를 위한 초기 상태인 경우 or Schedule 추가를 안한 경우)
          불필요한 뷰 추가 없이, 임베드만 하고 종료
@@ -222,8 +217,8 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapView() {
-        scrollViewContainer.addSubview(mapViewController.mapView)
-        mapViewController.mapView.snp.makeConstraints {
+        scrollViewContainer.addSubview(mapProvider.mapView)
+        mapProvider.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
@@ -237,7 +232,7 @@ private extension WritingTravelPlanViewController {
         mapButtonSetView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         scrollViewContainer.addSubview(mapButtonSetView)
         mapButtonSetView.snp.makeConstraints {
-            $0.top.equalTo(mapViewController.mapView.snp.bottom)
+            $0.top.equalTo(mapProvider.mapView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
             $0.height.equalTo(AppLayoutConstants.buttonHeight)
@@ -245,8 +240,8 @@ private extension WritingTravelPlanViewController {
     }
     
     func removeMapView() {
-        mapViewController.mapView.snp.removeConstraints()
-        mapViewController.mapView.removeFromSuperview()
+        mapProvider.mapView.snp.removeConstraints()
+        mapProvider.mapView.removeFromSuperview()
     }
     
     func removeMapTitleLabel() {
@@ -270,16 +265,13 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    func updateMapView(_ annotatedCoordinates: [AnnotatedCoordinate]) {
+    func updateMapView(_ coordinates: [CLLocationCoordinate2D]) {
         // Map 관련 뷰가 없다면, ScrollView 높이를 갱신하고, Map 관련 뷰 추가
         if !mapContentsIsAdded() {
             updateScrollViewContainerHeight()
             addMapContentsViews()
         }
-        mapViewController.removeAnnotation()
-        mapViewController.updateCoordinates(annotatedCoordinates)
-        mapViewController.animateCameraToCenter()
-        mapViewController.addAnnotation()
+        mapProvider.updateMapView(coordinates)
     }
     
     @MainActor func reload() {
@@ -327,22 +319,17 @@ private extension WritingTravelPlanViewController {
     
     @objc func touchUpPreviousButton() {
         // 이전 좌표로 카메라 이동
-        mapViewController.decreasePointer()
-        // 수정 필요, 인터페이스 정의해서 쓰자.
-        mapViewController.animateCameraToPointer()
+        mapProvider.decreasePointer()
     }
     
     @objc func touchUpNextButton() {
         // 다음 좌표로 카메라 이동
-        mapViewController.increasePointer()
-        // 수정 필요, 인터페이스 정의해서 쓰자.
-        mapViewController.animateCameraToPointer()
+        mapProvider.increasePointer()
     }
     
     @objc func touchUpCenterButton() {
         // 중심으로 카메라 이동
-        mapViewController.initalizePointer()
-        mapViewController.animateCameraToCenter()
+        mapProvider.initializePointer()
     }
     
     @objc func touchUpEditButton() {
@@ -373,14 +360,14 @@ private extension WritingTravelPlanViewController {
     }
     
     func bindingMapView() {
-        viewModel.annotatedCoordinatesPublisher
+        viewModel.coordinatesPublisher
             .receive(on: RunLoop.main)
-            .sink { [weak self] annotatedCoordinates in
-                if annotatedCoordinates.count == .zero {
+            .sink { [weak self] coordinates in
+                if coordinates.count == .zero {
                     self?.removeMapContentsView()
                     self?.updateScrollViewContainerHeight()
                 } else {
-                    self?.updateMapView(annotatedCoordinates)
+                    self?.updateMapView(coordinates)
                 }
             }
             .store(in: &subscriptions)
@@ -439,7 +426,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        .none
+        .delete
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
