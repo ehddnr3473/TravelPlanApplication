@@ -87,6 +87,11 @@ final class WritingTravelPlanViewModel {
         annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
     }
     
+    func swapSchedules(at source: Int, to destination: Int) {
+        model.swapSchedules(at: source, to: destination)
+        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
+    }
+    
     func coordinatesOfSchedules() -> [AnnotatedCoordinate] {
         var coordinates = [AnnotatedCoordinate]()
         
