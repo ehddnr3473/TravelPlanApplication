@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 /// 여행 계획 모델
 struct TravelPlan: Plan {
@@ -18,6 +19,14 @@ struct TravelPlan: Plan {
             setFromDate()
             setToDate()
         }
+    }
+    
+    var coordinates: [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
+        for schedule in schedules {
+            coordinates.append(schedule.coordinate)
+        }
+        return coordinates
     }
     
     init(title: String, description: String, fromDate: Date? = nil, toDate: Date? = nil, schedules: [Schedule]) {
