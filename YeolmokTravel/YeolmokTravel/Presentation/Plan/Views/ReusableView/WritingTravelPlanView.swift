@@ -53,7 +53,14 @@ final class WritingTravelPlanView: UIView {
         return label
     }()
     
-    lazy var addScheduleButton: UIButton = {
+    let editScheduleButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setBackgroundImage(UIImage(systemName: TextConstants.editIcon), for: .normal)
+        button.tintColor = AppStyles.mainColor
+        return button
+    }()
+    
+    let addScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: TextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
@@ -78,7 +85,7 @@ private extension WritingTravelPlanView {
     }
     
     func configureHierarchy() {
-        [titleTextField, descriptionTextView, scheduleTitleLabel, addScheduleButton].forEach {
+        [titleTextField, descriptionTextView, scheduleTitleLabel, editScheduleButton, addScheduleButton].forEach {
             addSubview($0)
         }
     }
@@ -112,6 +119,13 @@ private extension WritingTravelPlanView {
                 .inset(AppLayoutConstants.spacing)
             $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
+        
+        editScheduleButton.snp.makeConstraints {
+            $0.centerY.equalTo(scheduleTitleLabel)
+            $0.trailing.equalTo(addScheduleButton.snp.leading)
+                .offset(-AppLayoutConstants.spacing)
+            $0.width.height.equalTo(LayoutConstants.buttonLength)
+        }
     }
 }
 
@@ -124,5 +138,6 @@ private enum LayoutConstants {
 
 private enum TextConstants {
     static let schedule = "Schedule"
+    static let editIcon = "pencil"
     static let plusIcon = "plus"
 }
