@@ -7,6 +7,10 @@
 
 import UIKit
 
+/// Map Camera를 제어하기 위한 뷰
+/// - previousButton: 이전 좌표로 카메라 이동
+/// - centerButton: 중심으로 카메라 이동
+/// - nextButton: 다음 좌표로 카메라 이동
 final class MapButtonSetView: UIView {
     private enum ButtonStyle {
         case leftImage

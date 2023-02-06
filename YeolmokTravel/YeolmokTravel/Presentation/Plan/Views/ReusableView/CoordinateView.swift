@@ -7,6 +7,10 @@
 
 import UIKit
 
+/// 좌표값 관련 뷰
+/// - 위도 입력 텍스트필드
+/// - 경도 입력 텍스트필드
+/// - Map을 보여줄 버튼
 final class CoordinateView: UIView {
     // MARK: - Properties
     let latitudeTextField: UITextField = {

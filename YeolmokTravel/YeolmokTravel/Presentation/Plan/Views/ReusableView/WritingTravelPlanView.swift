@@ -7,6 +7,11 @@
 
 import UIKit
 
+/// WritingTravelPlanView의 상단 뷰
+/// - titleTextField: 제목
+/// - descriptionTextView: 상세
+/// - scheduleTitleLabel
+/// - addScheduleButton: 상세 일정 추가 버튼
 final class WritingTravelPlanView: UIView {
     // MARK: - Properties
     let titleTextField: UITextField = {
