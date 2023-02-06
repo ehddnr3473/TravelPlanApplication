@@ -251,8 +251,8 @@ private extension WritingScheduleViewController {
         
         if let fromDate = viewModel.modelFromDate, let toDate = viewModel.modelToDate {
             dateSwitch.isOn = true
-            fromDatePicker.isEnabled = true
-            toDatePicker.isEnabled = true
+            fromDatePicker.isValidAtBackgroundColor = true
+            toDatePicker.isValidAtBackgroundColor = true
             fromDatePicker.date = fromDate
             toDatePicker.date = toDate
         }
