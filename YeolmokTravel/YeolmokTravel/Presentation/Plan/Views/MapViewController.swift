@@ -17,7 +17,7 @@ struct AnnotatedCoordinate {
 final class MapViewController: UIViewController {
     // MARK: - Properties
     private var annotatedCoordinates: [AnnotatedCoordinate]
-    private lazy var coordinatePointer = -1
+    private lazy var coordinatePointer = PointerConstants.initialValue
     
     init(_ annotatedCoordinates: [AnnotatedCoordinate]) {
         self.annotatedCoordinates = annotatedCoordinates
@@ -75,7 +75,6 @@ extension MapViewController {
         for annotatedCoordinate in annotatedCoordinates {
             let annotation = MKPointAnnotation()
             annotation.coordinate = annotatedCoordinate.coordinate
-            annotation.title = annotatedCoordinate.title
             mapView.addAnnotation(annotation)
         }
     }
@@ -135,7 +134,11 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        nil
+        let annotationView = MKAnnotationView()
+        guard let order = findCoordinate(annotation.coordinate),
+                order <= CoordinateConstants.maximumNumberOfCoordinates else { return nil }
+        annotationView.image = createImage(order + 1)
+        return annotationView
     }
     
     func mapView(_ mapView: MKMapView, didDeselect annotation: MKAnnotation) {
@@ -145,18 +148,23 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
         animateCamera(to: annotation.coordinate)
     }
-}
-
-// MARK: - Pointer control
-extension MapViewController {
-    private func findPointer(_ coordinate: CLLocationCoordinate2D) -> Int? {
+    
+    private func findCoordinate(_ coordinate: CLLocationCoordinate2D) -> Int? {
         annotatedCoordinates.firstIndex {
             $0.coordinate.latitude == coordinate.latitude && $0.coordinate.longitude == coordinate.longitude
         }
     }
     
+    private func createImage(_ order: Int) -> UIImage? {
+        let iconName = "\(order).circle.fill"
+        return UIImage(systemName: iconName)
+    }
+}
+
+// MARK: - Pointer control
+extension MapViewController {
     func initalizePointer() {
-        coordinatePointer = -1
+        coordinatePointer = PointerConstants.initialValue
     }
     
     func increasePointer() {
@@ -180,6 +188,11 @@ private enum CoordinateConstants {
     static let mapSpan: CLLocationDegrees = 0.005
     static let littleSpan: CLLocationDegrees = 0.02
     static let pointSpan: CLLocationDistance = 300
+    static let maximumNumberOfCoordinates = 50
+}
+
+private enum PointerConstants {
+    static let initialValue = -1
 }
 
 private enum LayoutConstants {
