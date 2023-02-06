@@ -8,6 +8,10 @@
 import UIKit
 
 final class MapButtonSetView: UIView {
+    private enum ButtonStyle {
+        case leftImage
+        case rightImage
+    }
     // MARK: - Properties
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
@@ -17,10 +21,8 @@ final class MapButtonSetView: UIView {
         return stackView
     }()
     
-    let previousButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: TextConstants.previousIcon)?
-            .withTintColor(.black, renderingMode: .alwaysTemplate), for: .normal)
+    lazy var previousButton: UIButton = {
+        let button = createConfigurationButton(.leftImage)
         button.setTitle(TextConstants.previousTitle, for: .normal)
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.tintColor = .black
@@ -32,16 +34,14 @@ final class MapButtonSetView: UIView {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: TextConstants.centerIcon)?
             .withTintColor(.black, renderingMode: .alwaysTemplate), for: .normal)
-        button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.tintColor = .black
+        button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.backgroundColor = AppStyles.mainColor
         return button
     }()
     
-    let nextButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: TextConstants.nextIcon)?
-            .withTintColor(.black, renderingMode: .alwaysTemplate), for: .normal)
+    lazy var nextButton: UIButton = {
+        let button = createConfigurationButton(.rightImage)
         button.setTitle(TextConstants.nextTitle, for: .normal)
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.tintColor = .black
@@ -78,6 +78,22 @@ private extension MapButtonSetView {
             $0.top.leading.bottom.trailing.equalToSuperview()
         }
     }
+    
+    private func createConfigurationButton(_ buttonStyle: ButtonStyle) -> UIButton {
+        var configuration = UIButton.Configuration.plain()
+        switch buttonStyle {
+        case .leftImage:
+            configuration.image = UIImage(systemName: TextConstants.previousIcon)?
+                .withTintColor(.black, renderingMode: .alwaysTemplate)
+            configuration.imagePlacement = .leading
+        case .rightImage:
+            configuration.image = UIImage(systemName: TextConstants.nextIcon)?
+                .withTintColor(.black, renderingMode: .alwaysTemplate)
+            configuration.imagePlacement = .trailing
+        }
+        configuration.imagePadding = AppLayoutConstants.spacing
+        return UIButton(configuration: configuration)
+    }
 }
 
 private enum LayoutConstants {
@@ -85,7 +101,7 @@ private enum LayoutConstants {
 }
 
 private enum TextConstants {
-    static let previousTitle = "Previous"
+    static let previousTitle = "Pre"
     static let nextTitle = "Next"
     static let previousIcon = "arrow.left.circle.fill"
     static let centerIcon = "scope"
