@@ -88,6 +88,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         let mapViewController = MapViewController(viewModel.coordinatesOfSchedules())
         mapViewController.configureMapView()
         mapViewController.addAnnotation()
+        mapViewController.configure()
         return mapViewController
     }()
     
