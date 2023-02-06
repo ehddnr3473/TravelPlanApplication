@@ -381,6 +381,16 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		6BF15AC52990FE1D00C53BA9 /* ReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				6B84E460298CF60200EE83AB /* CoordinateView.swift */,
+				6BF15AC32990D13400C53BA9 /* MapButtonSetView.swift */,
+				6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanView.swift */,
+			);
+			path = ReusableView;
+			sourceTree = "<group>";
+		};
 		6BFB44FA296EF3E700AEAD77 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -422,14 +432,12 @@
 		6BFB44FE296EF43000AEAD77 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6BF15AC52990FE1D00C53BA9 /* ReusableView */,
 				6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */,
 				6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */,
 				6B37A4CE2951C30800BBB8EE /* PlanTableViewCell.swift */,
 				6B46FA3E295140E9000430C7 /* PlanView.swift */,
-				6B84E460298CF60200EE83AB /* CoordinateView.swift */,
 				6B77371D298D0E220038E9C8 /* MapViewController.swift */,
-				6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanView.swift */,
-				6BF15AC32990D13400C53BA9 /* MapButtonSetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
