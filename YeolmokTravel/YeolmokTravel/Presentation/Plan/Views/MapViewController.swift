@@ -9,18 +9,25 @@ import UIKit
 import MapKit
 import CoreLocation
 
-struct AnnotatedCoordinate {
-    let title: String
-    let coordinate: CLLocationCoordinate2D
+protocol Mappable: CameraControllable, AnyObject {
+    var mapView: MKMapView { get }
+    func configureMapView()
+    func updateMapView(_ coordinates: [CLLocationCoordinate2D])
+}
+
+protocol CameraControllable: AnyObject {
+    func initializePointer()
+    func increasePointer()
+    func decreasePointer()
 }
 
 final class MapViewController: UIViewController {
     // MARK: - Properties
-    private var annotatedCoordinates: [AnnotatedCoordinate]
+    private var coordinates: [CLLocationCoordinate2D]
     private lazy var coordinatePointer = PointerConstants.initialValue
     
-    init(_ annotatedCoordinates: [AnnotatedCoordinate]) {
-        self.annotatedCoordinates = annotatedCoordinates
+    init(_ coordinates: [CLLocationCoordinate2D]) {
+        self.coordinates = coordinates
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,9 +52,7 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(mapView)
-        configure()
-        animateCameraToCenter()
-        addAnnotation()
+        configureMapView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -56,12 +61,49 @@ final class MapViewController: UIViewController {
     }
 }
 
-extension MapViewController {
-    func updateCoordinates(_ annotatedCoordinates: [AnnotatedCoordinate]) {
-        self.annotatedCoordinates = annotatedCoordinates
+// MARK: - Mappable(Packaging)
+extension MapViewController: Mappable {
+    func configureMapView() {
+        configure()
+        animateCameraToCenter()
+        addAnnotation()
     }
     
-    func animateCameraToCenter() {
+    func updateMapView(_ coordinates: [CLLocationCoordinate2D]) {
+        removeAnnotation()
+        updateCoordinates(coordinates)
+        animateCameraToCenter()
+        addAnnotation()
+    }
+}
+
+// MARK: - CameraControllable(Packaging) / Pointer control
+extension MapViewController {
+    func initializePointer() {
+        coordinatePointer = PointerConstants.initialValue
+        animateCameraToCenter()
+    }
+    
+    private func updatePointer(_ coordinate: CLLocationCoordinate2D) {
+        guard let index = findCoordinate(coordinate) else { return }
+        coordinatePointer = index
+    }
+    
+    func increasePointer() {
+        coordinatePointer = (coordinatePointer + 1) % coordinates.count
+        animateCameraToPointer()
+    }
+    
+    func decreasePointer() {
+        if coordinatePointer <= 0 {
+            coordinatePointer = coordinates.count - 1
+        } else {
+            coordinatePointer = (coordinatePointer - 1) % coordinates.count
+        }
+        animateCameraToPointer()
+    }
+    
+    private func animateCameraToCenter() {
         UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) { [self] in
             guard let span = calculateSpan() else { return }
             mapView.region = MKCoordinateRegion(
@@ -71,10 +113,20 @@ extension MapViewController {
         }
     }
     
+    private func animateCameraToPointer() {
+        animateCamera(to: coordinates[coordinatePointer])
+    }
+}
+
+private extension MapViewController {
+    func updateCoordinates(_ coordinates: [CLLocationCoordinate2D]) {
+        self.coordinates = coordinates
+    }
+    
     @MainActor func addAnnotation() {
-        for annotatedCoordinate in annotatedCoordinates {
+        for coordinate in coordinates {
             let annotation = MKPointAnnotation()
-            annotation.coordinate = annotatedCoordinate.coordinate
+            annotation.coordinate = coordinate
             mapView.addAnnotation(annotation)
         }
     }
@@ -84,44 +136,44 @@ extension MapViewController {
     }
     
     // reduce
-    private func calculateCenter() -> CLLocationCoordinate2D {
+    func calculateCenter() -> CLLocationCoordinate2D {
         var latitude: CLLocationDegrees = 0
         var longitude: CLLocationDegrees = 0
         
-        for annotatedCoordinate in annotatedCoordinates {
-            latitude += annotatedCoordinate.coordinate.latitude
-            longitude += annotatedCoordinate.coordinate.longitude
+        for coordinate in coordinates {
+            latitude += coordinate.latitude
+            longitude += coordinate.longitude
         }
         
-        latitude /= Double(annotatedCoordinates.count)
-        longitude /= Double(annotatedCoordinates.count)
+        latitude /= Double(coordinates.count)
+        longitude /= Double(coordinates.count)
         
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
     // 최대 차이 + 조금
-    private func calculateSpan() -> MKCoordinateSpan? {
-        if annotatedCoordinates.count == 1 {
+    func calculateSpan() -> MKCoordinateSpan? {
+        if coordinates.count == 1 {
             return MKCoordinateSpan(
                 latitudeDelta: CoordinateConstants.mapSpan,
                 longitudeDelta: CoordinateConstants.mapSpan
             )
         }
         
-        guard let minLatitude = annotatedCoordinates.min(by: { $0.coordinate.latitude < $1.coordinate.latitude }) else { return nil }
-        guard let maxLatitude = annotatedCoordinates.max(by: { $0.coordinate.latitude < $1.coordinate.latitude }) else { return nil }
-        let latitudeGap = maxLatitude.coordinate.latitude - minLatitude.coordinate.latitude + CoordinateConstants.littleSpan
+        guard let minLatitude = coordinates.min(by: { $0.latitude < $1.latitude }) else { return nil }
+        guard let maxLatitude = coordinates.max(by: { $0.latitude < $1.latitude }) else { return nil }
+        let latitudeGap = maxLatitude.latitude - minLatitude.latitude + CoordinateConstants.littleSpan
         
-        guard let minLongitude = annotatedCoordinates.min(by: { $0.coordinate.longitude < $1.coordinate.longitude }) else { return nil }
-        guard let maxLongitude = annotatedCoordinates.max(by: { $0.coordinate.longitude < $1.coordinate.longitude }) else { return nil }
-        let longitudeGap = maxLongitude.coordinate.latitude - minLongitude.coordinate.latitude + CoordinateConstants.littleSpan
+        guard let minLongitude = coordinates.min(by: { $0.longitude < $1.longitude }) else { return nil }
+        guard let maxLongitude = coordinates.max(by: { $0.longitude < $1.longitude }) else { return nil }
+        let longitudeGap = maxLongitude.latitude - minLongitude.latitude + CoordinateConstants.littleSpan
         
         return MKCoordinateSpan(latitudeDelta: latitudeGap, longitudeDelta: longitudeGap)
     }
 }
 
 extension MapViewController: MKMapViewDelegate {
-    func configure() {
+    private func configure() {
         mapView.delegate = self
     }
     
@@ -135,7 +187,7 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView()
-        guard annotatedCoordinates.count > 1,
+        guard coordinates.count > 1,
                 let order = findCoordinate(annotation.coordinate),
                 order <= CoordinateConstants.maximumNumberOfCoordinates else { return nil }
         annotationView.image = createImage(order + 1)
@@ -148,40 +200,18 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
         animateCamera(to: annotation.coordinate)
+        updatePointer(annotation.coordinate)
     }
     
     private func findCoordinate(_ coordinate: CLLocationCoordinate2D) -> Int? {
-        annotatedCoordinates.firstIndex {
-            $0.coordinate.latitude == coordinate.latitude && $0.coordinate.longitude == coordinate.longitude
+        coordinates.firstIndex {
+            $0.latitude == coordinate.latitude && $0.longitude == coordinate.longitude
         }
     }
     
     private func createImage(_ order: Int) -> UIImage? {
         let iconName = "\(order).circle.fill"
         return UIImage(systemName: iconName)
-    }
-}
-
-// MARK: - Pointer control
-extension MapViewController {
-    func initalizePointer() {
-        coordinatePointer = PointerConstants.initialValue
-    }
-    
-    func increasePointer() {
-        coordinatePointer = (coordinatePointer + 1) % annotatedCoordinates.count
-    }
-    
-    func decreasePointer() {
-        if coordinatePointer <= 0 {
-            coordinatePointer = annotatedCoordinates.count - 1
-        } else {
-            coordinatePointer = (coordinatePointer - 1) % annotatedCoordinates.count
-        }
-    }
-    
-    func animateCameraToPointer() {
-        animateCamera(to: annotatedCoordinates[coordinatePointer].coordinate)
     }
 }
 
