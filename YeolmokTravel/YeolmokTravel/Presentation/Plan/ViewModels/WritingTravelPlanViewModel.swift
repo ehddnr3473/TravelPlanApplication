@@ -22,7 +22,7 @@ final class WritingTravelPlanViewModel {
     
     private var title: String
     private var description: String
-    private(set) var annotatedCoordinatesPublisher = PassthroughSubject<[AnnotatedCoordinate], Never>()
+    private(set) var coordinatesPublisher = PassthroughSubject<[CLLocationCoordinate2D], Never>()
     private var subscriptions = Set<AnyCancellable>()
     
     var modelTitle: String {
@@ -45,7 +45,7 @@ final class WritingTravelPlanViewModel {
         if schedulesCount == 0 {
             return AppLayoutConstants.writingTravelPlanViewHeight +
             Double(schedulesCount) * AppLayoutConstants.cellHeight +
-            AppLayoutConstants.largeSpacing * 2.0
+            AppLayoutConstants.largeSpacing * 2
         } else {
             return AppLayoutConstants.writingTravelPlanViewHeight +
             Double(schedulesCount) * AppLayoutConstants.cellHeight +
@@ -53,7 +53,7 @@ final class WritingTravelPlanViewModel {
             AppLayoutConstants.largeFontSize +
             AppLayoutConstants.spacing +
             AppLayoutConstants.buttonHeight +
-            AppLayoutConstants.largeSpacing * 3.0
+            AppLayoutConstants.largeSpacing * 3
         }
     }
     
@@ -74,30 +74,29 @@ final class WritingTravelPlanViewModel {
     
     func editSchedule(at index: Int, _ schedule: Schedule) {
         model.editSchedule(at: index, schedule)
-        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
+        coordinatesPublisher.send(coordinatesOfSchedules())
     }
     
     func addSchedule(_ schedule: Schedule) {
         model.addSchedule(schedule)
-        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
+        coordinatesPublisher.send(coordinatesOfSchedules())
     }
     
     func removeSchedule(at index: Int) {
         model.removeSchedule(at: index)
-        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
+        coordinatesPublisher.send(coordinatesOfSchedules())
     }
     
     func swapSchedules(at source: Int, to destination: Int) {
         model.swapSchedules(at: source, to: destination)
-        annotatedCoordinatesPublisher.send(coordinatesOfSchedules())
+        coordinatesPublisher.send(coordinatesOfSchedules())
     }
     
-    func coordinatesOfSchedules() -> [AnnotatedCoordinate] {
-        var coordinates = [AnnotatedCoordinate]()
+    func coordinatesOfSchedules() -> [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
         
         for schedule in schedules {
-            coordinates.append(AnnotatedCoordinate(title: schedule.title,
-                                                   coordinate: schedule.coordinate))
+            coordinates.append(schedule.coordinate)
         }
         
         return coordinates
