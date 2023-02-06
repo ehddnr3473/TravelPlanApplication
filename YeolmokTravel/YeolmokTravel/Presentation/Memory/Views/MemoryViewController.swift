@@ -8,7 +8,8 @@
 import UIKit
 import Combine
 
-final class MemoryView: UIViewController {
+/// Memories tab
+final class MemoryViewController: UIViewController {
     // MARK: - Properties
     private let viewModel: MemoryViewModel
     private let useCaseProvider: UseCaseProvider
@@ -58,7 +59,7 @@ final class MemoryView: UIViewController {
 }
 
 // MARK: - Configure View
-private extension MemoryView {
+private extension MemoryViewController {
     func configureView() {
         view.backgroundColor = .black
         configureHierarchy()
@@ -118,7 +119,7 @@ private extension MemoryView {
 }
 
 // MARK: - User Interacion
-private extension MemoryView {
+private extension MemoryViewController {
     @MainActor
     func reload() {
         memoriesCollectionView.reloadData()
@@ -145,7 +146,7 @@ private extension MemoryView {
 }
 
 // MARK: - CollectionView
-extension MemoryView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell, let model = viewModel.memory(indexPath.row) else { return UICollectionViewCell() }
@@ -163,7 +164,7 @@ protocol MemoryTransfer {
     func writingHandler(_ memory: Memory)
 }
 
-extension MemoryView: MemoryTransfer {
+extension MemoryViewController: MemoryTransfer {
     func writingHandler(_ memory: Memory) {
         viewModel.add(memory)
     }
