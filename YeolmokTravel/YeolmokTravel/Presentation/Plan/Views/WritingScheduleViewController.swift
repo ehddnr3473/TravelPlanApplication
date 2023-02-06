@@ -10,6 +10,7 @@ import Combine
 import CoreLocation
 
 /// 여행 계획 추가 및 수정을 위한 ViewController
+/// 위도와 경도를 텍스트필드에 입력하고 버튼을 눌러서 MKMapView로 확인할 수 있음.
 final class WritingScheduleViewController: UIViewController, Writable {
     typealias WritableModelType = Schedule
     // MARK: - Properties
@@ -338,9 +339,8 @@ private extension WritingScheduleViewController {
     }
     
     @objc func presentMap() {
-        let annotatedCoordinate = [AnnotatedCoordinate(title: viewModel.modelTitle,
-                                                       coordinate: viewModel.coordinate)]
-        let mapView = MapViewController(annotatedCoordinate)
+        let coordinates = [viewModel.coordinate]
+        let mapView = MapViewController(coordinates)
         navigationController?.pushViewController(mapView, animated: true)
     }
 }
