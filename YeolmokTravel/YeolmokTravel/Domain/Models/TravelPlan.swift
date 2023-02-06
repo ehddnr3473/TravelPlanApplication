@@ -89,6 +89,10 @@ struct TravelPlan: Plan {
     mutating func removeSchedule(at index: Int) {
         schedules.remove(at: index)
     }
+    
+    mutating func swapSchedules(at source: Int, to destination: Int) {
+        schedules.swapAt(source, destination)
+    }
 }
 
 extension TravelPlan: Model {
