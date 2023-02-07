@@ -53,33 +53,13 @@ struct TravelPlan: Plan {
     }
     
     mutating func setFromDate() {
-        let scheduleHavingMinFromDate = schedules.min { first, second in
-            if let first = first.fromDate, let second = second.fromDate {
-                return first < second
-            } else if let _ = first.fromDate {
-                return false
-            } else if let _ = second.fromDate {
-                return false
-            } else {
-                return true
-            }
-        }
-        fromDate = scheduleHavingMinFromDate?.fromDate
+        let fromDates = schedules.compactMap { $0.fromDate }
+        fromDate = fromDates.min()
     }
     
     mutating func setToDate() {
-        let scheduleHavingMaxToDate = schedules.max { first, second in
-            if let first = first.toDate, let second = second.toDate {
-                return first < second
-            } else if let _ = first.toDate {
-                return false
-            } else if let _ = second.toDate {
-                return false
-            } else {
-                return true
-            }
-        }
-        toDate = scheduleHavingMaxToDate?.toDate
+        let toDates = schedules.compactMap { $0.toDate }
+        toDate = toDates.max()
     }
     
     mutating func setTravelPlan(_ title: String, _ description: String) {
