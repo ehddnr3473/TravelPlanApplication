@@ -9,8 +9,8 @@ import UIKit
 import JGProgressHUD
 
 final class TabBarController: UITabBarController {
-    var planViewBuilder: PlanViewBuilder!
-    var memoryViewBuilder: MemoryViewBuilder!
+    var planViewBuilder: PlanViewBuilder?
+    var memoryViewBuilder: MemoryViewBuilder?
     
     private var indicatorView: JGProgressHUD? = {
         let headUpDisplay = JGProgressHUD()
@@ -50,19 +50,23 @@ private extension TabBarController {
     
     // 첫 번째 탭: Plans
     func setUpPlanView() async -> UINavigationController {
+        guard let planViewBuilder = planViewBuilder else { fatalError("planViewBuilder has not been injected.") }
         let navigationController = UINavigationController(rootViewController: await planViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
                                            tag: NumberConstants.first)
+        self.planViewBuilder = nil
         return navigationController
     }
     
     // 두 번째 탭: Memories
     func setUpMemoryView() async -> UINavigationController {
+        guard let memoryViewBuilder = memoryViewBuilder else { fatalError("memoryViewBuilder has not been injected.") }
         let navigationController = await UINavigationController(rootViewController: memoryViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
+        self.memoryViewBuilder = nil
         return navigationController
     }
 }
