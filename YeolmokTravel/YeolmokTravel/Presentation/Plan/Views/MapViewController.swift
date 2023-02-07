@@ -128,6 +128,10 @@ extension MapViewController {
         coordinatePointer = index
     }
     
+    /// 카메라 애니메이션
+    /// - Parameter animateCameraToPoint: 카메라를 특정 좌표로 이동하기 위한 메서드
+    /// 1. 중심으로 카메라 이동. 이때, completion == nil
+    /// 2. 중심으로 이동한 후, completion을 수행하여 (포인터를 활용해)특정 좌표로 카메라 이동
     private func animateCameraToCenter(completion animateCameraToPoint: (() -> Void)? = nil) {
         UIView.animate(withDuration: AnimationConstants.duration, delay: .zero, options: .curveEaseInOut, animations: { [self] in
             guard let span = calculateSpan() else { return }
