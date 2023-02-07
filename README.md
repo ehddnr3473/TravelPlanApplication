@@ -71,8 +71,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ## 뷰 및 동작
-### Plans 탭
-
+### Plans
 |메인|계획 수정|계획 수정 2|계획 추가|
 |---|---|---|---|
 |<image src="Document/plansTab.png" width="250">|<image src="Document/editPlan.png" width="250">|<image src="Document/editPlan2.png" width="250">|<image src="Document/newPlan.png" width="250">|
@@ -97,10 +96,11 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-### Memories 탭 - 추억이 담긴 사진 업로드
+### Memories
 <p align="center">
- <img src="Document/memoriesTab.gif" width="25%">
+ <img src="Document/memoriesTab.gif" width="30%">
 </p>
 
-- 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage)
+- 추억이 담긴 사진 업로드 및 다운로드
+- Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage)
 - **Memory**탭 초기 진입 시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
