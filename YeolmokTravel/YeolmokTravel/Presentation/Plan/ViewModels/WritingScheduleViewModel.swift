@@ -127,6 +127,8 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     // UISwitch
     struct SwitchInput {
         let switchIsOnPublisher: AnyPublisher<Bool, Never>
+        let initialFromDate: Date
+        let initialToDate: Date
     }
     
     struct SwitchOutput {
@@ -185,6 +187,8 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
         let datePickerStatePublisher = input.switchIsOnPublisher
             .map { [weak self] in
                 if $0 {
+                    self?.fromDate = input.initialFromDate
+                    self?.toDate = input.initialToDate
                     return true
                 } else {
                     self?.fromDate = nil

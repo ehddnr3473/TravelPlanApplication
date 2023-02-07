@@ -320,7 +320,9 @@ private extension WritingScheduleViewController {
     }
     
     func bindingSwitch() {
-        let input = WritingScheduleViewModel.SwitchInput(switchIsOnPublisher: dateSwitch.isOnPublisher)
+        let input = WritingScheduleViewModel.SwitchInput(switchIsOnPublisher: dateSwitch.isOnPublisher,
+                                                         initialFromDate: fromDatePicker.date,
+                                                         initialToDate: toDatePicker.date)
         let output = viewModel.transform(input)
         
         output.datePickerStatePublisher
