@@ -56,7 +56,7 @@ final class CoordinateView: UIView {
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.layer.borderColor = UIColor.systemGray.cgColor
-        button.backgroundColor = .systemGreen
+        button.backgroundColor = AppStyles.mainColor
         return button
     }()
     

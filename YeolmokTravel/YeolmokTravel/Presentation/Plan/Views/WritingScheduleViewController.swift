@@ -88,47 +88,39 @@ final class WritingScheduleViewController: UIViewController, Writable {
     
     private let fromLabel: UILabel = {
         let label = UILabel()
-        
         label.text = TextConstants.from
         label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         label.textAlignment = .center
         label.textColor = .white
-        
         return label
     }()
     
     private let fromDatePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
-        datePicker.tintColor = .systemGreen
+        datePicker.tintColor = AppStyles.mainColor
         datePicker.backgroundColor = .systemGray
         datePicker.isEnabled = false
-        
         return datePicker
     }()
     
     private let toLabel: UILabel = {
         let label = UILabel()
-        
         label.text = TextConstants.to
         label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         label.textAlignment = .center
         label.textColor = .white
-        
         return label
     }()
     
     private let toDatePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
-        
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
-        datePicker.tintColor = .systemGreen
+        datePicker.tintColor = AppStyles.mainColor
         datePicker.backgroundColor = .systemGray
         datePicker.isEnabled = false
-        
         return datePicker
     }()
     
