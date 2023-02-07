@@ -16,15 +16,19 @@ protocol Mappable: CameraControllable, AnyObject {
 }
 
 protocol CameraControllable: AnyObject {
-    func initializePointer()
-    func increasePointer()
-    func decreasePointer()
+    func animateCameraToPreviousPoint()
+    func animateCameraToCenterPoint()
+    func animateCameraToNextPoint()
 }
 
 final class MapViewController: UIViewController {
     // MARK: - Properties
     private var coordinates: [CLLocationCoordinate2D]
     private lazy var coordinatePointer = PointerConstants.initialValue
+    
+    private var inRange: Bool {
+        -1 < coordinatePointer && coordinatePointer < coordinates.count
+    }
     
     init(_ coordinates: [CLLocationCoordinate2D]) {
         self.coordinates = coordinates
@@ -79,9 +83,44 @@ extension MapViewController: Mappable {
 
 // MARK: - CameraControllable(Packaging) / Pointer control
 extension MapViewController {
-    func initializePointer() {
-        coordinatePointer = PointerConstants.initialValue
+    func animateCameraToPreviousPoint() {
+        decreasePointer()
+        animateCameraToCenter(completion: animateCameraToPoint)
+    }
+    
+    func animateCameraToCenterPoint() {
+        initializePointer()
         animateCameraToCenter()
+    }
+    
+    func animateCameraToNextPoint() {
+        increasePointer()
+        animateCameraToCenter(completion: animateCameraToPoint)
+    }
+    
+    private func animateCameraToPoint() {
+        UIView.animate(withDuration: AnimationConstants.duration, delay: .zero, options: .curveEaseInOut) { [self] in
+            guard inRange else { return }
+            mapView.region = MKCoordinateRegion(center: coordinates[coordinatePointer],
+                                                      latitudinalMeters: CoordinateConstants.pointSpan,
+                                                      longitudinalMeters: CoordinateConstants.pointSpan)
+        }
+    }
+    
+    private func decreasePointer() {
+        if coordinatePointer <= 0 {
+            coordinatePointer = coordinates.count - 1
+        } else {
+            coordinatePointer = (coordinatePointer - 1) % coordinates.count
+        }
+    }
+    
+    private func initializePointer() {
+        coordinatePointer = PointerConstants.initialValue
+    }
+    
+    private func increasePointer() {
+        coordinatePointer = (coordinatePointer + 1) % coordinates.count
     }
     
     private func updatePointer(_ coordinate: CLLocationCoordinate2D) {
@@ -89,32 +128,17 @@ extension MapViewController {
         coordinatePointer = index
     }
     
-    func increasePointer() {
-        coordinatePointer = (coordinatePointer + 1) % coordinates.count
-        animateCameraToPointer()
-    }
-    
-    func decreasePointer() {
-        if coordinatePointer <= 0 {
-            coordinatePointer = coordinates.count - 1
-        } else {
-            coordinatePointer = (coordinatePointer - 1) % coordinates.count
-        }
-        animateCameraToPointer()
-    }
-    
-    private func animateCameraToCenter() {
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) { [self] in
+    private func animateCameraToCenter(completion animateCameraToPoint: (() -> Void)? = nil) {
+        UIView.animate(withDuration: AnimationConstants.duration, delay: .zero, options: .curveEaseInOut, animations: { [self] in
             guard let span = calculateSpan() else { return }
             mapView.region = MKCoordinateRegion(
                 center: calculateCenter(),
                 span: span
             )
-        }
-    }
-    
-    private func animateCameraToPointer() {
-        animateCamera(to: coordinates[coordinatePointer])
+        }, completion: { _ in
+            guard let animateCameraToPoint = animateCameraToPoint else { return }
+            animateCameraToPoint()
+        })
     }
 }
 
@@ -179,14 +203,6 @@ extension MapViewController: MKMapViewDelegate {
         mapView.delegate = self
     }
     
-    func animateCamera(to coordinate: CLLocationCoordinate2D) {
-        UIView.animate(withDuration: 1, delay: 0, options: .curveEaseInOut) { [self] in
-            mapView.region = MKCoordinateRegion(center: coordinate,
-                                                      latitudinalMeters: CoordinateConstants.pointSpan,
-                                                      longitudinalMeters: CoordinateConstants.pointSpan)
-        }
-    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView()
         guard coordinates.count > 1,
@@ -201,8 +217,8 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-        animateCamera(to: annotation.coordinate)
         updatePointer(annotation.coordinate)
+        animateCameraToPoint()
     }
     
     private func findCoordinate(_ coordinate: CLLocationCoordinate2D) -> Int? {
@@ -232,4 +248,8 @@ private enum PointerConstants {
 
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 10
+}
+
+private enum AnimationConstants {
+    static let duration: TimeInterval = 1.5
 }
