@@ -317,19 +317,19 @@ private extension WritingTravelPlanViewController {
         navigationController?.pushViewController(setUpWritingView(.add), animated: true)
     }
     
+    // 이전 좌표로 카메라 이동
     @objc func touchUpPreviousButton() {
-        // 이전 좌표로 카메라 이동
-        mapProvider.decreasePointer()
+        mapProvider.animateCameraToPreviousPoint()
     }
     
-    @objc func touchUpNextButton() {
-        // 다음 좌표로 카메라 이동
-        mapProvider.increasePointer()
-    }
-    
+    // 중심으로 카메라 이동
     @objc func touchUpCenterButton() {
-        // 중심으로 카메라 이동
-        mapProvider.initializePointer()
+        mapProvider.animateCameraToCenterPoint()
+    }
+    
+    // 다음 좌표로 카메라 이동
+    @objc func touchUpNextButton() {
+        mapProvider.animateCameraToNextPoint()
     }
     
     @objc func touchUpEditButton() {
