@@ -28,6 +28,7 @@ final class TabBarController: UITabBarController {
         Task {
             await setUp()
             dismissIndicator()
+            deallocate()
         }
     }
 }
@@ -55,7 +56,6 @@ private extension TabBarController {
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
                                            tag: NumberConstants.first)
-        self.planViewBuilder = nil
         return navigationController
     }
     
@@ -66,8 +66,13 @@ private extension TabBarController {
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
-        self.memoryViewBuilder = nil
         return navigationController
+    }
+    
+    func deallocate() {
+        planViewBuilder = nil
+        memoryViewBuilder = nil
+        indicatorView = nil
     }
 }
 
@@ -81,7 +86,6 @@ private extension TabBarController {
     func dismissIndicator() {
         guard let indicatorView = indicatorView else { return }
         indicatorView.dismiss(animated: true)
-        self.indicatorView = nil
     }
 }
 
