@@ -71,14 +71,36 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ## 뷰 및 동작
-### Plans 탭 - 여행 계획 작성
+### Plans 탭
 
-- 모달 및 내비게이션 기능을 적절히 사용하여 View hierarchy 이동
-- 콘텐츠를 수정 및 추가할 때, 변경사항을 추적하여 공지함.
+|메인|계획 수정|계획 수정 2|계획 추가|
+|---|---|---|---|
+|<image src="Document/plansTab.png" width="250">|<image src="Document/editPlan.png" width="250">|<image src="Document/editPlan2.png" width="250">|<image src="Document/newPlan.png" width="250">|
+
+- 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
+- 상세 일정의 내용을 취합하여 보여줌.
+
+
+<br></br>
+|상세 일정 추가|상세 일정 수정|변경 사항 추적|
+|---|---|---|
+|<image src="Document/newSchedule.png" width="250">|<image src="Document/editSchedule.png" width="250">|<image src="Document/cancel.png" width="250">|
+
+- 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌
+
+
+<br></br>
+### MapKit과 애니메이션
+|MKHybridMapConfiguration|카메라 애니메이션|상세 일정 순서 수정|
+|---|---|---|
+|<image src="Document/MKHybridMapConfiguration.png" width="250">|<image src="Document/nextAnimation.gif" width="250">|<image src="Document/editOrder.gif" width="250">|
 
 
 <br></br>
 ### Memories 탭 - 추억이 담긴 사진 업로드
+<p align="center">
+ <img src="Document/memoriesTab.gif" width="25%">
+</p>
 
-- 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage). 
+- 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage).
 - **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
