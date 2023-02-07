@@ -47,7 +47,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 </p>
 
 - MVVM 아키텍처 패턴을 기반으로 Presentation layer, Domain layer, Data layer로 나눔.
-- Clean Architecture의 핵심은 계층을 나누고 의존성 정책을 정의하여 그것을 지키는 것이라고 생각함. 올바른 의존성 정책에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있음.
+- Clean Architecture의 핵심은 계층을 나누고 의존성 정책을 정의하여 그것을 지키는 것이며 올바른 의존성 정책에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있다고 생각하였음.
 
 
 <br></br>
@@ -56,7 +56,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
  <img src="/Document/UseCase.png" height=300>
 </p>
 
-- Use case는 애플리케이션의 핵심 비즈니스 로직을 포함.
+- Use case는 애플리케이션의 핵심 비즈니스 로직을 포함
 - 각 Use case는 데이터 포맷을 정의하여 Repository와 데이터를 주고받거나, 데이터 모델을 조작하는 로직을 최소한의 단위로 캡슐화함.
 
 
@@ -67,7 +67,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 </p>
 
 - 의존성은 **Presentation layer -> Domain layer -> Data layer**와 같이 안쪽으로 향하되, 계층의 경계마다 Plug Point 인터페이스(프로토콜)를 두고 코드의 의존성을 역전시킴.
-- **독립적으로 확장 및 유지보수가 가능.** 예를 들어, 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의된 Repository 인터페이스를 청사진으로 삼아 확장하고 연결해주기만 하면 되도록 구성.
+- **독립적으로 확장 및 유지보수가 가능.** 예를 들어, 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의된 Repository 인터페이스를 청사진으로 삼아 확장하고 연결해주기만 하면 되도록 구성
 
 <br></br>
 ## 뷰 및 동작
@@ -78,7 +78,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 |<image src="Document/plansTab.png" width="250">|<image src="Document/editPlan.png" width="250">|<image src="Document/editPlan2.png" width="250">|<image src="Document/newPlan.png" width="250">|
 
 - 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
-- 상세 일정의 내용을 취합하여 보여줌.
+- 따라서 Plan은 상세 일정의 내용을 취합하여 보여줌.
 
 
 <br></br>
@@ -86,7 +86,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 |---|---|---|
 |<image src="Document/newSchedule.png" width="250">|<image src="Document/editSchedule.png" width="250">|<image src="Document/cancel.png" width="250">|
 
-- 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌
+- 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌.
 
 
 <br></br>
@@ -102,5 +102,5 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
  <img src="Document/memoriesTab.gif" width="25%">
 </p>
 
-- 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage).
-- **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
+- 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage)
+- **Memory**탭 초기 진입 시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
