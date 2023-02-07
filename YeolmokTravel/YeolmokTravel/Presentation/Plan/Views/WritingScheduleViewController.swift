@@ -389,7 +389,7 @@ private enum LayoutConstants {
 }
 
 private enum TextConstants {
-    static let schedule = "Schedules"
+    static let schedule = "Schedule"
     static let from = "From"
     static let to = "To"
 }
