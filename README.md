@@ -51,13 +51,13 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-### UseCase
+### Use case
 <p align="center">
  <img src="/Document/UseCase.png" height=300>
 </p>
 
-- UseCase는 애플리케이션의 핵심 비즈니스 로직을 포함.
-- 각 UseCase는 데이터 포맷을 정의하여 Repository와 데이터를 주고받거나, 데이터 모델을 조작하는 로직을 최소한의 단위로 캡슐화함.
+- Use case는 애플리케이션의 핵심 비즈니스 로직을 포함.
+- 각 Use case는 데이터 포맷을 정의하여 Repository와 데이터를 주고받거나, 데이터 모델을 조작하는 로직을 최소한의 단위로 캡슐화함.
 
 
 <br></br>
@@ -79,11 +79,6 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ### Memories 탭 - 추억이 담긴 사진 업로드
-<p align="center">
- <img src="/Document/Simulator Recording.gif" width="25%">
- <img src="/Document/cancel.png" width="25%">
- <img src="/Document/new memory.png" width="25%">
-</p>
 
 - 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage). 
 - **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
