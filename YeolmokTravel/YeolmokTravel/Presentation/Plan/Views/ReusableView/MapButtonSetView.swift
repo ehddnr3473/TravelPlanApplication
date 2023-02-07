@@ -25,14 +25,7 @@ final class MapButtonSetView: UIView {
         return stackView
     }()
     
-    lazy var previousButton: UIButton = {
-        let button = createConfigurationButton(.leftImage)
-        button.setTitle(TextConstants.previousTitle, for: .normal)
-        button.layer.cornerRadius = LayoutConstants.cornerRadius
-        button.tintColor = .black
-        button.backgroundColor = AppStyles.mainColor
-        return button
-    }()
+    lazy var previousButton = createConfigurationButton(.leftImage)
     
     let centerButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -44,14 +37,7 @@ final class MapButtonSetView: UIView {
         return button
     }()
     
-    lazy var nextButton: UIButton = {
-        let button = createConfigurationButton(.rightImage)
-        button.setTitle(TextConstants.nextTitle, for: .normal)
-        button.layer.cornerRadius = LayoutConstants.cornerRadius
-        button.tintColor = .black
-        button.backgroundColor = AppStyles.mainColor
-        return button
-    }()
+    lazy var nextButton = createConfigurationButton(.rightImage)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,24 +70,35 @@ private extension MapButtonSetView {
     }
     
     private func createConfigurationButton(_ buttonStyle: ButtonStyle) -> UIButton {
+        var container = AttributeContainer()
+        container.font = .systemFont(ofSize: LayoutConstants.buttonFontSize)
+        
         var configuration = UIButton.Configuration.plain()
         switch buttonStyle {
         case .leftImage:
+            configuration.attributedTitle = AttributedString(TextConstants.previousTitle, attributes: container)
             configuration.image = UIImage(systemName: TextConstants.previousIcon)?
                 .withTintColor(.black, renderingMode: .alwaysTemplate)
             configuration.imagePlacement = .leading
         case .rightImage:
+            configuration.attributedTitle = AttributedString(TextConstants.nextTitle, attributes: container)
             configuration.image = UIImage(systemName: TextConstants.nextIcon)?
                 .withTintColor(.black, renderingMode: .alwaysTemplate)
             configuration.imagePlacement = .trailing
         }
         configuration.imagePadding = AppLayoutConstants.spacing
-        return UIButton(configuration: configuration)
+        
+        let button = UIButton(configuration: configuration)
+        button.tintColor = .black
+        button.layer.cornerRadius = LayoutConstants.cornerRadius
+        button.backgroundColor = AppStyles.mainColor
+        return button
     }
 }
 
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 8
+    static let buttonFontSize: CGFloat = 20
 }
 
 private enum TextConstants {
