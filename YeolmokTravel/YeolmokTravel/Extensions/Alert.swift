@@ -38,4 +38,5 @@ enum AlertText {
     static let fromDateErrorMessage = "From 날짜를 선택해주세요."
     static let toDateErrorMessage = "To 날짜를 선택해주세요."
     static let nilImageMessage = "사진을 선택해주세요."
+    static let coordinateErrorMessage = "0이 아닌 좌표값을 입력해주세요."
 }
