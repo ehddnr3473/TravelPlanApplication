@@ -1,9 +1,12 @@
 ### Xcode ###
+
 ## User settings
 xcuserdata/
 *.xcuserstate
-*.DS_Store
 GoogleService-Info.plist
+
+### folder meta data ###
+*.DS_Store
 
 ## Xcode 8 and earlier
 *.xcscmblueprint
