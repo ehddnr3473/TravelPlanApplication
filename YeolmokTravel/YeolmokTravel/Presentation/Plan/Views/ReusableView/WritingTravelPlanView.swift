@@ -17,7 +17,7 @@ final class WritingTravelPlanView: UIView {
     let titleTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
-        textField.backgroundColor = .black
+        textField.backgroundColor = .systemBackground
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -36,7 +36,7 @@ final class WritingTravelPlanView: UIView {
     let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .white
-        textView.backgroundColor = .black
+        textView.backgroundColor = .systemBackground
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor

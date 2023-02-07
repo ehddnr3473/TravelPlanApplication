@@ -45,7 +45,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
-        textField.backgroundColor = .black
+        textField.backgroundColor = .systemBackground
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -64,7 +64,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     private let descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .white
-        textView.backgroundColor = .black
+        textView.backgroundColor = .systemBackground
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor
@@ -126,7 +126,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     
     private let coordinateView: CoordinateView = {
         let coordinateView = CoordinateView()
-        coordinateView.backgroundColor = .black
+        coordinateView.backgroundColor = .systemBackground
         return coordinateView
     }()
     
@@ -141,7 +141,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
 // MARK: - Configure View
 private extension WritingScheduleViewController {
     func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)

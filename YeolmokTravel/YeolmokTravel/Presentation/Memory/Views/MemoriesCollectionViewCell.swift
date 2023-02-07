@@ -17,7 +17,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
     
     var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .black
+        imageView.backgroundColor = .systemBackground
         return imageView
     }()
     

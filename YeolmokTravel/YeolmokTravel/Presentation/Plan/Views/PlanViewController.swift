@@ -53,7 +53,7 @@ final class PlanViewController: UIViewController {
         let tableView = UITableView()
         tableView.register(PlanTableViewCell.self,
                            forCellReuseIdentifier: PlanTableViewCell.identifier)
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
@@ -72,7 +72,7 @@ final class PlanViewController: UIViewController {
 // MARK: - Configure View
 private extension PlanViewController {
     private func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         configureHierarchy()
         configureLayoutConstraint()
     }

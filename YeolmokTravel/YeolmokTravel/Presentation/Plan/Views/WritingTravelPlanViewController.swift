@@ -61,7 +61,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private let writingTravelPlanView: WritingTravelPlanView = {
         let writingTravelPlanView = WritingTravelPlanView()
-        writingTravelPlanView.backgroundColor = .black
+        writingTravelPlanView.backgroundColor = .systemBackground
         return writingTravelPlanView
     }()
     
@@ -69,7 +69,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         let tableView = UITableView()
         tableView.register(PlanTableViewCell.self,
                            forCellReuseIdentifier: PlanTableViewCell.identifier)
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
         tableView.layer.borderColor = UIColor.white.cgColor
@@ -104,7 +104,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
 // MARK: - Configure View
 private extension WritingTravelPlanViewController {
     func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.plan)"
         configureHierarchy()
         configureLayoutConstraint()

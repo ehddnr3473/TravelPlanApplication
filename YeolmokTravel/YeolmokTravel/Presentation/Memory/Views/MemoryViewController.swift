@@ -45,7 +45,7 @@ final class MemoryViewController: UIViewController {
     private lazy var memoriesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         collectionView.register(MemoriesCollectionViewCell.self, forCellWithReuseIdentifier: MemoriesCollectionViewCell.identifier)
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = .systemBackground
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
@@ -61,7 +61,7 @@ final class MemoryViewController: UIViewController {
 // MARK: - Configure View
 private extension MemoryViewController {
     func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         configureHierarchy()
         configureLayoutConstraint()
     }

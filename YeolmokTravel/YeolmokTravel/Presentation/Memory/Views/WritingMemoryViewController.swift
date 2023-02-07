@@ -29,7 +29,7 @@ final class WritingMemoryViewController: UIViewController {
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
-        textField.backgroundColor = .black
+        textField.backgroundColor = .systemBackground
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -63,9 +63,9 @@ final class WritingMemoryViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
         button.setTitle(TextConstants.phPickerButtonTitle, for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.systemBackground, for: .normal)
         button.backgroundColor = AppStyles.mainColor
-        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderColor = UIColor.systemBackground.cgColor
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         return button
     }()
@@ -74,9 +74,9 @@ final class WritingMemoryViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(touchUpDeleteButton), for: .touchUpInside)
         button.setTitle(TextConstants.deleteButtonTitle, for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.systemBackground, for: .normal)
         button.backgroundColor = .systemGray
-        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderColor = UIColor.systemBackground.cgColor
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         return button
     }()
@@ -98,7 +98,7 @@ final class WritingMemoryViewController: UIViewController {
 // MARK: - Configure View
 extension WritingMemoryViewController {
     func configureView() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemBackground
         configureHierarchy()
         configureLayoutConstraint()
     }

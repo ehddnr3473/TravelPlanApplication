@@ -16,7 +16,7 @@ final class CoordinateView: UIView {
     let latitudeTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
-        textField.backgroundColor = .black
+        textField.backgroundColor = .systemBackground
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -35,7 +35,7 @@ final class CoordinateView: UIView {
     let longitudeTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
-        textField.backgroundColor = .black
+        textField.backgroundColor = .systemBackground
         textField.layer.cornerRadius = LayoutConstants.cornerRadius
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
@@ -52,7 +52,7 @@ final class CoordinateView: UIView {
     
     lazy var mapButton: UIButton = {
         let button = createConfigurationButton()
-        button.tintColor = .black
+        button.tintColor = .systemBackground
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         button.layer.borderColor = UIColor.systemGray.cgColor
@@ -114,7 +114,7 @@ private extension CoordinateView {
         configuration.attributedTitle = AttributedString(TextConstants.buttonTitle, attributes: container)
         
         configuration.image = UIImage(systemName: TextConstants.mapIcon)?
-            .withTintColor(.black, renderingMode: .alwaysTemplate)
+            .withTintColor(.systemBackground, renderingMode: .alwaysTemplate)
         configuration.imagePlacement = .leading
         configuration.imagePadding = AppLayoutConstants.spacing
         return UIButton(configuration: configuration)

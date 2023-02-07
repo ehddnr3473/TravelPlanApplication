@@ -14,10 +14,17 @@ final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTabBar()
+        showIndicatorView()
         Task { await setUp() }
     }
     
-    // 파이어베이스 데이터 연동 성공/실패 유무와 상관없이 progress indicator 프레젠테이션
+    private func configureTabBar() {
+        tabBar.barTintColor = .systemBackground
+        tabBar.tintColor = AppStyles.mainColor
+        tabBar.unselectedItemTintColor = .systemGray
+    }
+    
     private func showIndicatorView() {
         let hud = JGProgressHUD()
         hud.textLabel.text = "Loading"
@@ -27,15 +34,11 @@ final class TabBarController: UITabBarController {
     }
     
     private func setUp() async {
-        showIndicatorView()
         let travelPlanView = await setUpPlanView()
         let memoryView = await setUpMemoryView()
         
         viewControllers = [travelPlanView, memoryView]
         setViewControllers(viewControllers, animated: true)
-        
-        tabBar.tintColor = AppStyles.mainColor
-        tabBar.unselectedItemTintColor = .systemGray
     }
     
     // 첫 번째 탭: Plans

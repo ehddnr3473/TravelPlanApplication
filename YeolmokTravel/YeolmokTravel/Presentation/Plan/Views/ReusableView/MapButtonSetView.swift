@@ -30,8 +30,8 @@ final class MapButtonSetView: UIView {
     let centerButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: TextConstants.centerIcon)?
-            .withTintColor(.black, renderingMode: .alwaysTemplate), for: .normal)
-        button.tintColor = .black
+            .withTintColor(.systemBackground, renderingMode: .alwaysTemplate), for: .normal)
+        button.tintColor = .systemBackground
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.backgroundColor = AppStyles.mainColor
         return button
@@ -78,18 +78,18 @@ private extension MapButtonSetView {
         case .leftImage:
             configuration.attributedTitle = AttributedString(TextConstants.previousTitle, attributes: container)
             configuration.image = UIImage(systemName: TextConstants.previousIcon)?
-                .withTintColor(.black, renderingMode: .alwaysTemplate)
+                .withTintColor(.systemBackground, renderingMode: .alwaysTemplate)
             configuration.imagePlacement = .leading
         case .rightImage:
             configuration.attributedTitle = AttributedString(TextConstants.nextTitle, attributes: container)
             configuration.image = UIImage(systemName: TextConstants.nextIcon)?
-                .withTintColor(.black, renderingMode: .alwaysTemplate)
+                .withTintColor(.systemBackground, renderingMode: .alwaysTemplate)
             configuration.imagePlacement = .trailing
         }
         configuration.imagePadding = AppLayoutConstants.spacing
         
         let button = UIButton(configuration: configuration)
-        button.tintColor = .black
+        button.tintColor = .systemBackground
         button.layer.cornerRadius = LayoutConstants.cornerRadius
         button.backgroundColor = AppStyles.mainColor
         return button
