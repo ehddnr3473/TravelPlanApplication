@@ -10,7 +10,7 @@ import Combine
 import UIKit
 
 protocol ImageLoadable: AnyObject {
-    // output
+    // Output
     var publisher: PassthroughSubject<UIImage, Never> { get set }
     var title: String { get }
     var index: Int { get }
