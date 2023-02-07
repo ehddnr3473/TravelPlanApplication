@@ -53,8 +53,8 @@ final class CoordinateView: UIView {
     lazy var mapButton: UIButton = {
         let button = createConfigurationButton()
         button.tintColor = .black
-        button.layer.borderWidth = AppLayoutConstants.borderWidth
         button.layer.cornerRadius = LayoutConstants.cornerRadius
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.backgroundColor = AppStyles.mainColor
         return button
