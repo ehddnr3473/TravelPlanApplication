@@ -287,6 +287,8 @@ private extension WritingScheduleViewController {
                 alertWillAppear(AlertText.fromDateErrorMessage)
             case .toDateError:
                 alertWillAppear(AlertText.toDateErrorMessage)
+            case .coordinateError:
+                alertWillAppear(AlertText.coordinateErrorMessage)
             }
             return false
         }

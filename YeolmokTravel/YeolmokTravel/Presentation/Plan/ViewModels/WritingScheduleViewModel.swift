@@ -91,6 +91,8 @@ final class WritingScheduleViewModel {
             throw ScheduleError.fromDateError
         } else if fromDate != nil && toDate == nil {
             throw ScheduleError.toDateError
+        } else if coordinate.latitude == 0 && coordinate.longitude == 0 {
+            throw ScheduleError.coordinateError
         } else {
             model.setSchedule(title, description, coordinate, fromDate, toDate)
         }
@@ -218,4 +220,5 @@ enum ScheduleError: Error {
     case preToDateError
     case fromDateError
     case toDateError
+    case coordinateError
 }
