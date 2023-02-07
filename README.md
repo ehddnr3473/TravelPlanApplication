@@ -71,13 +71,19 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ## 뷰 및 동작
+### Plans 탭 - 여행 계획 작성
+
+- 모달 및 내비게이션 기능을 적절히 사용하여 View hierarchy 이동
+- 콘텐츠를 수정 및 추가할 때, 변경사항을 추적하여 공지함.
+
+
+<br></br>
+### Memories 탭 - 추억이 담긴 사진 업로드
 <p align="center">
  <img src="/Document/Simulator Recording.gif" width="25%">
  <img src="/Document/cancel.png" width="25%">
  <img src="/Document/new memory.png" width="25%">
 </p>
 
-- 내비게이션 및 모달 기능을 적절히 사용하여 View Hierarchy 이동
-- 콘텐츠를 수정 및 추가할 때, 변경사항을 추적하여 공지함.
 - 사진 불러오기: Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage). 
 - **Memory**탭 초기 진입시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
