@@ -90,9 +90,9 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ### MapKit과 애니메이션
-|HybridMap|Dark mode|카메라 애니메이션|상세 일정 순서 수정|
+|HybridMap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Dark mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|카메라 애니메이션|상세 일정 순서 수정|
 |---|---|---|---|
-|<image src="Document/MKHybridMapConfiguration.png" width="220">|<image src="Document/darkmode.png" width="220">|<image src="Document/nextAnimation.gif" width="220">|<image src="Document/editOrder.gif" width="220">|
+|<image src="Document/MKHybridMapConfiguration.png" width="210">|<image src="Document/darkmode.png" width="210">|<image src="Document/nextAnimation.gif" width="210">|<image src="Document/editOrder.gif" width="210">|
 
 
 <br></br>
