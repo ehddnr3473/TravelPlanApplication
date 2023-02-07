@@ -34,8 +34,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 </p>
 
 - Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행
-- 원격 데이터 저장소로부터 데이터를 받아와서, 또는 콘텐츠를 작성하는 사용자 액션을 통해 **Model**을 업데이트
-
+- 콘텐츠를 작성하는 사용자 액션(UIControl event 발생)과 **ViewModel**의 데이터를 바인딩하고 저장할 때 **Model**을 업데이트
 
 <br></br>
 ## Clean Architecture
