@@ -12,28 +12,35 @@ final class TabBarController: UITabBarController {
     var planViewBuilder: PlanViewBuilder!
     var memoryViewBuilder: MemoryViewBuilder!
     
+    private var indicatorView: JGProgressHUD? = {
+        let headUpDisplay = JGProgressHUD()
+        headUpDisplay.textLabel.text = "Loading.."
+        headUpDisplay.detailTextLabel.text = "Please wait"
+        return headUpDisplay
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        startIndicator()
         configureTabBar()
-        showIndicatorView()
-        Task { await setUp() }
+        
+        Task {
+            await setUp()
+            dismissIndicator()
+        }
     }
-    
-    private func configureTabBar() {
+}
+
+// MARK: - Configure
+private extension TabBarController {
+    func configureTabBar() {
         tabBar.barTintColor = .systemBackground
         tabBar.tintColor = AppStyles.mainColor
         tabBar.unselectedItemTintColor = .systemGray
     }
     
-    private func showIndicatorView() {
-        let hud = JGProgressHUD()
-        hud.textLabel.text = "Loading"
-        hud.detailTextLabel.text = "Please wait"
-        hud.show(in: view)
-        hud.dismiss(afterDelay: 1)
-    }
-    
-    private func setUp() async {
+    func setUp() async {
         let travelPlanView = await setUpPlanView()
         let memoryView = await setUpMemoryView()
         
@@ -42,7 +49,7 @@ final class TabBarController: UITabBarController {
     }
     
     // 첫 번째 탭: Plans
-    private func setUpPlanView() async -> UINavigationController {
+    func setUpPlanView() async -> UINavigationController {
         let navigationController = UINavigationController(rootViewController: await planViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
@@ -51,12 +58,26 @@ final class TabBarController: UITabBarController {
     }
     
     // 두 번째 탭: Memories
-    private func setUpMemoryView() async -> UINavigationController {
+    func setUpMemoryView() async -> UINavigationController {
         let navigationController = await UINavigationController(rootViewController: memoryViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
         return navigationController
+    }
+}
+
+// MARK: - Indicator
+private extension TabBarController {
+    func startIndicator() {
+        guard let indicatorView = indicatorView else { return }
+        indicatorView.show(in: view)
+    }
+    
+    func dismissIndicator() {
+        guard let indicatorView = indicatorView else { return }
+        indicatorView.dismiss(animated: true)
+        self.indicatorView = nil
     }
 }
 
