@@ -351,8 +351,8 @@ private extension WritingTravelPlanViewController {
         }
         
         let input = WritingTravelPlanViewModel.TextInput(
-            title: writingTravelPlanView.titleTextField.textPublisher,
-            description: descriptionTextPublisher
+            titlePublisher: writingTravelPlanView.titleTextField.textPublisher,
+            descriptionPublisher: descriptionTextPublisher
         )
         
         let output = viewModel.transform(input: input)

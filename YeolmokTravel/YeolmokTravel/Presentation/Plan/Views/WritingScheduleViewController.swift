@@ -314,8 +314,8 @@ private extension WritingScheduleViewController {
     }
     
     func bindingText() {
-        let input = WritingScheduleViewModel.TextInput(title: titleTextField.textPublisher,
-                                                       description: descriptionTextPublisher)
+        let input = WritingScheduleViewModel.TextInput(titlePublisher: titleTextField.textPublisher,
+                                                       descriptionPublisher: descriptionTextPublisher)
         viewModel.subscribeText(input)
     }
     
@@ -335,11 +335,11 @@ private extension WritingScheduleViewController {
     }
     
     func bindingCoordinate() {
-        let input = WritingScheduleViewModel.CoordinateInput(latitude: coordinateView.latitudeTextField.textPublisher,
-                                                             longitude: coordinateView.longitudeTextField.textPublisher)
+        let input = WritingScheduleViewModel.CoordinateInput(latitudePublisher: coordinateView.latitudeTextField.textPublisher,
+                                                             longitudePublisher: coordinateView.longitudeTextField.textPublisher)
         let output = viewModel.transform(input)
         
-        output.buttonState
+        output.buttonStatePublisher
             .receive(on: RunLoop.main)
             .assign(to: \.isValidAtBackgroundColor, on: coordinateView.mapButton)
             .store(in: &subscriptions)

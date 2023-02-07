@@ -110,18 +110,18 @@ final class WritingScheduleViewModel {
 extension WritingScheduleViewModel: WritingScheduleViewModelType {
     // Title UITextField
     struct TextInput {
-        let title: AnyPublisher<String, Never>
-        let description: PassthroughSubject<String, Never>
+        let titlePublisher: AnyPublisher<String, Never>
+        let descriptionPublisher: PassthroughSubject<String, Never>
     }
     
     // Coordinate
     struct CoordinateInput {
-        let latitude: AnyPublisher<String, Never>
-        let longitude: AnyPublisher<String, Never>
+        let latitudePublisher: AnyPublisher<String, Never>
+        let longitudePublisher: AnyPublisher<String, Never>
     }
     
     struct CoordinateOutput {
-        let buttonState: AnyPublisher<Bool, Never>
+        let buttonStatePublisher: AnyPublisher<Bool, Never>
     }
     
     // UISwitch
@@ -149,13 +149,13 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     /// - Parameter input: Title, Description text publisher
     /// - Operation: Subscribe view's value - titleTextField.text, descriptionTextField.text
     func subscribeText(_ input: TextInput) {
-        input.title
+        input.titlePublisher
             .sink { [weak self] titleText in
                 self?.title = titleText
             }
             .store(in: &subscriptions)
         
-        input.description
+        input.descriptionPublisher
             .sink { [weak self] descriptionText in
                 self?.description = descriptionText
             }
@@ -166,7 +166,7 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     /// - Parameter input: Coordinate Text Publisher
     /// - Returns: UIButton - isEnabled Publisher
     func transform(_ input: CoordinateInput) -> CoordinateOutput {
-        let buttonStatePublisher = input.latitude.combineLatest(input.longitude)
+        let buttonStatePublisher = input.latitudePublisher.combineLatest(input.longitudePublisher)
             .map { [weak self] latitude, longitude in
                 guard let latitude = Double(latitude),
                         let longitude = Double(longitude),
@@ -177,7 +177,7 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
             }
             .eraseToAnyPublisher()
         
-        return CoordinateOutput(buttonState: buttonStatePublisher)
+        return CoordinateOutput(buttonStatePublisher: buttonStatePublisher)
     }
     
     /// UISwitch <-> UIDatePicker

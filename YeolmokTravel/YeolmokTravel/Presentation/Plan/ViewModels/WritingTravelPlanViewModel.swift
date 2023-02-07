@@ -111,8 +111,8 @@ final class WritingTravelPlanViewModel {
 
 extension WritingTravelPlanViewModel: WritingTravelPlanViewModelType {
     struct TextInput {
-        let title: AnyPublisher<String, Never>
-        let description: CurrentValueSubject<String, Never>
+        let titlePublisher: AnyPublisher<String, Never>
+        let descriptionPublisher: CurrentValueSubject<String, Never>
     }
     
     struct TextOutput {
@@ -120,14 +120,14 @@ extension WritingTravelPlanViewModel: WritingTravelPlanViewModelType {
     }
     
     func transform(input: TextInput) -> TextOutput {
-        let buttonStatePublisher = input.title
+        let buttonStatePublisher = input.titlePublisher
             .map { [weak self] titleText in
                 self?.title = titleText
                 return titleText.count > 0
             }
             .eraseToAnyPublisher()
         
-        input.description
+        input.descriptionPublisher
             .sink { [weak self] descriptionText in
                 self?.description = descriptionText
             }
