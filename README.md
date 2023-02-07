@@ -77,7 +77,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 |<image src="Document/plansTab.png" width="180">|<image src="Document/editPlan.png" width="180">|<image src="Document/editPlan2.png" width="180">|<image src="Document/newPlan.png" width="180">|
 
 - 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
-- 따라서 Plan은 상세 일정의 내용을 취합하여 보여줌.
+- 따라서 여행 계획은 상세 일정의 내용을 취합하여 보여줌.
 
 
 <br></br>
