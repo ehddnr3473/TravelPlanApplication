@@ -162,11 +162,13 @@ private extension MapViewController {
         
         guard let minLatitude = coordinates.min(by: { $0.latitude < $1.latitude }) else { return nil }
         guard let maxLatitude = coordinates.max(by: { $0.latitude < $1.latitude }) else { return nil }
-        let latitudeGap = maxLatitude.latitude - minLatitude.latitude + CoordinateConstants.littleSpan
+        let latitudeGap = maxLatitude.latitude - minLatitude.latitude +
+        (maxLatitude.latitude - minLatitude.latitude > CoordinateConstants.wideRange ? CoordinateConstants.largeSpan : CoordinateConstants.littleSpan)
         
         guard let minLongitude = coordinates.min(by: { $0.longitude < $1.longitude }) else { return nil }
         guard let maxLongitude = coordinates.max(by: { $0.longitude < $1.longitude }) else { return nil }
-        let longitudeGap = maxLongitude.latitude - minLongitude.latitude + CoordinateConstants.littleSpan
+        let longitudeGap = maxLongitude.latitude - minLongitude.latitude +
+        (maxLongitude.latitude - minLongitude.latitude > CoordinateConstants.wideRange ? CoordinateConstants.largeSpan : CoordinateConstants.littleSpan)
         
         return MKCoordinateSpan(latitudeDelta: latitudeGap, longitudeDelta: longitudeGap)
     }
@@ -218,6 +220,8 @@ extension MapViewController: MKMapViewDelegate {
 private enum CoordinateConstants {
     static let mapSpan: CLLocationDegrees = 0.005
     static let littleSpan: CLLocationDegrees = 0.02
+    static let wideRange: CLLocationDegrees = 5
+    static let largeSpan: CLLocationDegrees = 1
     static let pointSpan: CLLocationDistance = 300
     static let maximumNumberOfCoordinates = 50
 }
