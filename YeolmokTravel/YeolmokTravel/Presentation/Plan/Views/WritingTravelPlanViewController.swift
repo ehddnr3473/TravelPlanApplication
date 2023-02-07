@@ -96,8 +96,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         configureView()
         embedMapView()
         configure()
-        setBindings()
         configureWritingTravelPlanViewValue()
+        setBindings()
     }
 }
 
@@ -174,7 +174,6 @@ private extension WritingTravelPlanViewController {
     func configure() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
-        if writingStyle == .edit { topBarView.saveBarButton.isValidAtTintColor = true }
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
     }
@@ -346,6 +345,11 @@ private extension WritingTravelPlanViewController {
     }
     
     func bindingText() {
+        // 초기 버튼 상태 설정
+        if writingTravelPlanView.titleTextField.text != "" {
+            topBarView.saveBarButton.isValidAtTintColor = true
+        }
+        
         let input = WritingTravelPlanViewModel.TextInput(
             title: writingTravelPlanView.titleTextField.textPublisher,
             description: descriptionTextPublisher
