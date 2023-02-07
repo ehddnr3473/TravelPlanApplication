@@ -74,7 +74,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 ### Plans
 |메인|계획 수정|계획 수정 2|계획 추가|
 |---|---|---|---|
-|<image src="Document/plansTab.png" width="250">|<image src="Document/editPlan.png" width="250">|<image src="Document/editPlan2.png" width="250">|<image src="Document/newPlan.png" width="250">|
+|<image src="Document/plansTab.png" width="220">|<image src="Document/editPlan.png" width="220">|<image src="Document/editPlan2.png" width="220">|<image src="Document/newPlan.png" width="220">|
 
 - 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
 - 따라서 Plan은 상세 일정의 내용을 취합하여 보여줌.
@@ -83,22 +83,22 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 <br></br>
 |상세 일정 추가|상세 일정 수정|변경 사항 추적|
 |---|---|---|
-|<image src="Document/newSchedule.png" width="250">|<image src="Document/editSchedule.png" width="250">|<image src="Document/cancel.png" width="250">|
+|<image src="Document/newSchedule.png" width="210">|<image src="Document/editSchedule.png" width="210">|<image src="Document/cancel.png" width="210">|
 
 - 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌.
 
 
 <br></br>
 ### MapKit과 애니메이션
-|MKHybridMapConfiguration|카메라 애니메이션|상세 일정 순서 수정|
-|---|---|---|
-|<image src="Document/MKHybridMapConfiguration.png" width="250">|<image src="Document/nextAnimation.gif" width="250">|<image src="Document/editOrder.gif" width="250">|
+|MKHybridMapConfiguration|Dark mode|카메라 애니메이션|상세 일정 순서 수정|
+|---|---|---|---|
+|<image src="Document/MKHybridMapConfiguration.png" width="210">|<image src="Document/darkmode.png" width="210">|<image src="Document/nextAnimation.gif" width="210">|<image src="Document/editOrder.gif" width="210">|
 
 
 <br></br>
 ### Memories
 <p align="center">
- <img src="Document/memoriesTab.gif" width="30%">
+ <img src="Document/memoriesTab.gif" width="210">
 </p>
 
 - 추억이 담긴 사진 업로드 및 다운로드
