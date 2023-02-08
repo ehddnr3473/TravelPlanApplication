@@ -69,26 +69,30 @@ final class WritingTravelPlanViewModel {
     }
     
     func setTravelPlan() {
-        model.setTravelPlan(title, description)
+        model.setTravelPlanText(title, description)
     }
     
     func editSchedule(at index: Int, _ schedule: Schedule) {
         model.editSchedule(at: index, schedule)
-        coordinatesPublisher.send(coordinatesOfSchedules())
+        scheduleControlCompletion()
     }
     
     func addSchedule(_ schedule: Schedule) {
         model.addSchedule(schedule)
-        coordinatesPublisher.send(coordinatesOfSchedules())
+        scheduleControlCompletion()
     }
     
     func removeSchedule(at index: Int) {
         model.removeSchedule(at: index)
-        coordinatesPublisher.send(coordinatesOfSchedules())
+        scheduleControlCompletion()
     }
     
     func swapSchedules(at source: Int, to destination: Int) {
         model.swapSchedules(at: source, to: destination)
+        scheduleControlCompletion()
+    }
+    
+    func scheduleControlCompletion() {
         coordinatesPublisher.send(coordinatesOfSchedules())
     }
     
