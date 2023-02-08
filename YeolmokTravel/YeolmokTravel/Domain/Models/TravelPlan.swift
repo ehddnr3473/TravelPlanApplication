@@ -53,16 +53,14 @@ struct TravelPlan: Plan {
     }
     
     mutating func setFromDate() {
-        let fromDates = schedules.compactMap { $0.fromDate }
-        fromDate = fromDates.min()
+        fromDate = schedules.compactMap { $0.fromDate }.min()
     }
     
     mutating func setToDate() {
-        let toDates = schedules.compactMap { $0.toDate }
-        toDate = toDates.max()
+        toDate = schedules.compactMap { $0.toDate }.max()
     }
     
-    mutating func setTravelPlan(_ title: String, _ description: String) {
+    mutating func setTravelPlanText(_ title: String, _ description: String) {
         self.title = title
         self.description = description
     }
