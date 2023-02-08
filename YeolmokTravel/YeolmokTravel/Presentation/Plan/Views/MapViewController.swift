@@ -68,6 +68,7 @@ final class MapViewController: UIViewController {
 // MARK: - Mappable(Packaging)
 extension MapViewController: Mappable {
     func configureMapView() {
+        mapView.overrideUserInterfaceStyle = .light
         configure()
         animateCameraToCenter()
         addAnnotation()
