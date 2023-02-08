@@ -204,13 +204,13 @@
 			path = UseCaseProvider;
 			sourceTree = "<group>";
 		};
-		6B17E30F2956D48F00AF59EE /* Views */ = {
+		6B17E30F2956D48F00AF59EE /* Views for common use */ = {
 			isa = PBXGroup;
 			children = (
 				6B46FA3629513DDB000430C7 /* TabBarController.swift */,
 				6B17E3122956D67F00AF59EE /* TopBarView.swift */,
 			);
-			path = Views;
+			path = "Views for common use";
 			sourceTree = "<group>";
 		};
 		6B37A4A529515D9D00BBB8EE /* Utilities */ = {
@@ -394,7 +394,7 @@
 		6BFB44FA296EF3E700AEAD77 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				6B17E30F2956D48F00AF59EE /* Views */,
+				6B17E30F2956D48F00AF59EE /* Views for common use */,
 				6BFB44FB296EF40A00AEAD77 /* Plan */,
 				6BFB44FC296EF41000AEAD77 /* Memory */,
 			);
