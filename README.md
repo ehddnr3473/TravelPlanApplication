@@ -87,11 +87,12 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 
 <br></br>
-|상세 일정 추가|상세 일정 수정|변경 사항 추적|
-|---|---|---|
-|<image src="Document/newSchedule.png" width="180">|<image src="Document/editSchedule.png" width="180">|<image src="Document/cancel.png" width="180">|
+|상세 일정 추가|상세 일정 수정|변경 사항 추적|동적인 레이아웃|
+|---|---|---|---|
+|<image src="Document/newSchedule.png" width="180">|<image src="Document/editSchedule.png" width="180">|<image src="Document/cancel.png" width="180">|<image src="Document/dynamicLayout.gif" width="180">|
 
 - 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌.
+- 동적인 레이아웃을 제공하여 불필요한 뷰를 줄임.
 
 
 <br></br>
