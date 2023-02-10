@@ -43,13 +43,6 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ## Clean Architecture
-<p align="center">
- <img src="/Document/CleanArchitecture.jpg" height=300>
-</p>
-
-<p align="center">
- 출처: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
-</p>
 
 - MVVM 아키텍처 패턴을 기반으로 Presentation layer, Domain layer, Data layer로 나눔.
 - Clean Architecture의 핵심은 계층을 나누고 의존성 정책을 정의하여 그것을 지키는 것이며 올바른 의존성 정책에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있다고 생각하였음.
