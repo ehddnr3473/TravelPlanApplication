@@ -13,43 +13,18 @@ enum WritingStyle: String {
 }
 
 protocol Writable: AnyObject {
-    associatedtype WritableModelType: Plan
-    
     var writingStyle: WritingStyle { get }
-    var addDelegate: PlanTransfer? { get set }
-    var editDelegate: PlanTransfer? { get set }
-    var isEditing: Bool { get }
     
     func fetchActionSheetText() -> (String, String)
-    func save(_ plan: WritableModelType, _ index: Int?)
 }
 
 extension Writable {
-    /// writingStyle이 add인가를 나타내는 연산 프로퍼티
-    var isAdding: Bool {
-        switch writingStyle {
-        case .add:
-            return true
-        case .edit:
-            return false
-        }
-    }
-    
     func fetchActionSheetText() -> (String, String) {
         switch writingStyle {
         case .add:
             return (WritableAlertText.addTitle, WritableAlertText.message)
         case .edit:
             return (WritableAlertText.editTitle, WritableAlertText.message)
-        }
-    }
-    
-    func save(_ plan: WritableModelType, _ index: Int?) {
-        switch writingStyle {
-        case .add:
-            addDelegate?.writingHandler(plan, nil)
-        case .edit:
-            editDelegate?.writingHandler(plan, index)
         }
     }
 }
