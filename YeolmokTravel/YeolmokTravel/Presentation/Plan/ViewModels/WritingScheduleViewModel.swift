@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import UIKit
 import CoreLocation
 
 private protocol WritingScheduleViewModelType: AnyObject {
@@ -25,7 +24,7 @@ private protocol WritingScheduleViewModelType: AnyObject {
 }
 
 final class WritingScheduleViewModel {
-    private(set) var planTracker: PlanTracker<Schedule>
+    private(set) var scheduleTracker: ScheduleTracker
     private(set) var model: Schedule
     
     private(set) var title: String
@@ -35,30 +34,6 @@ final class WritingScheduleViewModel {
     private(set) var coordinate: CLLocationCoordinate2D
     
     private var subscriptions = Set<AnyCancellable>()
-    
-    var modelTitle: String {
-        model.title
-    }
-    
-    var modelDescription: String {
-        model.description
-    }
-    
-    var modelFromDate: Date? {
-        model.fromDate
-    }
-    
-    var modelToDate: Date? {
-        model.toDate
-    }
-    
-    var modelLatitude: CLLocationDegrees {
-        model.coordinate.latitude
-    }
-    
-    var modelLongitude: CLLocationDegrees {
-        model.coordinate.longitude
-    }
     
     private var verifyPreFromDate: Bool {
         guard let toDate = toDate,
@@ -70,7 +45,7 @@ final class WritingScheduleViewModel {
     
     init(_ model: Schedule) {
         self.model = model
-        self.planTracker = PlanTracker(model)
+        self.scheduleTracker = ScheduleTracker(model)
         self.title = model.title
         self.description = model.description
         self.fromDate = model.fromDate
@@ -99,7 +74,7 @@ final class WritingScheduleViewModel {
     }
     
     func setPlan() {
-        planTracker.setPlan(Schedule(title: title,
+        scheduleTracker.setPlan(Schedule(title: title,
                                      description: description,
                                      coordinate: coordinate,
                                      fromDate: fromDate,
