@@ -10,7 +10,7 @@ import CoreLocation
 
 /// 자세한 일정을 나타내는 모델
 /// TravelPlan의 하위 데이터
-struct Schedule: Plan {
+struct Schedule {
     var title: String
     var description: String
     var coordinate: CLLocationCoordinate2D
@@ -50,7 +50,7 @@ extension Schedule: Model {
     }
 }
 
-extension Schedule {
+extension Schedule: Equatable {
     static func == (lhs: Schedule, rhs: Schedule) -> Bool {
         lhs.title == rhs.title &&
         lhs.description == rhs.description &&

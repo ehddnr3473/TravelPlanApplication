@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 /// 여행 계획 모델
-struct TravelPlan: Plan {
+struct TravelPlan {
     var title: String
     var description: String
     var fromDate: Date?
@@ -89,5 +89,15 @@ extension TravelPlan: Model {
             description: description,
             schedules: schedules.map { $0.toData() as! ScheduleDTO }
         )
+    }
+}
+
+extension TravelPlan: Equatable {
+    static func == (lhs: TravelPlan, rhs: TravelPlan) -> Bool {
+        lhs.title == rhs.title &&
+        lhs.description == rhs.description &&
+        lhs.fromDate == rhs.fromDate &&
+        lhs.toDate == rhs.toDate &&
+        lhs.schedules == rhs.schedules
     }
 }
