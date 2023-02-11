@@ -19,23 +19,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let planRepository = FirestorePlanRepository()
-        let memoryRepository = FirestoreMemoryRepository()
-        let imageRepository = StorageMemoryRepository()
+        let travelPlanRepository = TravelPlanRepository()
+        let memoryRepository = MemoryRepository()
+        let memoryImageRepository = MemoryImageRepository()
         
-        let useCaseProvider = UseCaseProvider(planRepository: planRepository,
-                                              memoryRepository: memoryRepository,
-                                              storageRepository: imageRepository)
-        let planViewBuilder = PlanViewBuilder(planRepository: planRepository,
-                                              useCaseProvider: useCaseProvider)
+        let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
+        let memoryUseCaseProvider = ConcreteMemoryUseCaseProvider(memoryRepository)
+        let memoryImageUseCaseProvider = ConcreteMemoryImageUseCaseProvider(memoryImageRepository)
         
-        let memoryViewBuilder = MemoryViewBuilder(memoryRepository: memoryRepository,
-                                                  imageRepository: imageRepository, 
-                                                  useCaseProvider: useCaseProvider)
+        let travelPlanViewBuilder = ConcreteTravelPlanViewBuilder(travelPlanUseCaseProvider)
+        let memoryViewBuilder = ConcreteMemoryViewBuilder(memoryUseCaseProvider, memoryImageUseCaseProvider)
         
-        let tabBarController = TabBarController()
-        tabBarController.planViewBuilder = planViewBuilder
-        tabBarController.memoryViewBuilder = memoryViewBuilder
+        let tabBarController = TabBarController(travelPlanViewBuilder, memoryViewBuilder)
         
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

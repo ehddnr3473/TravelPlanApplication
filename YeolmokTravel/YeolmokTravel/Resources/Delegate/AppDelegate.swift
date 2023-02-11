@@ -23,23 +23,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 13 이전의 경우에는 SceneDelegate에서 해주었던 작업을 그대로 진행
         window = UIWindow()
-        let planRepository = FirestorePlanRepository()
-        let memoryRepository = FirestoreMemoryRepository()
-        let imageRepository = StorageMemoryRepository()
         
-        let useCaseProvider = UseCaseProvider(planRepository: planRepository,
-                                              memoryRepository: memoryRepository,
-                                              storageRepository: imageRepository)
-        let planViewBuilder = PlanViewBuilder(planRepository: planRepository,
-                                              useCaseProvider: useCaseProvider)
+        let travelPlanRepository = TravelPlanRepository()
+        let memoryRepository = MemoryRepository()
+        let memoryImageRepository = MemoryImageRepository()
         
-        let memoryViewBuilder = MemoryViewBuilder(memoryRepository: memoryRepository,
-                                                  imageRepository: imageRepository,
-                                                  useCaseProvider: useCaseProvider)
+        let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
+        let memoryUseCaseProvider = ConcreteMemoryUseCaseProvider(memoryRepository)
+        let memoryImageUseCaseProvider = ConcreteMemoryImageUseCaseProvider(memoryImageRepository)
         
-        let tabBarController = TabBarController()
-        tabBarController.planViewBuilder = planViewBuilder
-        tabBarController.memoryViewBuilder = memoryViewBuilder
+        let travelPlanViewBuilder = ConcreteTravelPlanViewBuilder(travelPlanUseCaseProvider)
+        let memoryViewBuilder = ConcreteMemoryViewBuilder(memoryUseCaseProvider, memoryImageUseCaseProvider)
+        
+        let tabBarController = TabBarController(travelPlanViewBuilder, memoryViewBuilder)
+        
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         FirebaseApp.configure()
         return true
