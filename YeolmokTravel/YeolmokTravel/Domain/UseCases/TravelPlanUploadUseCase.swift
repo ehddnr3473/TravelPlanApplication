@@ -1,5 +1,5 @@
 //
-//  PlanUploadUseCase.swift
+//  TravelPlanUploadUseCase.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/02/11.
@@ -7,18 +7,18 @@
 
 import Foundation
 
-private protocol TravelPlanUploadUseCaseType {
-    func excute(at index: Int, model: TravelPlan)
+protocol TravelPlanUploadUseCase: AnyObject {
+    func execute(at index: Int, model: TravelPlan) async throws
 }
 
-final class TravelPlanUploadUseCase: TravelPlanUploadUseCaseType {
-    private let repository: TextRepository
+final class ConcreteTravelPlanUploadUseCase: TravelPlanUploadUseCase {
+    private let repository: AbstractTravelPlanRepository
     
-    init(_ repository: TextRepository) {
+    init(_ repository: AbstractTravelPlanRepository) {
         self.repository = repository
     }
     
-    func excute(at index: Int, model: TravelPlan) {
-        Task { await repository.upload(at: index, entity: model.toData()) }
+    func execute(at index: Int, model: TravelPlan) async throws {
+        try await repository.upload(at: index, entity: model.toData())
     }
 }
