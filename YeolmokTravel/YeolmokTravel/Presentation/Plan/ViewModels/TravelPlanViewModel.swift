@@ -30,7 +30,7 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     func create(_ travelPlan: TravelPlan) async throws {
         let lastIndex = model.value.travelPlans.count - NumberConstants.one
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: lastIndex, model: model.value.travelPlans[lastIndex])
+        try await uploadUseCase.execute(at: lastIndex, travelPlan: model.value.travelPlans[lastIndex])
         model.value.create(travelPlan)
     }
     
@@ -41,7 +41,7 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     
     func update(at index: Int, _ travelPlan: TravelPlan) async throws {
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: index, model: travelPlan)
+        try await uploadUseCase.execute(at: index, travelPlan: travelPlan)
         model.value.update(at: index, travelPlan)
     }
     
