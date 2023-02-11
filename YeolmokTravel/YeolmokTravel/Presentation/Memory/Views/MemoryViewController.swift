@@ -8,21 +8,27 @@
 import UIKit
 import Combine
 
+protocol MemoryTransferDelegate: AnyObject {
+    func create(_ memory: Memory)
+}
+
 /// Memories tab
 final class MemoryViewController: UIViewController {
     // MARK: - Properties
-    private let viewModel: MemoryViewModel
-    private let useCaseProvider: UseCaseProvider
+    private let viewModel: ConcreteMemoryViewModel
     private var subscriptions = Set<AnyCancellable>()
+    private let memoryUseCaseProvider: MemoryUseCaseProvider
+    private let memoryImageUseCaseProvider: MemoryImageUseCaseProvider
     
-    init(_ viewModel: MemoryViewModel, useCaseProvider: UseCaseProvider) {
+    init(_ viewModel: ConcreteMemoryViewModel, _ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
         self.viewModel = viewModel
-        self.useCaseProvider = useCaseProvider
+        self.memoryUseCaseProvider = memoryUseCaseProvider
+        self.memoryImageUseCaseProvider = memoryImageUseCaseProvider
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) not implemented")
+        fatalError("init(coder:) has not been implemented")
     }
     
     private let titleLabel: UILabel = {
@@ -44,7 +50,7 @@ final class MemoryViewController: UIViewController {
     
     private lazy var memoriesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-        collectionView.register(MemoriesCollectionViewCell.self, forCellWithReuseIdentifier: MemoriesCollectionViewCell.identifier)
+        collectionView.register(MemoryCell.self, forCellWithReuseIdentifier: MemoryCell.identifier)
         collectionView.backgroundColor = .systemBackground
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
@@ -52,6 +58,16 @@ final class MemoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Task {
+            do {
+                try await viewModel.read()
+            } catch {
+                guard let error = error as? MemoryRepositoryError else { return }
+                alertWillAppear(error.rawValue)
+            }
+        }
+        
         configureView()
         configure()
         setBindings()
@@ -126,18 +142,16 @@ private extension MemoryViewController {
     }
     
     @objc func touchUpAddButton() {
-        let viewModel = WritingMemoryViewModel(imagePostsUseCase: useCaseProvider.createImagePostsUseCase(),
-                                               memoryPostsUseCase: useCaseProvider.createMemoryPostsUseCase())
-        let writingMemoryViewController = WritingMemoryViewController()
-        writingMemoryViewController.viewModel = viewModel
-        writingMemoryViewController.memoryIndex = self.viewModel.count
-        writingMemoryViewController.addDelegate = self
+        let viewModel = ConcreteWritingMemoryViewModel(memoryUseCaseProvider, memoryImageUseCaseProvider)
+        let writingMemoryViewController = WritingMemoryViewController(viewModel,
+                                                                      self.viewModel.model.value.count,
+                                                                      delegate: self)
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
     
     func setBindings() {
-        viewModel.reloadPublisher
+        viewModel.model
             .sink { [weak self] _ in
                 self?.reload()
             }
@@ -149,24 +163,20 @@ private extension MemoryViewController {
 extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoriesCollectionViewCell.identifier, for: indexPath) as? MemoriesCollectionViewCell, let model = viewModel.memory(indexPath.row) else { return UICollectionViewCell() }
-        let viewModel = ImageLoader(model, useCaseProvider.createImagePostsUseCase())
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoryCell.identifier, for: indexPath) as? MemoryCell else { return UICollectionViewCell() }
+        let viewModel = ConcreteMemoryCellViewModel(viewModel.model.value[indexPath.row], memoryImageUseCaseProvider)
         cell.setViewModel(viewModel)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.count
+        viewModel.model.value.count
     }
 }
 
-protocol MemoryTransfer {
-    func writingHandler(_ memory: Memory)
-}
-
-extension MemoryViewController: MemoryTransfer {
-    func writingHandler(_ memory: Memory) {
-        viewModel.add(memory)
+extension MemoryViewController: MemoryTransferDelegate {
+    func create(_ memory: Memory) {
+        viewModel.create(memory)
     }
 }
 
