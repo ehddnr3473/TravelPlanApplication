@@ -59,27 +59,6 @@ struct TravelPlan {
     mutating func setToDate() {
         toDate = schedules.compactMap { $0.toDate }.max()
     }
-    
-    mutating func setTravelPlanText(_ title: String, _ description: String) {
-        self.title = title
-        self.description = description
-    }
-    
-    mutating func updateSchedule(at index: Int, _ schedule: Schedule) {
-        schedules[index] = schedule
-    }
-    
-    mutating func createSchedule(_ schedule: Schedule) {
-        schedules.append(schedule)
-    }
-    
-    mutating func deleteSchedule(at index: Int) {
-        schedules.remove(at: index)
-    }
-    
-    mutating func swapSchedules(at source: Int, to destination: Int) {
-        schedules.swapAt(source, destination)
-    }
 }
 
 extension TravelPlan {
