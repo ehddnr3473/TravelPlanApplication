@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol TravelPlanUseCaseProvider {
+protocol TravelPlanUseCaseProvider: AnyObject {
     func provideTravelPlanUploadUseCase() -> TravelPlanUploadUseCase
     func provideTravelPlanReadUseCase() -> TravelPlanReadUseCase
     func provideTravelPlanDeleteUseCase() -> TravelPlanDeleteUseCase
