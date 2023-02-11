@@ -1,5 +1,5 @@
 //
-//  StorageMemoryRepository.swift
+//  MemoryImageRepository.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/24.
@@ -9,14 +9,25 @@ import Foundation
 import UIKit
 import FirebaseStorage
 
-enum ImageLoadError: String, Error {
-    case uploadError = "업로드에 실패했습니다."
-    case downloadError = "다운로드에 실패했습니다."
+enum MemoryImageRepositoryError: String, Error {
+    case uploadError = "이미지 업로드를 실패했습니다."
+    case readError = "이미지 다운로드를 실패했습니다."
+    case deleteError = "이미지 삭제를 실패했습니다."
+    
 }
+
+protocol AbstractMemoryImageRepository: AnyObject {
+    func cachedImage(_ index: Int) -> UIImage?
+    func cacheImage(_ index: Int, image: UIImage)
+    func upload(at index: Int, _ image: UIImage) async throws
+    func read(_ index: Int, _ completion: @escaping ((Result<UIImage, MemoryImageRepositoryError>) -> Void))
+    func delete(_ index: Int) async throws
+}
+
 
 /// Firebase Storage 서비스를 사용
 /// 이미지를 다운로드하고 캐시 전략 적용
-final class StorageMemoryRepository: ImageRepository {
+final class MemoryImageRepository: AbstractMemoryImageRepository {
     private var cachedImages = [String: UIImage]()
     private let storageReference: StorageReference
     
@@ -37,13 +48,15 @@ final class StorageMemoryRepository: ImageRepository {
         cachedImages["\(index)"] = image
     }
     
-    func upload(at index: Int, _ image: UIImage) async {
+    func upload(at index: Int, _ image: UIImage) async throws {
         if let data = image.pngData() {
             let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
             do {
                 let _ = try await imageReference.putDataAsync(data)
                 // using metadata
-            } catch { }
+            } catch {
+                throw MemoryImageRepositoryError.uploadError
+            }
         }
     }
     
@@ -51,7 +64,7 @@ final class StorageMemoryRepository: ImageRepository {
     /// - Parameters:
     ///   - index: Memories에서 Memory의 index이자, 이미지의 이름
     ///   - completion: UIImage publish
-    func download(_ index: Int, _ completion: @escaping ((Result<UIImage, ImageLoadError>) -> Void)) {
+    func read(_ index: Int, _ completion: @escaping ((Result<UIImage, MemoryImageRepositoryError>) -> Void)) {
         if let image = cachedImage(index) {
             completion(.success(image))
             return
@@ -60,28 +73,31 @@ final class StorageMemoryRepository: ImageRepository {
         let imageReference = storageReference.child("\(DocumentConstants.memoriesPath)/\(index)")
         imageReference.getData(maxSize: .max) { data, error in
             if error != nil {
-                completion(.failure(ImageLoadError.downloadError))
+                completion(.failure(MemoryImageRepositoryError.readError))
                 return
             }
             if let data = data {
                 guard let image = UIImage(data: data) else {
-                    completion(.failure(ImageLoadError.downloadError))
+                    completion(.failure(MemoryImageRepositoryError.readError))
                     return
                 }
                 self.cacheImage(index, image: image)
                 completion(.success(image))
                 return
             } else {
-                completion(.failure(ImageLoadError.downloadError))
+                completion(.failure(MemoryImageRepositoryError.readError))
                 return
             }
         }
     }
     
-    func delete(_ index: Int) {
+    func delete(_ index: Int) async throws {
         let reference = storageReference.child("\(index)")
-        
-        reference.delete { _ in }
+        do {
+            try await reference.delete()
+        } catch {
+            throw MemoryImageRepositoryError.deleteError
+        }
     }
 }
 
