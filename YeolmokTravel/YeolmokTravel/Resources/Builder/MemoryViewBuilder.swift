@@ -7,28 +7,25 @@
 
 import Foundation
 
-final class MemoryViewBuilder {
-    private let memoryRepository: FirestoreMemoryRepository
-    private let imageRepository: StorageMemoryRepository
-    private let useCaseProvider: UseCaseProvider
+protocol MemoryViewBuilder: AnyObject {
+    func build() -> MemoryViewController
+}
+
+final class ConcreteMemoryViewBuilder: MemoryViewBuilder {
+    private let memoryUseCaseProvider: MemoryUseCaseProvider
+    private let memoryImageuseCaseProvider: MemoryImageUseCaseProvider
     
-    init(memoryRepository: FirestoreMemoryRepository, imageRepository: StorageMemoryRepository, useCaseProvider: UseCaseProvider) {
-        self.memoryRepository = memoryRepository
-        self.imageRepository = imageRepository
-        self.useCaseProvider = useCaseProvider
+    init(_ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
+        self.memoryUseCaseProvider = memoryUseCaseProvider
+        self.memoryImageuseCaseProvider = memoryImageUseCaseProvider
     }
     
-    private func downloadModel() async -> [Memory] {
-        await memoryRepository.download().map { $0.toDomain() as! Memory }
+    private func createViewModel() -> ConcreteMemoryViewModel {
+        ConcreteMemoryViewModel(memoryUseCaseProvider)
     }
     
-    private func configureViewModel(_ model: [Memory]) -> MemoryViewModel {
-        MemoryViewModel(useCaseProvider.createDefaultMemoryUseCase(model))
-    }
-    
-    func build() async -> MemoryViewController {
-        let model = await downloadModel()
-        let viewModel = configureViewModel(model)
-        return await MemoryViewController(viewModel, useCaseProvider: useCaseProvider)
+    func build() -> MemoryViewController {
+        let viewModel = createViewModel()
+        return MemoryViewController(viewModel, memoryUseCaseProvider, memoryImageuseCaseProvider)
     }
 }
