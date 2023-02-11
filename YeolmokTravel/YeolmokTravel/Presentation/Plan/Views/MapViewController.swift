@@ -30,19 +30,6 @@ final class MapViewController: UIViewController {
         -1 < coordinatePointer && coordinatePointer < coordinates.count
     }
     
-    init(_ coordinates: [CLLocationCoordinate2D]) {
-        self.coordinates = coordinates
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        print("deinit: MapViewController")
-    }
-    
     let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
@@ -52,6 +39,15 @@ final class MapViewController: UIViewController {
         mapView.accessibilityLabel = AppTextConstants.mapViewAccessibilityLabel
         return mapView
     }()
+    
+    init(_ coordinates: [CLLocationCoordinate2D]) {
+        self.coordinates = coordinates
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

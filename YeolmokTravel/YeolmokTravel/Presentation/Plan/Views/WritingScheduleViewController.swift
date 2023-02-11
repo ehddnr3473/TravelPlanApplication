@@ -21,25 +21,6 @@ final class WritingScheduleViewController: UIViewController, Writable {
     private let descriptionTextPublisher = PassthroughSubject<String, Never>()
     private var subscriptions = Set<AnyCancellable>()
     
-    init(_ viewModel: WritingScheduleViewModel, writingStyle: WritingStyle) {
-        self.viewModel = viewModel
-        self.writingStyle = writingStyle
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        print("deinit: WritingScheduleViewController")
-    }
-    
-    private lazy var topBarView: TopBarView = {
-        let topBarView = TopBarView()
-        return topBarView
-    }()
-    
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = .white
@@ -128,6 +109,16 @@ final class WritingScheduleViewController: UIViewController, Writable {
         return coordinateView
     }()
     
+    init(_ viewModel: WritingScheduleViewModel, writingStyle: WritingStyle) {
+        self.viewModel = viewModel
+        self.writingStyle = writingStyle
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -140,13 +131,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
 private extension WritingScheduleViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
-        topBarView.barTitleLabel.text = "\(writingStyle.rawValue) \(TextConstants.schedule)"
-        topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
-        topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
-        navigationItem.titleView = topBarView.barTitleLabel
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: topBarView.cancelBarButton)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topBarView.saveBarButton)
-        
+        configureNavigationItems()
         configureViewValue()
         configureHierarchy()
         configureLayoutConstraint()
@@ -229,6 +214,12 @@ private extension WritingScheduleViewController {
         }
     }
     
+    func configureNavigationItems() {
+        navigationItem.title = "\(writingStyle.rawValue) \(TextConstants.schedule)"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(touchUpRightBarButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(touchUpLeftBarButton))
+    }
+    
     func configure() {
         descriptionTextView.delegate = self
     }
@@ -251,11 +242,29 @@ private extension WritingScheduleViewController {
 
 // MARK: - User Interaction
 private extension WritingScheduleViewController {
-    @objc func touchUpSaveBarButton() {
+    @objc func touchUpRightBarButton() {
         if isSaveEnabled() {
             save(viewModel.model, scheduleListIndex)
             navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @objc func touchUpLeftBarButton() {
+        viewModel.setPlan()
+        if viewModel.scheduleTracker.isChanged {
+            let actionSheetText = fetchActionSheetText()
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc func presentMap() {
+        let coordinates = [viewModel.coordinate]
+        let mapView = MapViewController(coordinates)
+        navigationController?.pushViewController(mapView, animated: true)
     }
     
     func isSaveEnabled() -> Bool {
@@ -286,26 +295,17 @@ private extension WritingScheduleViewController {
     
     func save(_ schedule: Schedule, _ index: Int?) {
         switch writingStyle {
-        case .add:
+        case .create:
             delegate?.create(schedule)
-        case .edit:
+        case .update:
             guard let index = index else { return }
             delegate?.update(at: index, schedule)
         }
     }
-    
-    @objc func touchUpCancelBarButton() {
-        viewModel.setPlan()
-        if viewModel.scheduleTracker.isChanged {
-            let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            }
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
+}
+
+// MARK: - Binding
+private extension WritingScheduleViewController {
     func setBindings() {
         bindingText()
         bindingSwitch()
@@ -349,12 +349,6 @@ private extension WritingScheduleViewController {
         let input = WritingScheduleViewModel.DateInput(fromDatePublisher: fromDatePicker.datePublisher,
                                                        toDatePublisher: toDatePicker.datePublisher)
         viewModel.subscribeDate(input)
-    }
-    
-    @objc func presentMap() {
-        let coordinates = [viewModel.coordinate]
-        let mapView = MapViewController(coordinates)
-        navigationController?.pushViewController(mapView, animated: true)
     }
 }
 
