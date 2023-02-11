@@ -8,7 +8,7 @@
 import Foundation
 
 protocol MemoryUploadUseCase: AnyObject {
-    func execute(at index: Int, model: Memory) async throws
+    func execute(at index: Int, _ memory: Memory) async throws
 }
 
 final class ConcreteMemoryUploadUseCase: MemoryUploadUseCase {
@@ -18,11 +18,7 @@ final class ConcreteMemoryUploadUseCase: MemoryUploadUseCase {
         self.repository = repository
     }
     
-    func execute(at index: Int, model: Memory) async throws {
-        try await repository.upload(at: index, entity: model.toData())
-    }
-    
-    func delete(at index: Int) async throws {
-        try await repository.delete(at: index)
+    func execute(at index: Int, _ memory: Memory) async throws {
+        try await repository.upload(at: index, memoryDTO: memory.toData())
     }
 }
