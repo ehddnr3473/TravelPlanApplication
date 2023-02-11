@@ -15,12 +15,12 @@ final class OwnTravelPlan {
         self.travelPlans = travelPlans
     }
     
-    func add(_ plan: TravelPlan) {
-        travelPlans.append(plan)
+    func create(_ travelPlan: TravelPlan) {
+        travelPlans.append(travelPlan)
     }
     
-    func update(at index: Int, _ plan: TravelPlan) {
-        travelPlans[index] = plan
+    func update(at index: Int, _ travelPlan: TravelPlan) {
+        travelPlans[index] = travelPlan
     }
     
     func delete(at index: Int) {
