@@ -53,8 +53,8 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     
     func swapTravelPlans(at source: Int, to destination: Int) async throws {
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: source, model: model.value.travelPlans[source])
-        try await uploadUseCase.execute(at: source, model: model.value.travelPlans[destination])
+        try await uploadUseCase.execute(at: source, travelPlan: model.value.travelPlans[source])
+        try await uploadUseCase.execute(at: source, travelPlan: model.value.travelPlans[destination])
         model.value.swapTravelPlans(at: source, to: destination)
     }
 }
