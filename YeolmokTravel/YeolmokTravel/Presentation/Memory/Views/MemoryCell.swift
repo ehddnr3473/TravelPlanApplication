@@ -117,8 +117,8 @@ private extension MemoryCell {
     
     func configure() {
         progressIndicator.show(in: imageView)
-        viewModel?.downloadImage()
-        titleLabel.text = viewModel?.title
+        viewModel?.read()
+        titleLabel.text = viewModel?.model.title
         dateLabel.text = viewModel?.uploadDate
     }
 }
