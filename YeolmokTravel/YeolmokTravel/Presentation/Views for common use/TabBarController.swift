@@ -9,7 +9,7 @@ import UIKit
 import JGProgressHUD
 
 final class TabBarController: UITabBarController {
-    var planViewBuilder: PlanViewBuilder?
+    var planViewBuilder: ConcreteTravelPlanViewBuilder?
     var memoryViewBuilder: MemoryViewBuilder?
     
     private var indicatorView: JGProgressHUD? = {
@@ -25,11 +25,9 @@ final class TabBarController: UITabBarController {
         startIndicator()
         configureTabBar()
         
-        Task {
-            await setUp()
-            dismissIndicator()
-            deallocate()
-        }
+        configureViewControllers()
+        dismissIndicator()
+        deallocate()
     }
 }
 
@@ -41,18 +39,18 @@ private extension TabBarController {
         tabBar.unselectedItemTintColor = .systemGray
     }
     
-    func setUp() async {
-        let travelPlanView = await setUpPlanView()
-        let memoryView = await setUpMemoryView()
+    func configureViewControllers() {
+        let travelPlanView = setUpPlanView()
+        let memoryView = setUpMemoryView()
         
         viewControllers = [travelPlanView, memoryView]
         setViewControllers(viewControllers, animated: true)
     }
     
     // 첫 번째 탭: Plans
-    func setUpPlanView() async -> UINavigationController {
+    func setUpPlanView() -> UINavigationController {
         guard let planViewBuilder = planViewBuilder else { fatalError("planViewBuilder has not been injected.") }
-        let navigationController = UINavigationController(rootViewController: await planViewBuilder.build())
+        let navigationController = UINavigationController(rootViewController: planViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                            image: UIImage(systemName: ImageNames.note),
                                            tag: NumberConstants.first)
@@ -60,9 +58,9 @@ private extension TabBarController {
     }
     
     // 두 번째 탭: Memories
-    func setUpMemoryView() async -> UINavigationController {
+    func setUpMemoryView() -> UINavigationController {
         guard let memoryViewBuilder = memoryViewBuilder else { fatalError("memoryViewBuilder has not been injected.") }
-        let navigationController = await UINavigationController(rootViewController: memoryViewBuilder.build())
+        let navigationController = UINavigationController(rootViewController: memoryViewBuilder.build())
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
