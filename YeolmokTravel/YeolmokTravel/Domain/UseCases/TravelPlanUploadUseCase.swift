@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TravelPlanUploadUseCase: AnyObject {
-    func execute(at index: Int, model: TravelPlan) async throws
+    func execute(at index: Int, travelPlan: TravelPlan) async throws
 }
 
 final class ConcreteTravelPlanUploadUseCase: TravelPlanUploadUseCase {
@@ -18,7 +18,7 @@ final class ConcreteTravelPlanUploadUseCase: TravelPlanUploadUseCase {
         self.repository = repository
     }
     
-    func execute(at index: Int, model: TravelPlan) async throws {
-        try await repository.upload(at: index, entity: model.toData())
+    func execute(at index: Int, travelPlan: TravelPlan) async throws {
+        try await repository.upload(at: index, travelPlanDTO: travelPlan.toData())
     }
 }
