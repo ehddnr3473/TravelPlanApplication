@@ -16,7 +16,7 @@ enum TravelPlanRepositoryError: String, Error {
 }
 
 protocol AbstractTravelPlanRepository: AnyObject {
-    func upload(at index: Int, entity: TravelPlanDTO) async throws
+    func upload(at index: Int, travelPlanDTO: TravelPlanDTO) async throws
     func read() async throws -> [TravelPlanDTO]
     func delete(at index: Int) async throws
 }
@@ -26,30 +26,30 @@ final class TravelPlanRepository: AbstractTravelPlanRepository {
     private var database = Firestore.firestore()
     
     // create & update
-    func upload(at index: Int, entity: TravelPlanDTO) async throws {
+    func upload(at index: Int, travelPlanDTO: TravelPlanDTO) async throws {
         do {
             try await database.collection(DatabasePath.plans).document("\(index)").setData([
-                Key.title: entity.title,
-                Key.description: entity.description
+                Key.title: travelPlanDTO.title,
+                Key.description: travelPlanDTO.description
             ])
             
-            for scheduleIndex in entity.schedules.indices {
+            for scheduleIndex in travelPlanDTO.schedules.indices {
                 let coordinate = GeoPoint(
-                    latitude: entity.schedules[scheduleIndex].coordinate.latitude,
-                    longitude: entity.schedules[scheduleIndex].coordinate.longitude
+                    latitude: travelPlanDTO.schedules[scheduleIndex].coordinate.latitude,
+                    longitude: travelPlanDTO.schedules[scheduleIndex].coordinate.longitude
                 )
                 try await database.collection(DatabasePath.plans)
                     .document("\(index)").collection(DocumentConstants.schedulesCollection).document("\(scheduleIndex)")
                     .setData([
                         // Key-Value Pair
                         Key.title:
-                            entity.schedules[scheduleIndex].title,
+                            travelPlanDTO.schedules[scheduleIndex].title,
                         Key.description:
-                            entity.schedules[scheduleIndex].description,
+                            travelPlanDTO.schedules[scheduleIndex].description,
                         Key.fromDate:
-                            DateConverter.dateToString(entity.schedules[scheduleIndex].fromDate),
+                            DateConverter.dateToString(travelPlanDTO.schedules[scheduleIndex].fromDate),
                         Key.toDate:
-                            DateConverter.dateToString(entity.schedules[scheduleIndex].toDate),
+                            DateConverter.dateToString(travelPlanDTO.schedules[scheduleIndex].toDate),
                         Key.coordinate:
                             coordinate
                     ])

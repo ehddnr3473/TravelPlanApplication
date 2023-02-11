@@ -15,7 +15,7 @@ enum MemoryRepositoryError: String, Error {
 }
 
 protocol AbstractMemoryRepository: AnyObject {
-    func upload(at index: Int, entity: MemoryDTO) async throws
+    func upload(at index: Int, memoryDTO: MemoryDTO) async throws
     func read() async throws -> [MemoryDTO]
     func delete(at index: Int) async throws
 }
@@ -25,12 +25,12 @@ final class MemoryRepository: AbstractMemoryRepository {
     private var database = Firestore.firestore()
 
     // write
-    func upload(at index: Int, entity: MemoryDTO) async throws {
+    func upload(at index: Int, memoryDTO: MemoryDTO) async throws {
         do {
-            try await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(entity.index)").setData([
-                Key.title: entity.title,
-                Key.index: entity.index,
-                Key.uploadDate: DateConverter.dateToString(entity.uploadDate)
+            try await database.collection(DatabasePath.memories).document("\(DocumentPrefix.memory)\(memoryDTO.index)").setData([
+                Key.title: memoryDTO.title,
+                Key.index: memoryDTO.index,
+                Key.uploadDate: DateConverter.dateToString(memoryDTO.uploadDate)
             ])
         } catch {
             throw MemoryRepositoryError.uploadError
