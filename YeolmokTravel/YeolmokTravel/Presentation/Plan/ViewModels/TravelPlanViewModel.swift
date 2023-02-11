@@ -20,7 +20,7 @@ private protocol TravelPlanViewModel: AnyObject {
 }
 
 final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
-    private(set) var model = CurrentValueSubject<OwnTravelPlan, Never>(OwnTravelPlan(travelPlans: []))
+    private(set) var model = CurrentValueSubject<[TravelPlan], Never>([])
     private let useCaseProvider: TravelPlanUseCaseProvider
     
     required init(_ useCaseProvider: TravelPlanUseCaseProvider) {
@@ -28,34 +28,34 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     }
     
     func create(_ travelPlan: TravelPlan) async throws {
-        let lastIndex = model.value.travelPlans.count - NumberConstants.one
+        let lastIndex = model.value.endIndex - NumberConstants.one
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: lastIndex, travelPlan: model.value.travelPlans[lastIndex])
-        model.value.create(travelPlan)
+        try await uploadUseCase.execute(at: lastIndex, travelPlan: model.value[lastIndex])
+        model.value.append(travelPlan)
     }
     
     func read() async throws {
         let readUseCase = useCaseProvider.provideTravelPlanReadUseCase()
-        model.send(OwnTravelPlan(travelPlans: try await readUseCase.execute()))
+        model.send(try await readUseCase.execute())
     }
     
     func update(at index: Int, _ travelPlan: TravelPlan) async throws {
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
         try await uploadUseCase.execute(at: index, travelPlan: travelPlan)
-        model.value.update(at: index, travelPlan)
+        model.value[index] = travelPlan
     }
     
     func delete(_ index: Int) async throws {
         let deleteUseCase = useCaseProvider.provideTravelPlanDeleteUseCase()
         try await deleteUseCase.execute(at: index)
-        model.value.delete(at: index)
+        model.value.remove(at: index)
     }
     
     func swapTravelPlans(at source: Int, to destination: Int) async throws {
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: source, travelPlan: model.value.travelPlans[source])
-        try await uploadUseCase.execute(at: source, travelPlan: model.value.travelPlans[destination])
-        model.value.swapTravelPlans(at: source, to: destination)
+        try await uploadUseCase.execute(at: source, travelPlan: model.value[source])
+        try await uploadUseCase.execute(at: source, travelPlan: model.value[destination])
+        model.value.swapAt(source, destination)
     }
 }
 
