@@ -19,8 +19,8 @@ struct ScheduleDTO {
 }
 
 // MARK: - Mapping to domain
-extension ScheduleDTO: Entity {
-    func toDomain() -> Model {
+extension ScheduleDTO {
+    func toDomain() -> Schedule {
         Schedule(
             title: title,
             description: description,

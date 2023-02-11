@@ -16,8 +16,8 @@ struct MemoryDTO {
 }
 
 // MARK: - Mapping to domain
-extension MemoryDTO: Entity {
-    func toDomain() -> Model {
+extension MemoryDTO {
+    func toDomain() -> Memory {
         Memory(title: title, index: index, uploadDate: uploadDate)
     }
 }
