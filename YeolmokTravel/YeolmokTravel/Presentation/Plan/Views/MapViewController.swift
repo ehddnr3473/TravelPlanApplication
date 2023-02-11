@@ -36,7 +36,7 @@ final class MapViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) not implemented.")
+        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
