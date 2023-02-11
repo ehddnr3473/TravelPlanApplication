@@ -26,7 +26,7 @@ final class TravelPlanViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) not implemented")
+        fatalError("init(coder:) has not been implemented")
     }
     
     private var titleLabel: UILabel = {
@@ -156,6 +156,7 @@ private extension TravelPlanViewController {
     
     func setBindings() {
         viewModel.model
+            .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.reload() }
             .store(in: &subscriptions)
     }
