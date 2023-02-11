@@ -65,15 +65,15 @@ struct TravelPlan {
         self.description = description
     }
     
-    mutating func editSchedule(at index: Int, _ schedule: Schedule) {
+    mutating func updateSchedule(at index: Int, _ schedule: Schedule) {
         schedules[index] = schedule
     }
     
-    mutating func addSchedule(_ schedule: Schedule) {
+    mutating func createSchedule(_ schedule: Schedule) {
         schedules.append(schedule)
     }
     
-    mutating func removeSchedule(at index: Int) {
+    mutating func deleteSchedule(at index: Int) {
         schedules.remove(at: index)
     }
     
@@ -82,12 +82,12 @@ struct TravelPlan {
     }
 }
 
-extension TravelPlan: Model {
-    func toData() -> Entity {
+extension TravelPlan {
+    func toData() -> TravelPlanDTO {
         TravelPlanDTO(
             title: title,
             description: description,
-            schedules: schedules.map { $0.toData() as! ScheduleDTO }
+            schedules: schedules.map { $0.toData() }
         )
     }
 }
