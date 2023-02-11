@@ -68,13 +68,16 @@ extension MapViewController: Mappable {
         configure()
         animateCameraToCenter()
         addAnnotation()
+        addPath()
     }
     
     func updateMapView(_ coordinates: [CLLocationCoordinate2D]) {
+        removePath()
         removeAnnotation()
         updateCoordinates(coordinates)
         animateCameraToCenter()
         addAnnotation()
+        addPath()
     }
 }
 
@@ -197,6 +200,15 @@ private extension MapViewController {
         
         return MKCoordinateSpan(latitudeDelta: latitudeGap, longitudeDelta: longitudeGap)
     }
+    
+    @MainActor func addPath() {
+        let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
+        mapView.addOverlay(polyline)
+    }
+    
+    @MainActor func removePath() {
+        mapView.removeOverlays(mapView.overlays)
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -220,6 +232,16 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
         updatePointer(annotation.coordinate)
         animateCameraToPoint()
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let polyline = overlay as? MKPolyline {
+            let renderer = MKPolylineRenderer(polyline: polyline)
+            renderer.strokeColor = .blue
+            renderer.lineWidth = 3
+            return renderer
+        }
+        return MKOverlayRenderer(overlay: overlay)
     }
     
     private func findCoordinate(_ coordinate: CLLocationCoordinate2D) -> Int? {
