@@ -8,9 +8,9 @@
 import Foundation
 
 protocol MemoryImageUseCaseProvider: AnyObject {
-    func provideMemoryUploadUseCase() -> MemoryImageUploadUseCase
-    func provideMemoryReadUseCase() -> MemoryImageReadUseCase
-    func provideMemoryDeleteUseCase() -> MemoryImageDeleteUseCase
+    func provideMemoryImageUploadUseCase() -> MemoryImageUploadUseCase
+    func provideMemoryImageReadUseCase() -> MemoryImageReadUseCase
+    func provideMemoryImageDeleteUseCase() -> MemoryImageDeleteUseCase
 }
 
 final class ConcreteMemoryImageUseCaseProvider: MemoryImageUseCaseProvider {
@@ -20,15 +20,15 @@ final class ConcreteMemoryImageUseCaseProvider: MemoryImageUseCaseProvider {
         self.repository = repository
     }
     
-    func provideMemoryUploadUseCase() -> MemoryImageUploadUseCase {
+    func provideMemoryImageUploadUseCase() -> MemoryImageUploadUseCase {
         ConcreteMemoryImageUploadUseCase(repository)
     }
     
-    func provideMemoryReadUseCase() -> MemoryImageReadUseCase {
+    func provideMemoryImageReadUseCase() -> MemoryImageReadUseCase {
         ConcreteMemoryImageReadUseCase(repository)
     }
     
-    func provideMemoryDeleteUseCase() -> MemoryImageDeleteUseCase {
+    func provideMemoryImageDeleteUseCase() -> MemoryImageDeleteUseCase {
         ConcreteMemoryImageDeleteUseCase(repository)
     }
 }
