@@ -16,7 +16,7 @@ protocol TravelPlanUseCaseProvider: AnyObject {
 final class ConcreteTravelPlanUseCaseProvider: TravelPlanUseCaseProvider {
     private let repository: AbstractTravelPlanRepository
 
-    init(repository: AbstractTravelPlanRepository) {
+    init(_ repository: AbstractTravelPlanRepository) {
         self.repository = repository
     }
     
