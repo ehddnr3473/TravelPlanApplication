@@ -11,11 +11,22 @@ import Combine
 
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
-    var addDelegate: MemoryTransfer?
-    var memoryIndex: Int!
-    var viewModel: WritingMemoryViewModel!
+    private let viewModel: ConcreteWritingMemoryViewModel
+    private let delegate: MemoryTransferDelegate
+    private let memoryIndex: Int
     private let imageIsExist = CurrentValueSubject<Bool, Never>(false)
     private var subscriptions = Set<AnyCancellable>()
+    
+    init(_ viewModel: ConcreteWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
+        self.viewModel = viewModel
+        self.memoryIndex = memoryIndex
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     deinit {
         print("deinit: WritingMemoryViewController")
@@ -166,11 +177,24 @@ private extension WritingMemoryViewController {
         } else if imageView.image == nil {
             alertWillAppear(AlertText.nilImageMessage)
             return
-        } else if let addDelegate = addDelegate, let image = imageView.image, let index = memoryIndex {
-            let memory = Memory(title: titleTextField.text ?? "", index: index, uploadDate: Date())
-            addDelegate.writingHandler(memory)
-            viewModel.upload(index, image, memory)
+        }
+        
+        Task { await createMemory() }
+    }
+    
+    func createMemory() async {
+        guard let image = imageView.image else { return }
+        let memory = Memory(title: titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
+        do {
+            try await viewModel.upload(memoryIndex, image, memory)
+            delegate.create(memory)
             dismiss(animated: true)
+        } catch {
+            if let error = error as? MemoryRepositoryError {
+                alertWillAppear(error.rawValue)
+            } else if let error = error as? MemoryImageRepositoryError {
+                alertWillAppear(error.rawValue)
+            }
         }
     }
     
@@ -188,7 +212,7 @@ private extension WritingMemoryViewController {
     }
     
     func setBindings() {
-        let input = WritingMemoryViewModel.Input(
+        let input = ConcreteWritingMemoryViewModel.Input(
             title: titleTextField.textPublisher.eraseToAnyPublisher(),
             image: imageIsExist.eraseToAnyPublisher()
         )
