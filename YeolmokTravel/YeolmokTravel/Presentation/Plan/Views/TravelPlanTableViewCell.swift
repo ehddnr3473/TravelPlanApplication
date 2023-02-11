@@ -1,5 +1,5 @@
 //
-//  PlanTableViewCell.swift
+//  TravelPlanTableViewCell.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/20.
@@ -11,7 +11,7 @@ import UIKit
 /// - Title Label
 /// - Date Label
 /// - Description Label
-final class PlanTableViewCell: UITableViewCell {
+final class TravelPlanTableViewCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
     // MARK: - Properties
     var titleLabel: UILabel = {
@@ -58,7 +58,7 @@ final class PlanTableViewCell: UITableViewCell {
 }
 
 // MARK: - Configure View
-private extension PlanTableViewCell {
+private extension TravelPlanTableViewCell {
     private func configureView() {
         self.backgroundColor = .darkGray
         self.layer.borderWidth = LayoutConstants.borderWidth
