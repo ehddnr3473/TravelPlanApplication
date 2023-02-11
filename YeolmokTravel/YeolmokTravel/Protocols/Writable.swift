@@ -8,8 +8,8 @@
 import Foundation
 
 enum WritingStyle: String {
-    case add = "New"
-    case edit = "Edit"
+    case create = "New"
+    case update = "Edit"
 }
 
 protocol Writable: AnyObject {
@@ -21,9 +21,9 @@ protocol Writable: AnyObject {
 extension Writable {
     func fetchActionSheetText() -> (String, String) {
         switch writingStyle {
-        case .add:
+        case .create:
             return (WritableAlertText.addTitle, WritableAlertText.message)
-        case .edit:
+        case .update:
             return (WritableAlertText.editTitle, WritableAlertText.message)
         }
     }
