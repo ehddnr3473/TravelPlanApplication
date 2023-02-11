@@ -52,7 +52,6 @@ final class WritingMemoryViewController: UIViewController {
                                                   width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
-        
         return textField
     }()
     
@@ -124,7 +123,7 @@ extension WritingMemoryViewController {
         topBarView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.width.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(LayoutConstants.topBarViewHeight)
+            $0.height.equalTo(LayoutConstants.topBarViewHeight)
         }
         
         titleTextField.snp.makeConstraints {
@@ -162,15 +161,15 @@ extension WritingMemoryViewController {
     
     func configure() {
         topBarView.barTitleLabel.text = TextConstants.title
-        topBarView.saveBarButton.addTarget(self, action: #selector(touchUpSaveBarButton), for: .touchUpInside)
-        topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelBarButton), for: .touchUpInside)
+        topBarView.saveBarButton.addTarget(self, action: #selector(touchUpRightBarButton), for: .touchUpInside)
+        topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpLeftBarButton), for: .touchUpInside)
         phPicker.delegate = self
     }
 }
 
 // MARK: - User Interaction
 private extension WritingMemoryViewController {
-    @objc func touchUpSaveBarButton() {
+    @objc func touchUpRightBarButton() {
         if titleTextField.text == "" {
             alertWillAppear(AlertText.titleMessage)
             return
@@ -198,7 +197,7 @@ private extension WritingMemoryViewController {
         }
     }
     
-    @objc func touchUpCancelBarButton() {
+    @objc func touchUpLeftBarButton() {
         dismiss(animated: true)
     }
     
@@ -247,9 +246,9 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
 
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 5
-    static let topBarViewHeight: CGFloat = 50
     static let imageViewWidthMultiplier: CGFloat = 0.8
     static let buttonWidth: CGFloat = 100
+    static let topBarViewHeight: CGFloat = 50
 }
 
 private enum TextConstants {

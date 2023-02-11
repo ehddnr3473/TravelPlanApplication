@@ -58,14 +58,15 @@ private extension TabBarController {
     }
     
     // 첫 번째 탭: Plans
-    func buildPlanView() -> TravelPlanViewController {
+    func buildPlanView() -> UINavigationController {
         guard let travelPlanViewBuilder = travelPlanViewBuilder else { fatalError("travelPlanViewBuilder has not been injected.") }
         let travelPlanViewController = travelPlanViewBuilder.build()
-        travelPlanViewController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
+        let navigationController = UINavigationController(rootViewController: travelPlanViewController)
+        navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                                  image: UIImage(systemName: ImageNames.note),
                                                  tag: NumberConstants.first)
         
-        return travelPlanViewController
+        return navigationController
     }
     
     // 두 번째 탭: Memories
