@@ -14,7 +14,7 @@ protocol TravelPlanViewBuilder: AnyObject {
 final class ConcreteTravelPlanViewBuilder: TravelPlanViewBuilder {
     private let travelPlanUseCaseProvider: TravelPlanUseCaseProvider
     
-    init(travelPlanUseCaseProvider: TravelPlanUseCaseProvider) {
+    init(_ travelPlanUseCaseProvider: TravelPlanUseCaseProvider) {
         self.travelPlanUseCaseProvider = travelPlanUseCaseProvider
     }
     
