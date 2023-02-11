@@ -8,33 +8,26 @@
 import Foundation
 import Combine
 
-private protocol MemoryViewModelType {
-    // Input
-    func add(_ memory: Memory)
-    // Input & Output
-    func memory(_ index: Int) -> Memory?
-    // Output
-    var reloadPublisher: PassthroughSubject<Void, Never> { get }
+private protocol MemoryViewModel {
+    // Input -> Output(Model information)
+    func read() async throws
+    func create(_ memory: Memory)
 }
 
-final class MemoryViewModel: MemoryViewModelType {
-    private let useCase: ModelControlUsable
-    let reloadPublisher = PassthroughSubject<Void, Never>()
+final class ConcreteMemoryViewModel: MemoryViewModel {
+    private(set) var model = CurrentValueSubject<[Memory], Never>([])
+    private let useCaseProvider: MemoryUseCaseProvider
     
-    var count: Int {
-        useCase.count
+    init(_ useCaseProvider: MemoryUseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
     }
     
-    init(_ useCase: ModelControlUsable) {
-        self.useCase = useCase
+    func read() async throws {
+        let readUseCase = useCaseProvider.provideMemoryReadUseCase()
+        model.send(try await readUseCase.execute())
     }
     
-    func add(_ memory: Memory) {
-        useCase.add(memory)
-        reloadPublisher.send()
-    }
-    
-    func memory(_ index: Int) -> Memory? {
-        useCase.query(index) as? Memory
+    func create(_ memory: Memory) {
+        model.value.append(memory)
     }
 }
