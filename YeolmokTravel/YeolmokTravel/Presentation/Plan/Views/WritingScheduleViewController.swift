@@ -12,11 +12,9 @@ import CoreLocation
 /// 여행 계획 추가 및 수정을 위한 ViewController
 /// 위도와 경도를 텍스트필드에 입력하고 버튼을 눌러서 MKMapView로 확인할 수 있음.
 final class WritingScheduleViewController: UIViewController, Writable {
-    typealias WritableModelType = Schedule
     // MARK: - Properties
     var writingStyle: WritingStyle
-    var addDelegate: PlanTransfer?
-    var editDelegate: PlanTransfer?
+    var delegate: ScheduleTransferDelegate?
     var scheduleListIndex: Int?
     private let viewModel: WritingScheduleViewModel
     
@@ -236,12 +234,12 @@ private extension WritingScheduleViewController {
     }
     
     func configureViewValue() {
-        titleTextField.text = viewModel.modelTitle
-        descriptionTextView.text = viewModel.modelDescription
-        coordinateView.latitudeTextField.text = String(viewModel.coordinate.latitude)
-        coordinateView.longitudeTextField.text = String(viewModel.coordinate.longitude)
+        titleTextField.text = viewModel.model.title
+        descriptionTextView.text = viewModel.model.description
+        coordinateView.latitudeTextField.text = String(viewModel.model.coordinate.latitude)
+        coordinateView.longitudeTextField.text = String(viewModel.model.coordinate.longitude)
         
-        if let fromDate = viewModel.modelFromDate, let toDate = viewModel.modelToDate {
+        if let fromDate = viewModel.model.fromDate, let toDate = viewModel.model.toDate {
             dateSwitch.isOn = true
             fromDatePicker.isValidAtBackgroundColor = true
             toDatePicker.isValidAtBackgroundColor = true
@@ -286,9 +284,19 @@ private extension WritingScheduleViewController {
         }
     }
     
+    func save(_ schedule: Schedule, _ index: Int?) {
+        switch writingStyle {
+        case .add:
+            delegate?.create(schedule)
+        case .edit:
+            guard let index = index else { return }
+            delegate?.update(at: index, schedule)
+        }
+    }
+    
     @objc func touchUpCancelBarButton() {
         viewModel.setPlan()
-        if viewModel.planTracker.isChanged {
+        if viewModel.scheduleTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
@@ -354,10 +362,6 @@ private extension WritingScheduleViewController {
 private extension WritingScheduleViewController {
     func configureCoordinateView() {
         coordinateView.mapButton.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
-    }
-    
-    enum ConvertCoordinateError: Error {
-        case convertError
     }
 }
 

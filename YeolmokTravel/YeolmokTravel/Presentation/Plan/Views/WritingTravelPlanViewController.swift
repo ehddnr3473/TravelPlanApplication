@@ -9,6 +9,11 @@ import UIKit
 import Combine
 import CoreLocation
 
+protocol ScheduleTransferDelegate {
+    func create(_ schedule: Schedule)
+    func update(at index: Int, _ schedule: Schedule)
+}
+
 /*
  - 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
  - Schedules의 coordinate(좌표 - 위도(latitude) 및 경도(longitude)) 정보를 취합해서 MKMapView로 표현
@@ -17,20 +22,19 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     typealias WritableModelType = TravelPlan
     // MARK: - Properties
     var writingStyle: WritingStyle
-    var addDelegate: PlanTransfer?
-    var editDelegate: PlanTransfer?
+    var delegate: TravelPlanTransferDelegate?
     var planListIndex: Int?
-    private let viewModel: WritingTravelPlanViewModel
+    private let viewModel: ConcreteWritingTravelPlanViewModel
     private let mapProvider: Mappable
     
     private let descriptionTextPublisher: CurrentValueSubject<String, Never>
     private var subscriptions = Set<AnyCancellable>()
     
-    init(_ viewModel: WritingTravelPlanViewModel, _ mapProvider: Mappable, _ writingStyle: WritingStyle) {
+    init(_ viewModel: ConcreteWritingTravelPlanViewModel, _ mapProvider: Mappable, _ writingStyle: WritingStyle) {
         self.viewModel = viewModel
         self.mapProvider = mapProvider
         self.writingStyle = writingStyle
-        self.descriptionTextPublisher = CurrentValueSubject<String, Never>(viewModel.modelDescription)
+        self.descriptionTextPublisher = CurrentValueSubject<String, Never>(viewModel.model.value.description)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -67,8 +71,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private let scheduleTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PlanTableViewCell.self,
-                           forCellReuseIdentifier: PlanTableViewCell.identifier)
+        tableView.register(TravelPlanTableViewCell.self,
+                           forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
@@ -159,13 +163,13 @@ private extension WritingTravelPlanViewController {
             $0.top.equalTo(writingTravelPlanView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
-            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.model.value.schedules.count * Int(AppLayoutConstants.cellHeight))
         }
     }
     
     func configureWritingTravelPlanViewValue() {
-        writingTravelPlanView.titleTextField.text = viewModel.modelTitle
-        writingTravelPlanView.descriptionTextView.text = viewModel.modelDescription
+        writingTravelPlanView.titleTextField.text = viewModel.model.value.title
+        writingTravelPlanView.descriptionTextView.text = viewModel.model.value.description
         writingTravelPlanView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
         writingTravelPlanView.addScheduleButton.addTarget(self, action: #selector(touchUpAddScheduleButton), for: .touchUpInside)
         writingTravelPlanView.descriptionTextView.delegate = self
@@ -189,7 +193,7 @@ private extension WritingTravelPlanViewController {
          좌표 값이 없다면(새로운 TavelPlan 추가를 위한 초기 상태인 경우 or Schedule 추가를 안한 경우)
          불필요한 뷰 추가 없이, 임베드만 하고 종료
          */
-        guard viewModel.coordinatesOfSchedules().count != .zero else { return }
+        guard viewModel.model.value.schedules.count != .zero else { return }
         addMapContentsViews()
     }
     
@@ -287,7 +291,7 @@ private extension WritingTravelPlanViewController {
     
     @MainActor func updateTableViewConstraints() {
         scheduleTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.schedulesCount * Int(AppLayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.model.value.schedules.count * Int(AppLayoutConstants.cellHeight))
         }
     }
 }
@@ -296,13 +300,23 @@ private extension WritingTravelPlanViewController {
 private extension WritingTravelPlanViewController {
     @objc func touchUpSaveBarButton() {
         viewModel.setTravelPlan()
-        save(viewModel.model, planListIndex)
+        save(viewModel.model.value, planListIndex)
         dismiss(animated: true)
+    }
+    
+    func save(_ travelPlan: TravelPlan, _ index: Int?) {
+        switch writingStyle {
+        case .add:
+            Task { try await delegate?.create(travelPlan) }
+        case .edit:
+            guard let index = index else { return }
+            Task { try await delegate?.update(at: index, travelPlan) }
+        }
     }
     
     @objc func touchUpCancelBarButton() {
         viewModel.setPlan()
-        if viewModel.planTracker.isChanged {
+        if viewModel.travelPlanTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
                 self?.dismiss(animated: true)
@@ -313,7 +327,12 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpAddScheduleButton() {
-        navigationController?.pushViewController(setUpWritingView(.add), animated: true)
+        let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
+        let viewModel = WritingScheduleViewModel(model)
+        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+        writingView.delegate = self
+        writingView.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(writingView, animated: true)
     }
     
     // 이전 좌표로 카메라 이동
@@ -340,8 +359,34 @@ private extension WritingTravelPlanViewController {
     }
     
     func setBindings() {
+        bindingModel()
         bindingText()
-        bindingMapView()
+    }
+    
+    func bindingModel() {
+        viewModel.model
+            .map { $0.schedules }
+            .sink { [self] schedules in
+                let coordinates = extractCoordinatesOfSchedules(schedules)
+                
+                if coordinates.count == .zero {
+                    removeMapContentsView()
+                    updateScrollViewContainerHeight()
+                } else {
+                    updateMapView(coordinates)
+                }
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func extractCoordinatesOfSchedules(_ schedules: [Schedule]) -> [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
+        
+        for schedule in schedules {
+            coordinates.append(schedule.coordinate)
+        }
+        
+        return coordinates
     }
     
     func bindingText() {
@@ -350,7 +395,7 @@ private extension WritingTravelPlanViewController {
             topBarView.saveBarButton.isValidAtTintColor = true
         }
         
-        let input = WritingTravelPlanViewModel.TextInput(
+        let input = ConcreteWritingTravelPlanViewModel.TextInput(
             titlePublisher: writingTravelPlanView.titleTextField.textPublisher,
             descriptionPublisher: descriptionTextPublisher
         )
@@ -362,55 +407,21 @@ private extension WritingTravelPlanViewController {
             .assign(to: \.isValidAtTintColor, on: topBarView.saveBarButton)
             .store(in: &subscriptions)
     }
-    
-    func bindingMapView() {
-        viewModel.coordinatesPublisher
-            .receive(on: RunLoop.main)
-            .sink { [weak self] coordinates in
-                if coordinates.count == .zero {
-                    self?.removeMapContentsView()
-                    self?.updateScrollViewContainerHeight()
-                } else {
-                    self?.updateMapView(coordinates)
-                }
-            }
-            .store(in: &subscriptions)
-    }
-    
-    func setUpWritingView(at index: Int? = nil, _ writingStyle: WritingStyle) -> WritingScheduleViewController {
-        switch writingStyle {
-        case .add:
-            let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
-            let viewModel = WritingScheduleViewModel(model)
-            let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
-            writingView.addDelegate = self
-            writingView.modalPresentationStyle = .fullScreen
-            return writingView
-        case .edit:
-            let model = viewModel.schedules[index!]
-            let viewModel = WritingScheduleViewModel(model)
-            let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
-            writingView.editDelegate = self
-            writingView.scheduleListIndex = index
-            writingView.modalPresentationStyle = .fullScreen
-            return writingView
-        }
-    }
 }
 
 // MARK: - Schedule TableView
 extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
-        cell.titleLabel.text = viewModel.schedules[indexPath.row].title
-        cell.descriptionLabel.text = viewModel.schedules[indexPath.row].description
-        cell.dateLabel.text = viewModel.schedules[indexPath.row].date
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
+        cell.titleLabel.text = viewModel.model.value.schedules[indexPath.row].title
+        cell.descriptionLabel.text = viewModel.model.value.schedules[indexPath.row].description
+        cell.dateLabel.text = viewModel.model.value.schedules[indexPath.row].date
         cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.schedulesCount
+        viewModel.model.value.schedules.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -418,7 +429,13 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigationController?.pushViewController(setUpWritingView(at: indexPath.row, .edit), animated: true)
+        let model = viewModel.model.value.schedules[indexPath.row]
+        let viewModel = WritingScheduleViewModel(model)
+        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+        writingView.delegate = self
+        writingView.scheduleListIndex = indexPath.row
+        writingView.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(writingView, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -442,18 +459,13 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
 }
 
-extension WritingTravelPlanViewController: PlanTransfer {
-    func writingHandler(_ plan: some Plan, _ index: Int?) {
-        guard let plan = plan as? Schedule else { return }
-        if let index = index {
-            // edit
-            viewModel.editSchedule(at: index, plan)
-            reload()
-        } else {
-            // add
-            viewModel.addSchedule(plan)
-            reload()
-        }
+extension WritingTravelPlanViewController: ScheduleTransferDelegate {
+    func create(_ schedule: Schedule) {
+        viewModel.create(schedule)
+    }
+    
+    func update(at index: Int, _ schedule: Schedule) {
+        viewModel.update(at: index, schedule)
     }
 }
 
