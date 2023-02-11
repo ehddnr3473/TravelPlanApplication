@@ -1,5 +1,5 @@
 //
-//  MemoriesCollectionViewCell.swift
+//  MemoryCell.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/23.
@@ -9,10 +9,10 @@ import UIKit
 import Combine
 import JGProgressHUD
 
-final class MemoriesCollectionViewCell: UICollectionViewCell {
+final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    private(set) var viewModel: ImageLoader?
+    private(set) var viewModel: ConcreteMemoryCellViewModel?
     private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
@@ -63,7 +63,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
         dateLabel.text = ""
     }
     
-    func setViewModel(_ viewModel: ImageLoader) {
+    func setViewModel(_ viewModel: ConcreteMemoryCellViewModel) {
         self.viewModel = viewModel
         setBindings()
         configure()
@@ -71,7 +71,7 @@ final class MemoriesCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Configure View
-private extension MemoriesCollectionViewCell {
+private extension MemoryCell {
     private func configureView() {
         contentView.backgroundColor = .clear
         configureHierarchy()
