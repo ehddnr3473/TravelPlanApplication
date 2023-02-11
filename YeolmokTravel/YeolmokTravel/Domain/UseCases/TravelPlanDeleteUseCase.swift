@@ -7,18 +7,18 @@
 
 import Foundation
 
-private protocol PlanDeleteUseCaseType {
-    func excute(at index: Int)
+protocol TravelPlanDeleteUseCase: AnyObject {
+    func execute(at index: Int) async throws
 }
 
-final class PlanDeleteUseCase: PlanDeleteUseCaseType {
-    private let repository: TextRepository
+final class ConcreteTravelPlanDeleteUseCase: TravelPlanDeleteUseCase {
+    private let repository: AbstractTravelPlanRepository
     
-    init(_ repository: TextRepository) {
+    init(_ repository: AbstractTravelPlanRepository) {
         self.repository = repository
     }
     
-    func excute(at index: Int) {
-        Task { await repository.delete(at: index)}
+    func execute(at index: Int) async throws {
+        try await repository.delete(at: index)
     }
 }
