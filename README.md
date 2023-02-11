@@ -60,9 +60,6 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
 
 <br></br>
 ### Use case
-<p align="center">
- <img src="/Document/UseCase.png" height=300>
-</p>
 
 - Use case는 애플리케이션의 핵심 비즈니스 로직을 포함
 - 각 Use case는 데이터 포맷을 정의하여 Repository와 데이터를 주고받거나, 데이터 모델을 조작하는 로직을 최소한의 단위로 캡슐화함.
