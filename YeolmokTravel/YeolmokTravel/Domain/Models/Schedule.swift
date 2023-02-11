@@ -38,8 +38,8 @@ struct Schedule {
     }
 }
 
-extension Schedule: Model {
-    func toData() -> Entity {
+extension Schedule {
+    func toData() -> ScheduleDTO {
         ScheduleDTO(
             title: title,
             description: description,
