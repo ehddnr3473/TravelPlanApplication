@@ -1,5 +1,5 @@
 //
-//  PlanViewController.swift
+//  TravelPlanViewController.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/20.
@@ -9,13 +9,18 @@ import UIKit
 import SnapKit
 import Combine
 
+protocol TravelPlanTransferDelegate: AnyObject {
+    func create(_ travelPlan: TravelPlan) async throws
+    func update(at index: Int, _ travelPlan: TravelPlan) async throws
+}
+
 /// Plans tab
-final class PlanViewController: UIViewController {
+final class TravelPlanViewController: UIViewController {
     // MARK: - Properties
-    private let viewModel: TravelPlaner
+    private let viewModel: ConcreteTravelPlanViewModel
     private var subscriptions = Set<AnyCancellable>()
     
-    init(_ viewModel: TravelPlaner) {
+    init(_ viewModel: ConcreteTravelPlanViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,8 +56,8 @@ final class PlanViewController: UIViewController {
     
     private var planTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(PlanTableViewCell.self,
-                           forCellReuseIdentifier: PlanTableViewCell.identifier)
+        tableView.register(TravelPlanTableViewCell.self,
+                           forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
@@ -63,6 +68,15 @@ final class PlanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Task {
+            do {
+                try await viewModel.read()
+            } catch {
+                guard let error = error as? TravelPlanRepositoryError else { return }
+                alertWillAppear(error.rawValue)
+            }
+        }
         configureView()
         configure()
         setBindings()
@@ -70,7 +84,7 @@ final class PlanViewController: UIViewController {
 }
 
 // MARK: - Configure View
-private extension PlanViewController {
+private extension TravelPlanViewController {
     private func configureView() {
         view.backgroundColor = .systemBackground
         configureHierarchy()
@@ -109,7 +123,7 @@ private extension PlanViewController {
                 .offset(LayoutConstants.planTableViewTopOffset)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
-            $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.model.value.travelPlans.count * Int(LayoutConstants.cellHeight))
         }
     }
     
@@ -120,7 +134,7 @@ private extension PlanViewController {
 }
 
 // MARK: - User Interaction
-private extension PlanViewController {
+private extension TravelPlanViewController {
     @MainActor func reload() {
         updateTableViewConstraints()
         planTableView.reloadData()
@@ -128,7 +142,7 @@ private extension PlanViewController {
     
     @MainActor func updateTableViewConstraints() {
         planTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.planCount * Int(LayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.model.value.travelPlans.count * Int(LayoutConstants.cellHeight))
         }
     }
     
@@ -141,33 +155,50 @@ private extension PlanViewController {
     }
     
     func setBindings() {
-        viewModel.publisher
-            .sink { self.reload() }
+        viewModel.model
+            .sink { [weak self] _ in self?.reload() }
             .store(in: &subscriptions)
     }
     
     @objc func touchUpAddButton() {
-        present(viewModel.setUpWritingView(.add), animated: true)
+        let model = TravelPlan(title: "", description: "", schedules: [])
+        let coordinates = model.coordinates
+        let mapViewController = MapViewController(coordinates)
+        let writingView = WritingTravelPlanViewController(ConcreteWritingTravelPlanViewModel(CurrentValueSubject<TravelPlan, Never>(model)), mapViewController, .add)
+        writingView.delegate = self
+//        let navigationController = UINavigationController(rootViewController: writingView)
+        let navigationController = UINavigationController()
+        navigationController.setViewControllers([writingView], animated: false)
+//        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
 }
 
 // MARK: - TableView
-extension PlanViewController: UITableViewDelegate, UITableViewDataSource {
+extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanTableViewCell.identifier, for: indexPath) as? PlanTableViewCell else { return UITableViewCell() }
-        cell.titleLabel.text = viewModel.title(indexPath.row)
-        cell.dateLabel.text = viewModel.date(indexPath.row)
-        cell.descriptionLabel.text = viewModel.description(indexPath.row)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
+        
+        cell.titleLabel.text = viewModel.model.value.travelPlans[indexPath.row].title
+        cell.dateLabel.text = viewModel.model.value.travelPlans[indexPath.row].date
+        cell.descriptionLabel.text = viewModel.model.value.travelPlans[indexPath.row].description
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.planCount
+        viewModel.model.value.travelPlans.count
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            viewModel.delete(indexPath.row)
+            Task {
+                do {
+                    try await viewModel.delete(indexPath.row)
+                } catch {
+                    guard let error = error as? TravelPlanRepositoryError else { return }
+                    alertWillAppear(error.rawValue)
+                }
+            }
             tableView.deleteRows(at: [indexPath], with: .automatic)
             updateTableViewConstraints()
         }
@@ -178,7 +209,14 @@ extension PlanViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
+        Task {
+            do {
+                try await viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
+            } catch {
+                guard let error = error as? TravelPlanRepositoryError else { return }
+                alertWillAppear(error.rawValue)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -186,7 +224,35 @@ extension PlanViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        present(viewModel.setUpWritingView(at: indexPath.row, .edit), animated: true)
+        let model = viewModel.model.value.travelPlans[indexPath.row]
+        let coordinates = model.coordinates
+        let mapViewController = MapViewController(coordinates)
+        let writingView = WritingTravelPlanViewController(ConcreteWritingTravelPlanViewModel(CurrentValueSubject<TravelPlan, Never>(model)), mapViewController, .edit)
+        writingView.delegate = self
+        writingView.planListIndex = indexPath.row
+        let navigationController = UINavigationController(rootViewController: writingView)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
+    }
+}
+
+extension TravelPlanViewController: TravelPlanTransferDelegate {
+    func create(_ travelPlan: TravelPlan) async throws {
+        do {
+            try await viewModel.create(travelPlan)
+        } catch {
+            guard let error = error as? TravelPlanRepositoryError else { return }
+            alertWillAppear(error.rawValue)
+        }
+    }
+    
+    func update(at index: Int, _ travelPlan: TravelPlan) async throws {
+        do {
+            try await viewModel.update(at: index, travelPlan)
+        } catch {
+            guard let error = error as? TravelPlanRepositoryError else { return }
+            alertWillAppear(error.rawValue)
+        }
     }
 }
 
