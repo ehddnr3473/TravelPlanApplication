@@ -9,6 +9,14 @@ import Foundation
 import Combine
 import CoreLocation
 
+enum ScheduleError: Error {
+    case titleError
+    case preToDateError
+    case fromDateError
+    case toDateError
+    case coordinateError
+}
+
 private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype TextInput
     associatedtype CoordinateInput
@@ -192,12 +200,4 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
             }
             .store(in: &subscriptions)
     }
-}
-
-enum ScheduleError: Error {
-    case titleError
-    case preToDateError
-    case fromDateError
-    case toDateError
-    case coordinateError
 }
