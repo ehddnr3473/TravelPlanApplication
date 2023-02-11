@@ -9,11 +9,14 @@ import Foundation
 import Combine
 import CoreLocation
 
+enum WritingTravelPlanError: String, Error {
+    case emptyTitle = "제목을 작성해주세요."
+}
+
 private protocol WritingTravelPlanViewModel: AnyObject {
     associatedtype TextInput
-    associatedtype TextOutput
     
-    func transform(input: TextInput) -> TextOutput
+    func subscribeText(input: TextInput)
 }
 
 final class ConcreteWritingTravelPlanViewModel {
@@ -51,24 +54,20 @@ final class ConcreteWritingTravelPlanViewModel {
         print("deinit: WritingTravelPlanViewModel")
     }
     
-    func setTravelPlan() {
-        model.value.setTravelPlanText(title, description)
-    }
-    
     func updateSchedule(at index: Int, _ schedule: Schedule) {
-        model.value.updateSchedule(at: index, schedule)
+        model.value.schedules[index] = schedule
     }
     
     func createSchedule(_ schedule: Schedule) {
-        model.value.createSchedule(schedule)
+        model.value.schedules.append(schedule)
     }
     
     func removeSchedule(at index: Int) {
-        model.value.deleteSchedule(at: index)
+        model.value.schedules.remove(at: index)
     }
     
     func swapSchedules(at source: Int, to destination: Int) {
-        model.value.swapSchedules(at: source, to: destination)
+        model.value.schedules.swapAt(source, destination)
     }
     
     func setPlan() {
@@ -77,39 +76,24 @@ final class ConcreteWritingTravelPlanViewModel {
                                              schedules: model.value.schedules))
     }
     
-    func create(_ schedule: Schedule) {
-        createSchedule(schedule)
-    }
-    
-    func update(at index: Int, _ schedule: Schedule) {
-        updateSchedule(at: index, schedule)
+    func isValidSave() throws {
+        guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
     }
 }
 
 extension ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     struct TextInput {
         let titlePublisher: AnyPublisher<String, Never>
-        let descriptionPublisher: CurrentValueSubject<String, Never>
+        let descriptionPublisher: PassthroughSubject<String, Never>
     }
     
-    struct TextOutput {
-        let buttonState: AnyPublisher<Bool, Never>
-    }
-    
-    func transform(input: TextInput) -> TextOutput {
-        let buttonStatePublisher = input.titlePublisher
-            .map { [weak self] titleText in
-                self?.title = titleText
-                return titleText.count > 0
-            }
-            .eraseToAnyPublisher()
-        
-        input.descriptionPublisher
-            .sink { [weak self] descriptionText in
-                self?.description = descriptionText
-            }
+    func subscribeText(input: TextInput) {
+        input.titlePublisher
+            .assign(to: \.title, on: self)
             .store(in: &subscriptions)
         
-        return TextOutput(buttonState: buttonStatePublisher)
+        input.descriptionPublisher
+            .assign(to: \.description, on: self)
+            .store(in: &subscriptions)
     }
 }
