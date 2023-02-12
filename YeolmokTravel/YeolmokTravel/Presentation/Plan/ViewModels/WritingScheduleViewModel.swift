@@ -79,12 +79,12 @@ final class WritingScheduleViewModel {
         }
     }
     
-    func setPlan() {
-        scheduleTracker.setPlan(Schedule(title: title,
-                                     description: description,
-                                     coordinate: coordinate,
-                                     fromDate: fromDate,
-                                     toDate: toDate))
+    func setScheduleTracker() {
+        scheduleTracker.schedule = Schedule(title: title,
+                                            description: description,
+                                            coordinate: coordinate,
+                                            fromDate: fromDate,
+                                            toDate: toDate)
     }
 }
 
