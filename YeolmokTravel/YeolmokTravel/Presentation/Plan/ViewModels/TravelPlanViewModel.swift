@@ -15,15 +15,13 @@ private protocol TravelPlanViewModel: AnyObject {
     func update(at index: Int, _ travelPlan: TravelPlan) async throws
     func delete(_ index: Int) async throws
     func swapTravelPlans(at source: Int, to destination: Int) async throws
-    
-    init(_ useCaseProvider: TravelPlanUseCaseProvider)
 }
 
 final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     private(set) var model = CurrentValueSubject<[TravelPlan], Never>([])
     private let useCaseProvider: TravelPlanUseCaseProvider
     
-    required init(_ useCaseProvider: TravelPlanUseCaseProvider) {
+    init(_ useCaseProvider: TravelPlanUseCaseProvider) {
         self.useCaseProvider = useCaseProvider
     }
     
