@@ -13,6 +13,7 @@ enum TravelPlanRepositoryError: String, Error {
     case uploadError = "계획 업로드를 실패했습니다."
     case readError = "계획 다운로드를 실패했습니다."
     case deleteError = "계획 삭제를 실패했습니다."
+    case swapError = "계획 순서 변경을 실패했습니다."
 }
 
 protocol AbstractTravelPlanRepository: AnyObject {
