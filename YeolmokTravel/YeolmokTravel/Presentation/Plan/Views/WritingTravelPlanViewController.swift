@@ -128,7 +128,7 @@ private extension WritingTravelPlanViewController {
             $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
             
             $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
-            $0.height.equalTo(viewModel.scrollViewContainerheight)
+            $0.height.equalTo(viewModel.calculateScrollViewContainerHeight)
         }
         
         writingTravelPlanView.snp.makeConstraints {
@@ -189,7 +189,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpLeftBarButton() {
-        viewModel.setPlan()
+        viewModel.setTravelPlanTracker()
         if viewModel.travelPlanTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
@@ -397,7 +397,7 @@ private extension WritingTravelPlanViewController {
     
     @MainActor func updateScrollViewContainerHeight() {
         scrollViewContainer.snp.updateConstraints {
-            $0.height.equalTo(viewModel.scrollViewContainerheight)
+            $0.height.equalTo(viewModel.calculateScrollViewContainerHeight)
         }
     }
     
@@ -433,7 +433,7 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            removeSchedule(at: indexPath.row)
+            viewModel.deleteSchedule(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             updateTableViewConstraints()
         }
@@ -445,10 +445,6 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         viewModel.swapSchedules(at: sourceIndexPath.row, to: destinationIndexPath.row)
-    }
-    
-    private func removeSchedule(at index: Int) {
-        viewModel.removeSchedule(at: index)
     }
 }
 
