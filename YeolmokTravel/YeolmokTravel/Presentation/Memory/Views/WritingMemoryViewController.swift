@@ -212,7 +212,10 @@ private extension WritingMemoryViewController {
     
     func setBindings() {
         let input = ConcreteWritingMemoryViewModel.Input(
-            title: titleTextField.textPublisher.eraseToAnyPublisher(),
+            title: titleTextField
+                .publisher(for: \.text)
+                .compactMap { $0 }
+                .eraseToAnyPublisher(),
             image: imageIsExist.eraseToAnyPublisher()
         )
         
