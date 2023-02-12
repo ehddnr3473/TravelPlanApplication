@@ -41,6 +41,7 @@
 		6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371D298D0E220038E9C8 /* MapViewController.swift */; };
 		6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */; };
 		6B84E461298CF60200EE83AB /* CoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B84E460298CF60200EE83AB /* CoordinateView.swift */; };
+		6BA200122998FBFC00C18B3F /* TravelPlanSwapUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA200112998FBFC00C18B3F /* TravelPlanSwapUseCase.swift */; };
 		6BA3402229532E29002E7502 /* TravelPlanTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* TravelPlanTracker.swift */; };
 		6BAA75F8299820C100373509 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA75F7299820C100373509 /* TopBarView.swift */; };
 		6BB277C129553C5F00534B68 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB277C029553C5F00534B68 /* DateConverter.swift */; };
@@ -123,6 +124,7 @@
 		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewModel.swift; sourceTree = "<group>"; };
 		6B84E460298CF60200EE83AB /* CoordinateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateView.swift; sourceTree = "<group>"; };
+		6BA200112998FBFC00C18B3F /* TravelPlanSwapUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanSwapUseCase.swift; sourceTree = "<group>"; };
 		6BA9F4762952862E00403DCC /* TravelPlanTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanTracker.swift; sourceTree = "<group>"; };
 		6BAA75F7299820C100373509 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		6BB277C029553C5F00534B68 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				6BF589AB2996A9F00053DC46 /* TravelPlanUploadUseCase.swift */,
 				6BF589AF2996B3D20053DC46 /* TravelPlanReadUseCase.swift */,
 				6BF589AD2996AB4E0053DC46 /* TravelPlanDeleteUseCase.swift */,
+				6BA200112998FBFC00C18B3F /* TravelPlanSwapUseCase.swift */,
 				6BF589B3299793EC0053DC46 /* MemoryUploadUseCase.swift */,
 				6BF589B729979AB00053DC46 /* MemoryReadUseCase.swift */,
 				6BF589B929979B5A0053DC46 /* MemoryDeleteUseCase.swift */,
@@ -619,6 +622,7 @@
 				6B37A4BD2951786800BBB8EE /* TravelPlan.swift in Sources */,
 				6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */,
 				6B17E3042956A89300AF59EE /* Memory.swift in Sources */,
+				6BA200122998FBFC00C18B3F /* TravelPlanSwapUseCase.swift in Sources */,
 				6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */,
 				6B37A4CF2951C30800BBB8EE /* TravelPlanTableViewCell.swift in Sources */,
 				6BF589BA29979B5A0053DC46 /* MemoryDeleteUseCase.swift in Sources */,
