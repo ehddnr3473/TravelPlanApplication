@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Combine
+import JGProgressHUD
 
 protocol TravelPlanTransferDelegate: AnyObject {
     func create(_ travelPlan: TravelPlan) async throws
@@ -57,6 +58,13 @@ final class TravelPlanViewController: UIViewController {
         return tableView
     }()
     
+    private var indicatorView: JGProgressHUD? = {
+        let headUpDisplay = JGProgressHUD()
+        headUpDisplay.textLabel.text = "Loading.."
+        headUpDisplay.detailTextLabel.text = "Please wait"
+        return headUpDisplay
+    }()
+    
     init(_ viewModel: ConcreteTravelPlanViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -68,6 +76,7 @@ final class TravelPlanViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startIndicator()
         
         Task {
             do {
@@ -78,9 +87,12 @@ final class TravelPlanViewController: UIViewController {
                 }
             }
         }
+        
         configureView()
         configure()
         setBindings()
+        dismissIndicator()
+        deallocate()
     }
 }
 
@@ -268,6 +280,23 @@ extension TravelPlanViewController: TravelPlanTransferDelegate {
     }
 }
 
+// MARK: - Indicator
+private extension TravelPlanViewController {
+    func startIndicator() {
+        guard let indicatorView = indicatorView else { return }
+        indicatorView.show(in: view)
+    }
+    
+    func dismissIndicator() {
+        guard let indicatorView = indicatorView else { return }
+        indicatorView.dismiss(afterDelay: IndicatorConstants.delay)
+    }
+    
+    func deallocate() {
+        indicatorView = nil
+    }
+}
+
 private enum TextConstants {
     static let title = "Plans"
 }
@@ -277,4 +306,8 @@ private enum LayoutConstants {
     static let planTableViewTopOffset: CGFloat = 20
     static let cornerRadius: CGFloat = 10
     static let cellHeight: CGFloat = 100
+}
+
+private enum IndicatorConstants {
+    static let delay: TimeInterval = 1
 }
