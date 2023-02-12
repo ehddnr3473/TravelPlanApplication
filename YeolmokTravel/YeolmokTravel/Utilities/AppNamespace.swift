@@ -28,4 +28,6 @@ enum AppTextConstants {
     static let mapViewAccessibilityLabel = "mapView"
     static let plusIcon = "plus"
     static let editIcon = "pencil"
+    static let leftBarButtonTitle = "Back"
+    static let rightBarButtonTitle = "Done"
 }
