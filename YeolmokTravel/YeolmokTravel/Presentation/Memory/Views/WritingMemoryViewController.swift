@@ -231,15 +231,21 @@ private extension WritingMemoryViewController {
 extension WritingMemoryViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
-        
+
         guard let itemProvider = results.first?.itemProvider,
               itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
-        
-        itemProvider.loadObject(ofClass: UIImage.self) { image, _ in
-            DispatchQueue.main.async {
-                self.imageView.image = image as? UIImage
+
+        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+            guard error == nil else {
+                self?.alertWillAppear(AlertText.imageLoadErrorMessage)
+                return
             }
-            self.imageIsExist.value = true
+            
+            DispatchQueue.main.async {
+                self?.imageView.image = image as? UIImage
+            }
+            
+            self?.imageIsExist.value = true
         }
     }
 }
