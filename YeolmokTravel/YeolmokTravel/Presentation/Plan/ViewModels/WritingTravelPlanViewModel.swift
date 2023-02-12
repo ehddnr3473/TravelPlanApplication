@@ -14,9 +14,20 @@ enum WritingTravelPlanError: String, Error {
 }
 
 private protocol WritingTravelPlanViewModel: AnyObject {
+    // Binding
     associatedtype TextInput
-    
     func subscribeText(input: TextInput)
+    
+    // Input(Model update) -> Output(Model information)
+    func createSchedule(_ schedule: Schedule)
+    func updateSchedule(at index: Int, _ schedule: Schedule)
+    func deleteSchedule(at index: Int)
+    func swapSchedules(at source: Int, to destination: Int)
+    func setTravelPlanTracker()
+    
+    // Output
+    var calculateScrollViewContainerHeight: CGFloat { get }
+    func isValidSave() throws
 }
 
 final class ConcreteWritingTravelPlanViewModel {
@@ -26,7 +37,7 @@ final class ConcreteWritingTravelPlanViewModel {
     private(set) var coordinatesPublisher = PassthroughSubject<[CLLocationCoordinate2D], Never>()
     private var subscriptions = Set<AnyCancellable>()
     
-    var scrollViewContainerheight: CGFloat {
+    var calculateScrollViewContainerHeight: CGFloat {
         if model.value.schedules.count == 0 {
             return AppLayoutConstants.writingTravelPlanViewHeight +
             AppLayoutConstants.largeSpacing * 2
@@ -50,15 +61,15 @@ final class ConcreteWritingTravelPlanViewModel {
         print("deinit: WritingTravelPlanViewModel")
     }
     
-    func updateSchedule(at index: Int, _ schedule: Schedule) {
-        model.value.schedules[index] = schedule
-    }
-    
     func createSchedule(_ schedule: Schedule) {
         model.value.schedules.append(schedule)
     }
     
-    func removeSchedule(at index: Int) {
+    func updateSchedule(at index: Int, _ schedule: Schedule) {
+        model.value.schedules[index] = schedule
+    }
+    
+    func deleteSchedule(at index: Int) {
         model.value.schedules.remove(at: index)
     }
     
@@ -66,10 +77,10 @@ final class ConcreteWritingTravelPlanViewModel {
         model.value.schedules.swapAt(source, destination)
     }
     
-    func setPlan() {
-        travelPlanTracker.setPlan(TravelPlan(title: model.value.title,
-                                             description: model.value.description,
-                                             schedules: model.value.schedules))
+    func setTravelPlanTracker() {
+        travelPlanTracker.travelPlan = TravelPlan(title: model.value.title,
+                                                  description: model.value.description,
+                                                  schedules: model.value.schedules)
     }
     
     func isValidSave() throws {
