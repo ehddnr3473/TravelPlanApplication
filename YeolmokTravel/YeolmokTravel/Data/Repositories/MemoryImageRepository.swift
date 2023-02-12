@@ -13,12 +13,9 @@ enum MemoryImageRepositoryError: String, Error {
     case uploadError = "이미지 업로드를 실패했습니다."
     case readError = "이미지 다운로드를 실패했습니다."
     case deleteError = "이미지 삭제를 실패했습니다."
-    
 }
 
 protocol AbstractMemoryImageRepository: AnyObject {
-    func cachedImage(_ index: Int) -> UIImage?
-    func cacheImage(_ index: Int, image: UIImage)
     func upload(at index: Int, _ image: UIImage) async throws
     func read(_ index: Int, _ completion: @escaping ((Result<UIImage, MemoryImageRepositoryError>) -> Void))
     func delete(_ index: Int) async throws
@@ -36,7 +33,7 @@ final class MemoryImageRepository: AbstractMemoryImageRepository {
         self.storageReference = storage.reference()
     }
     
-    func cachedImage(_ index: Int) -> UIImage? {
+    private func cachedImage(_ index: Int) -> UIImage? {
         if let image = cachedImages["\(index)"] {
             return image
         } else {
@@ -44,7 +41,7 @@ final class MemoryImageRepository: AbstractMemoryImageRepository {
         }
     }
     
-    func cacheImage(_ index: Int, image: UIImage) {
+    private func cacheImage(_ index: Int, image: UIImage) {
         cachedImages["\(index)"] = image
     }
     
