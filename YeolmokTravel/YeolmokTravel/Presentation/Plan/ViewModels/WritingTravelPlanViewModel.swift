@@ -23,8 +23,6 @@ final class ConcreteWritingTravelPlanViewModel {
     private(set) var travelPlanTracker: TravelPlanTracker
     private(set) var model: CurrentValueSubject<TravelPlan, Never>
     
-    private var title: String
-    private var description: String
     private(set) var coordinatesPublisher = PassthroughSubject<[CLLocationCoordinate2D], Never>()
     private var subscriptions = Set<AnyCancellable>()
     
@@ -46,8 +44,6 @@ final class ConcreteWritingTravelPlanViewModel {
     init(_ model: CurrentValueSubject<TravelPlan, Never>) {
         self.model = model
         self.travelPlanTracker = TravelPlanTracker(model.value)
-        self.title = model.value.title
-        self.description = model.value.description
     }
     
     deinit {
@@ -71,13 +67,13 @@ final class ConcreteWritingTravelPlanViewModel {
     }
     
     func setPlan() {
-        travelPlanTracker.setPlan(TravelPlan(title: title,
-                                             description: description,
+        travelPlanTracker.setPlan(TravelPlan(title: model.value.title,
+                                             description: model.value.description,
                                              schedules: model.value.schedules))
     }
     
     func isValidSave() throws {
-        guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
+        guard model.value.title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
     }
 }
 
@@ -89,11 +85,11 @@ extension ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     
     func subscribeText(input: TextInput) {
         input.titlePublisher
-            .assign(to: \.title, on: self)
+            .assign(to: \.model.value.title, on: self)
             .store(in: &subscriptions)
         
         input.descriptionPublisher
-            .assign(to: \.description, on: self)
+            .assign(to: \.model.value.description, on: self)
             .store(in: &subscriptions)
     }
 }

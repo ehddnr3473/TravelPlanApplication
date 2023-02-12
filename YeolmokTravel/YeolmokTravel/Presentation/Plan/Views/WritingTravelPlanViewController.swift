@@ -170,7 +170,6 @@ private extension WritingTravelPlanViewController {
     @objc func touchUpRightBarButton() {
         do {
             try viewModel.isValidSave()
-            // set title, description이 왜 필요?
             save(viewModel.model.value, planListIndex)
             navigationController?.popViewController(animated: true)
         } catch {
@@ -251,7 +250,7 @@ private extension WritingTravelPlanViewController {
     
     func bindingModel() {
         viewModel.model
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .map { $0.schedules }
             .sink { [self] schedules in
                 reload()
@@ -264,7 +263,7 @@ private extension WritingTravelPlanViewController {
         let input = ConcreteWritingTravelPlanViewModel.TextInput(
             titlePublisher: writingTravelPlanView.titleTextField
                 .publisher(for: \.text)
-                .compactMap { $0 }
+                .compactMap{ $0 }
                 .eraseToAnyPublisher(),
             descriptionPublisher: writingTravelPlanView.descriptionTextView
                 .publisher(for: \.text)
