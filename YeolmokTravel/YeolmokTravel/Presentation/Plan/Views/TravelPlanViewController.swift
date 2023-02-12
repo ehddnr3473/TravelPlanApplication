@@ -60,8 +60,8 @@ final class TravelPlanViewController: UIViewController {
     
     private var indicatorView: JGProgressHUD? = {
         let headUpDisplay = JGProgressHUD()
-        headUpDisplay.textLabel.text = "Loading.."
-        headUpDisplay.detailTextLabel.text = "Please wait"
+        headUpDisplay.textLabel.text = IndicatorConstants.titleText
+        headUpDisplay.detailTextLabel.text = IndicatorConstants.detailText
         return headUpDisplay
     }()
     
@@ -309,5 +309,7 @@ private enum LayoutConstants {
 }
 
 private enum IndicatorConstants {
+    static let titleText = "Loading.."
+    static let detailText = "Please wait"
     static let delay: TimeInterval = 1
 }
