@@ -136,8 +136,7 @@ private extension MemoryViewController {
 
 // MARK: - User Interacion
 private extension MemoryViewController {
-    @MainActor
-    func reload() {
+    @MainActor func reload() {
         memoriesCollectionView.reloadData()
     }
     
@@ -152,6 +151,7 @@ private extension MemoryViewController {
     
     func setBindings() {
         viewModel.model
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 self?.reload()
             }
@@ -160,7 +160,7 @@ private extension MemoryViewController {
 }
 
 // MARK: - CollectionView
-extension MemoryViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension MemoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Cell assembling of MVVM
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoryCell.identifier, for: indexPath) as? MemoryCell else { return UICollectionViewCell() }
