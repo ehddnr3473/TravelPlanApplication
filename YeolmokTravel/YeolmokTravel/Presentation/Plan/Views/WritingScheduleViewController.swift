@@ -216,8 +216,8 @@ private extension WritingScheduleViewController {
     
     func configureNavigationItems() {
         navigationItem.title = "\(writingStyle.rawValue) \(TextConstants.schedule)"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(touchUpRightBarButton))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(touchUpLeftBarButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpLeftBarButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpRightBarButton))
     }
     
     func configure() {
