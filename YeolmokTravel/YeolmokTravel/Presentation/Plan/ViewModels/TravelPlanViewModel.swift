@@ -52,10 +52,27 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     }
     
     func swapTravelPlans(at source: Int, to destination: Int) async throws {
-        let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: source, travelPlan: model.value[source])
-        try await uploadUseCase.execute(at: source, travelPlan: model.value[destination])
-        model.value.swapAt(source, destination)
+        let swapUseCase = useCaseProvider.provideTravelPlanSwapUseCase()
+        do {
+            try await swapUseCase.execute(
+                TravelPlanSwapBox(
+                    source: source,
+                    destination: destination,
+                    sourceTravelPlan: model.value[source],
+                    destinationTravelPlan: model.value[source]
+                )
+            )
+            // swap에 성공했다면, 모델 업데이트
+            model.value.swapAt(source, destination)
+        } catch {
+            /*
+             swap(총 2번의 upload(at:travelPlanDTO:))을 하며 sourceTravelPlan, destinationTravelPlan 둘 중 하나의,
+             또는 둘 다의 업로드에 실패했다면, 초기 상태로 돌리기 위해 각각 update(at:_:) 수행
+             */
+            try? await update(at: source, model.value[source])
+            try? await update(at: destination, model.value[destination])
+            throw TravelPlanRepositoryError.swapError
+        }
     }
 }
 
