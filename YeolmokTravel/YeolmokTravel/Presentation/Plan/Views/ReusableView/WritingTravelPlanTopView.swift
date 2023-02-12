@@ -1,5 +1,5 @@
 //
-//  WritingTravelPlanView.swift
+//  WritingTravelPlanTopView.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/02/04.
@@ -12,7 +12,7 @@ import UIKit
 /// - descriptionTextView: 상세
 /// - scheduleTitleLabel
 /// - addScheduleButton: 상세 일정 추가 버튼
-final class WritingTravelPlanView: UIView {
+final class WritingTravelPlanTopView: UIView {
     // MARK: - Properties
     let titleTextField: UITextField = {
         let textField = UITextField()
@@ -78,7 +78,7 @@ final class WritingTravelPlanView: UIView {
 }
 
 // MARK: - Configure View
-private extension WritingTravelPlanView {
+private extension WritingTravelPlanTopView {
     func configureView() {
         configureHierarchy()
         configureLayoutConstraint()

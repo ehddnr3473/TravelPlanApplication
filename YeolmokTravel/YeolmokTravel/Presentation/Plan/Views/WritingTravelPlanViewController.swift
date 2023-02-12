@@ -36,13 +36,10 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return scrollView
     }()
     
-    private let scrollViewContainer: UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let scrollViewContainer = UIView()
     
-    private let writingTravelPlanView: WritingTravelPlanView = {
-        let writingTravelPlanView = WritingTravelPlanView()
+    private let writingTravelPlanView: WritingTravelPlanTopView = {
+        let writingTravelPlanView = WritingTravelPlanTopView()
         writingTravelPlanView.backgroundColor = .systemBackground
         return writingTravelPlanView
     }()
