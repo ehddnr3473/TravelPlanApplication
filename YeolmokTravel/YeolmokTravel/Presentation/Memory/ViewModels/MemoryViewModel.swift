@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-private protocol MemoryViewModel {
+private protocol MemoryViewModel: AnyObject {
     // Input -> Output(Model information)
     func read() async throws
     func create(_ memory: Memory)
