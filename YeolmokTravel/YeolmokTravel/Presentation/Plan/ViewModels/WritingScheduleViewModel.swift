@@ -94,7 +94,7 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     // Title UITextField
     struct TextInput {
         let titlePublisher: AnyPublisher<String, Never>
-        let descriptionPublisher: PassthroughSubject<String, Never>
+        let descriptionPublisher: AnyPublisher<String, Never>
     }
     
     // Coordinate

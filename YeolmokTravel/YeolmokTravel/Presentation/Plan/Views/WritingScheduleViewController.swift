@@ -17,8 +17,6 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var delegate: ScheduleTransferDelegate?
     var scheduleListIndex: Int?
     private let viewModel: WritingScheduleViewModel
-    
-    private let descriptionTextPublisher = PassthroughSubject<String, Never>()
     private var subscriptions = Set<AnyCancellable>()
     
     private let titleTextField: UITextField = {
@@ -122,7 +120,6 @@ final class WritingScheduleViewController: UIViewController, Writable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        configure()
         setBindings()
     }
 }
@@ -220,10 +217,6 @@ private extension WritingScheduleViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpRightBarButton))
     }
     
-    func configure() {
-        descriptionTextView.delegate = self
-    }
-    
     func configureViewValue() {
         titleTextField.text = viewModel.model.title
         descriptionTextView.text = viewModel.model.description
@@ -314,8 +307,15 @@ private extension WritingScheduleViewController {
     }
     
     func bindingText() {
-        let input = WritingScheduleViewModel.TextInput(titlePublisher: titleTextField.textPublisher,
-                                                       descriptionPublisher: descriptionTextPublisher)
+        let input = WritingScheduleViewModel.TextInput(
+            titlePublisher: titleTextField
+                .publisher(for: \.text)
+                .compactMap { $0 }
+                .eraseToAnyPublisher(),
+            descriptionPublisher: descriptionTextView
+                .publisher(for: \.text)
+                .eraseToAnyPublisher()
+        )
         viewModel.subscribeText(input)
     }
     
@@ -335,8 +335,16 @@ private extension WritingScheduleViewController {
     }
     
     func bindingCoordinate() {
-        let input = WritingScheduleViewModel.CoordinateInput(latitudePublisher: coordinateView.latitudeTextField.textPublisher,
-                                                             longitudePublisher: coordinateView.longitudeTextField.textPublisher)
+        let input = WritingScheduleViewModel.CoordinateInput(
+            latitudePublisher: coordinateView.latitudeTextField
+                .publisher(for: \.text)
+                .compactMap { $0 }
+                .eraseToAnyPublisher(),
+            longitudePublisher: coordinateView.longitudeTextField
+                .publisher(for: \.text)
+                .compactMap { $0 }
+                .eraseToAnyPublisher()
+        )
         let output = viewModel.transform(input)
         
         output.buttonStatePublisher
@@ -356,12 +364,6 @@ private extension WritingScheduleViewController {
 private extension WritingScheduleViewController {
     func configureCoordinateView() {
         coordinateView.mapButton.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
-    }
-}
-
-extension WritingScheduleViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        descriptionTextPublisher.send(textView.text)
     }
 }
 
