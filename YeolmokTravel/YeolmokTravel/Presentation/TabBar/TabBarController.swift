@@ -22,21 +22,10 @@ final class TabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var indicatorView: JGProgressHUD? = {
-        let headUpDisplay = JGProgressHUD()
-        headUpDisplay.textLabel.text = "Loading.."
-        headUpDisplay.detailTextLabel.text = "Please wait"
-        return headUpDisplay
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        startIndicator()
         configureTabBar()
-        
         configureViewControllers()
-        dismissIndicator()
         deallocate()
     }
 }
@@ -82,20 +71,6 @@ private extension TabBarController {
     func deallocate() {
         travelPlanViewBuilder = nil
         memoryViewBuilder = nil
-        indicatorView = nil
-    }
-}
-
-// MARK: - Indicator
-private extension TabBarController {
-    func startIndicator() {
-        guard let indicatorView = indicatorView else { return }
-        indicatorView.show(in: view)
-    }
-    
-    func dismissIndicator() {
-        guard let indicatorView = indicatorView else { return }
-        indicatorView.dismiss(animated: true)
     }
 }
 
