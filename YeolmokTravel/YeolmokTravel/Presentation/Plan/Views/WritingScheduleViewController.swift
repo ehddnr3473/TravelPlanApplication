@@ -301,9 +301,8 @@ private extension WritingScheduleViewController {
 private extension WritingScheduleViewController {
     func setBindings() {
         bindingText()
-        bindingSwitch()
+        bindingSwitchAndDatePicker()
         bindingCoordinate()
-        bindingDatePicker()
     }
     
     func bindingText() {
@@ -316,17 +315,27 @@ private extension WritingScheduleViewController {
                 .publisher(for: \.text)
                 .eraseToAnyPublisher()
         )
+        
         viewModel.subscribeText(input)
     }
     
-    func bindingSwitch() {
-        let input = WritingScheduleViewModel.SwitchInput(switchIsOnPublisher: dateSwitch.isOnPublisher,
-                                                         initialFromDate: fromDatePicker.date,
-                                                         initialToDate: toDatePicker.date)
+    func bindingSwitchAndDatePicker() {
+        let input = WritingScheduleViewModel.SwitchAndDateInput(
+            switchIsOnPublisher: dateSwitch
+                .publisher(for: \.isOn)
+                .eraseToAnyPublisher(),
+            fromDatePublisher: fromDatePicker
+                .publisher(for: \.date)
+                .eraseToAnyPublisher(),
+            toDatePublisher: toDatePicker
+                .publisher(for: \.date)
+                .eraseToAnyPublisher()
+        )
+        
         let output = viewModel.transform(input)
         
         output.datePickerStatePublisher
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] state in
                 self?.fromDatePicker.isValidAtBackgroundColor = state
                 self?.toDatePicker.isValidAtBackgroundColor = state
@@ -345,18 +354,13 @@ private extension WritingScheduleViewController {
                 .compactMap { $0 }
                 .eraseToAnyPublisher()
         )
+        
         let output = viewModel.transform(input)
         
         output.buttonStatePublisher
             .receive(on: RunLoop.main)
             .assign(to: \.isValidAtBackgroundColor, on: coordinateView.mapButton)
             .store(in: &subscriptions)
-    }
-    
-    func bindingDatePicker() {
-        let input = WritingScheduleViewModel.DateInput(fromDatePublisher: fromDatePicker.datePublisher,
-                                                       toDatePublisher: toDatePicker.datePublisher)
-        viewModel.subscribeDate(input)
     }
 }
 

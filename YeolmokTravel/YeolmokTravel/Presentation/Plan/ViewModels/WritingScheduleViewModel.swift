@@ -21,14 +21,12 @@ private protocol WritingScheduleViewModelType: AnyObject {
     associatedtype TextInput
     associatedtype CoordinateInput
     associatedtype CoordinateOutput
-    associatedtype SwitchInput
-    associatedtype SwitchOutput
-    associatedtype DateInput
+    associatedtype SwitchAndDateInput
+    associatedtype SwitchAndDateOutput
     
     func subscribeText(_ input: TextInput)
     func transform(_ input: CoordinateInput) -> CoordinateOutput
-    func transform(_ input: SwitchInput) -> SwitchOutput
-    func subscribeDate(_ input: DateInput)
+    func transform(_ input: SwitchAndDateInput) -> SwitchAndDateOutput
 }
 
 final class WritingScheduleViewModel {
@@ -108,24 +106,14 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     }
     
     // UISwitch
-    struct SwitchInput {
+    struct SwitchAndDateInput {
         let switchIsOnPublisher: AnyPublisher<Bool, Never>
-        let initialFromDate: Date
-        let initialToDate: Date
-    }
-    
-    struct SwitchOutput {
-        let datePickerStatePublisher: AnyPublisher<Bool, Never>
-    }
-    
-    // UIDatePicker
-    struct DateInput {
         let fromDatePublisher: AnyPublisher<Date, Never>
         let toDatePublisher: AnyPublisher<Date, Never>
     }
     
-    struct DateOutput {
-        let isVaildDatePublisher: AnyPublisher<Bool, Never>
+    struct SwitchAndDateOutput {
+        let datePickerStatePublisher: AnyPublisher<Bool, Never>
     }
     
     /// UITextField
@@ -165,39 +153,24 @@ extension WritingScheduleViewModel: WritingScheduleViewModelType {
     
     /// UISwitch <-> UIDatePicker
     /// - Parameter input: UISwitch IsOn Publisher
-    /// - Returns: UIDatePicker - isEnabled, UIDatePicker - backgroundColor Publisher
-    func transform(_ input: SwitchInput) -> SwitchOutput {
+    /// - Operation: Subscribe view's value - fromDatePicker.date, toDatePicker.date
+    /// - Returns: UIDatePicker - isValidAtBackgroundColor(isEnabled & backgroundColor set) Publisher
+    func transform(_ input: SwitchAndDateInput) -> SwitchAndDateOutput {
         let datePickerStatePublisher = input.switchIsOnPublisher
-            .map { [weak self] in
-                if $0 {
-                    self?.fromDate = input.initialFromDate
-                    self?.toDate = input.initialToDate
-                    return true
-                } else {
-                    self?.fromDate = nil
-                    self?.toDate = nil
-                    return false
-                }
-            }
+            .map { $0 ? true : false }
             .eraseToAnyPublisher()
         
-        return SwitchOutput(datePickerStatePublisher: datePickerStatePublisher)
-    }
-    
-    /// UIDatePicker
-    /// - Parameter input: UIDatePicker Date Publisher
-    /// - Operation: Subscribe view's value - fromDatePicker.date, toDatePicker.date
-    func subscribeDate(_ input: DateInput) {
-        input.fromDatePublisher
-            .sink { [weak self] fromDate in
-                self?.fromDate = fromDate
+        Publishers.CombineLatest3(input.switchIsOnPublisher, input.fromDatePublisher, input.toDatePublisher)
+            .map { switchIsOn, fromDate, toDate in
+                switchIsOn ? (fromDate, toDate) : (nil, nil)
+            }
+            .sink { fromDate, toDate in
+                self.fromDate = fromDate
+                self.toDate = toDate
             }
             .store(in: &subscriptions)
+            
         
-        input.toDatePublisher
-            .sink { [weak self] toDate in
-                self?.toDate = toDate
-            }
-            .store(in: &subscriptions)
+        return SwitchAndDateOutput(datePickerStatePublisher: datePickerStatePublisher)
     }
 }
