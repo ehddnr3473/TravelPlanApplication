@@ -27,7 +27,6 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     private let viewModel: ConcreteWritingTravelPlanViewModel
     private let mapProvider: Mappable
     
-    private let descriptionTextPublisher: PassthroughSubject<String, Never>
     private var subscriptions = Set<AnyCancellable>()
     
     private let scrollView: UIScrollView = {
@@ -79,7 +78,6 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         self.mapProvider = mapProvider
         self.writingStyle = writingStyle
         self.delegate = delegate
-        self.descriptionTextPublisher = PassthroughSubject<String, Never>()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -156,18 +154,148 @@ private extension WritingTravelPlanViewController {
         writingTravelPlanView.descriptionTextView.text = viewModel.model.value.description
         writingTravelPlanView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
         writingTravelPlanView.addScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
-        writingTravelPlanView.descriptionTextView.delegate = self
     }
     
     func configureNavigationItems() {
         navigationItem.title = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(touchUpRightBarButton))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(touchUpLeftBarButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpLeftBarButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpRightBarButton))
     }
     
     func configure() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
+    }
+}
+
+// MARK: - User Interaction
+private extension WritingTravelPlanViewController {
+    @objc func touchUpRightBarButton() {
+        do {
+            try viewModel.isValidSave()
+            // set title, description이 왜 필요?
+            save(viewModel.model.value, planListIndex)
+            navigationController?.popViewController(animated: true)
+        } catch {
+            guard let error = error as? WritingTravelPlanError else { return }
+            alertWillAppear(error.rawValue)
+        }
+    }
+    
+    func save(_ travelPlan: TravelPlan, _ index: Int?) {
+        switch writingStyle {
+        case .create:
+            Task { try await delegate.create(travelPlan) }
+        case .update:
+            guard let index = index else { return }
+            Task { try await delegate.update(at: index, travelPlan) }
+        }
+    }
+    
+    @objc func touchUpLeftBarButton() {
+        viewModel.setPlan()
+        if viewModel.travelPlanTracker.isChanged {
+            let actionSheetText = fetchActionSheetText()
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc func touchUpCreateScheduleButton() {
+        let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
+        let viewModel = WritingScheduleViewModel(model)
+        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+        writingView.delegate = self
+        navigationController?.pushViewController(writingView, animated: true)
+    }
+    
+    private func didSelectRow(_ index: Int) {
+        let model = viewModel.model.value.schedules[index]
+        let viewModel = WritingScheduleViewModel(model)
+        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+        writingView.delegate = self
+        writingView.scheduleListIndex = index
+        navigationController?.pushViewController(writingView, animated: true)
+    }
+    
+    // 이전 좌표로 카메라 이동
+    @objc func touchUpPreviousButton() {
+        mapProvider.animateCameraToPreviousPoint()
+    }
+    
+    // 중심으로 카메라 이동
+    @objc func touchUpCenterButton() {
+        mapProvider.animateCameraToCenterPoint()
+    }
+    
+    // 다음 좌표로 카메라 이동
+    @objc func touchUpNextButton() {
+        mapProvider.animateCameraToNextPoint()
+    }
+    
+    @objc func touchUpEditButton() {
+        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
+            scheduleTableView.isEditing.toggle()
+        }, completion: { [self] _ in
+            writingTravelPlanView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+        })
+    }
+}
+
+// MARK: - Binding
+private extension WritingTravelPlanViewController {
+    func setBindings() {
+        bindingModel()
+        bindingText()
+    }
+    
+    func bindingModel() {
+        viewModel.model
+            .receive(on: RunLoop.main)
+            .map { $0.schedules }
+            .sink { [self] schedules in
+                reload()
+                modelDidChaged(schedules)
+            }
+            .store(in: &subscriptions)
+    }
+    
+    func bindingText() {
+        let input = ConcreteWritingTravelPlanViewModel.TextInput(
+            titlePublisher: writingTravelPlanView.titleTextField
+                .publisher(for: \.text)
+                .compactMap { $0 }
+                .eraseToAnyPublisher(),
+            descriptionPublisher: writingTravelPlanView.descriptionTextView
+                .publisher(for: \.text)
+                .eraseToAnyPublisher()
+        )
+        
+        viewModel.subscribeText(input: input)
+    }
+    
+    func modelDidChaged(_ schedules: [Schedule]) {
+        let coordinates = extractCoordinatesOfSchedules(schedules)
+        
+        if coordinates.count == .zero {
+            removeMapContentsView()
+            updateScrollViewContainerHeight()
+        } else {
+            updateMapView(coordinates)
+        }
+    }
+    
+    func extractCoordinatesOfSchedules(_ schedules: [Schedule]) -> [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
+        
+        for schedule in schedules {
+            coordinates.append(schedule.coordinate)
+        }
+        
+        return coordinates
     }
 }
 
@@ -284,131 +412,6 @@ private extension WritingTravelPlanViewController {
     }
 }
 
-// MARK: - User Interaction
-private extension WritingTravelPlanViewController {
-    @objc func touchUpRightBarButton() {
-        do {
-            try viewModel.isValidSave()
-            save(viewModel.model.value, planListIndex)
-            navigationController?.popViewController(animated: true)
-        } catch {
-            guard let error = error as? WritingTravelPlanError else { return }
-            alertWillAppear(error.rawValue)
-        }
-    }
-    
-    func save(_ travelPlan: TravelPlan, _ index: Int?) {
-        switch writingStyle {
-        case .create:
-            Task { try await delegate.create(travelPlan) }
-        case .update:
-            guard let index = index else { return }
-            Task { try await delegate.update(at: index, travelPlan) }
-        }
-    }
-    
-    @objc func touchUpLeftBarButton() {
-        viewModel.setPlan()
-        if viewModel.travelPlanTracker.isChanged {
-            let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            }
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    @objc func touchUpCreateScheduleButton() {
-        let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
-        let viewModel = WritingScheduleViewModel(model)
-        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
-        writingView.delegate = self
-        navigationController?.pushViewController(writingView, animated: true)
-    }
-    
-    private func didSelectRow(_ index: Int) {
-        let model = viewModel.model.value.schedules[index]
-        let viewModel = WritingScheduleViewModel(model)
-        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
-        writingView.delegate = self
-        writingView.scheduleListIndex = index
-        navigationController?.pushViewController(writingView, animated: true)
-    }
-    
-    // 이전 좌표로 카메라 이동
-    @objc func touchUpPreviousButton() {
-        mapProvider.animateCameraToPreviousPoint()
-    }
-    
-    // 중심으로 카메라 이동
-    @objc func touchUpCenterButton() {
-        mapProvider.animateCameraToCenterPoint()
-    }
-    
-    // 다음 좌표로 카메라 이동
-    @objc func touchUpNextButton() {
-        mapProvider.animateCameraToNextPoint()
-    }
-    
-    @objc func touchUpEditButton() {
-        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
-            scheduleTableView.isEditing.toggle()
-        }, completion: { [self] _ in
-            writingTravelPlanView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
-        })
-    }
-}
-
-// MARK: - Binding
-private extension WritingTravelPlanViewController {
-    func setBindings() {
-        bindingModel()
-        bindingText()
-    }
-    
-    func bindingModel() {
-        viewModel.model
-            .receive(on: RunLoop.main)
-            .map { $0.schedules }
-            .sink { [self] schedules in
-                reload()
-                modelDidChaged(schedules)
-            }
-            .store(in: &subscriptions)
-    }
-    
-    func bindingText() {
-        let input = ConcreteWritingTravelPlanViewModel.TextInput(
-            titlePublisher: writingTravelPlanView.titleTextField.textPublisher,
-            descriptionPublisher: descriptionTextPublisher
-        )
-        
-        viewModel.subscribeText(input: input)
-    }
-    
-    func modelDidChaged(_ schedules: [Schedule]) {
-        let coordinates = extractCoordinatesOfSchedules(schedules)
-        
-        if coordinates.count == .zero {
-            removeMapContentsView()
-            updateScrollViewContainerHeight()
-        } else {
-            updateMapView(coordinates)
-        }
-    }
-    
-    func extractCoordinatesOfSchedules(_ schedules: [Schedule]) -> [CLLocationCoordinate2D] {
-        var coordinates = [CLLocationCoordinate2D]()
-        
-        for schedule in schedules {
-            coordinates.append(schedule.coordinate)
-        }
-        
-        return coordinates
-    }
-}
-
 // MARK: - Schedule TableView
 extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -460,12 +463,6 @@ extension WritingTravelPlanViewController: ScheduleTransferDelegate {
     
     func update(at index: Int, _ schedule: Schedule) {
         viewModel.updateSchedule(at: index, schedule)
-    }
-}
-
-extension WritingTravelPlanViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        descriptionTextPublisher.send(textView.text)
     }
 }
 

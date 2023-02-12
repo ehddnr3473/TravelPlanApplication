@@ -84,7 +84,7 @@ final class ConcreteWritingTravelPlanViewModel {
 extension ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     struct TextInput {
         let titlePublisher: AnyPublisher<String, Never>
-        let descriptionPublisher: PassthroughSubject<String, Never>
+        let descriptionPublisher: AnyPublisher<String, Never>
     }
     
     func subscribeText(input: TextInput) {
