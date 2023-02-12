@@ -11,6 +11,7 @@ protocol TravelPlanUseCaseProvider: AnyObject {
     func provideTravelPlanUploadUseCase() -> TravelPlanUploadUseCase
     func provideTravelPlanReadUseCase() -> TravelPlanReadUseCase
     func provideTravelPlanDeleteUseCase() -> TravelPlanDeleteUseCase
+    func provideTravelPlanSwapUseCase() -> TravelPlanSwapUseCase
 }
 
 final class ConcreteTravelPlanUseCaseProvider: TravelPlanUseCaseProvider {
@@ -30,5 +31,9 @@ final class ConcreteTravelPlanUseCaseProvider: TravelPlanUseCaseProvider {
     
     func provideTravelPlanDeleteUseCase() -> TravelPlanDeleteUseCase {
         ConcreteTravelPlanDeleteUseCase(repository)
+    }
+    
+    func provideTravelPlanSwapUseCase() -> TravelPlanSwapUseCase {
+        ConcreteTravelPlanSwapUseCase(repository)
     }
 }
