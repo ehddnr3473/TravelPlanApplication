@@ -243,7 +243,7 @@ private extension WritingScheduleViewController {
     }
     
     @objc func touchUpLeftBarButton() {
-        viewModel.setPlan()
+        viewModel.setScheduleTracker()
         if viewModel.scheduleTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
