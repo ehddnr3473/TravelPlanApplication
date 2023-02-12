@@ -61,6 +61,9 @@ final class MemoryCell: UICollectionViewCell {
         imageView.image = nil
         titleLabel.text = ""
         dateLabel.text = ""
+        
+        subscriptions.forEach { $0.cancel() }
+        subscriptions.removeAll()
     }
     
     func setViewModel(_ viewModel: ConcreteMemoryCellViewModel) {
@@ -104,20 +107,22 @@ private extension MemoryCell {
                 .inset(AppLayoutConstants.spacing)
         }
     }
-    
+        
     func setBindings() {
         viewModel?.publisher
-            .receive(on: RunLoop.main)
-            .sink { image in
-                self.progressIndicator.dismiss()
-                self.imageView.image = image
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] image in
+                self?.progressIndicator.dismiss()
+                self?.imageView.image = image
             }
             .store(in: &subscriptions)
     }
     
     func configure() {
         progressIndicator.show(in: imageView)
-        viewModel?.read()
+        DispatchQueue.main.async { [weak self] in
+            self?.viewModel?.read()
+        }
         titleLabel.text = viewModel?.model.title
         dateLabel.text = viewModel?.uploadDate
     }
