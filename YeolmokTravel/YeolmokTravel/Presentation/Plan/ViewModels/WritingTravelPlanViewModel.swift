@@ -19,10 +19,11 @@ private protocol WritingTravelPlanViewModel: AnyObject {
     func updateSchedule(at index: Int, _ schedule: Schedule)
     func deleteSchedule(at index: Int)
     func swapSchedules(at source: Int, to destination: Int)
-    func setTravelPlanTracker(_ title: String, _ description: String)
+    func setTravelPlanTracker(_ title: String, _ description: String) // travelPlanTracker.travelPlan set
+    func deallocate() // Deallocate initial string value
     
     // Output
-    var calculateScrollViewContainerHeight: CGFloat { get }
+    var calculatedScrollViewContainerHeight: CGFloat { get }
     func isValidSave(_ title: String) throws
 }
 
@@ -35,7 +36,7 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    var calculateScrollViewContainerHeight: CGFloat {
+    var calculatedScrollViewContainerHeight: CGFloat {
         if schedules.value.count == 0 {
             return AppLayoutConstants.writingTravelPlanViewHeight +
             AppLayoutConstants.largeSpacing * 2
