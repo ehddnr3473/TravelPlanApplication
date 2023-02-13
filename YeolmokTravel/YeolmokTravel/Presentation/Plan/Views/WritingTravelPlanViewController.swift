@@ -70,7 +70,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return mapButtonSetView
     }()
     
-    init(_ viewModel: ConcreteWritingTravelPlanViewModel, _ mapProvider: Mappable, _ writingStyle: WritingStyle, delegate: TravelPlanTransferDelegate) {
+    init(viewModel: ConcreteWritingTravelPlanViewModel, mapProvider: Mappable, writingStyle: WritingStyle, delegate: TravelPlanTransferDelegate) {
         self.viewModel = viewModel
         self.mapProvider = mapProvider
         self.writingStyle = writingStyle
@@ -202,7 +202,7 @@ private extension WritingTravelPlanViewController {
     
     @objc func touchUpCreateScheduleButton() {
         let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
-        let viewModel = WritingScheduleViewModel(model)
+        let viewModel = ConcreteWritingScheduleViewModel(model)
         let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
         writingView.delegate = self
         navigationController?.pushViewController(writingView, animated: true)
@@ -210,7 +210,7 @@ private extension WritingTravelPlanViewController {
     
     private func didSelectRow(_ index: Int) {
         let model = viewModel.model.value.schedules[index]
-        let viewModel = WritingScheduleViewModel(model)
+        let viewModel = ConcreteWritingScheduleViewModel(model)
         let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
         writingView.delegate = self
         writingView.scheduleListIndex = index
