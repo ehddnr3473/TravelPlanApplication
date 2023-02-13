@@ -14,142 +14,106 @@ enum ScheduleError: String, Error {
     case preToDateError = "시작 날짜가 종료 날짜 이후입니다."
     case fromDateError = "From 날짜를 선택해주세요."
     case toDateError = "To 날짜를 선택해주세요."
+    case coordinateError = "유효하지 않은 좌표입니다."
 }
 
 private protocol WritingScheduleViewModel: AnyObject {
-    // Binding
-    associatedtype CoordinateInput
-    associatedtype CoordinateOutput
-    associatedtype SwitchAndDateInput
-    associatedtype SwitchAndDateOutput
-    
-    func transform(_ input: CoordinateInput) -> CoordinateOutput
-    func transform(_ input: SwitchAndDateInput) -> SwitchAndDateOutput
-    
     // Input
-    func setScheduleTracker(_ title: String, _ description: String) // scheduleTracker.schedule set
-    func deallocateTextProperty() // Deallocate initial text property
+    func setScheduleTracker() // scheduleTracker.schedule set
     
     // Output
-    func isValidSave(_ title: String, _ description: String) throws
+    func isValidSave(_ latitude: String, _ longitude: String) throws
 }
 
 final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
+    private(set) var model: Schedule
     private(set) var scheduleTracker: ScheduleTracker
-    
-    private(set) var initialTitleText: String?
-    private(set) var initialDescriptionText: String?
-    private(set) var coordinate: CLLocationCoordinate2D
-    private(set) var fromDate: Date?
-    private(set) var toDate: Date?
     
     private var subscriptions = Set<AnyCancellable>()
     
     private var verifyPreFromDate: Bool {
-        guard let toDate = toDate,
-                let fromDate = fromDate,
-                let slicedFromDate = DateConverter.stringToDate(DateConverter.dateToString(fromDate)),
-                let slicedToDate = DateConverter.stringToDate(DateConverter.dateToString(toDate)) else { return true }
+        guard let toDate = model.toDate,
+              let fromDate = model.fromDate,
+              let slicedFromDate = DateConverter.stringToDate(DateConverter.dateToString(fromDate)),
+              let slicedToDate = DateConverter.stringToDate(DateConverter.dateToString(toDate)) else { return true }
         return slicedFromDate <= slicedToDate
     }
     
     init(_ model: Schedule) {
+        self.model = model
         self.scheduleTracker = ScheduleTracker(model)
-        self.initialTitleText = model.title
-        self.initialDescriptionText = model.description
-        self.coordinate = model.coordinate
     }
     
     deinit {
         print("deinit: WritingScheduleViewModel")
     }
     
-    func setScheduleTracker(_ title: String, _ description: String) {
-        scheduleTracker.schedule = Schedule(title: title,
-                                            description: description,
-                                            coordinate: coordinate,
-                                            fromDate: fromDate,
-                                            toDate: toDate)
+    func setScheduleTracker() {
+        scheduleTracker.schedule = model
     }
     
-    func isValidSave(_ title: String, _ description: String) throws {
-        if title == "" {
+    func setCoordinate(_ latitude: String, _ longitude: String) {
+        guard let latitude = Double(latitude),
+              let longitude = Double(longitude),
+              CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude)) else { return }
+        model.coordinate.latitude = latitude
+        model.coordinate.longitude = longitude
+    }
+    
+    func isValidSave(_ latitude: String, _ longitude: String) throws {
+        if model.title == "" {
             throw ScheduleError.titleError
         } else if !verifyPreFromDate {
             throw ScheduleError.preToDateError
-        } else if fromDate == nil && toDate != nil {
+        } else if model.fromDate == nil && model.toDate != nil {
             throw ScheduleError.fromDateError
-        } else if fromDate != nil && toDate == nil {
+        } else if model.fromDate != nil && model.toDate == nil {
             throw ScheduleError.toDateError
+        } else if !isValidCoordinate(latitude, longitude) {
+            throw ScheduleError.coordinateError
         }
     }
     
-    func deallocateTextProperty() {
-        initialTitleText = nil
-        initialDescriptionText = nil
-    }
-}
-
-extension ConcreteWritingScheduleViewModel {
-    // Coordinate
-    struct CoordinateInput {
-        let latitudePublisher: AnyPublisher<String, Never>
-        let longitudePublisher: AnyPublisher<String, Never>
+    func isValidCoordinate(_ latitude: String, _ longitude: String) -> Bool {
+        guard let latitude = Double(latitude) else { return false }
+        guard let longitude = Double(longitude) else { return false }
+        guard CLLocationCoordinate2DIsValid(
+            CLLocationCoordinate2D(latitude: latitude,longitude: longitude)
+        ) else { return false }
+        return true
     }
     
-    struct CoordinateOutput {
-        let buttonStatePublisher: AnyPublisher<Bool, Never>
+    func toggledSwitch(_ isOn: Bool, _ fromDate: Date, _ toDate: Date) {
+        if isOn {
+            model.fromDate = fromDate
+            model.toDate = toDate
+        } else {
+            model.fromDate = nil
+            model.toDate = nil
+        }
     }
     
-    // UISwitch
-    struct SwitchAndDateInput {
-        let switchIsOnPublisher: AnyPublisher<Bool, Never>
-        let fromDatePublisher: AnyPublisher<Date, Never>
-        let toDatePublisher: AnyPublisher<Date, Never>
+    func editingChangedTitleTextField(_ title: String) {
+        model.title = title
     }
     
-    struct SwitchAndDateOutput {
-        let datePickerStatePublisher: AnyPublisher<Bool, Never>
+    func didChangeDescriptionTextView(_ description: String) {
+        model.description = description
     }
     
-    /// Coordinate TextFIelds <-> Show Map UIButton
-    /// - Parameter input: Coordinate Text Publisher
-    /// - Returns: UIButton - isEnabled Publisher
-    func transform(_ input: CoordinateInput) -> CoordinateOutput {
-        let buttonStatePublisher = input.latitudePublisher.combineLatest(input.longitudePublisher)
-            .map { [weak self] latitude, longitude in
-                guard let latitude = Double(latitude),
-                        let longitude = Double(longitude),
-                        CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude)) else { return false }
-                self?.coordinate.latitude = latitude
-                self?.coordinate.longitude = longitude
-                return CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-            }
-            .eraseToAnyPublisher()
-        
-        return CoordinateOutput(buttonStatePublisher: buttonStatePublisher)
+    func editingChangedCoordinateTextField(_ latitude: String, _ longitude: String) -> Bool {
+        guard isValidCoordinate(latitude, longitude) else { return false }
+        guard let latitude = Double(latitude), let longitude = Double(longitude) else { return false }
+        model.coordinate.latitude = latitude
+        model.coordinate.longitude = longitude
+        return true
     }
     
-    /// UISwitch <-> UIDatePicker
-    /// - Parameter input: UISwitch IsOn Publisher
-    /// - Operation: Subscribe view's value - fromDatePicker.date, toDatePicker.date
-    /// - Returns: UIDatePicker - isValidAtBackgroundColor(isEnabled & backgroundColor set) Publisher
-    func transform(_ input: SwitchAndDateInput) -> SwitchAndDateOutput {
-        let datePickerStatePublisher = input.switchIsOnPublisher
-            .map { $0 ? true : false }
-            .eraseToAnyPublisher()
-        
-        Publishers.CombineLatest3(input.switchIsOnPublisher, input.fromDatePublisher, input.toDatePublisher)
-            .map { switchIsOn, fromDate, toDate in
-                switchIsOn ? (fromDate, toDate) : (nil, nil)
-            }
-            .sink { [weak self] fromDate, toDate in
-                self?.fromDate = fromDate
-                self?.toDate = toDate
-            }
-            .store(in: &subscriptions)
-            
-        
-        return SwitchAndDateOutput(datePickerStatePublisher: datePickerStatePublisher)
+    func valueChangedFromDatePicker(_ date: Date) {
+        model.fromDate = date
+    }
+    
+    func valueChangedToDatePicker(_ date: Date) {
+        model.toDate = date
     }
 }
