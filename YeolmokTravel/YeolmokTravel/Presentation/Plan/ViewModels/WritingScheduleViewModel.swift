@@ -36,8 +36,8 @@ private protocol WritingScheduleViewModel: AnyObject {
 }
 
 final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
-    private(set) var scheduleTracker: ScheduleTracker
     private(set) var model: CurrentValueSubject<Schedule, Never>
+    private(set) var scheduleTracker: ScheduleTracker
     
     private var subscriptions = Set<AnyCancellable>()
     

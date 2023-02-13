@@ -31,8 +31,8 @@ private protocol WritingTravelPlanViewModel: AnyObject {
 }
 
 final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
-    private(set) var travelPlanTracker: TravelPlanTracker
     private(set) var model: CurrentValueSubject<TravelPlan, Never>
+    private(set) var travelPlanTracker: TravelPlanTracker
     
     private var subscriptions = Set<AnyCancellable>()
     
