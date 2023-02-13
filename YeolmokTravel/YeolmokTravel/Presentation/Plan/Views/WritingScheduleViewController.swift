@@ -218,12 +218,13 @@ private extension WritingScheduleViewController {
     }
     
     func configureViewValue() {
-        titleTextField.text = viewModel.model.value.title
-        descriptionTextView.text = viewModel.model.value.description
-        coordinateView.latitudeTextField.text = String(viewModel.model.value.coordinate.latitude)
-        coordinateView.longitudeTextField.text = String(viewModel.model.value.coordinate.longitude)
+        titleTextField.text = viewModel.initialTitleText
+        descriptionTextView.text = viewModel.initialDescriptionText
+        viewModel.deallocate()
+        coordinateView.latitudeTextField.text = String(viewModel.coordinate.latitude)
+        coordinateView.longitudeTextField.text = String(viewModel.coordinate.longitude)
         
-        if let fromDate = viewModel.model.value.fromDate, let toDate = viewModel.model.value.toDate {
+        if let fromDate = viewModel.fromDate, let toDate = viewModel.toDate {
             dateSwitch.isOn = true
             fromDatePicker.isValidAtBackgroundColor = true
             toDatePicker.isValidAtBackgroundColor = true
@@ -236,38 +237,24 @@ private extension WritingScheduleViewController {
 // MARK: - User Interaction
 private extension WritingScheduleViewController {
     @objc func touchUpRightBarButton() {
-        if isSaveEnabled() {
-            save(viewModel.model.value, scheduleListIndex)
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    @objc func touchUpLeftBarButton() {
-        viewModel.setScheduleTracker()
-        if viewModel.scheduleTracker.isChanged {
-            let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            }
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
-    }
-    
-    @objc func presentMap() {
-        let singleCoordinate = [viewModel.model.value.coordinate]
-        let mapView = MapViewController(singleCoordinate)
-        navigationController?.pushViewController(mapView, animated: true)
-    }
-    
-    func isSaveEnabled() -> Bool {
+        guard let title = titleTextField.text else { return }
         do {
-            try viewModel.isValidSave()
-            return true
+            try viewModel.isValidSave(title, descriptionTextView.text)
+            save(
+                Schedule(
+                    title: title,
+                    description: descriptionTextView.text,
+                    coordinate: viewModel.coordinate,
+                    fromDate: viewModel.fromDate,
+                    toDate: viewModel.toDate
+                ),
+                scheduleListIndex
+            )
+            navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? ScheduleError else {
                 alertWillAppear(AlertText.undefinedError)
-                return false
+                return
             }
             
             switch error {
@@ -280,8 +267,26 @@ private extension WritingScheduleViewController {
             case .toDateError:
                 alertWillAppear(error.rawValue)
             }
-            return false
         }
+    }
+    
+    @objc func touchUpLeftBarButton() {
+        guard let title = titleTextField.text else { return }
+        viewModel.setScheduleTracker(title, descriptionTextView.text)
+        if viewModel.scheduleTracker.isChanged {
+            let actionSheetText = fetchActionSheetText()
+            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @objc func presentMap() {
+        let singleCoordinate = [viewModel.coordinate]
+        let mapView = MapViewController(singleCoordinate)
+        navigationController?.pushViewController(mapView, animated: true)
     }
     
     func save(_ schedule: Schedule, _ index: Int?) {
@@ -298,23 +303,8 @@ private extension WritingScheduleViewController {
 // MARK: - Binding
 private extension WritingScheduleViewController {
     func setBindings() {
-        bindingText()
         bindingSwitchAndDatePicker()
         bindingCoordinate()
-    }
-    
-    func bindingText() {
-        let input = ConcreteWritingScheduleViewModel.TextInput(
-            titlePublisher: titleTextField
-                .publisher(for: \.text)
-                .compactMap { $0 }
-                .eraseToAnyPublisher(),
-            descriptionPublisher: descriptionTextView
-                .publisher(for: \.text)
-                .eraseToAnyPublisher()
-        )
-        
-        viewModel.subscribeText(input)
     }
     
     func bindingSwitchAndDatePicker() {

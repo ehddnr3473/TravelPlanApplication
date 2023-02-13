@@ -18,74 +18,80 @@ enum ScheduleError: String, Error {
 
 private protocol WritingScheduleViewModel: AnyObject {
     // Binding
-    associatedtype TextInput
     associatedtype CoordinateInput
     associatedtype CoordinateOutput
     associatedtype SwitchAndDateInput
     associatedtype SwitchAndDateOutput
     
-    func subscribeText(_ input: TextInput)
     func transform(_ input: CoordinateInput) -> CoordinateOutput
     func transform(_ input: SwitchAndDateInput) -> SwitchAndDateOutput
     
     // Input
-    func setScheduleTracker()
+    func setScheduleTracker(_ title: String, _ description: String) // scheduleTracker.schedule set
+    func deallocate() // Deallocate initial string value
+    
     
     // Output
-    func isValidSave() throws
+    func isValidSave(_ title: String, _ description: String) throws
 }
 
 final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
-    private(set) var model: CurrentValueSubject<Schedule, Never>
     private(set) var scheduleTracker: ScheduleTracker
+    
+    private(set) var initialTitleText: String?
+    private(set) var initialDescriptionText: String?
+    private(set) var coordinate: CLLocationCoordinate2D
+    private(set) var fromDate: Date?
+    private(set) var toDate: Date?
     
     private var subscriptions = Set<AnyCancellable>()
     
     private var verifyPreFromDate: Bool {
-        guard let toDate = model.value.toDate,
-                let fromDate = model.value.fromDate,
+        guard let toDate = toDate,
+                let fromDate = fromDate,
                 let slicedFromDate = DateConverter.stringToDate(DateConverter.dateToString(fromDate)),
                 let slicedToDate = DateConverter.stringToDate(DateConverter.dateToString(toDate)) else { return true }
         return slicedFromDate <= slicedToDate
     }
     
     init(_ model: Schedule) {
-        self.model = CurrentValueSubject<Schedule, Never>(model)
         self.scheduleTracker = ScheduleTracker(model)
+        self.initialTitleText = model.title
+        self.initialDescriptionText = model.description
+        self.coordinate = model.coordinate
     }
     
     deinit {
         print("deinit: WritingScheduleViewModel")
     }
     
-    func isValidSave() throws {
-        if model.value.title == "" {
+    func setScheduleTracker(_ title: String, _ description: String) {
+        scheduleTracker.schedule = Schedule(title: title,
+                                            description: description,
+                                            coordinate: coordinate,
+                                            fromDate: fromDate,
+                                            toDate: toDate)
+    }
+    
+    func isValidSave(_ title: String, _ description: String) throws {
+        if title == "" {
             throw ScheduleError.titleError
         } else if !verifyPreFromDate {
             throw ScheduleError.preToDateError
-        } else if model.value.fromDate == nil && model.value.toDate != nil {
+        } else if fromDate == nil && toDate != nil {
             throw ScheduleError.fromDateError
-        } else if model.value.fromDate != nil && model.value.toDate == nil {
+        } else if fromDate != nil && toDate == nil {
             throw ScheduleError.toDateError
         }
     }
     
-    func setScheduleTracker() {
-        scheduleTracker.schedule = Schedule(title: model.value.title,
-                                            description: model.value.description,
-                                            coordinate: model.value.coordinate,
-                                            fromDate: model.value.fromDate,
-                                            toDate: model.value.toDate)
+    func deallocate() {
+        initialTitleText = nil
+        initialDescriptionText = nil
     }
 }
 
 extension ConcreteWritingScheduleViewModel {
-    // Title UITextField
-    struct TextInput {
-        let titlePublisher: AnyPublisher<String, Never>
-        let descriptionPublisher: AnyPublisher<String, Never>
-    }
-    
     // Coordinate
     struct CoordinateInput {
         let latitudePublisher: AnyPublisher<String, Never>
@@ -107,23 +113,6 @@ extension ConcreteWritingScheduleViewModel {
         let datePickerStatePublisher: AnyPublisher<Bool, Never>
     }
     
-    /// UITextField
-    /// - Parameter input: Title, Description text publisher
-    /// - Operation: Subscribe view's value - titleTextField.text, descriptionTextField.text
-    func subscribeText(_ input: TextInput) {
-        input.titlePublisher
-            .sink { [weak self] titleText in
-                self?.model.value.title = titleText
-            }
-            .store(in: &subscriptions)
-        
-        input.descriptionPublisher
-            .sink { [weak self] descriptionText in
-                self?.model.value.description = descriptionText
-            }
-            .store(in: &subscriptions)
-    }
-    
     /// Coordinate TextFIelds <-> Show Map UIButton
     /// - Parameter input: Coordinate Text Publisher
     /// - Returns: UIButton - isEnabled Publisher
@@ -133,8 +122,8 @@ extension ConcreteWritingScheduleViewModel {
                 guard let latitude = Double(latitude),
                         let longitude = Double(longitude),
                         CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude)) else { return false }
-                self?.model.value.coordinate.latitude = latitude
-                self?.model.value.coordinate.longitude = longitude
+                self?.coordinate.latitude = latitude
+                self?.coordinate.longitude = longitude
                 return CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
             }
             .eraseToAnyPublisher()
@@ -156,8 +145,8 @@ extension ConcreteWritingScheduleViewModel {
                 switchIsOn ? (fromDate, toDate) : (nil, nil)
             }
             .sink { [weak self] fromDate, toDate in
-                self?.model.value.fromDate = fromDate
-                self?.model.value.toDate = toDate
+                self?.fromDate = fromDate
+                self?.toDate = toDate
             }
             .store(in: &subscriptions)
             
