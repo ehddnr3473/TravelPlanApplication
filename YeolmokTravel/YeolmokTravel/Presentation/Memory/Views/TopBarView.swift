@@ -35,15 +35,16 @@ final class TopBarView: UIView {
         return label
     }()
     
-    lazy var saveBarButton: UIButton = {
+    let saveBarButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle(TextConstants.saveButtonTitle, for: .normal)
         button.setTitleColor(AppStyles.mainColor, for: .normal)
+        button.setTitleColor(.systemGray, for: .disabled)
         button.isEnabled = false
         return button
     }()
     
-    lazy var cancelBarButton: UIButton = {
+    let cancelBarButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle(TextConstants.cancelButtonTItle, for: .normal)
         return button
