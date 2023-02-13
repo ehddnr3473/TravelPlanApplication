@@ -16,7 +16,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
     var writingStyle: WritingStyle
     var delegate: ScheduleTransferDelegate?
     var scheduleListIndex: Int?
-    private let viewModel: WritingScheduleViewModel
+    private let viewModel: ConcreteWritingScheduleViewModel
     private var subscriptions = Set<AnyCancellable>()
     
     private let titleTextField: UITextField = {
@@ -107,7 +107,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         return coordinateView
     }()
     
-    init(_ viewModel: WritingScheduleViewModel, writingStyle: WritingStyle) {
+    init(_ viewModel: ConcreteWritingScheduleViewModel, writingStyle: WritingStyle) {
         self.viewModel = viewModel
         self.writingStyle = writingStyle
         super.init(nibName: nil, bundle: nil)
@@ -218,12 +218,12 @@ private extension WritingScheduleViewController {
     }
     
     func configureViewValue() {
-        titleTextField.text = viewModel.model.title
-        descriptionTextView.text = viewModel.model.description
-        coordinateView.latitudeTextField.text = String(viewModel.model.coordinate.latitude)
-        coordinateView.longitudeTextField.text = String(viewModel.model.coordinate.longitude)
+        titleTextField.text = viewModel.model.value.title
+        descriptionTextView.text = viewModel.model.value.description
+        coordinateView.latitudeTextField.text = String(viewModel.model.value.coordinate.latitude)
+        coordinateView.longitudeTextField.text = String(viewModel.model.value.coordinate.longitude)
         
-        if let fromDate = viewModel.model.fromDate, let toDate = viewModel.model.toDate {
+        if let fromDate = viewModel.model.value.fromDate, let toDate = viewModel.model.value.toDate {
             dateSwitch.isOn = true
             fromDatePicker.isValidAtBackgroundColor = true
             toDatePicker.isValidAtBackgroundColor = true
@@ -237,7 +237,7 @@ private extension WritingScheduleViewController {
 private extension WritingScheduleViewController {
     @objc func touchUpRightBarButton() {
         if isSaveEnabled() {
-            save(viewModel.model, scheduleListIndex)
+            save(viewModel.model.value, scheduleListIndex)
             navigationController?.popViewController(animated: true)
         }
     }
@@ -255,14 +255,14 @@ private extension WritingScheduleViewController {
     }
     
     @objc func presentMap() {
-        let coordinates = [viewModel.coordinate]
-        let mapView = MapViewController(coordinates)
+        let singleCoordinate = [viewModel.model.value.coordinate]
+        let mapView = MapViewController(singleCoordinate)
         navigationController?.pushViewController(mapView, animated: true)
     }
     
     func isSaveEnabled() -> Bool {
         do {
-            try viewModel.setSchedule()
+            try viewModel.isValidSave()
             return true
         } catch {
             guard let error = error as? ScheduleError else {
@@ -272,15 +272,13 @@ private extension WritingScheduleViewController {
             
             switch error {
             case .titleError:
-                alertWillAppear(AlertText.titleMessage)
+                alertWillAppear(error.rawValue)
             case .preToDateError:
-                alertWillAppear(AlertText.dateMessage)
+                alertWillAppear(error.rawValue)
             case .fromDateError:
-                alertWillAppear(AlertText.fromDateErrorMessage)
+                alertWillAppear(error.rawValue)
             case .toDateError:
-                alertWillAppear(AlertText.toDateErrorMessage)
-            case .coordinateError:
-                alertWillAppear(AlertText.coordinateErrorMessage)
+                alertWillAppear(error.rawValue)
             }
             return false
         }
@@ -306,7 +304,7 @@ private extension WritingScheduleViewController {
     }
     
     func bindingText() {
-        let input = WritingScheduleViewModel.TextInput(
+        let input = ConcreteWritingScheduleViewModel.TextInput(
             titlePublisher: titleTextField
                 .publisher(for: \.text)
                 .compactMap { $0 }
@@ -320,7 +318,7 @@ private extension WritingScheduleViewController {
     }
     
     func bindingSwitchAndDatePicker() {
-        let input = WritingScheduleViewModel.SwitchAndDateInput(
+        let input = ConcreteWritingScheduleViewModel.SwitchAndDateInput(
             switchIsOnPublisher: dateSwitch
                 .publisher(for: \.isOn)
                 .eraseToAnyPublisher(),
@@ -344,7 +342,7 @@ private extension WritingScheduleViewController {
     }
     
     func bindingCoordinate() {
-        let input = WritingScheduleViewModel.CoordinateInput(
+        let input = ConcreteWritingScheduleViewModel.CoordinateInput(
             latitudePublisher: coordinateView.latitudeTextField
                 .publisher(for: \.text)
                 .compactMap { $0 }
