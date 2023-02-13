@@ -131,7 +131,6 @@ private extension WritingScheduleViewController {
         configureViewValue()
         configureHierarchy()
         configureLayoutConstraint()
-        configureCoordinateView()
     }
     
     func configureHierarchy() {
@@ -232,7 +231,7 @@ private extension WritingScheduleViewController {
     }
 }
 
-// MARK: - User Interaction
+// MARK: - User Interaction & Binding
 private extension WritingScheduleViewController {
     @objc func touchUpRightBarButton() {
         do {
@@ -289,15 +288,13 @@ private extension WritingScheduleViewController {
             delegate?.update(at: index, schedule)
         }
     }
-}
-
-// MARK: - Binding
-private extension WritingScheduleViewController {
+    
     func configure() {
         titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
         descriptionTextView.delegate = self
         coordinateView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
         coordinateView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        coordinateView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
         dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
         fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
         toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
@@ -326,13 +323,6 @@ private extension WritingScheduleViewController {
     
     @objc func valueChangedtoDatePicker() {
         viewModel.valueChangedToDatePicker(toDatePicker.date)
-    }
-}
-
-// MARK: - Coordinate
-private extension WritingScheduleViewController {
-    func configureCoordinateView() {
-        coordinateView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
     }
 }
 
