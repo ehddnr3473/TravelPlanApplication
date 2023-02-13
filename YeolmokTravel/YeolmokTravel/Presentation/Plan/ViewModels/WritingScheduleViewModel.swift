@@ -19,6 +19,11 @@ enum ScheduleError: String, Error {
 
 private protocol WritingScheduleViewModel: AnyObject {
     // Input
+    func editingChangedTitleTextField(_ title: String)
+    func editingChangedCoordinateTextField(_ latitude: String, _ longitude: String) -> Bool
+    func toggledSwitch(_ isOn: Bool, _ fromDate: Date, _ toDate: Date)
+    func valueChangedFromDatePicker(_ date: Date)
+    func valueChangedToDatePicker(_ date: Date)
     func setScheduleTracker() // scheduleTracker.schedule set
     
     // Output
@@ -48,18 +53,6 @@ final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
         print("deinit: WritingScheduleViewModel")
     }
     
-    func setScheduleTracker() {
-        scheduleTracker.schedule = model
-    }
-    
-    func setCoordinate(_ latitude: String, _ longitude: String) {
-        guard let latitude = Double(latitude),
-              let longitude = Double(longitude),
-              CLLocationCoordinate2DIsValid(CLLocationCoordinate2D(latitude: latitude, longitude: longitude)) else { return }
-        model.coordinate.latitude = latitude
-        model.coordinate.longitude = longitude
-    }
-    
     func isValidSave(_ latitude: String, _ longitude: String) throws {
         if model.title == "" {
             throw ScheduleError.titleError
@@ -74,12 +67,28 @@ final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
         }
     }
     
-    func isValidCoordinate(_ latitude: String, _ longitude: String) -> Bool {
+    private func isValidCoordinate(_ latitude: String, _ longitude: String) -> Bool {
         guard let latitude = Double(latitude) else { return false }
         guard let longitude = Double(longitude) else { return false }
         guard CLLocationCoordinate2DIsValid(
             CLLocationCoordinate2D(latitude: latitude,longitude: longitude)
         ) else { return false }
+        return true
+    }
+    
+    func editingChangedTitleTextField(_ title: String) {
+        model.title = title
+    }
+    
+    func didChangeDescriptionTextView(_ description: String) {
+        model.description = description
+    }
+    
+    func editingChangedCoordinateTextField(_ latitude: String, _ longitude: String) -> Bool {
+        guard isValidCoordinate(latitude, longitude) else { return false }
+        guard let latitude = CLLocationDegrees(latitude), let longitude = CLLocationDegrees(longitude) else { return false }
+        model.coordinate.latitude = latitude
+        model.coordinate.longitude = longitude
         return true
     }
     
@@ -93,27 +102,15 @@ final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
         }
     }
     
-    func editingChangedTitleTextField(_ title: String) {
-        model.title = title
-    }
-    
-    func didChangeDescriptionTextView(_ description: String) {
-        model.description = description
-    }
-    
-    func editingChangedCoordinateTextField(_ latitude: String, _ longitude: String) -> Bool {
-        guard isValidCoordinate(latitude, longitude) else { return false }
-        guard let latitude = Double(latitude), let longitude = Double(longitude) else { return false }
-        model.coordinate.latitude = latitude
-        model.coordinate.longitude = longitude
-        return true
-    }
-    
     func valueChangedFromDatePicker(_ date: Date) {
         model.fromDate = date
     }
     
     func valueChangedToDatePicker(_ date: Date) {
         model.toDate = date
+    }
+    
+    func setScheduleTracker() {
+        scheduleTracker.schedule = model
     }
 }
