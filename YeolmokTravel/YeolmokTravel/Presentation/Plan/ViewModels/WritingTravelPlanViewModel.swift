@@ -29,8 +29,8 @@ private protocol WritingTravelPlanViewModel: AnyObject {
 final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     private(set) var travelPlanTracker: TravelPlanTracker
     
-    private(set) var title: String
-    private(set) var description: String
+    private(set) var initialTitleText: String?
+    private(set) var initialDescriptionText: String?
     private(set) var schedules: CurrentValueSubject<[Schedule], Never>
     
     private var subscriptions = Set<AnyCancellable>()
@@ -52,8 +52,8 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     
     init(_ model: TravelPlan) {
         self.travelPlanTracker = TravelPlanTracker(model)
-        self.title = model.title
-        self.description = model.description
+        self.initialTitleText = model.title
+        self.initialDescriptionText = model.description
         self.schedules = CurrentValueSubject<[Schedule], Never>(model.schedules)
     }
     
@@ -85,5 +85,10 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     
     func isValidSave(_ title: String) throws {
         guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
+    }
+    
+    func deallocate() {
+        self.initialTitleText = nil
+        self.initialDescriptionText = nil
     }
 }

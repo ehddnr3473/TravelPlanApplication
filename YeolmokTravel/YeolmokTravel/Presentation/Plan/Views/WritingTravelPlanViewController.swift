@@ -153,8 +153,9 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureTopViewValue() {
-        topView.titleTextField.text = viewModel.title
-        topView.descriptionTextView.text = viewModel.description
+        topView.titleTextField.text = viewModel.initialTitleText
+        topView.descriptionTextView.text = viewModel.initialDescriptionText
+        viewModel.deallocate()
         topView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
         topView.addScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
     }
