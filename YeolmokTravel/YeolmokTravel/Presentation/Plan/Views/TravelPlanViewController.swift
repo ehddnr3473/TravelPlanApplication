@@ -179,9 +179,9 @@ private extension TravelPlanViewController {
         let coordinates = model.coordinates
         let mapViewController = MapViewController(coordinates)
         let writingView = WritingTravelPlanViewController(
-            ConcreteWritingTravelPlanViewModel(CurrentValueSubject<TravelPlan, Never>(model)),
-            mapViewController,
-            .create,
+            viewModel: ConcreteWritingTravelPlanViewModel(model),
+            mapProvider: mapViewController,
+            writingStyle: .create,
             delegate: self
         )
         writingView.delegate = self
@@ -194,9 +194,9 @@ private extension TravelPlanViewController {
         let coordinates = model.coordinates
         let mapViewController = MapViewController(coordinates)
         let writingView = WritingTravelPlanViewController(
-            ConcreteWritingTravelPlanViewModel(CurrentValueSubject<TravelPlan, Never>(model)),
-            mapViewController,
-            .update,
+            viewModel: ConcreteWritingTravelPlanViewModel(model),
+            mapProvider: mapViewController,
+            writingStyle: .update,
             delegate: self
         )
         writingView.delegate = self
