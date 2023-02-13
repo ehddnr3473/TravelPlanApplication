@@ -14,7 +14,8 @@ final class WritingMemoryViewController: UIViewController {
     private let viewModel: ConcreteWritingMemoryViewModel
     private let delegate: MemoryTransferDelegate
     private let memoryIndex: Int
-    private let imageIsExist = CurrentValueSubject<Bool, Never>(false)
+    private let titlePublisher = CurrentValueSubject<String, Never>("")
+    private let imageIsExistPublisher = CurrentValueSubject<Bool, Never>(false)
     private var subscriptions = Set<AnyCancellable>()
     
     init(_ viewModel: ConcreteWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
@@ -93,7 +94,6 @@ final class WritingMemoryViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        
         return label
     }()
     
@@ -163,6 +163,7 @@ extension WritingMemoryViewController {
         topBarView.barTitleLabel.text = TextConstants.title
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpRightBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpLeftBarButton), for: .touchUpInside)
+        titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
         phPicker.delegate = self
     }
 }
@@ -207,22 +208,23 @@ private extension WritingMemoryViewController {
     
     @objc func touchUpDeleteButton() {
         imageView.image = nil
-        self.imageIsExist.value = false
+        self.imageIsExistPublisher.value = false
+    }
+    
+    @objc func editingChangedTitleTextField() {
+        titlePublisher.send(titleTextField.text ?? "")
     }
     
     func setBindings() {
         let input = ConcreteWritingMemoryViewModel.Input(
-            title: titleTextField
-                .publisher(for: \.text)
-                .compactMap { $0 }
-                .eraseToAnyPublisher(),
-            image: imageIsExist.eraseToAnyPublisher()
+            title: titlePublisher.eraseToAnyPublisher(),
+            image: imageIsExistPublisher.eraseToAnyPublisher()
         )
         
         let output = viewModel.transform(input: input)
         
         output.buttonState
-            .receive(on: RunLoop.main)
+            .receive(on: DispatchQueue.main)
             .sink{ [weak self] state in
                 self?.topBarView.saveBarButton.isEnabled = state
             }
@@ -248,7 +250,7 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
                 self?.imageView.image = image as? UIImage
             }
             
-            self?.imageIsExist.value = true
+            self?.imageIsExistPublisher.value = true
         }
     }
 }
