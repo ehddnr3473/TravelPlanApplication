@@ -20,7 +20,7 @@ private protocol WritingTravelPlanViewModel: AnyObject {
     func deleteSchedule(at index: Int)
     func swapSchedules(at source: Int, to destination: Int)
     func setTravelPlanTracker(_ title: String, _ description: String) // travelPlanTracker.travelPlan set
-    func deallocate() // Deallocate initial string value
+    func deallocateTextProperty() // Deallocate initial text property
     
     // Output
     var calculatedScrollViewContainerHeight: CGFloat { get }
@@ -88,7 +88,7 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
         guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
     }
     
-    func deallocate() {
+    func deallocateTextProperty() {
         initialTitleText = nil
         initialDescriptionText = nil
     }

@@ -28,7 +28,7 @@ private protocol WritingScheduleViewModel: AnyObject {
     
     // Input
     func setScheduleTracker(_ title: String, _ description: String) // scheduleTracker.schedule set
-    func deallocate() // Deallocate initial string value
+    func deallocateTextProperty() // Deallocate initial text property
     
     // Output
     func isValidSave(_ title: String, _ description: String) throws
@@ -84,7 +84,7 @@ final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
         }
     }
     
-    func deallocate() {
+    func deallocateTextProperty() {
         initialTitleText = nil
         initialDescriptionText = nil
     }

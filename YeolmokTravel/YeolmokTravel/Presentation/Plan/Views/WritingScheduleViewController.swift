@@ -220,7 +220,7 @@ private extension WritingScheduleViewController {
     func configureViewValue() {
         titleTextField.text = viewModel.initialTitleText
         descriptionTextView.text = viewModel.initialDescriptionText
-        viewModel.deallocate()
+        viewModel.deallocateTextProperty()
         coordinateView.latitudeTextField.text = String(viewModel.coordinate.latitude)
         coordinateView.longitudeTextField.text = String(viewModel.coordinate.longitude)
         
