@@ -257,7 +257,6 @@ private extension WritingTravelPlanViewController {
         viewModel.schedules
             .receive(on: DispatchQueue.main)
             .sink { [self] schedules in
-                print("reload")
                 reload()
                 schedulesDidChaged(schedules)
             }
