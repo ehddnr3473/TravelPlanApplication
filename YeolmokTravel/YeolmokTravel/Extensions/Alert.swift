@@ -33,11 +33,7 @@ enum AlertText {
     static let titleMessage = "제목을 입력해주세요."
     static let okActionTitle = "확인"
     static let cancelActionTitle = "취소"
-    static let dateMessage = "시작 날짜가 종료 날짜 이후입니다."
     static let undefinedError = "알 수 없는 오류가 발생했습니다."
-    static let fromDateErrorMessage = "From 날짜를 선택해주세요."
-    static let toDateErrorMessage = "To 날짜를 선택해주세요."
     static let nilImageMessage = "사진을 선택해주세요."
-    static let coordinateErrorMessage = "0이 아닌 좌표값을 입력해주세요."
     static let imageLoadErrorMessage = "이미지 불러오기를 실패했습니다."
 }
