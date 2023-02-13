@@ -14,35 +14,34 @@ enum WritingTravelPlanError: String, Error {
 }
 
 private protocol WritingTravelPlanViewModel: AnyObject {
-    // Binding
-    associatedtype TextInput
-    func subscribeText(input: TextInput)
-    
-    // Input(Model update) -> Output(Model information)
+    // Input(Schedules update) -> Output(Schedules changed information)
     func createSchedule(_ schedule: Schedule)
     func updateSchedule(at index: Int, _ schedule: Schedule)
     func deleteSchedule(at index: Int)
     func swapSchedules(at source: Int, to destination: Int)
-    func setTravelPlanTracker()
+    func setTravelPlanTracker(_ title: String, _ description: String)
     
     // Output
     var calculateScrollViewContainerHeight: CGFloat { get }
-    func isValidSave() throws
+    func isValidSave(_ title: String) throws
 }
 
 final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
-    private(set) var model: CurrentValueSubject<TravelPlan, Never>
     private(set) var travelPlanTracker: TravelPlanTracker
+    
+    private(set) var title: String
+    private(set) var description: String
+    private(set) var schedules: CurrentValueSubject<[Schedule], Never>
     
     private var subscriptions = Set<AnyCancellable>()
     
     var calculateScrollViewContainerHeight: CGFloat {
-        if model.value.schedules.count == 0 {
+        if schedules.value.count == 0 {
             return AppLayoutConstants.writingTravelPlanViewHeight +
             AppLayoutConstants.largeSpacing * 2
         } else {
             return AppLayoutConstants.writingTravelPlanViewHeight +
-            Double(model.value.schedules.count) * AppLayoutConstants.cellHeight +
+            Double(schedules.value.count) * AppLayoutConstants.cellHeight +
             AppLayoutConstants.mapViewHeight +
             AppLayoutConstants.largeFontSize +
             AppLayoutConstants.spacing +
@@ -52,8 +51,10 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     }
     
     init(_ model: TravelPlan) {
-        self.model = CurrentValueSubject<TravelPlan, Never>(model)
         self.travelPlanTracker = TravelPlanTracker(model)
+        self.title = model.title
+        self.description = model.description
+        self.schedules = CurrentValueSubject<[Schedule], Never>(model.schedules)
     }
     
     deinit {
@@ -61,45 +62,28 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     }
     
     func createSchedule(_ schedule: Schedule) {
-        model.value.schedules.append(schedule)
+        schedules.value.append(schedule)
     }
     
     func updateSchedule(at index: Int, _ schedule: Schedule) {
-        model.value.schedules[index] = schedule
+        schedules.value[index] = schedule
     }
     
     func deleteSchedule(at index: Int) {
-        model.value.schedules.remove(at: index)
+        schedules.value.remove(at: index)
     }
     
     func swapSchedules(at source: Int, to destination: Int) {
-        model.value.schedules.swapAt(source, destination)
+        schedules.value.swapAt(source, destination)
     }
     
-    func setTravelPlanTracker() {
-        travelPlanTracker.travelPlan = TravelPlan(title: model.value.title,
-                                                  description: model.value.description,
-                                                  schedules: model.value.schedules)
+    func setTravelPlanTracker(_ title: String, _ description: String) {
+        travelPlanTracker.travelPlan = TravelPlan(title: title,
+                                                  description: description,
+                                                  schedules: schedules.value)
     }
     
-    func isValidSave() throws {
-        guard model.value.title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
-    }
-}
-
-extension ConcreteWritingTravelPlanViewModel {
-    struct TextInput {
-        let titlePublisher: AnyPublisher<String, Never>
-        let descriptionPublisher: AnyPublisher<String, Never>
-    }
-    
-    func subscribeText(input: TextInput) {
-        input.titlePublisher
-            .assign(to: \.model.value.title, on: self)
-            .store(in: &subscriptions)
-        
-        input.descriptionPublisher
-            .assign(to: \.model.value.description, on: self)
-            .store(in: &subscriptions)
+    func isValidSave(_ title: String) throws {
+        guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
     }
 }

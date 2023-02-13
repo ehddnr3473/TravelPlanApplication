@@ -38,7 +38,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private let scrollViewContainer = UIView()
     
-    private let writingTravelPlanView: WritingTravelPlanTopView = {
+    private let topView: WritingTravelPlanTopView = {
         let writingTravelPlanView = WritingTravelPlanTopView()
         writingTravelPlanView.backgroundColor = .systemBackground
         return writingTravelPlanView
@@ -87,8 +87,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         configureView()
         embedMapView()
         configure()
-        configureWritingTravelPlanViewValue()
-        setBindings()
+        configureTopViewValue()
+        bindingSchedules()
     }
 }
 
@@ -102,7 +102,7 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureHierarchy() {
-        [writingTravelPlanView, scheduleTableView].forEach {
+        [topView, scheduleTableView].forEach {
             scrollViewContainer.addSubview($0)
         }
         
@@ -131,7 +131,7 @@ private extension WritingTravelPlanViewController {
             $0.height.equalTo(viewModel.calculateScrollViewContainerHeight)
         }
         
-        writingTravelPlanView.snp.makeConstraints {
+        topView.snp.makeConstraints {
             $0.top.equalTo(scrollViewContainer.snp.top)
                 .inset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
@@ -139,24 +139,24 @@ private extension WritingTravelPlanViewController {
         }
         
         scheduleTableView.snp.makeConstraints {
-            $0.top.equalTo(writingTravelPlanView.snp.bottom)
+            $0.top.equalTo(topView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.width.equalTo(scrollViewContainer.snp.width)
-            $0.height.equalTo(viewModel.model.value.schedules.count * Int(AppLayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.schedules.value.count * Int(AppLayoutConstants.cellHeight))
         }
-    }
-    
-    func configureWritingTravelPlanViewValue() {
-        writingTravelPlanView.titleTextField.text = viewModel.model.value.title
-        writingTravelPlanView.descriptionTextView.text = viewModel.model.value.description
-        writingTravelPlanView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        writingTravelPlanView.addScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
     }
     
     func configureNavigationItems() {
         navigationItem.title = "\(writingStyle.rawValue) \(TextConstants.plan)"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpLeftBarButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpRightBarButton))
+    }
+    
+    func configureTopViewValue() {
+        topView.titleTextField.text = viewModel.title
+        topView.descriptionTextView.text = viewModel.description
+        topView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        topView.addScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
     }
     
     func configure() {
@@ -168,9 +168,17 @@ private extension WritingTravelPlanViewController {
 // MARK: - User Interaction
 private extension WritingTravelPlanViewController {
     @objc func touchUpRightBarButton() {
+        guard let title = topView.titleTextField.text else { return }
         do {
-            try viewModel.isValidSave()
-            save(viewModel.model.value, planListIndex)
+            try viewModel.isValidSave(title)
+            save(
+                TravelPlan(
+                    title: title,
+                    description: topView.descriptionTextView.text,
+                    schedules: viewModel.schedules.value
+                ),
+                planListIndex
+            )
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? WritingTravelPlanError else { return }
@@ -189,7 +197,8 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpLeftBarButton() {
-        viewModel.setTravelPlanTracker()
+        guard let title = topView.titleTextField.text else { return }
+        viewModel.setTravelPlanTracker(title, topView.descriptionTextView.text)
         if viewModel.travelPlanTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
@@ -209,7 +218,7 @@ private extension WritingTravelPlanViewController {
     }
     
     private func didSelectRow(_ index: Int) {
-        let model = viewModel.model.value.schedules[index]
+        let model = viewModel.schedules.value[index]
         let viewModel = ConcreteWritingScheduleViewModel(model)
         let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
         writingView.delegate = self
@@ -236,44 +245,25 @@ private extension WritingTravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             scheduleTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            writingTravelPlanView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+            topView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
         })
     }
 }
 
 // MARK: - Binding
 private extension WritingTravelPlanViewController {
-    func setBindings() {
-        bindingModel()
-        bindingText()
-    }
-    
-    func bindingModel() {
-        viewModel.model
+    func bindingSchedules() {
+        viewModel.schedules
             .receive(on: DispatchQueue.main)
-            .map { $0.schedules }
             .sink { [self] schedules in
+                print("reload")
                 reload()
-                modelDidChaged(schedules)
+                schedulesDidChaged(schedules)
             }
             .store(in: &subscriptions)
     }
     
-    func bindingText() {
-        let input = ConcreteWritingTravelPlanViewModel.TextInput(
-            titlePublisher: writingTravelPlanView.titleTextField
-                .publisher(for: \.text)
-                .compactMap{ $0 }
-                .eraseToAnyPublisher(),
-            descriptionPublisher: writingTravelPlanView.descriptionTextView
-                .publisher(for: \.text)
-                .eraseToAnyPublisher()
-        )
-        
-        viewModel.subscribeText(input: input)
-    }
-    
-    func modelDidChaged(_ schedules: [Schedule]) {
+    func schedulesDidChaged(_ schedules: [Schedule]) {
         let coordinates = extractCoordinatesOfSchedules(schedules)
         
         if coordinates.count == .zero {
@@ -305,7 +295,7 @@ private extension WritingTravelPlanViewController {
          좌표 값이 없다면(새로운 TavelPlan 추가를 위한 초기 상태인 경우 or Schedule 추가를 안한 경우)
          불필요한 뷰 추가 없이, 임베드만 하고 종료
          */
-        guard viewModel.model.value.schedules.count != .zero else { return }
+        guard viewModel.schedules.value.count != .zero else { return }
         addMapContentsViews()
     }
     
@@ -403,7 +393,7 @@ private extension WritingTravelPlanViewController {
     
     @MainActor func updateTableViewConstraints() {
         scheduleTableView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.model.value.schedules.count * Int(AppLayoutConstants.cellHeight))
+            $0.height.equalTo(viewModel.schedules.value.count * Int(AppLayoutConstants.cellHeight))
         }
     }
 }
@@ -412,15 +402,15 @@ private extension WritingTravelPlanViewController {
 extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
-        cell.titleLabel.text = viewModel.model.value.schedules[indexPath.row].title
-        cell.descriptionLabel.text = viewModel.model.value.schedules[indexPath.row].description
-        cell.dateLabel.text = viewModel.model.value.schedules[indexPath.row].date
+        cell.titleLabel.text = viewModel.schedules.value[indexPath.row].title
+        cell.descriptionLabel.text = viewModel.schedules.value[indexPath.row].description
+        cell.dateLabel.text = viewModel.schedules.value[indexPath.row].date
         cell.accessoryType = .disclosureIndicator
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.model.value.schedules.count
+        viewModel.schedules.value.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
