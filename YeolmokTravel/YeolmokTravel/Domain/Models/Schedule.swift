@@ -19,10 +19,12 @@ struct Schedule {
     
     var date: String {
         if let fromDate = fromDate, let toDate = toDate {
-            if fromDate == toDate {
-                return DateConverter.dateToString(fromDate)
+            let slicedFromDate = DateConverter.dateToString(fromDate)
+            let slicedToDate = DateConverter.dateToString(toDate)
+            if slicedFromDate == slicedToDate {
+                return slicedFromDate
             } else {
-                return "\(DateConverter.dateToString(fromDate)) ~ \(DateConverter.dateToString(toDate))"
+                return "\(slicedFromDate) ~ \(slicedToDate)"
             }
         } else {
             return DateConverter.nilDateText
