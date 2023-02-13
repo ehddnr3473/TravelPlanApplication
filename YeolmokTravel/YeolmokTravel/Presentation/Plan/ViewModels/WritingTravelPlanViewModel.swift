@@ -89,7 +89,7 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     }
     
     func deallocate() {
-        self.initialTitleText = nil
-        self.initialDescriptionText = nil
+        initialTitleText = nil
+        initialDescriptionText = nil
     }
 }
