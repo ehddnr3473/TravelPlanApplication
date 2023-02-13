@@ -28,14 +28,6 @@ struct Schedule {
             return DateConverter.nilDateText
         }
     }
-    
-    mutating func setSchedule(_ title: String, _ description: String, _ coordinate: CLLocationCoordinate2D, _ fromDate: Date? = nil, _ toDate: Date? = nil) {
-        self.title = title
-        self.description = description
-        self.fromDate = fromDate
-        self.toDate = toDate
-        self.coordinate = coordinate
-    }
 }
 
 extension Schedule {
