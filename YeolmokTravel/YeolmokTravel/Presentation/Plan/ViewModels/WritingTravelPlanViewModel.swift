@@ -30,11 +30,10 @@ private protocol WritingTravelPlanViewModel: AnyObject {
     func isValidSave() throws
 }
 
-final class ConcreteWritingTravelPlanViewModel {
+final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     private(set) var travelPlanTracker: TravelPlanTracker
     private(set) var model: CurrentValueSubject<TravelPlan, Never>
     
-    private(set) var coordinatesPublisher = PassthroughSubject<[CLLocationCoordinate2D], Never>()
     private var subscriptions = Set<AnyCancellable>()
     
     var calculateScrollViewContainerHeight: CGFloat {
@@ -52,9 +51,9 @@ final class ConcreteWritingTravelPlanViewModel {
         }
     }
     
-    init(_ model: CurrentValueSubject<TravelPlan, Never>) {
-        self.model = model
-        self.travelPlanTracker = TravelPlanTracker(model.value)
+    init(_ model: TravelPlan) {
+        self.model = CurrentValueSubject<TravelPlan, Never>(model)
+        self.travelPlanTracker = TravelPlanTracker(model)
     }
     
     deinit {
@@ -88,7 +87,7 @@ final class ConcreteWritingTravelPlanViewModel {
     }
 }
 
-extension ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
+extension ConcreteWritingTravelPlanViewModel {
     struct TextInput {
         let titlePublisher: AnyPublisher<String, Never>
         let descriptionPublisher: AnyPublisher<String, Never>
