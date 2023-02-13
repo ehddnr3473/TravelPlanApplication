@@ -128,7 +128,7 @@ private extension WritingTravelPlanViewController {
             $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
             
             $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
-            $0.height.equalTo(viewModel.calculateScrollViewContainerHeight)
+            $0.height.equalTo(viewModel.calculatedScrollViewContainerHeight)
         }
         
         topView.snp.makeConstraints {
@@ -388,7 +388,7 @@ private extension WritingTravelPlanViewController {
     
     @MainActor func updateScrollViewContainerHeight() {
         scrollViewContainer.snp.updateConstraints {
-            $0.height.equalTo(viewModel.calculateScrollViewContainerHeight)
+            $0.height.equalTo(viewModel.calculatedScrollViewContainerHeight)
         }
     }
     
