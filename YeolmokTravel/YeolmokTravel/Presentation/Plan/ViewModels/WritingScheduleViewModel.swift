@@ -30,7 +30,6 @@ private protocol WritingScheduleViewModel: AnyObject {
     func setScheduleTracker(_ title: String, _ description: String) // scheduleTracker.schedule set
     func deallocate() // Deallocate initial string value
     
-    
     // Output
     func isValidSave(_ title: String, _ description: String) throws
 }
