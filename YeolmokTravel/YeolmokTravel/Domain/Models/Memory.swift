@@ -8,10 +8,14 @@
 import Foundation
 
 /// Memory Model
-struct Memory {
+struct Memory: Hashable {
     let title: String
     let index: Int
     let uploadDate: Date
+    
+    var id: Int {
+        index
+    }
 }
 
 extension Memory {
