@@ -160,6 +160,7 @@ private extension WritingTravelPlanViewController {
     
     func configureTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
     }
 }
@@ -177,8 +178,12 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpRightBarButton() {
+        viewModel.setTravelPlanTracker()
         do {
-            save(try viewModel.createTravelPlan(), planListIndex)
+            // 변경 사항이 있다면 저장
+            if viewModel.travelPlanTracker.isChanged {
+                save(try viewModel.createTravelPlan(), planListIndex)
+            }
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? WritingTravelPlanError else { return }
@@ -464,6 +469,15 @@ extension WritingTravelPlanViewController: UITextFieldDelegate {
 extension WritingTravelPlanViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         viewModel.editingChangedDescriptionTextField(textView.text)
+    }
+}
+
+extension WritingTravelPlanViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if let view = touch.view, view.isDescendant(of: scheduleTableView) {
+            return false
+        }
+        return true
     }
 }
 
