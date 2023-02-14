@@ -58,7 +58,7 @@ final class TravelPlanViewController: UIViewController {
         return tableView
     }()
     
-    private var indicatorView: JGProgressHUD? = {
+    private var indicatorView: JGProgressHUD = {
         let headUpDisplay = JGProgressHUD()
         headUpDisplay.textLabel.text = IndicatorConstants.titleText
         headUpDisplay.detailTextLabel.text = IndicatorConstants.detailText
@@ -200,15 +200,12 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
         Task {
             do {
                 try await viewModel.read()
-                dismissIndicator()
-                deallocateIndicator()
             } catch {
                 if let error = error as? TravelPlanRepositoryError {
-                    DispatchQueue.main.async {
-                        self.alertWillAppear(error.rawValue)
-                    }
+                    alertWillAppear(error.rawValue)
                 }
             }
+            dismissIndicator()
         }
     }
     
@@ -228,31 +225,53 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            guard let deletedCell = tableView.cellForRow(at: indexPath) as? PlanCell else { return }
             Task {
                 do {
+                    DispatchQueue.main.async {
+                        deletedCell.createIndicator()
+                        deletedCell.startIndicator()
+                    }
+                    
                     try await viewModel.delete(indexPath.row)
+                    
                     DispatchQueue.main.async {
                         self.updateTableViewConstraints()
                     }
                 } catch {
                     guard let error = error as? TravelPlanRepositoryError else { return }
-                    DispatchQueue.main.async {
-                        self.alertWillAppear(error.rawValue)
-                    }
+                    alertWillAppear(error.rawValue)
+                }
+                
+                DispatchQueue.main.async {
+                    deletedCell.stopAndDeallocateIndicator()
                 }
             }
         }
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        guard let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? PlanCell else { return }
+        guard let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? PlanCell else { return }
+        
         Task {
             do {
+                DispatchQueue.main.async {
+                    sourceCell.createIndicator()
+                    destinationCell.createIndicator()
+                    sourceCell.startIndicator()
+                    destinationCell.startIndicator()
+                }
+                
                 try await viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
             } catch {
                 guard let error = error as? TravelPlanRepositoryError else { return }
-                DispatchQueue.main.async {
-                    self.alertWillAppear(error.rawValue)
-                }
+                alertWillAppear(error.rawValue)
+            }
+            
+            DispatchQueue.main.async {
+                sourceCell.stopAndDeallocateIndicator()
+                destinationCell.stopAndDeallocateIndicator()
             }
         }
     }
@@ -274,41 +293,39 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
 extension TravelPlanViewController: TravelPlanTransferDelegate {
     func create(_ travelPlan: TravelPlan) async throws {
         do {
+            startIndicator()
             try await viewModel.create(travelPlan)
         } catch {
             guard let error = error as? TravelPlanRepositoryError else { return }
-            DispatchQueue.main.async {
-                self.alertWillAppear(error.rawValue)
-            }
+            alertWillAppear(error.rawValue)
         }
+        dismissIndicator()
     }
     
     func update(at index: Int, _ travelPlan: TravelPlan) async throws {
         do {
+            startIndicator()
             try await viewModel.update(at: index, travelPlan)
         } catch {
             guard let error = error as? TravelPlanRepositoryError else { return }
-            DispatchQueue.main.async {
-                self.alertWillAppear(error.rawValue)
-            }
+            alertWillAppear(error.rawValue)
         }
+        dismissIndicator()
     }
 }
 
 // MARK: - Indicator
 private extension TravelPlanViewController {
     func startIndicator() {
-        guard let indicatorView = indicatorView else { return }
-        indicatorView.show(in: view)
+        DispatchQueue.main.async { [self] in
+            indicatorView.show(in: view)
+        }
     }
     
     func dismissIndicator() {
-        guard let indicatorView = indicatorView else { return }
-        indicatorView.dismiss(animated: true)
-    }
-    
-    func deallocateIndicator() {
-        indicatorView = nil
+        DispatchQueue.main.async { [self] in
+            indicatorView.dismiss(animated: true)
+        }
     }
 }
 
