@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import CoreLocation
 
-protocol ScheduleTransferDelegate {
+protocol ScheduleTransferDelegate: AnyObject {
     func create(_ schedule: Schedule)
     func update(at index: Int, _ schedule: Schedule)
 }
@@ -22,7 +22,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     typealias WritableModelType = TravelPlan
     // MARK: - Properties
     var writingStyle: WritingStyle
-    var delegate: TravelPlanTransferDelegate
+    weak var delegate: TravelPlanTransferDelegate?
     var planListIndex: Int?
     private let viewModel: ConcreteWritingTravelPlanViewModel
     private let mapProvider: Mappable
@@ -192,10 +192,10 @@ private extension WritingTravelPlanViewController {
     func save(_ travelPlan: TravelPlan, _ index: Int?) {
         switch writingStyle {
         case .create:
-            Task { try await delegate.create(travelPlan) }
+            Task { try await delegate?.create(travelPlan) }
         case .update:
             guard let index = index else { return }
-            Task { try await delegate.update(at: index, travelPlan) }
+            Task { try await delegate?.update(at: index, travelPlan) }
         }
     }
     
