@@ -39,10 +39,7 @@ final class PlanCell: UITableViewCell {
         return label
     }()
     
-    lazy var indicatorView: UIActivityIndicatorView = {
-        let indicatorView = UIActivityIndicatorView()
-        return indicatorView
-    }()
+    lazy var indicatorView: UIActivityIndicatorView? = nil
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,7 +71,7 @@ private extension PlanCell {
     
     private func configureHierarchy() {
         [titleLabel, dateLabel, descriptionLabel].forEach {
-            self.addSubview($0)
+            addSubview($0)
         }
     }
     
@@ -103,9 +100,37 @@ private extension PlanCell {
     }
 }
 
+// MARK: - Indicator
+extension PlanCell {
+    @MainActor func createIndicator() {
+        indicatorView = UIActivityIndicatorView()
+        guard let indicatorView = indicatorView else { return }
+        addSubview(indicatorView)
+        indicatorView.snp.makeConstraints {
+            $0.trailing.equalToSuperview()
+                .inset(LayoutConstants.indicatorTrailing)
+            $0.centerY.equalToSuperview()
+        }
+    }
+    
+    @MainActor func startIndicator() {
+        guard let indicatorView = indicatorView else { return }
+        indicatorView.startAnimating()
+    }
+    
+    @MainActor func stopAndDeallocateIndicator() {
+        guard let indicatorView = indicatorView else { return }
+        indicatorView.stopAnimating()
+        indicatorView.snp.removeConstraints()
+        indicatorView.removeFromSuperview()
+        self.indicatorView = nil
+    }
+}
+
 // Layout magic number
 private enum LayoutConstants {
     static let titleFontSize: CGFloat = 20
     static let borderWidth: CGFloat = 0.5
     static let fontSize: CGFloat = 15
+    static let indicatorTrailing: CGFloat = 50
 }
