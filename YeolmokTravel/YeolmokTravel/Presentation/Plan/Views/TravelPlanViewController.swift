@@ -226,13 +226,12 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             guard let deletedCell = tableView.cellForRow(at: indexPath) as? PlanCell else { return }
+            
+            deletedCell.createIndicator()
+            deletedCell.startIndicator()
+            
             Task {
                 do {
-                    DispatchQueue.main.async {
-                        deletedCell.createIndicator()
-                        deletedCell.startIndicator()
-                    }
-                    
                     try await viewModel.delete(indexPath.row)
                     
                     DispatchQueue.main.async {
@@ -242,10 +241,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
                     guard let error = error as? TravelPlanRepositoryError else { return }
                     alertWillAppear(error.rawValue)
                 }
-                
-                DispatchQueue.main.async {
-                    deletedCell.stopAndDeallocateIndicator()
-                }
+                deletedCell.stopAndDeallocateIndicator()
             }
         }
     }
@@ -254,25 +250,20 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
         guard let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? PlanCell else { return }
         guard let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? PlanCell else { return }
         
+        sourceCell.createIndicator()
+        destinationCell.createIndicator()
+        sourceCell.startIndicator()
+        destinationCell.startIndicator()
+        
         Task {
             do {
-                DispatchQueue.main.async {
-                    sourceCell.createIndicator()
-                    destinationCell.createIndicator()
-                    sourceCell.startIndicator()
-                    destinationCell.startIndicator()
-                }
-                
                 try await viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
             } catch {
                 guard let error = error as? TravelPlanRepositoryError else { return }
                 alertWillAppear(error.rawValue)
             }
-            
-            DispatchQueue.main.async {
-                sourceCell.stopAndDeallocateIndicator()
-                destinationCell.stopAndDeallocateIndicator()
-            }
+            sourceCell.stopAndDeallocateIndicator()
+            destinationCell.stopAndDeallocateIndicator()
         }
     }
     
@@ -292,8 +283,8 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension TravelPlanViewController: TravelPlanTransferDelegate {
     func create(_ travelPlan: TravelPlan) async throws {
+        startIndicator()
         do {
-            startIndicator()
             try await viewModel.create(travelPlan)
         } catch {
             guard let error = error as? TravelPlanRepositoryError else { return }
@@ -303,8 +294,8 @@ extension TravelPlanViewController: TravelPlanTransferDelegate {
     }
     
     func update(at index: Int, _ travelPlan: TravelPlan) async throws {
+        startIndicator()
         do {
-            startIndicator()
             try await viewModel.update(at: index, travelPlan)
         } catch {
             guard let error = error as? TravelPlanRepositoryError else { return }
