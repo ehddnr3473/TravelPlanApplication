@@ -9,6 +9,10 @@ import UIKit
 import Foundation
 
 extension UIViewController {
+    /*
+     @MainActor를 명시하면 메서드를 메인 스레드에서만 호출할 수 있음.
+     메인 스레드가 아닌 스레드에서 호출시 "Call must be made on main thread" 에러 발생.
+     */
     @MainActor
     func alertWillAppear(_ message: String) {
         let alert = UIAlertController(title: AlertText.alertTitle, message: message, preferredStyle: .alert)
@@ -35,5 +39,4 @@ enum AlertText {
     static let cancelActionTitle = "취소"
     static let undefinedError = "알 수 없는 오류가 발생했습니다."
     static let nilImageMessage = "사진을 선택해주세요."
-    static let imageLoadErrorMessage = "이미지 불러오기를 실패했습니다."
 }
