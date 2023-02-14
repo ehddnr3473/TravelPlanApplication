@@ -13,34 +13,20 @@ enum PHPickerError: String, Error {
     case imageLoadFailed = "이미지 불러오기를 실패했습니다."
 }
 
-enum MemoryCreateError: String, Error {
+enum MemoryCreatingError: String, Error {
     case titleError = "제목을 입력해주세요."
     case nilImageError = "사진을 선택해주세요."
 }
 
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
-    private let viewModel: ConcreteWritingMemoryViewModel
-    private let delegate: MemoryTransferDelegate
-    private let memoryIndex: Int
     private let titlePublisher = CurrentValueSubject<String, Never>("")
     private let imageIsExistPublisher = CurrentValueSubject<Bool, Never>(false)
     private var subscriptions = Set<AnyCancellable>()
     
-    init(_ viewModel: ConcreteWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
-        self.viewModel = viewModel
-        self.memoryIndex = memoryIndex
-        self.delegate = delegate
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        print("deinit: WritingMemoryViewController")
-    }
+    private let memoryIndex: Int
+    private let viewModel: ConcreteWritingMemoryViewModel
+    weak var delegate: MemoryTransferDelegate?
     
     private let topBarView: TopBarView = {
         let topBarView = TopBarView()
@@ -105,6 +91,22 @@ final class WritingMemoryViewController: UIViewController {
         let label = UILabel()
         return label
     }()
+    
+    // MARK: - Init
+    init(_ viewModel: ConcreteWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
+        self.viewModel = viewModel
+        self.memoryIndex = memoryIndex
+        self.delegate = delegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        print("deinit: WritingMemoryViewController")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,10 +183,10 @@ extension WritingMemoryViewController {
 private extension WritingMemoryViewController {
     @objc func touchUpRightBarButton() {
         if titleTextField.text == "" {
-            alertWillAppear(MemoryCreateError.titleError.rawValue)
+            alertWillAppear(MemoryCreatingError.titleError.rawValue)
             return
         } else if imageView.image == nil {
-            alertWillAppear(MemoryCreateError.nilImageError.rawValue)
+            alertWillAppear(MemoryCreatingError.nilImageError.rawValue)
             return
         }
         
@@ -196,7 +198,7 @@ private extension WritingMemoryViewController {
         let memory = Memory(title: titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
         do {
             try await viewModel.upload(memoryIndex, image, memory)
-            delegate.create(memory)
+            delegate?.create(memory)
             dismiss(animated: true)
         } catch {
             if let error = error as? MemoryRepositoryError {
@@ -212,7 +214,9 @@ private extension WritingMemoryViewController {
     }
     
     @objc func touchUpAddButton() {
-        present(phPicker, animated: true)
+        DispatchQueue.main.async { [self] in
+            present(phPicker, animated: true)
+        }
     }
     
     @objc func touchUpDeleteButton() {
