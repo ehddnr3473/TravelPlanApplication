@@ -48,8 +48,8 @@ final class TravelPlanViewController: UIViewController {
     
     private var planTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(TravelPlanCell.self,
-                           forCellReuseIdentifier: TravelPlanCell.identifier)
+        tableView.register(PlanCell.self,
+                           forCellReuseIdentifier: PlanCell.identifier)
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
@@ -77,10 +77,10 @@ final class TravelPlanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startIndicator()
-        fetchPlans()
         configureView()
         configure()
         setBindings()
+        fetchPlans()
     }
 }
 
@@ -212,8 +212,9 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // DataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanCell.identifier, for: indexPath) as? TravelPlanCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanCell.identifier, for: indexPath) as? PlanCell else { return UITableViewCell() }
         
         cell.titleLabel.text = viewModel.model.value[indexPath.row].title
         cell.dateLabel.text = viewModel.model.value[indexPath.row].date
@@ -243,10 +244,6 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        .delete
-    }
-    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         Task {
             do {
@@ -258,6 +255,11 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
+    }
+    
+    // Delegate
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        .delete
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

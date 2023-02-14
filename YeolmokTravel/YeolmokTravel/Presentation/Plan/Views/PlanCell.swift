@@ -1,5 +1,5 @@
 //
-//  TravelPlanCell.swift
+//  PlanCell.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2022/12/20.
@@ -11,7 +11,7 @@ import UIKit
 /// - Title Label
 /// - Date Label
 /// - Description Label
-final class TravelPlanCell: UITableViewCell {
+final class PlanCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
     // MARK: - Properties
     var titleLabel: UILabel = {
@@ -39,6 +39,11 @@ final class TravelPlanCell: UITableViewCell {
         return label
     }()
     
+    lazy var indicatorView: UIActivityIndicatorView = {
+        let indicatorView = UIActivityIndicatorView()
+        return indicatorView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
@@ -58,7 +63,7 @@ final class TravelPlanCell: UITableViewCell {
 }
 
 // MARK: - Configure View
-private extension TravelPlanCell {
+private extension PlanCell {
     private func configureView() {
         self.backgroundColor = .darkGray
         self.layer.borderWidth = LayoutConstants.borderWidth
