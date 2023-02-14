@@ -48,8 +48,8 @@ final class TravelPlanViewController: UIViewController {
     
     private var planTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(TravelPlanTableViewCell.self,
-                           forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
+        tableView.register(TravelPlanCell.self,
+                           forCellReuseIdentifier: TravelPlanCell.identifier)
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
@@ -213,7 +213,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanCell.identifier, for: indexPath) as? TravelPlanCell else { return UITableViewCell() }
         
         cell.titleLabel.text = viewModel.model.value[indexPath.row].title
         cell.dateLabel.text = viewModel.model.value[indexPath.row].date

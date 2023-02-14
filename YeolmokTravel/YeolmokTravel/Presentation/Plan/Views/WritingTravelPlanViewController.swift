@@ -46,8 +46,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private let scheduleTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(TravelPlanTableViewCell.self,
-                           forCellReuseIdentifier: TravelPlanTableViewCell.identifier)
+        tableView.register(TravelPlanCell.self,
+                           forCellReuseIdentifier: TravelPlanCell.identifier)
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
@@ -403,7 +403,7 @@ private extension WritingTravelPlanViewController {
 // MARK: - Schedule TableView
 extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanCell.identifier, for: indexPath) as? TravelPlanCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.schedules.value[indexPath.row].title
         cell.descriptionLabel.text = viewModel.schedules.value[indexPath.row].description
         cell.dateLabel.text = viewModel.schedules.value[indexPath.row].date
