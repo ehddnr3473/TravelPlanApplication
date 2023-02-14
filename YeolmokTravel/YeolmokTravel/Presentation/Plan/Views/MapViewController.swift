@@ -154,16 +154,20 @@ private extension MapViewController {
         self.coordinates = coordinates
     }
     
-    @MainActor func addAnnotation() {
+    func addAnnotation() {
         for coordinate in coordinates {
             let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            mapView.addAnnotation(annotation)
+            DispatchQueue.main.async { [self] in
+                mapView.addAnnotation(annotation)
+            }
         }
     }
     
-    @MainActor func removeAnnotation() {
-        mapView.removeAnnotations(mapView.annotations)
+    func removeAnnotation() {
+        DispatchQueue.main.async { [self] in
+            mapView.removeAnnotations(mapView.annotations)
+        }
     }
     
     // reduce
@@ -204,13 +208,17 @@ private extension MapViewController {
         return MKCoordinateSpan(latitudeDelta: latitudeGap, longitudeDelta: longitudeGap)
     }
     
-    @MainActor func addPath() {
+    func addPath() {
         let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
-        mapView.addOverlay(polyline)
+        DispatchQueue.main.async { [self] in
+            mapView.addOverlay(polyline)
+        }
     }
     
-    @MainActor func removePath() {
-        mapView.removeOverlays(mapView.overlays)
+    func removePath() {
+        DispatchQueue.main.async { [self] in
+            mapView.removeOverlays(mapView.overlays)
+        }
     }
 }
 
