@@ -26,7 +26,7 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         configureTabBar()
         configureViewControllers()
-        deallocate()
+        deallocateViewBuilder()
     }
 }
 
@@ -69,7 +69,7 @@ private extension TabBarController {
         return navigationController
     }
     
-    func deallocate() {
+    func deallocateViewBuilder() {
         travelPlanViewBuilder = nil
         memoryViewBuilder = nil
     }

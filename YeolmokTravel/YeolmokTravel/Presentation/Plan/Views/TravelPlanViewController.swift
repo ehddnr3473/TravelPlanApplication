@@ -201,7 +201,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
             do {
                 try await viewModel.read()
                 dismissIndicator()
-                deallocate()
+                deallocateIndicator()
             } catch {
                 if let error = error as? TravelPlanRepositoryError {
                     DispatchQueue.main.async {
@@ -307,7 +307,7 @@ private extension TravelPlanViewController {
         indicatorView.dismiss(animated: true)
     }
     
-    func deallocate() {
+    func deallocateIndicator() {
         indicatorView = nil
     }
 }
