@@ -8,18 +8,20 @@
 import Foundation
 
 /// Memory Model
-struct Memory: Hashable {
+struct Memory {
     let title: String
     let index: Int
     let uploadDate: Date
-    
-    var id: Int {
-        index
-    }
 }
 
 extension Memory {
     func toData() -> MemoryDTO {
         MemoryDTO(title: title, index: index, uploadDate: uploadDate)
+    }
+}
+
+extension Memory: Hashable {
+    var id: Int {
+        index
     }
 }
