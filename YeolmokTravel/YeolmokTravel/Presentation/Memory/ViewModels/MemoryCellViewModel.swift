@@ -11,6 +11,7 @@ import UIKit
 
 private protocol MemoryCellViewModel: AnyObject {
     // Output
+    var model: Memory { get }
     var uploadDate: String { get }
     func read()
     
@@ -20,9 +21,9 @@ private protocol MemoryCellViewModel: AnyObject {
 /// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
 /// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
 final class ConcreteMemoryCellViewModel: MemoryCellViewModel {
-    private(set) var model: Memory
+    let model: Memory
     private let useCaseProvider: MemoryImageUseCaseProvider
-    private(set) var publisher = PassthroughSubject<UIImage, Never>()
+    let imagePublisher = PassthroughSubject<UIImage, MemoryImageRepositoryError>()
     
     var uploadDate: String {
         DateConverter.dateToString(model.uploadDate)
@@ -38,9 +39,9 @@ final class ConcreteMemoryCellViewModel: MemoryCellViewModel {
         readUseCase.execute(at: model.index) { result in
             switch result {
             case .success(let image):
-                self.publisher.send(image)
+                self.imagePublisher.send(image)
             case .failure(let error):
-                print(error.rawValue)
+                self.imagePublisher.send(completion: .failure(error))
             }
         }
     }
