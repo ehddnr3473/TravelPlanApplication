@@ -28,7 +28,7 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     func create(_ travelPlan: TravelPlan) async throws {
         let lastIndex = model.value.endIndex - NumberConstants.one
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: lastIndex, travelPlan: model.value[lastIndex])
+        try await uploadUseCase.execute(at: lastIndex, travelPlan: travelPlan)
         model.value.append(travelPlan)
     }
     

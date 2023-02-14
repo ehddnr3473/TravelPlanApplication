@@ -213,7 +213,7 @@ private extension WritingTravelPlanViewController {
     @objc func touchUpCreateScheduleButton() {
         let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
         let viewModel = ConcreteWritingScheduleViewModel(model)
-        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+        let writingView = WritingScheduleViewController(viewModel, writingStyle: .create)
         writingView.delegate = self
         navigationController?.pushViewController(writingView, animated: true)
     }
@@ -221,7 +221,7 @@ private extension WritingTravelPlanViewController {
     private func didSelectRow(_ index: Int) {
         let model = viewModel.schedules.value[index]
         let viewModel = ConcreteWritingScheduleViewModel(model)
-        let writingView = WritingScheduleViewController(viewModel, writingStyle: writingStyle)
+        let writingView = WritingScheduleViewController(viewModel, writingStyle: .update)
         writingView.delegate = self
         writingView.scheduleListIndex = index
         navigationController?.pushViewController(writingView, animated: true)
