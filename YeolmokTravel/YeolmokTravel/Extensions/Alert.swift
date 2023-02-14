@@ -34,9 +34,7 @@ extension UIViewController {
 
 enum AlertText {
     static let alertTitle = "알림"
-    static let titleMessage = "제목을 입력해주세요."
     static let okActionTitle = "확인"
     static let cancelActionTitle = "취소"
     static let undefinedError = "알 수 없는 오류가 발생했습니다."
-    static let nilImageMessage = "사진을 선택해주세요."
 }
