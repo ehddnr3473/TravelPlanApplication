@@ -150,10 +150,6 @@ private extension MemoryViewController {
 
 // MARK: - User Interacion
 private extension MemoryViewController {
-    @MainActor func reload() {
-        memoriesCollectionView.reloadData()
-    }
-    
     @objc func touchUpAddButton() {
         let viewModel = ConcreteWritingMemoryViewModel(memoryUseCaseProvider, memoryImageUseCaseProvider)
         let writingMemoryViewController = WritingMemoryViewController(viewModel,
