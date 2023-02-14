@@ -13,22 +13,24 @@ extension UIViewController {
      @MainActor를 명시하면 메서드를 메인 스레드에서만 호출할 수 있음.
      메인 스레드가 아닌 스레드에서 호출시 "Call must be made on main thread" 에러 발생.
      */
-    @MainActor
     func alertWillAppear(_ message: String) {
         let alert = UIAlertController(title: AlertText.alertTitle, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: AlertText.okActionTitle, style: .default)
         alert.addAction(okAction)
-        present(alert, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true)
+        }
     }
     
-    @MainActor
-    func actionSheetWillApear(_ title: String, _ message: String, _ okHandler: @escaping () -> Void) {
+    func actionSheetWillAppear(_ title: String, _ message: String, _ okHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let okAction = UIAlertAction(title: AlertText.okActionTitle, style: .destructive) { _ in okHandler() }
         let cancelAction = UIAlertAction(title: AlertText.cancelActionTitle, style: .cancel)
         alert.addAction(okAction)
         alert.addAction(cancelAction)
-        present(alert, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true)
+        }
     }
 }
 
