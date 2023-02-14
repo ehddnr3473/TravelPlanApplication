@@ -256,6 +256,11 @@ private extension WritingScheduleViewController {
     @objc func touchUpRightBarButton() {
         do {
             try viewModel.isValidSave(
+                /*
+                 좌푯값 입력이 유효하지 않아서 적용이 되지 않았다면,
+                 가장 최근에 유효했던 값이 들어가 있기 때문에 데이터의 일관성을 보장받을 수 없으므로,
+                 한 번 더 검사
+                 */
                 coordinateView.latitudeTextField.text ?? "",
                 coordinateView.longitudeTextField.text ?? ""
             )
