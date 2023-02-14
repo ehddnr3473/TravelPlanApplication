@@ -247,7 +247,10 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
         picker.dismiss(animated: true)
 
         guard let itemProvider = results.first?.itemProvider,
-              itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
+              itemProvider.canLoadObject(ofClass: UIImage.self) else {
+            alertWillAppear(PHPickerError.imageLoadFailed.rawValue)
+            return
+        }
 
         itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
             guard error == nil else {
