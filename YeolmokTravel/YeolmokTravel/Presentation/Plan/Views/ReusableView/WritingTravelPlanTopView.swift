@@ -24,7 +24,7 @@ final class WritingTravelPlanTopView: UIView {
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        
+        textField.returnKeyType = .done
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
                                                   width: AppLayoutConstants.spacing,
@@ -41,6 +41,8 @@ final class WritingTravelPlanTopView: UIView {
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        textView.autocorrectionType = .no
+        textView.autocapitalizationType = .none
         return textView
     }()
     
