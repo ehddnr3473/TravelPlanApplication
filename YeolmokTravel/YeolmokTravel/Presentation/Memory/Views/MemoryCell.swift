@@ -12,7 +12,8 @@ import JGProgressHUD
 final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    private(set) var viewModel: ConcreteMemoryCellViewModel?
+    weak var delegate: MemoryCellErrorDelegate?
+    private var viewModel: ConcreteMemoryCellViewModel?
     private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
@@ -109,9 +110,17 @@ private extension MemoryCell {
     }
         
     func setBindings() {
-        viewModel?.publisher
+        viewModel?.imagePublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] image in
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .failure(let error):
+                    self.delegate?.errorDidOccurrued(error.rawValue)
+                    break
+                case .finished:
+                    break
+                }
+            }) { [weak self] image in
                 self?.progressIndicator.dismiss()
                 self?.imageView.image = image
             }
@@ -120,11 +129,9 @@ private extension MemoryCell {
     
     func configure() {
         progressIndicator.show(in: imageView)
-        DispatchQueue.main.async { [weak self] in
-            self?.viewModel?.read()
-        }
         titleLabel.text = viewModel?.model.title
         dateLabel.text = viewModel?.uploadDate
+        viewModel?.read()
     }
 }
 
