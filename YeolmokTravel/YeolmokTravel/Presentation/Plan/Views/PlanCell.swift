@@ -102,27 +102,34 @@ private extension PlanCell {
 
 // MARK: - Indicator
 extension PlanCell {
-    @MainActor func createIndicator() {
+    func createIndicator() {
         indicatorView = UIActivityIndicatorView()
         guard let indicatorView = indicatorView else { return }
-        addSubview(indicatorView)
-        indicatorView.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
-                .inset(LayoutConstants.indicatorTrailing)
-            $0.centerY.equalToSuperview()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.addSubview(indicatorView)
+            indicatorView.snp.makeConstraints {
+                $0.trailing.equalToSuperview()
+                    .inset(LayoutConstants.indicatorTrailing)
+                $0.centerY.equalToSuperview()
+            }
         }
     }
     
-    @MainActor func startIndicator() {
+    func startIndicator() {
         guard let indicatorView = indicatorView else { return }
-        indicatorView.startAnimating()
+        DispatchQueue.main.async {
+            indicatorView.startAnimating()
+        }
     }
     
-    @MainActor func stopAndDeallocateIndicator() {
+    func stopAndDeallocateIndicator() {
         guard let indicatorView = indicatorView else { return }
-        indicatorView.stopAnimating()
-        indicatorView.snp.removeConstraints()
-        indicatorView.removeFromSuperview()
+        DispatchQueue.main.async {
+            indicatorView.stopAnimating()
+            indicatorView.snp.removeConstraints()
+            indicatorView.removeFromSuperview()
+        }
         self.indicatorView = nil
     }
 }
