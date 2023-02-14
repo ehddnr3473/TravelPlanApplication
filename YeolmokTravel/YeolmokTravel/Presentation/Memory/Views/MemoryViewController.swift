@@ -14,11 +14,15 @@ protocol MemoryTransferDelegate: AnyObject {
 
 /// Memories tab
 final class MemoryViewController: UIViewController {
+    enum Section: CaseIterable {
+        case main
+    }
     // MARK: - Properties
     private let viewModel: ConcreteMemoryViewModel
     private var subscriptions = Set<AnyCancellable>()
     private let memoryUseCaseProvider: MemoryUseCaseProvider
     private let memoryImageUseCaseProvider: MemoryImageUseCaseProvider
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Memory>!
     
     init(_ viewModel: ConcreteMemoryViewModel, _ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
         self.viewModel = viewModel
@@ -40,17 +44,15 @@ final class MemoryViewController: UIViewController {
         return label
     }()
     
-    private lazy var addButton: UIButton = {
+    private let addButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: TextConstants.plusIconName), for: .normal)
         button.tintColor = AppStyles.mainColor
-        button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
         return button
     }()
     
     private lazy var memoriesCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
-        collectionView.register(MemoryCell.self, forCellWithReuseIdentifier: MemoryCell.identifier)
         collectionView.backgroundColor = .systemBackground
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
@@ -58,19 +60,11 @@ final class MemoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        Task {
-            do {
-                try await viewModel.read()
-            } catch {
-                guard let error = error as? MemoryRepositoryError else { return }
-                alertWillAppear(error.rawValue)
-            }
-        }
-        
         configureView()
         configure()
+        configureDataSource()
         setBindings()
+        fetchMemories()
     }
 }
 
@@ -114,18 +108,34 @@ private extension MemoryViewController {
     }
     
     func configure() {
-        memoriesCollectionView.dataSource = self
+        addButton.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
-        let item = NSCollectionLayoutItem(layoutSize:
-                                            NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutConstants.original),
-                                                                   heightDimension: .fractionalHeight(LayoutConstants.original)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: LayoutConstants.inset, leading: .zero, bottom: LayoutConstants.inset, trailing: .zero)
+        let item = NSCollectionLayoutItem(
+            layoutSize:
+                NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(LayoutConstants.original),
+                    heightDimension: .fractionalHeight(LayoutConstants.original)
+                )
+        )
         
-        let group = NSCollectionLayoutGroup.vertical(layoutSize:
-                                                        NSCollectionLayoutSize(widthDimension: .fractionalWidth(LayoutConstants.original),
-                                                                               heightDimension: .fractionalWidth(LayoutConstants.magnification)), subitems: [item])
+        item.contentInsets = NSDirectionalEdgeInsets(
+            top: LayoutConstants.inset,
+            leading: .zero,
+            bottom: LayoutConstants.inset,
+            trailing: .zero
+        )
+        
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize:
+                NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(LayoutConstants.original),
+                    heightDimension: .fractionalWidth(LayoutConstants.magnification)
+                ),
+            subitems: [item]
+        )
+        
         let section = NSCollectionLayoutSection(group: group)
         
         let layout = UICollectionViewCompositionalLayout(section: section)
@@ -153,24 +163,45 @@ private extension MemoryViewController {
         viewModel.model
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.reload()
+                self?.apply()
             }
             .store(in: &subscriptions)
     }
 }
 
 // MARK: - CollectionView
-extension MemoryViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        // Cell assembling of MVVM
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MemoryCell.identifier, for: indexPath) as? MemoryCell else { return UICollectionViewCell() }
-        let viewModel = ConcreteMemoryCellViewModel(viewModel.model.value[indexPath.row], memoryImageUseCaseProvider)
-        cell.setViewModel(viewModel)
-        return cell
+private extension MemoryViewController {
+    func fetchMemories() {
+        Task {
+            do {
+                try await viewModel.read()
+            } catch {
+                guard let error = error as? MemoryRepositoryError else { return }
+                DispatchQueue.main.async {
+                    self.alertWillAppear(error.rawValue)
+                }
+            }
+        }
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.model.value.count
+    func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, Memory> { [self] (cell, indexPath, memory) in // memory
+            // Cell assembling of MVVM
+            let viewModel = ConcreteMemoryCellViewModel(viewModel.model.value[indexPath.row], memoryImageUseCaseProvider)
+            cell.setViewModel(viewModel)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Memory>(collectionView: memoriesCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Memory) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        }
+    }
+    
+    func apply() {
+        let memories = viewModel.model.value
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Memory>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(memories)
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
 
