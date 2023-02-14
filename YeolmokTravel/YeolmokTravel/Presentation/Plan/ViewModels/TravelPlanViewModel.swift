@@ -26,9 +26,8 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
     }
     
     func create(_ travelPlan: TravelPlan) async throws {
-        let lastIndex = model.value.endIndex - NumberConstants.one
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: lastIndex, travelPlan: travelPlan)
+        try await uploadUseCase.execute(at: model.value.endIndex, travelPlan: travelPlan)
         model.value.append(travelPlan)
     }
     
@@ -72,8 +71,4 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
             throw TravelPlanRepositoryError.swapError
         }
     }
-}
-
-private enum NumberConstants {
-    static let one = 1
 }
