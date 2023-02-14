@@ -200,13 +200,9 @@ private extension WritingMemoryViewController {
             dismiss(animated: true)
         } catch {
             if let error = error as? MemoryRepositoryError {
-                DispatchQueue.main.async {
-                    self.alertWillAppear(error.rawValue)
-                }
+                alertWillAppear(error.rawValue)
             } else if let error = error as? MemoryImageRepositoryError {
-                DispatchQueue.main.async {
-                    self.alertWillAppear(error.rawValue)
-                }
+                alertWillAppear(error.rawValue)
             }
         }
     }
@@ -255,9 +251,7 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
 
         itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
             guard error == nil else {
-                DispatchQueue.main.async {
-                    self?.alertWillAppear(PHPickerError.imageLoadFailed.rawValue)
-                }
+                self?.alertWillAppear(PHPickerError.imageLoadFailed.rawValue)
                 return
             }
             

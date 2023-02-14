@@ -243,15 +243,10 @@ private extension WritingScheduleViewController {
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? ScheduleError else {
-                DispatchQueue.main.async {
-                    self.alertWillAppear(AlertText.undefinedError)
-                }
+                alertWillAppear(AlertText.undefinedError)
                 return
             }
-            
-            DispatchQueue.main.async {
-                self.alertWillAppear(error.rawValue)
-            }
+            alertWillAppear(error.rawValue)
         }
     }
     
@@ -259,7 +254,7 @@ private extension WritingScheduleViewController {
         viewModel.setScheduleTracker()
         if viewModel.scheduleTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+            actionSheetWillAppear(actionSheetText.0, actionSheetText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
         } else {

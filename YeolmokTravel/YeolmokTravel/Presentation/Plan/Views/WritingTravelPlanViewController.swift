@@ -183,9 +183,7 @@ private extension WritingTravelPlanViewController {
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? WritingTravelPlanError else { return }
-            DispatchQueue.main.async {
-                self.alertWillAppear(error.rawValue)
-            }
+            alertWillAppear(error.rawValue)
         }
     }
     
@@ -204,7 +202,7 @@ private extension WritingTravelPlanViewController {
         viewModel.setTravelPlanTracker(title, topView.descriptionTextView.text)
         if viewModel.travelPlanTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
-            actionSheetWillApear(actionSheetText.0, actionSheetText.1) { [weak self] in
+            actionSheetWillAppear(actionSheetText.0, actionSheetText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
         } else {

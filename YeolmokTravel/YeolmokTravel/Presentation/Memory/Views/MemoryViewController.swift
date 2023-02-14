@@ -177,9 +177,7 @@ private extension MemoryViewController {
                 try await viewModel.read()
             } catch {
                 guard let error = error as? MemoryRepositoryError else { return }
-                DispatchQueue.main.async {
-                    self.alertWillAppear(error.rawValue)
-                }
+                alertWillAppear(error.rawValue)
             }
         }
     }
@@ -214,9 +212,7 @@ extension MemoryViewController: MemoryTransferDelegate {
 
 extension MemoryViewController: MemoryCellErrorDelegate {
     func errorDidOccurrued(_ message: String) {
-        DispatchQueue.main.async {
-            self.alertWillAppear(message)
-        }
+        alertWillAppear(message)
     }
 }
 
