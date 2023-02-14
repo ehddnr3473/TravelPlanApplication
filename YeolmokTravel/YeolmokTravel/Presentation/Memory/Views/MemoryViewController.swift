@@ -12,6 +12,10 @@ protocol MemoryTransferDelegate: AnyObject {
     func create(_ memory: Memory)
 }
 
+protocol MemoryCellErrorDelegate: AnyObject {
+    func errorDidOccurrued(_ message: String)
+}
+
 /// Memories tab
 final class MemoryViewController: UIViewController {
     enum Section: CaseIterable {
@@ -185,10 +189,11 @@ private extension MemoryViewController {
     }
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, Memory> { [self] (cell, indexPath, memory) in // memory
+        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, Memory> { [self] (cell, indexPath, _) in
             // Cell assembling of MVVM
             let viewModel = ConcreteMemoryCellViewModel(viewModel.model.value[indexPath.row], memoryImageUseCaseProvider)
             cell.setViewModel(viewModel)
+            cell.delegate = self
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, Memory>(collectionView: memoriesCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Memory) -> UICollectionViewCell? in
@@ -208,6 +213,14 @@ private extension MemoryViewController {
 extension MemoryViewController: MemoryTransferDelegate {
     func create(_ memory: Memory) {
         viewModel.create(memory)
+    }
+}
+
+extension MemoryViewController: MemoryCellErrorDelegate {
+    func errorDidOccurrued(_ message: String) {
+        DispatchQueue.main.async {
+            self.alertWillAppear(message)
+        }
     }
 }
 
