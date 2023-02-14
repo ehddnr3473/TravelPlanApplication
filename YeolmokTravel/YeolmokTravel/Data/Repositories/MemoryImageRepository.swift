@@ -21,7 +21,6 @@ protocol AbstractMemoryImageRepository: AnyObject {
     func delete(_ index: Int) async throws
 }
 
-
 /// Firebase Storage 서비스를 사용
 /// 이미지를 다운로드하고 캐시 전략 적용
 final class MemoryImageRepository: AbstractMemoryImageRepository {
