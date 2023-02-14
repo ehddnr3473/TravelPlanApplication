@@ -99,6 +99,7 @@ private extension WritingTravelPlanViewController {
         configureNavigationItems()
         configureHierarchy()
         configureLayoutConstraint()
+        configureTapGesture()
     }
     
     func configureHierarchy() {
@@ -160,14 +161,20 @@ private extension WritingTravelPlanViewController {
         topView.addScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
     }
     
-    func configure() {
-        scheduleTableView.delegate = self
-        scheduleTableView.dataSource = self
+    func configureTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        view.addGestureRecognizer(tapGesture)
     }
 }
 
 // MARK: - User Interaction
 private extension WritingTravelPlanViewController {
+    func configure() {
+        scheduleTableView.delegate = self
+        scheduleTableView.dataSource = self
+        topView.titleTextField.delegate = self
+    }
+    
     @objc func touchUpRightBarButton() {
         guard let title = topView.titleTextField.text else { return }
         do {
@@ -248,6 +255,10 @@ private extension WritingTravelPlanViewController {
         }, completion: { [self] _ in
             topView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
         })
+    }
+    
+    @objc func tapView() {
+        view.endEditing(true)
     }
 }
 
@@ -445,6 +456,13 @@ extension WritingTravelPlanViewController: ScheduleTransferDelegate {
     
     func update(at index: Int, _ schedule: Schedule) {
         viewModel.updateSchedule(at: index, schedule)
+    }
+}
+
+extension WritingTravelPlanViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
