@@ -11,7 +11,8 @@ import UIKit
 /// - titleTextField: 제목
 /// - descriptionTextView: 상세
 /// - scheduleTitleLabel
-/// - addScheduleButton: 상세 일정 추가 버튼
+/// - updateScheduleButton: 상세 일정 수정 버튼
+/// - createScheduleButton: 상세 일정 추가 버튼
 final class WritingTravelPlanTopView: UIView {
     // MARK: - Properties
     let titleTextField: UITextField = {
@@ -55,14 +56,14 @@ final class WritingTravelPlanTopView: UIView {
         return label
     }()
     
-    let editScheduleButton: UIButton = {
+    let updateScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
         return button
     }()
     
-    let addScheduleButton: UIButton = {
+    let createScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
@@ -87,7 +88,7 @@ private extension WritingTravelPlanTopView {
     }
     
     func configureHierarchy() {
-        [titleTextField, descriptionTextView, scheduleTitleLabel, editScheduleButton, addScheduleButton].forEach {
+        [titleTextField, descriptionTextView, scheduleTitleLabel, updateScheduleButton, createScheduleButton].forEach {
             addSubview($0)
         }
     }
@@ -115,16 +116,16 @@ private extension WritingTravelPlanTopView {
                 .inset(AppLayoutConstants.spacing)
         }
         
-        addScheduleButton.snp.makeConstraints {
+        createScheduleButton.snp.makeConstraints {
             $0.centerY.equalTo(scheduleTitleLabel)
             $0.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
             $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
         
-        editScheduleButton.snp.makeConstraints {
+        updateScheduleButton.snp.makeConstraints {
             $0.centerY.equalTo(scheduleTitleLabel)
-            $0.trailing.equalTo(addScheduleButton.snp.leading)
+            $0.trailing.equalTo(createScheduleButton.snp.leading)
                 .offset(-AppLayoutConstants.spacing)
             $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
