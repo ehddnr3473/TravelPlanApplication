@@ -59,13 +59,14 @@ private extension TabBarController {
     }
     
     // 두 번째 탭: Memories
-    func buildMemoryView() -> MemoryViewController {
+    func buildMemoryView() -> UINavigationController {
         guard let memoryViewBuilder = memoryViewBuilder else { fatalError("memoryViewBuilder has not been injected.") }
         let memoryViewController = memoryViewBuilder.build()
-        memoryViewController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
+        let navigationController = UINavigationController(rootViewController: memoryViewController)
+        navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
-        return memoryViewController
+        return navigationController
     }
     
     func deallocate() {
