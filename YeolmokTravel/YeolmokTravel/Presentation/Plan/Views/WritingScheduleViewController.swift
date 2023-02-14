@@ -243,21 +243,14 @@ private extension WritingScheduleViewController {
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? ScheduleError else {
-                alertWillAppear(AlertText.undefinedError)
+                DispatchQueue.main.async {
+                    self.alertWillAppear(AlertText.undefinedError)
+                }
                 return
             }
             
-            switch error {
-            case .titleError:
-                alertWillAppear(error.rawValue)
-            case .preToDateError:
-                alertWillAppear(error.rawValue)
-            case .fromDateError:
-                alertWillAppear(error.rawValue)
-            case .toDateError:
-                alertWillAppear(error.rawValue)
-            case .coordinateError:
-                alertWillAppear(error.rawValue)
+            DispatchQueue.main.async {
+                self.alertWillAppear(error.rawValue)
             }
         }
     }

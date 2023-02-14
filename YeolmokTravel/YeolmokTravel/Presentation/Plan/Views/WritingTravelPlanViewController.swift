@@ -183,7 +183,9 @@ private extension WritingTravelPlanViewController {
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? WritingTravelPlanError else { return }
-            alertWillAppear(error.rawValue)
+            DispatchQueue.main.async {
+                self.alertWillAppear(error.rawValue)
+            }
         }
     }
     

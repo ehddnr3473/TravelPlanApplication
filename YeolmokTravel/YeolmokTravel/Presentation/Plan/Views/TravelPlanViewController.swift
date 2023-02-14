@@ -83,7 +83,9 @@ final class TravelPlanViewController: UIViewController {
                 try await viewModel.read()
             } catch {
                 if let error = error as? TravelPlanRepositoryError {
-                    alertWillAppear(error.rawValue)
+                    DispatchQueue.main.async {
+                        self.alertWillAppear(error.rawValue)
+                    }
                 }
             }
         }
@@ -228,7 +230,9 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
                     try await viewModel.delete(indexPath.row)
                 } catch {
                     guard let error = error as? TravelPlanRepositoryError else { return }
-                    alertWillAppear(error.rawValue)
+                    DispatchQueue.main.async {
+                        self.alertWillAppear(error.rawValue)
+                    }
                 }
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -246,7 +250,9 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
                 try await viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
             } catch {
                 guard let error = error as? TravelPlanRepositoryError else { return }
-                alertWillAppear(error.rawValue)
+                DispatchQueue.main.async {
+                    self.alertWillAppear(error.rawValue)
+                }
             }
         }
     }
@@ -266,7 +272,9 @@ extension TravelPlanViewController: TravelPlanTransferDelegate {
             try await viewModel.create(travelPlan)
         } catch {
             guard let error = error as? TravelPlanRepositoryError else { return }
-            alertWillAppear(error.rawValue)
+            DispatchQueue.main.async {
+                self.alertWillAppear(error.rawValue)
+            }
         }
     }
     
@@ -275,7 +283,9 @@ extension TravelPlanViewController: TravelPlanTransferDelegate {
             try await viewModel.update(at: index, travelPlan)
         } catch {
             guard let error = error as? TravelPlanRepositoryError else { return }
-            alertWillAppear(error.rawValue)
+            DispatchQueue.main.async {
+                self.alertWillAppear(error.rawValue)
+            }
         }
     }
 }
