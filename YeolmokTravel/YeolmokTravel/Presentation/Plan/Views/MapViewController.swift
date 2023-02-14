@@ -63,21 +63,24 @@ final class MapViewController: UIViewController {
 
 // MARK: - Mappable(Packaging)
 extension MapViewController: Mappable {
+    /*
+     Path는 실용적으로 구현하지 않았기 때문에 보류.
+     */
     func configureMapView() {
         mapView.overrideUserInterfaceStyle = .light
         configure()
         animateCameraToCenter()
         addAnnotation()
-        addPath()
+//        addPath()
     }
     
     func updateMapView(_ coordinates: [CLLocationCoordinate2D]) {
-        removePath()
+//        removePath()
         removeAnnotation()
         updateCoordinates(coordinates)
         animateCameraToCenter()
         addAnnotation()
-        addPath()
+//        addPath()
     }
 }
 
