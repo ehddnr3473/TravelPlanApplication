@@ -77,24 +77,10 @@ final class TravelPlanViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startIndicator()
-        
-        Task {
-            do {
-                try await viewModel.read()
-            } catch {
-                if let error = error as? TravelPlanRepositoryError {
-                    DispatchQueue.main.async {
-                        self.alertWillAppear(error.rawValue)
-                    }
-                }
-            }
-        }
-        
+        fetchPlans()
         configureView()
         configure()
         setBindings()
-        dismissIndicator()
-        deallocate()
     }
 }
 
@@ -210,6 +196,22 @@ private extension TravelPlanViewController {
 
 // MARK: - TableView
 extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
+    private func fetchPlans() {
+        Task {
+            do {
+                try await viewModel.read()
+                dismissIndicator()
+                deallocate()
+            } catch {
+                if let error = error as? TravelPlanRepositoryError {
+                    DispatchQueue.main.async {
+                        self.alertWillAppear(error.rawValue)
+                    }
+                }
+            }
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TravelPlanTableViewCell.identifier, for: indexPath) as? TravelPlanTableViewCell else { return UITableViewCell() }
         
@@ -299,7 +301,7 @@ private extension TravelPlanViewController {
     
     func dismissIndicator() {
         guard let indicatorView = indicatorView else { return }
-        indicatorView.dismiss(afterDelay: IndicatorConstants.delay)
+        indicatorView.dismiss(animated: true)
     }
     
     func deallocate() {
@@ -321,5 +323,4 @@ private enum LayoutConstants {
 private enum IndicatorConstants {
     static let titleText = "Loading.."
     static let detailText = "Please wait"
-    static let delay: TimeInterval = 1
 }
