@@ -28,7 +28,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        
+        textField.returnKeyType = .done
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
                                                   width: AppLayoutConstants.spacing,
@@ -45,6 +45,8 @@ final class WritingScheduleViewController: UIViewController, Writable {
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
         textView.layer.borderColor = UIColor.white.cgColor
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
+        textView.autocorrectionType = .no
+        textView.autocapitalizationType = .none
         return textView
     }()
     
@@ -128,9 +130,10 @@ private extension WritingScheduleViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
         configureNavigationItems()
-        configureViewValue()
         configureHierarchy()
         configureLayoutConstraint()
+        configureViewValue()
+        configureTapGesture()
     }
     
     func configureHierarchy() {
@@ -229,10 +232,27 @@ private extension WritingScheduleViewController {
             toDatePicker.date = toDate
         }
     }
+    
+    func configureTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        view.addGestureRecognizer(tapGesture)
+    }
 }
 
-// MARK: - User Interaction & Binding
+// MARK: - User Interaction
 private extension WritingScheduleViewController {
+    func configure() {
+        titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        titleTextField.delegate = self
+        descriptionTextView.delegate = self
+        coordinateView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        coordinateView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        coordinateView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
+        dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
+        fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
+        toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
+    }
+    
     @objc func touchUpRightBarButton() {
         do {
             try viewModel.isValidSave(
@@ -277,17 +297,6 @@ private extension WritingScheduleViewController {
         }
     }
     
-    func configure() {
-        titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        descriptionTextView.delegate = self
-        coordinateView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        coordinateView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        coordinateView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
-        dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
-        fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
-        toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
-    }
-    
     @objc func editingChangedTitleTextField() {
         viewModel.editingChangedTitleTextField(titleTextField.text ?? "")
     }
@@ -311,6 +320,17 @@ private extension WritingScheduleViewController {
     
     @objc func valueChangedtoDatePicker() {
         viewModel.valueChangedToDatePicker(toDatePicker.date)
+    }
+    
+    @objc func tapView() {
+        view.endEditing(true)
+    }
+}
+
+extension WritingScheduleViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
