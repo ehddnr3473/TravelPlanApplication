@@ -14,7 +14,7 @@ import CoreLocation
 final class WritingScheduleViewController: UIViewController, Writable {
     // MARK: - Properties
     var writingStyle: WritingStyle
-    var delegate: ScheduleTransferDelegate?
+    weak var delegate: ScheduleTransferDelegate?
     var scheduleListIndex: Int?
     private let viewModel: ConcreteWritingScheduleViewModel
     
