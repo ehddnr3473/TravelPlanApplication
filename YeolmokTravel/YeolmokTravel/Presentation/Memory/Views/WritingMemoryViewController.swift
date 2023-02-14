@@ -9,6 +9,15 @@ import UIKit
 import PhotosUI
 import Combine
 
+enum PHPickerError: String, Error {
+    case imageLoadFailed = "이미지 불러오기를 실패했습니다."
+}
+
+enum MemoryCreateError: String, Error {
+    case titleError = "제목을 입력해주세요."
+    case nilImageError = "사진을 선택해주세요."
+}
+
 final class WritingMemoryViewController: UIViewController {
     // MARK: - Properties
     private let viewModel: ConcreteWritingMemoryViewModel
@@ -172,10 +181,10 @@ extension WritingMemoryViewController {
 private extension WritingMemoryViewController {
     @objc func touchUpRightBarButton() {
         if titleTextField.text == "" {
-            alertWillAppear(AlertText.titleMessage)
+            alertWillAppear(MemoryCreateError.titleError.rawValue)
             return
         } else if imageView.image == nil {
-            alertWillAppear(AlertText.nilImageMessage)
+            alertWillAppear(MemoryCreateError.nilImageError.rawValue)
             return
         }
         
@@ -191,9 +200,13 @@ private extension WritingMemoryViewController {
             dismiss(animated: true)
         } catch {
             if let error = error as? MemoryRepositoryError {
-                alertWillAppear(error.rawValue)
+                DispatchQueue.main.async {
+                    self.alertWillAppear(error.rawValue)
+                }
             } else if let error = error as? MemoryImageRepositoryError {
-                alertWillAppear(error.rawValue)
+                DispatchQueue.main.async {
+                    self.alertWillAppear(error.rawValue)
+                }
             }
         }
     }
@@ -242,7 +255,9 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
 
         itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
             guard error == nil else {
-                self?.alertWillAppear(AlertText.imageLoadErrorMessage)
+                DispatchQueue.main.async {
+                    self?.alertWillAppear(PHPickerError.imageLoadFailed.rawValue)
+                }
                 return
             }
             
