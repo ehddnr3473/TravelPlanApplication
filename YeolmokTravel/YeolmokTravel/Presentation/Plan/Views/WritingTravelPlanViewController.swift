@@ -154,11 +154,8 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureTopViewValue() {
-        topView.titleTextField.text = viewModel.initialTitleText
-        topView.descriptionTextView.text = viewModel.initialDescriptionText
-        viewModel.deallocateTextProperty()
-        topView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        topView.addScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
+        topView.titleTextField.text = viewModel.title
+        topView.descriptionTextView.text = viewModel.description
     }
     
     func configureTapGesture() {
@@ -173,20 +170,15 @@ private extension WritingTravelPlanViewController {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
         topView.titleTextField.delegate = self
+        topView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        topView.descriptionTextView.delegate = self
+        topView.updateScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        topView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
     }
     
     @objc func touchUpRightBarButton() {
-        guard let title = topView.titleTextField.text else { return }
         do {
-            try viewModel.isValidSave(title)
-            save(
-                TravelPlan(
-                    title: title,
-                    description: topView.descriptionTextView.text,
-                    schedules: viewModel.schedules.value
-                ),
-                planListIndex
-            )
+            save(try viewModel.createTravelPlan(), planListIndex)
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? WritingTravelPlanError else { return }
@@ -205,8 +197,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpLeftBarButton() {
-        guard let title = topView.titleTextField.text else { return }
-        viewModel.setTravelPlanTracker(title, topView.descriptionTextView.text)
+        viewModel.setTravelPlanTracker()
         if viewModel.travelPlanTracker.isChanged {
             let actionSheetText = fetchActionSheetText()
             actionSheetWillAppear(actionSheetText.0, actionSheetText.1) { [weak self] in
@@ -253,8 +244,12 @@ private extension WritingTravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             scheduleTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            topView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+            topView.updateScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
         })
+    }
+    
+    @objc func editingChangedTitleTextField() {
+        viewModel.editingChangedTitleTextField(topView.titleTextField.text ?? "")
     }
     
     @objc func tapView() {
@@ -463,6 +458,12 @@ extension WritingTravelPlanViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension WritingTravelPlanViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.editingChangedDescriptionTextField(textView.text)
     }
 }
 

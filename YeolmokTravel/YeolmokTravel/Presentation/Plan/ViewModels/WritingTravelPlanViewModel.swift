@@ -19,20 +19,21 @@ private protocol WritingTravelPlanViewModel: AnyObject {
     func updateSchedule(at index: Int, _ schedule: Schedule)
     func deleteSchedule(at index: Int)
     func swapSchedules(at source: Int, to destination: Int)
-    func setTravelPlanTracker(_ title: String, _ description: String) // travelPlanTracker.travelPlan set
-    func deallocateTextProperty() // Deallocate initial text property
+    func setTravelPlanTracker() // travelPlanTracker.travelPlan set
+    func editingChangedTitleTextField(_ title: String)
+    func editingChangedDescriptionTextField(_ description: String)
     
     // Output
     var calculatedScrollViewContainerHeight: CGFloat { get }
-    func isValidSave(_ title: String) throws
+    func createTravelPlan() throws -> TravelPlan
 }
 
 final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     private(set) var travelPlanTracker: TravelPlanTracker
     
-    private(set) var initialTitleText: String?
-    private(set) var initialDescriptionText: String?
-    private(set) var schedules: CurrentValueSubject<[Schedule], Never>
+    private(set) var title: String
+    private(set) var description: String
+    private(set) var schedules: CurrentValueSubject<[Schedule], Never> // [Schedule]이 변경되었을 때만 바인딩을 통해 업데이트를 수행
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -53,8 +54,8 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     
     init(_ model: TravelPlan) {
         self.travelPlanTracker = TravelPlanTracker(model)
-        self.initialTitleText = model.title
-        self.initialDescriptionText = model.description
+        self.title = model.title
+        self.description = model.description
         self.schedules = CurrentValueSubject<[Schedule], Never>(model.schedules)
     }
     
@@ -78,18 +79,22 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
         schedules.value.swapAt(source, destination)
     }
     
-    func setTravelPlanTracker(_ title: String, _ description: String) {
+    func setTravelPlanTracker() {
         travelPlanTracker.travelPlan = TravelPlan(title: title,
                                                   description: description,
                                                   schedules: schedules.value)
     }
     
-    func isValidSave(_ title: String) throws {
-        guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
+    func editingChangedTitleTextField(_ title: String) {
+        self.title = title
     }
     
-    func deallocateTextProperty() {
-        initialTitleText = nil
-        initialDescriptionText = nil
+    func editingChangedDescriptionTextField(_ description: String) {
+        self.description = description
+    }
+    
+    func createTravelPlan() throws -> TravelPlan {
+        guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
+        return TravelPlan(title: title, description: description, schedules: schedules.value)
     }
 }
