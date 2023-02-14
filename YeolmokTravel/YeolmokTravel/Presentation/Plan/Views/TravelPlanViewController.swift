@@ -230,6 +230,9 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
             Task {
                 do {
                     try await viewModel.delete(indexPath.row)
+                    DispatchQueue.main.async {
+                        self.updateTableViewConstraints()
+                    }
                 } catch {
                     guard let error = error as? TravelPlanRepositoryError else { return }
                     DispatchQueue.main.async {
@@ -237,8 +240,6 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                 }
             }
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            updateTableViewConstraints()
         }
     }
     
