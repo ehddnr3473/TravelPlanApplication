@@ -30,4 +30,6 @@ enum AppTextConstants {
     static let editIcon = "pencil"
     static let leftBarButtonTitle = "Back"
     static let rightBarButtonTitle = "Done"
+    static let titlePlaceholder = "Title"
+    static let descriptionPlaceholder = "Detail"
 }
