@@ -42,6 +42,11 @@
 		6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371D298D0E220038E9C8 /* MapViewController.swift */; };
 		6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */; };
 		6B84E461298CF60200EE83AB /* CoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B84E460298CF60200EE83AB /* CoordinateView.swift */; };
+		6BA1CA3C299C8511009CF4BB /* ConcreteTravelPlanReadUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA1CA3B299C8511009CF4BB /* ConcreteTravelPlanReadUseCaseTests.swift */; };
+		6BA1CA41299C8773009CF4BB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA1CA40299C8773009CF4BB /* FirebaseFirestore */; };
+		6BA1CA43299C8790009CF4BB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA1CA42299C8790009CF4BB /* FirebaseStorage */; };
+		6BA1CA45299C886C009CF4BB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA1CA44299C886C009CF4BB /* SnapKit */; };
+		6BA1CA47299C8875009CF4BB /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA1CA46299C8875009CF4BB /* JGProgressHUD */; };
 		6BA200122998FBFC00C18B3F /* TravelPlanSwapUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA200112998FBFC00C18B3F /* TravelPlanSwapUseCase.swift */; };
 		6BA3402229532E29002E7502 /* TravelPlanTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* TravelPlanTracker.swift */; };
 		6BAA75F8299820C100373509 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAA75F7299820C100373509 /* TopBarView.swift */; };
@@ -126,6 +131,7 @@
 		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewModel.swift; sourceTree = "<group>"; };
 		6B84E460298CF60200EE83AB /* CoordinateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateView.swift; sourceTree = "<group>"; };
+		6BA1CA3B299C8511009CF4BB /* ConcreteTravelPlanReadUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcreteTravelPlanReadUseCaseTests.swift; sourceTree = "<group>"; };
 		6BA200112998FBFC00C18B3F /* TravelPlanSwapUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanSwapUseCase.swift; sourceTree = "<group>"; };
 		6BA9F4762952862E00403DCC /* TravelPlanTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanTracker.swift; sourceTree = "<group>"; };
 		6BAA75F7299820C100373509 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
@@ -173,6 +179,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA1CA47299C8875009CF4BB /* JGProgressHUD in Frameworks */,
+				6BA1CA45299C886C009CF4BB /* SnapKit in Frameworks */,
+				6BA1CA41299C8773009CF4BB /* FirebaseFirestore in Frameworks */,
+				6BA1CA43299C8790009CF4BB /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +256,7 @@
 				6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */,
 				6B46FA2529513D4C000430C7 /* YeolmokTravelUITests */,
 				6B46FA0329513D4A000430C7 /* Products */,
+				6BA1CA3D299C874E009CF4BB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,6 +288,7 @@
 		6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */ = {
 			isa = PBXGroup;
 			children = (
+				6BA1CA3A299C84DB009CF4BB /* UseCaseTests */,
 				6B46FA1C29513D4C000430C7 /* YeolmokTravelTests.swift */,
 			);
 			path = YeolmokTravelTests;
@@ -298,6 +310,21 @@
 				6B46FA0729513D4A000430C7 /* SceneDelegate.swift */,
 			);
 			path = Delegate;
+			sourceTree = "<group>";
+		};
+		6BA1CA3A299C84DB009CF4BB /* UseCaseTests */ = {
+			isa = PBXGroup;
+			children = (
+				6BA1CA3B299C8511009CF4BB /* ConcreteTravelPlanReadUseCaseTests.swift */,
+			);
+			path = UseCaseTests;
+			sourceTree = "<group>";
+		};
+		6BA1CA3D299C874E009CF4BB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6BB76BD2297FC14C00C8C596 /* Data Mapping */ = {
@@ -512,6 +539,12 @@
 				6B46FA1A29513D4C000430C7 /* PBXTargetDependency */,
 			);
 			name = YeolmokTravelTests;
+			packageProductDependencies = (
+				6BA1CA40299C8773009CF4BB /* FirebaseFirestore */,
+				6BA1CA42299C8790009CF4BB /* FirebaseStorage */,
+				6BA1CA44299C886C009CF4BB /* SnapKit */,
+				6BA1CA46299C8875009CF4BB /* JGProgressHUD */,
+			);
 			productName = YeolmokTravelTests;
 			productReference = 6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -676,6 +709,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA1D29513D4C000430C7 /* YeolmokTravelTests.swift in Sources */,
+				6BA1CA3C299C8511009CF4BB /* ConcreteTravelPlanReadUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1047,6 +1081,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		6BA1CA40299C8773009CF4BB /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B17E31629575BA800AF59EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6BA1CA42299C8790009CF4BB /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B17E31629575BA800AF59EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		6BA1CA44299C886C009CF4BB /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		6BA1CA46299C8875009CF4BB /* JGProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
+			productName = JGProgressHUD;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
