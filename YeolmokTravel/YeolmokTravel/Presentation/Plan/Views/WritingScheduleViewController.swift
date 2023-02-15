@@ -356,14 +356,18 @@ extension WritingScheduleViewController: UITextFieldDelegate {
     }
     
     private func keyboardWillAppear() {
-        UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-            view.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: AnimationConstants.duration) { [self] in
+                view.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+            }
         }
     }
     
     private func keyboardWillDisappear() {
-        UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-            view.frame.origin.y = 0
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: AnimationConstants.duration) { [self] in
+                view.frame.origin.y = 0
+            }
         }
     }
 }
