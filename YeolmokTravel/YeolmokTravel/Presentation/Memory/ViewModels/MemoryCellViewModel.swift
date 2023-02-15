@@ -18,8 +18,7 @@ private protocol MemoryCellViewModel: AnyObject {
     init(_ model: Memory, _ useCaseProvider: MemoryImageUseCaseProvider)
 }
 
-/// Memory를 Model로부터 가져와서 MemoriesCollectionViewCell에 데이터 제공
-/// Model을 사용자 액션으로부터 업데이트하고 업로드 요청
+/// model(Memory)에 해당하는 이미지를 가져와서 MemoriesCollectionViewCell에 데이터 제공
 final class ConcreteMemoryCellViewModel: MemoryCellViewModel {
     let model: Memory
     private let useCaseProvider: MemoryImageUseCaseProvider
