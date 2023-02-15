@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol TravelPlanReadUseCase: AnyObject {
+protocol TravelPlanReadUseCase {
     func execute() async throws -> [TravelPlan]
 }
 
-final class ConcreteTravelPlanReadUseCase: TravelPlanReadUseCase {
+struct ConcreteTravelPlanReadUseCase: TravelPlanReadUseCase {
     private let repository: AbstractTravelPlanRepository
     
     init(_ repository: AbstractTravelPlanRepository) {
@@ -19,6 +19,6 @@ final class ConcreteTravelPlanReadUseCase: TravelPlanReadUseCase {
     }
     
     func execute() async throws -> [TravelPlan] {
-        try await repository.read().map { $0.toDomain() }
+        try await repository.read()
     }
 }

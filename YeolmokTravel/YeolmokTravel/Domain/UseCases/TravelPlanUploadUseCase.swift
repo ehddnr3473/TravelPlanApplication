@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol TravelPlanUploadUseCase: AnyObject {
+protocol TravelPlanUploadUseCase {
     func execute(at index: Int, travelPlan: TravelPlan) async throws
 }
 
-final class ConcreteTravelPlanUploadUseCase: TravelPlanUploadUseCase {
+struct ConcreteTravelPlanUploadUseCase: TravelPlanUploadUseCase {
     private let repository: AbstractTravelPlanRepository
     
     init(_ repository: AbstractTravelPlanRepository) {

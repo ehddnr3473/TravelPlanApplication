@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol TravelPlanDeleteUseCase: AnyObject {
+protocol TravelPlanDeleteUseCase {
     func execute(at index: Int) async throws
 }
 
-final class ConcreteTravelPlanDeleteUseCase: TravelPlanDeleteUseCase {
+struct ConcreteTravelPlanDeleteUseCase: TravelPlanDeleteUseCase {
     private let repository: AbstractTravelPlanRepository
     
     init(_ repository: AbstractTravelPlanRepository) {
