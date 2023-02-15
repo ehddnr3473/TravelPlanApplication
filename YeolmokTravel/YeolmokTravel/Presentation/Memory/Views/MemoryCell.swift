@@ -134,14 +134,6 @@ private extension MemoryCell {
                 }
             }) { [weak self] image in
                 self?.progressIndicator.dismiss()
-                // 이미지가 회전한 상태라면 가공
-                if image.imageOrientation != .up {
-                    if let cgImage = image.cgImage {
-                        let processedImage = UIImage(cgImage: cgImage, scale: image.scale, orientation: .up)
-                        self?.imageView.image = processedImage
-                        return
-                    }
-                }
                 self?.imageView.image = image
             }
             .store(in: &subscriptions)
