@@ -14,14 +14,14 @@ enum MemoryRepositoryError: String, Error {
     case deleteError = "메모리 삭제를 실패했습니다."
 }
 
-protocol AbstractMemoryRepository: AnyObject {
+protocol AbstractMemoryRepository {
     func upload(at index: Int, memoryDTO: MemoryDTO) async throws
-    func read() async throws -> [MemoryDTO]
+    func read() async throws -> [Memory]
     func delete(at index: Int) async throws
 }
 
 /// Memory 관련 Firebase Firestore 연동
-final class MemoryRepository: AbstractMemoryRepository {
+struct MemoryRepository: AbstractMemoryRepository {
     private var database = Firestore.firestore()
 
     // write
@@ -38,17 +38,17 @@ final class MemoryRepository: AbstractMemoryRepository {
     }
     
     // read & return
-    func read() async throws -> [MemoryDTO] {
+    func read() async throws -> [Memory] {
         var memories = [MemoryDTO]()
         do {
             let memoriesSnapshot = try await database.collection(DatabasePath.memories).getDocuments()
             
             for document in memoriesSnapshot.documents {
                 let data = document.data()
-                memories.append(self.createMemory(data))
+                memories.append(self.createMemoryDTO(data))
             }
             
-            return memories
+            return memories.map { $0.toDomain() }
         } catch {
             throw MemoryRepositoryError.readError
         }
@@ -63,8 +63,8 @@ final class MemoryRepository: AbstractMemoryRepository {
         }
     }
     
-    // 다운로드한 데이터로 Memory 생성하여 반환
-    private func createMemory(_ data: Dictionary<String, Any>) -> MemoryDTO {
+    // 다운로드한 데이터로 MemoryDTO 생성하여 반환
+    private func createMemoryDTO(_ data: Dictionary<String, Any>) -> MemoryDTO {
         let memories = MemoryDTO(title: data[Key.title] as! String,
                               index: data[Key.index] as! Int,
                               uploadDate: DateConverter.stringToDate(data[Key.uploadDate] as! String)!)

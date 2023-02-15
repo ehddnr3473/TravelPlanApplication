@@ -16,14 +16,14 @@ enum TravelPlanRepositoryError: String, Error {
     case swapError = "계획 순서 변경을 실패했습니다."
 }
 
-protocol AbstractTravelPlanRepository: AnyObject {
+protocol AbstractTravelPlanRepository {
     func upload(at index: Int, travelPlanDTO: TravelPlanDTO) async throws
-    func read() async throws -> [TravelPlanDTO]
+    func read() async throws -> [TravelPlan]
     func delete(at index: Int) async throws
 }
 
 /// Plan 관련 Firebase Firestore 연동
-final class TravelPlanRepository: AbstractTravelPlanRepository {
+struct TravelPlanRepository: AbstractTravelPlanRepository {
     private var database = Firestore.firestore()
     
     // create & update
@@ -62,7 +62,7 @@ final class TravelPlanRepository: AbstractTravelPlanRepository {
     
     // read
     // Firebase에서 다운로드한 데이터로 TravelPlanDTO를 생성해서 반환
-    func read() async throws -> [TravelPlanDTO] {
+    func read() async throws -> [TravelPlan] {
         var travelPlans = [TravelPlanDTO]()
         
         do {
@@ -81,7 +81,7 @@ final class TravelPlanRepository: AbstractTravelPlanRepository {
                 travelPlans.append(self.createTravelPlan(data, schedules))
                 documentIndex += NumberConstants.one
             }
-            return travelPlans
+            return travelPlans.map { $0.toDomain() }
         } catch {
             throw TravelPlanRepositoryError.readError
         }
