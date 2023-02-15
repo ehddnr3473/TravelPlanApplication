@@ -35,6 +35,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
                                                   width: AppLayoutConstants.spacing,
                                                   height: .zero))
         textField.leftViewMode = .always
+        textField.tag = AppNumberConstants.titleTextFieldTag
         return textField
     }()
     
@@ -340,6 +341,31 @@ extension WritingScheduleViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    // 키보드가 나타날 때, view를 위로 이동시킴.
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.tag != AppNumberConstants.titleTextFieldTag {
+            keyboardWillAppear()
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag != AppNumberConstants.titleTextFieldTag {
+            keyboardWillDisappear()
+        }
+    }
+    
+    private func keyboardWillAppear() {
+        UIView.animate(withDuration: AnimationConstants.duration) { [self] in
+            view.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+        }
+    }
+    
+    private func keyboardWillDisappear() {
+        UIView.animate(withDuration: AnimationConstants.duration) { [self] in
+            view.frame.origin.y = 0
+        }
+    }
 }
 
 extension WritingScheduleViewController: UITextViewDelegate {
@@ -367,10 +393,15 @@ private enum LayoutConstants {
     static let descriptionTextViewHeight: CGFloat = 100
     static let dateBackgroundViewHeight: CGFloat = 170
     static let coordinateViewHeight: CGFloat = 150
+    static let yWhenKeyboardAppear: CGFloat = 150
 }
 
 private enum TextConstants {
     static let schedule = "Schedule"
     static let from = "From"
     static let to = "To"
+}
+
+private enum AnimationConstants {
+    static let duration: TimeInterval = 0.3
 }
