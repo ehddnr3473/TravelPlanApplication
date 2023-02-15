@@ -28,9 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let memoryRepository = MemoryRepository()
         let memoryImageRepository = MemoryImageRepository()
         
-        let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
-        let memoryUseCaseProvider = ConcreteMemoryUseCaseProvider(memoryRepository)
-        let memoryImageUseCaseProvider = ConcreteMemoryImageUseCaseProvider(memoryImageRepository)
+        let useCaseProviderFactory = ConcreteUseCaseProviderFactory(travelPlanRepository,
+                                                                    memoryRepository,
+                                                                    memoryImageRepository)
+        let travelPlanUseCaseProvider = useCaseProviderFactory.createTravelPlanUseCaseProvider()
+        let memoryUseCaseProvider = useCaseProviderFactory.createMemoryUseCaseProvider()
+        let memoryImageUseCaseProvider = useCaseProviderFactory.createMemoryImageUseCaseProvider()
         
         let travelPlanViewBuilder = ConcreteTravelPlanViewBuilder(travelPlanUseCaseProvider)
         let memoryViewBuilder = ConcreteMemoryViewBuilder(memoryUseCaseProvider, memoryImageUseCaseProvider)

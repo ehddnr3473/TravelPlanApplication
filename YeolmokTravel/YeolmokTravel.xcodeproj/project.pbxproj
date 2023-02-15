@@ -27,6 +27,7 @@
 		6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4C829519C8800BBB8EE /* Alert.swift */; };
 		6B37A4CF2951C30800BBB8EE /* PlanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4CE2951C30800BBB8EE /* PlanCell.swift */; };
 		6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */; };
+		6B41F87A299C6AD300D8A8E6 /* UseCaseProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B41F879299C6AD300D8A8E6 /* UseCaseProviderFactory.swift */; };
 		6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0529513D4A000430C7 /* AppDelegate.swift */; };
 		6B46FA0829513D4A000430C7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0729513D4A000430C7 /* SceneDelegate.swift */; };
 		6B46FA0F29513D4C000430C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA0E29513D4C000430C7 /* Assets.xcassets */; };
@@ -106,6 +107,7 @@
 		6B37A4C829519C8800BBB8EE /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		6B37A4CE2951C30800BBB8EE /* PlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCell.swift; sourceTree = "<group>"; };
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
+		6B41F879299C6AD300D8A8E6 /* UseCaseProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseProviderFactory.swift; sourceTree = "<group>"; };
 		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B46FA0529513D4A000430C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0729513D4A000430C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -229,6 +231,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		6B41F878299C6AAF00D8A8E6 /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				6B41F879299C6AD300D8A8E6 /* UseCaseProviderFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		6B46F9F929513D4A000430C7 = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				6B46FA3529513DA2000430C7 /* Delegate */,
+				6B41F878299C6AAF00D8A8E6 /* Factory */,
 				6BB76BD7297FCEA200C8C596 /* Builder */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
@@ -628,6 +639,7 @@
 				6BF589BA29979B5A0053DC46 /* MemoryDeleteUseCase.swift in Sources */,
 				6BF589C22997B1400053DC46 /* MemoryImageUseCaseProvider.swift in Sources */,
 				6BF589AA299678FB0053DC46 /* ScheduleTracker.swift in Sources */,
+				6B41F87A299C6AD300D8A8E6 /* UseCaseProviderFactory.swift in Sources */,
 				6BF589BC2997B11A0053DC46 /* MemoryImageUploadUseCase.swift in Sources */,
 				6BF589B02996B3D20053DC46 /* TravelPlanReadUseCase.swift in Sources */,
 				6BF589B829979AB00053DC46 /* MemoryReadUseCase.swift in Sources */,
