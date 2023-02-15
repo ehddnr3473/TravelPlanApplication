@@ -8,6 +8,7 @@
 import UIKit
 import PhotosUI
 import Combine
+import JGProgressHUD
 
 enum PHPickerError: String, Error {
     case imageLoadFailed = "이미지 불러오기를 실패했습니다."
@@ -43,6 +44,7 @@ final class WritingMemoryViewController: UIViewController {
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
                                                   width: AppLayoutConstants.spacing,
@@ -91,6 +93,13 @@ final class WritingMemoryViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         return label
+    }()
+    
+    private lazy var indicatorView: JGProgressHUD = {
+        let headUpDisplay = JGProgressHUD()
+        headUpDisplay.textLabel.text = IndicatorConstants.titleText
+        headUpDisplay.detailTextLabel.text = IndicatorConstants.detailText
+        return headUpDisplay
     }()
     
     // MARK: - Init
@@ -176,6 +185,7 @@ extension WritingMemoryViewController {
         topBarView.saveBarButton.addTarget(self, action: #selector(touchUpRightBarButton), for: .touchUpInside)
         topBarView.cancelBarButton.addTarget(self, action: #selector(touchUpLeftBarButton), for: .touchUpInside)
         titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        titleTextField.delegate = self
         phPicker.delegate = self
     }
 }
@@ -190,16 +200,17 @@ private extension WritingMemoryViewController {
             alertWillAppear(MemoryCreatingError.nilImageError.rawValue)
             return
         }
-        
         Task { await createMemory() }
     }
     
     func createMemory() async {
+        indicatorView.show(in: view)
         guard let image = imageView.image else { return }
         let memory = Memory(title: titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
         do {
             try await viewModel.upload(memoryIndex, image, memory)
             delegate?.create(memory)
+            indicatorView.dismiss(animated: true)
             dismiss(animated: true)
         } catch {
             if let error = error as? MemoryRepositoryError {
@@ -207,6 +218,7 @@ private extension WritingMemoryViewController {
             } else if let error = error as? MemoryImageRepositoryError {
                 alertWillAppear(error.rawValue)
             }
+            indicatorView.dismiss(animated: true)
         }
     }
     
@@ -274,6 +286,13 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
     }
 }
 
+extension WritingMemoryViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+
 private enum LayoutConstants {
     static let cornerRadius: CGFloat = 5
     static let imageViewWidthMultiplier: CGFloat = 0.8
@@ -285,4 +304,9 @@ private enum TextConstants {
     static let title = "New memory"
     static let phPickerButtonTitle = "Load"
     static let deleteButtonTitle = "Delete"
+}
+
+private enum IndicatorConstants {
+    static let titleText = "Uploading image.."
+    static let detailText = "Please wait"
 }
