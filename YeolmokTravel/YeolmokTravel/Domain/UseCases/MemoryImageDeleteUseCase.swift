@@ -12,13 +12,13 @@ protocol MemoryImageDeleteUseCase: AnyObject {
 }
 
 final class ConcreteMemoryImageDeleteUseCase: MemoryImageDeleteUseCase {
-    private let repository: AbstractMemoryImageRepository
+    private let memoryImageRepository: AbstractMemoryImageRepository
     
-    init(_ repository: AbstractMemoryImageRepository) {
-        self.repository = repository
+    init(_ memoryImageRepository: AbstractMemoryImageRepository) {
+        self.memoryImageRepository = memoryImageRepository
     }
     
     func execute(at index: Int) async throws {
-        try await repository.delete(index)
+        try await memoryImageRepository.delete(index)
     }
 }

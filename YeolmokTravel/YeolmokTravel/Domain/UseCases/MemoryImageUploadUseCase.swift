@@ -13,13 +13,13 @@ protocol MemoryImageUploadUseCase: AnyObject {
 }
 
 final class ConcreteMemoryImageUploadUseCase: MemoryImageUploadUseCase {
-    private let repository: AbstractMemoryImageRepository
+    private let memoryImageRepository: AbstractMemoryImageRepository
     
-    init(_ repository: AbstractMemoryImageRepository) {
-        self.repository = repository
+    init(_ memoryImageRepository: AbstractMemoryImageRepository) {
+        self.memoryImageRepository = memoryImageRepository
     }
     
     func execute(at index: Int, _ image: UIImage) async throws {
-        try await repository.upload(at: index, image)
+        try await memoryImageRepository.upload(at: index, image)
     }
 }

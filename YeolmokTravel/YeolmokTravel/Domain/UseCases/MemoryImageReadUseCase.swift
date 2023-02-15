@@ -13,13 +13,13 @@ protocol MemoryImageReadUseCase: AnyObject {
 }
 
 final class ConcreteMemoryImageReadUseCase: MemoryImageReadUseCase {
-    private let repository: AbstractMemoryImageRepository
+    private let memoryImageRepository: AbstractMemoryImageRepository
     
-    init(_ repository: AbstractMemoryImageRepository) {
-        self.repository = repository
+    init(_ memoryImageRepository: AbstractMemoryImageRepository) {
+        self.memoryImageRepository = memoryImageRepository
     }
     
     func execute(at index: Int, completion: @escaping ((Result<UIImage, MemoryImageRepositoryError>) -> Void)) {
-        repository.read(index, completion)
+        memoryImageRepository.read(index, completion)
     }
 }
