@@ -227,6 +227,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             guard let deletedCell = tableView.cellForRow(at: indexPath) as? PlanCell else { return }
             
+            tableView.isUserInteractionEnabled = false
             deletedCell.createIndicator()
             deletedCell.startIndicator()
             
@@ -242,6 +243,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
                     alertWillAppear(error.rawValue)
                 }
                 deletedCell.stopAndDeallocateIndicator()
+                tableView.isUserInteractionEnabled = true
             }
         }
     }
@@ -250,6 +252,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
         guard let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? PlanCell else { return }
         guard let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? PlanCell else { return }
         
+        tableView.isUserInteractionEnabled = false
         sourceCell.createIndicator()
         destinationCell.createIndicator()
         sourceCell.startIndicator()
@@ -264,6 +267,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
             }
             sourceCell.stopAndDeallocateIndicator()
             destinationCell.stopAndDeallocateIndicator()
+            tableView.isUserInteractionEnabled = true
         }
     }
     
@@ -308,6 +312,7 @@ extension TravelPlanViewController: TravelPlanTransferDelegate {
 // MARK: - Indicator
 private extension TravelPlanViewController {
     func startIndicator() {
+        planTableView.isUserInteractionEnabled = false
         DispatchQueue.main.async { [self] in
             indicatorView.show(in: view)
         }
@@ -317,6 +322,7 @@ private extension TravelPlanViewController {
         DispatchQueue.main.async { [self] in
             indicatorView.dismiss(animated: true)
         }
+        planTableView.isUserInteractionEnabled = true
     }
 }
 

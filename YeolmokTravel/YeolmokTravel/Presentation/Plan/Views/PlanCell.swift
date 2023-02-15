@@ -117,6 +117,7 @@ extension PlanCell {
     }
     
     func startIndicator() {
+        isUserInteractionEnabled = false
         guard let indicatorView = indicatorView else { return }
         DispatchQueue.main.async {
             indicatorView.startAnimating()
@@ -131,6 +132,7 @@ extension PlanCell {
             indicatorView.removeFromSuperview()
         }
         self.indicatorView = nil
+        isUserInteractionEnabled = true
     }
 }
 
