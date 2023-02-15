@@ -42,6 +42,7 @@ final class WritingMemoryViewController: UIViewController {
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
+        textField.placeholder = AppTextConstants.titlePlaceholder
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
@@ -278,11 +279,26 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
             }
             
             DispatchQueue.main.async {
-                self?.imageView.image = image as? UIImage
+                guard let width = self?.imageView.frame.width,
+                      let height = self?.imageView.frame.height,
+                      let image = self?.compressImage(image, CGSize(width: width, height: height)) else {
+                    self?.alertWillAppear(PHPickerError.imageLoadFailed.rawValue)
+                    return
+                }
+                self?.imageView.image = image
             }
             
             self?.imageIsExistPublisher.value = true
         }
+    }
+    
+    private func compressImage(_ image: NSItemProviderReading?, _ compressionSize: CGSize) -> UIImage? {
+        guard let image = image as? UIImage else { return nil }
+        UIGraphicsBeginImageContextWithOptions(compressionSize, false, ImageConstants.compressionScale)
+        image.draw(in: CGRect(origin: .zero, size: compressionSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
     }
 }
 
@@ -309,4 +325,8 @@ private enum TextConstants {
 private enum IndicatorConstants {
     static let titleText = "Uploading image.."
     static let detailText = "Please wait"
+}
+
+private enum ImageConstants {
+    static let compressionScale: CGFloat = 1.0
 }
