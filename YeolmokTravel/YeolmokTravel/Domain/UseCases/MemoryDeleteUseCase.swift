@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol MemoryDeleteUseCase: AnyObject {
+protocol MemoryDeleteUseCase {
     func execute(at index: Int) async throws
 }
 
-final class ConcreteMemoryDeleteUseCase: MemoryDeleteUseCase {
+struct ConcreteMemoryDeleteUseCase: MemoryDeleteUseCase {
     private let repository: AbstractMemoryRepository
     
     init(_ repository: AbstractMemoryRepository) {

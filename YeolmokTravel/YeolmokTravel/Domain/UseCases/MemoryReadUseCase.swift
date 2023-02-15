@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol MemoryReadUseCase: AnyObject {
+protocol MemoryReadUseCase {
     func execute() async throws -> [Memory]
 }
 
-final class ConcreteMemoryReadUseCase: MemoryReadUseCase {
+struct ConcreteMemoryReadUseCase: MemoryReadUseCase {
     private let repository: AbstractMemoryRepository
     
     init(_ repository: AbstractMemoryRepository) {
@@ -19,6 +19,6 @@ final class ConcreteMemoryReadUseCase: MemoryReadUseCase {
     }
     
     func execute() async throws -> [Memory] {
-        try await repository.read().map { $0.toDomain() }
+        try await repository.read()
     }
 }

@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol MemoryUploadUseCase: AnyObject {
+protocol MemoryUploadUseCase {
     func execute(at index: Int, _ memory: Memory) async throws
 }
 
-final class ConcreteMemoryUploadUseCase: MemoryUploadUseCase {
+struct ConcreteMemoryUploadUseCase: MemoryUploadUseCase {
     private let repository: AbstractMemoryRepository
     
     init(_ repository: AbstractMemoryRepository) {
