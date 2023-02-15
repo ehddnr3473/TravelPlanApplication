@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol TravelPlanViewBuilder: AnyObject {
+protocol TravelPlanViewBuilder {
     func build() -> TravelPlanViewController
 }
 
-final class ConcreteTravelPlanViewBuilder: TravelPlanViewBuilder {
+struct ConcreteTravelPlanViewBuilder: TravelPlanViewBuilder {
     private let travelPlanUseCaseProvider: TravelPlanUseCaseProvider
     
     init(_ travelPlanUseCaseProvider: TravelPlanUseCaseProvider) {

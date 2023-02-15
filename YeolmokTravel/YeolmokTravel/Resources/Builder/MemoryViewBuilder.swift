@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol MemoryViewBuilder: AnyObject {
+protocol MemoryViewBuilder {
     func build() -> MemoryViewController
 }
 
-final class ConcreteMemoryViewBuilder: MemoryViewBuilder {
+struct ConcreteMemoryViewBuilder: MemoryViewBuilder {
     private let memoryUseCaseProvider: MemoryUseCaseProvider
     private let memoryImageuseCaseProvider: MemoryImageUseCaseProvider
     
