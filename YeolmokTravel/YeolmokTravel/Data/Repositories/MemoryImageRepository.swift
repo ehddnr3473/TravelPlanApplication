@@ -50,6 +50,7 @@ final class MemoryImageRepository: AbstractMemoryImageRepository {
             do {
                 let _ = try await imageReference.putDataAsync(data)
                 // using metadata
+                cacheImage(index, image: image)
             } catch {
                 throw MemoryImageRepositoryError.uploadError
             }
