@@ -23,7 +23,9 @@ final class CoordinateView: UIView {
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.latitudePlaceholder
         textField.keyboardType = .decimalPad
-        
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
                                                   width: AppLayoutConstants.spacing,
@@ -42,6 +44,9 @@ final class CoordinateView: UIView {
         textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textField.placeholder = TextConstants.longitudePlaceholder
         textField.keyboardType = .decimalPad
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
         textField.leftView = UIView(frame: CGRect(x: .zero,
                                                   y: .zero,
                                                   width: AppLayoutConstants.spacing,
