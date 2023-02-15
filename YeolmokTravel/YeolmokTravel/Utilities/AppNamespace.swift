@@ -24,8 +24,11 @@ enum AppLayoutConstants {
     static let buttonHeight: CGFloat = 44.44
 }
 
+enum AppNumberConstants {
+    static let mapViewTag = 77
+}
+
 enum AppTextConstants {
-    static let mapViewAccessibilityLabel = "mapView"
     static let plusIcon = "plus"
     static let editIcon = "pencil"
     static let leftBarButtonTitle = "Back"
