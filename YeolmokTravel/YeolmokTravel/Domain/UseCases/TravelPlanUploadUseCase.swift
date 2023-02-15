@@ -12,13 +12,13 @@ protocol TravelPlanUploadUseCase {
 }
 
 struct ConcreteTravelPlanUploadUseCase: TravelPlanUploadUseCase {
-    private let repository: AbstractTravelPlanRepository
+    private let travelPlanRepository: AbstractTravelPlanRepository
     
-    init(_ repository: AbstractTravelPlanRepository) {
-        self.repository = repository
+    init(_ travelPlanRepository: AbstractTravelPlanRepository) {
+        self.travelPlanRepository = travelPlanRepository
     }
     
     func execute(at index: Int, travelPlan: TravelPlan) async throws {
-        try await repository.upload(at: index, travelPlanDTO: travelPlan.toData())
+        try await travelPlanRepository.upload(at: index, travelPlanDTO: travelPlan.toData())
     }
 }

@@ -12,13 +12,13 @@ protocol TravelPlanReadUseCase {
 }
 
 struct ConcreteTravelPlanReadUseCase: TravelPlanReadUseCase {
-    private let repository: AbstractTravelPlanRepository
+    private let travelPlanRepository: AbstractTravelPlanRepository
     
-    init(_ repository: AbstractTravelPlanRepository) {
-        self.repository = repository
+    init(_ travelPlanRepository: AbstractTravelPlanRepository) {
+        self.travelPlanRepository = travelPlanRepository
     }
     
     func execute() async throws -> [TravelPlan] {
-        try await repository.read()
+        try await travelPlanRepository.read()
     }
 }

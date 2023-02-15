@@ -12,13 +12,13 @@ protocol TravelPlanDeleteUseCase {
 }
 
 struct ConcreteTravelPlanDeleteUseCase: TravelPlanDeleteUseCase {
-    private let repository: AbstractTravelPlanRepository
+    private let travelPlanRepository: AbstractTravelPlanRepository
     
-    init(_ repository: AbstractTravelPlanRepository) {
-        self.repository = repository
+    init(_ travelPlanRepository: AbstractTravelPlanRepository) {
+        self.travelPlanRepository = travelPlanRepository
     }
     
     func execute(at index: Int) async throws {
-        try await repository.delete(at: index)
+        try await travelPlanRepository.delete(at: index)
     }
 }
