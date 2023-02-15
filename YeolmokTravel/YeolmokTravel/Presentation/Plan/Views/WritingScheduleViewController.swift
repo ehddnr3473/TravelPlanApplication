@@ -26,6 +26,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         textField.layer.borderWidth = AppLayoutConstants.borderWidth
         textField.layer.borderColor = UIColor.white.cgColor
         textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
+        textField.placeholder = AppTextConstants.titlePlaceholder
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.returnKeyType = .done
