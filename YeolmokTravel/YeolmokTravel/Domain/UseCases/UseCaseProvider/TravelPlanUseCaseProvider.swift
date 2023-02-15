@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol TravelPlanUseCaseProvider: AnyObject {
+protocol TravelPlanUseCaseProvider {
     func provideTravelPlanUploadUseCase() -> TravelPlanUploadUseCase
     func provideTravelPlanReadUseCase() -> TravelPlanReadUseCase
     func provideTravelPlanDeleteUseCase() -> TravelPlanDeleteUseCase
     func provideTravelPlanSwapUseCase() -> TravelPlanSwapUseCase
 }
 
-final class ConcreteTravelPlanUseCaseProvider: TravelPlanUseCaseProvider {
+struct ConcreteTravelPlanUseCaseProvider: TravelPlanUseCaseProvider {
     private let repository: AbstractTravelPlanRepository
 
     init(_ repository: AbstractTravelPlanRepository) {

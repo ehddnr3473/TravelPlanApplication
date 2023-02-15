@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol MemoryUseCaseProvider: AnyObject {
+protocol MemoryUseCaseProvider {
     func provideMemoryUploadUseCase() -> MemoryUploadUseCase
     func provideMemoryReadUseCase() -> MemoryReadUseCase
     func provideMemoryDeleteUseCase() -> MemoryDeleteUseCase
 }
 
-final class ConcreteMemoryUseCaseProvider: MemoryUseCaseProvider {
+struct ConcreteMemoryUseCaseProvider: MemoryUseCaseProvider {
     private let repository: AbstractMemoryRepository
     
     init(_ repository: AbstractMemoryRepository) {
