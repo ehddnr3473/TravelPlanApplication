@@ -246,7 +246,9 @@ private extension WritingScheduleViewController {
         titleTextField.delegate = self
         descriptionTextView.delegate = self
         coordinateView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        coordinateView.latitudeTextField.delegate = self
         coordinateView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        coordinateView.longitudeTextField.delegate = self
         coordinateView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
         dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
         fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
