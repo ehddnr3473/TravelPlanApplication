@@ -123,6 +123,7 @@ final class WritingMemoryViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         configure()
+        configureTapGesture()
         setBindings()
     }
 }
@@ -240,6 +241,15 @@ private extension WritingMemoryViewController {
     
     @objc func editingChangedTitleTextField() {
         titlePublisher.send(titleTextField.text ?? "")
+    }
+    
+    @objc func tapView() {
+        view.endEditing(true)
+    }
+    
+    func configureTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        view.addGestureRecognizer(tapGesture)
     }
     
     func setBindings() {
