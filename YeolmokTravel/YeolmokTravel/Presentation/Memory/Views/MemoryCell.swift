@@ -19,6 +19,7 @@ final class MemoryCell: UICollectionViewCell {
     var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemBackground
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -108,30 +109,42 @@ private extension MemoryCell {
                 .inset(AppLayoutConstants.spacing)
         }
     }
-        
-    func setBindings() {
-        viewModel?.imagePublisher
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    self.delegate?.errorDidOccurrued(error.rawValue)
-                    break
-                case .finished:
-                    break
-                }
-            }) { [weak self] image in
-                self?.progressIndicator.dismiss()
-                self?.imageView.image = image
-            }
-            .store(in: &subscriptions)
-    }
     
     func configure() {
         progressIndicator.show(in: imageView)
         titleLabel.text = viewModel?.model.title
         dateLabel.text = viewModel?.uploadDate
         viewModel?.read()
+    }
+}
+
+// MARK: - Bindings
+private extension MemoryCell {
+    func setBindings() {
+        viewModel?.imagePublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                self?.progressIndicator.dismiss()
+                switch completion {
+                case .failure(let error):
+                    self?.delegate?.errorDidOccurrued(error.rawValue)
+                    break
+                case .finished:
+                    break
+                }
+            }) { [weak self] image in
+                self?.progressIndicator.dismiss()
+                // 이미지가 회전한 상태라면 가공
+                if image.imageOrientation != .up {
+                    if let cgImage = image.cgImage {
+                        let processedImage = UIImage(cgImage: cgImage, scale: image.scale, orientation: .up)
+                        self?.imageView.image = processedImage
+                        return
+                    }
+                }
+                self?.imageView.image = image
+            }
+            .store(in: &subscriptions)
     }
 }
 

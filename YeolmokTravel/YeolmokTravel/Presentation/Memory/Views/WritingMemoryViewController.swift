@@ -62,6 +62,7 @@ final class WritingMemoryViewController: UIViewController {
         let imageView = UIImageView()
         imageView.layer.borderWidth = AppLayoutConstants.borderWidth
         imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
