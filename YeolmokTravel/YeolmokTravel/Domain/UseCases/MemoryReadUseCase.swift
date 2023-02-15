@@ -12,13 +12,13 @@ protocol MemoryReadUseCase {
 }
 
 struct ConcreteMemoryReadUseCase: MemoryReadUseCase {
-    private let repository: AbstractMemoryRepository
+    private let memoryRepository: AbstractMemoryRepository
     
-    init(_ repository: AbstractMemoryRepository) {
-        self.repository = repository
+    init(_ memoryRepository: AbstractMemoryRepository) {
+        self.memoryRepository = memoryRepository
     }
     
     func execute() async throws -> [Memory] {
-        try await repository.read()
+        try await memoryRepository.read()
     }
 }

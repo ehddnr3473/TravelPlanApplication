@@ -12,13 +12,13 @@ protocol MemoryDeleteUseCase {
 }
 
 struct ConcreteMemoryDeleteUseCase: MemoryDeleteUseCase {
-    private let repository: AbstractMemoryRepository
+    private let memoryRepository: AbstractMemoryRepository
     
-    init(_ repository: AbstractMemoryRepository) {
-        self.repository = repository
+    init(_ memoryRepository: AbstractMemoryRepository) {
+        self.memoryRepository = memoryRepository
     }
     
     func execute(at index: Int) async throws {
-        try await repository.delete(at: index)
+        try await memoryRepository.delete(at: index)
     }
 }

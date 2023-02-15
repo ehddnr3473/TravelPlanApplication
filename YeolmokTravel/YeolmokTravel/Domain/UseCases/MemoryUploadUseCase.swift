@@ -12,13 +12,13 @@ protocol MemoryUploadUseCase {
 }
 
 struct ConcreteMemoryUploadUseCase: MemoryUploadUseCase {
-    private let repository: AbstractMemoryRepository
+    private let memoryRepository: AbstractMemoryRepository
     
-    init(_ repository: AbstractMemoryRepository) {
-        self.repository = repository
+    init(_ memoryRepository: AbstractMemoryRepository) {
+        self.memoryRepository = memoryRepository
     }
     
     func execute(at index: Int, _ memory: Memory) async throws {
-        try await repository.upload(at: index, memoryDTO: memory.toData())
+        try await memoryRepository.upload(at: index, memoryDTO: memory.toData())
     }
 }
