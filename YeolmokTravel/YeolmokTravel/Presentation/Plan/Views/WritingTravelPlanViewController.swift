@@ -376,8 +376,7 @@ private extension WritingTravelPlanViewController {
     // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
     func mapContentsIsAdded() -> Bool {
         scrollViewContainer.subviews.contains {
-            guard let label = $0.accessibilityLabel else { return false }
-            return label == AppTextConstants.mapViewAccessibilityLabel
+            $0.tag == AppNumberConstants.mapViewTag
         }
     }
     
