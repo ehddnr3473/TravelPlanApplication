@@ -8,11 +8,11 @@
 import Foundation
 import UIKit
 
-protocol MemoryImageReadUseCase: AnyObject {
+protocol MemoryImageReadUseCase {
     func execute(at index: Int, completion: @escaping ((Result<UIImage, MemoryImageRepositoryError>) -> Void))
 }
 
-final class ConcreteMemoryImageReadUseCase: MemoryImageReadUseCase {
+struct ConcreteMemoryImageReadUseCase: MemoryImageReadUseCase {
     private let memoryImageRepository: AbstractMemoryImageRepository
     
     init(_ memoryImageRepository: AbstractMemoryImageRepository) {
