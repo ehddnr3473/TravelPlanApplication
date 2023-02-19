@@ -7,14 +7,15 @@
 
 import Foundation
 import CoreLocation
+import Domain
 
 /// 여행 계획 모델
-struct TravelPlan {
+struct YTTravelPlan {
     var title: String
     var description: String
     var fromDate: Date?
     var toDate: Date?
-    var schedules: [Schedule] {
+    var schedules: [YTSchedule] {
         didSet {
             setFromDate()
             setToDate()
@@ -29,7 +30,11 @@ struct TravelPlan {
         return coordinates
     }
     
-    init(title: String, description: String, fromDate: Date? = nil, toDate: Date? = nil, schedules: [Schedule]) {
+    init(title: String,
+         description: String,
+         fromDate: Date? = nil,
+         toDate: Date? = nil,
+         schedules: [YTSchedule]) {
         self.title = title
         self.description = description
         self.fromDate = fromDate
@@ -38,6 +43,12 @@ struct TravelPlan {
         
         setFromDate()
         setToDate()
+    }
+    
+    init(travelPlan: TravelPlan) {
+        self.title = travelPlan.title
+        self.description = travelPlan.description
+        self.schedules = travelPlan.schedules.map { YTSchedule(schedule: $0) }
     }
     
     var date: String {
@@ -63,22 +74,22 @@ struct TravelPlan {
     }
 }
 
-extension TravelPlan {
-    func toData() -> TravelPlanDTO {
-        TravelPlanDTO(
-            title: title,
-            description: description,
-            schedules: schedules.map { $0.toData() }
-        )
-    }
-}
-
-extension TravelPlan: Equatable {
-    static func == (lhs: TravelPlan, rhs: TravelPlan) -> Bool {
+extension YTTravelPlan: Equatable {
+    static func == (lhs: YTTravelPlan, rhs: YTTravelPlan) -> Bool {
         lhs.title == rhs.title &&
         lhs.description == rhs.description &&
         lhs.fromDate == rhs.fromDate &&
         lhs.toDate == rhs.toDate &&
         lhs.schedules == rhs.schedules
+    }
+}
+
+extension YTTravelPlan {
+    func toDomain() -> TravelPlan {
+        TravelPlan(title: title,
+                   description: description,
+                   fromDate: fromDate,
+                   toDate: toDate,
+                   schedules: schedules.map { $0.toDomain() })
     }
 }
