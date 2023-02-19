@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebasePlatform
+import Domain
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -19,16 +22,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let travelPlanRepository = TravelPlanRepository()
-        let memoryRepository = MemoryRepository()
+        let database = Firestore.firestore()
+        let travelPlanRepository = TravelPlanRepository(database)
+        let memoryRepository = MemoryRepository(database)
         let memoryImageRepository = MemoryImageRepository()
         
-        let useCaseProviderFactory = ConcreteUseCaseProviderFactory(travelPlanRepository,
-                                                                    memoryRepository,
-                                                                    memoryImageRepository)
-        let travelPlanUseCaseProvider = useCaseProviderFactory.createTravelPlanUseCaseProvider()
-        let memoryUseCaseProvider = useCaseProviderFactory.createMemoryUseCaseProvider()
-        let memoryImageUseCaseProvider = useCaseProviderFactory.createMemoryImageUseCaseProvider()
+        let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
+        let memoryUseCaseProvider = ConcreteMemoryUseCaseProvider(memoryRepository)
+        let memoryImageUseCaseProvider = ConcreteMemoryImageUseCaseProvider(memoryImageRepository)
         
         let travelPlanViewBuilder = ConcreteTravelPlanViewBuilder(travelPlanUseCaseProvider)
         let memoryViewBuilder = ConcreteMemoryViewBuilder(memoryUseCaseProvider, memoryImageUseCaseProvider)

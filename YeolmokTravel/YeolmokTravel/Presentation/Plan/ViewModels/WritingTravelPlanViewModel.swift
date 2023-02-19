@@ -15,8 +15,8 @@ enum WritingTravelPlanError: String, Error {
 
 private protocol WritingTravelPlanViewModel: AnyObject {
     // Input(Schedules update) -> Output(Schedules changed information)
-    func createSchedule(_ schedule: Schedule)
-    func updateSchedule(at index: Int, _ schedule: Schedule)
+    func createSchedule(_ schedule: YTSchedule)
+    func updateSchedule(at index: Int, _ schedule: YTSchedule)
     func deleteSchedule(at index: Int)
     func swapSchedules(at source: Int, to destination: Int)
     func setTravelPlanTracker() // travelPlanTracker.travelPlan set
@@ -25,15 +25,15 @@ private protocol WritingTravelPlanViewModel: AnyObject {
     
     // Output
     var calculatedScrollViewContainerHeight: CGFloat { get }
-    func createTravelPlan() throws -> TravelPlan
+    func createTravelPlan() throws -> YTTravelPlan
 }
 
 final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
-    private(set) var travelPlanTracker: TravelPlanTracker
+    private(set) var travelPlanTracker: YTTravelPlanTracker
     
     private(set) var title: String
     private(set) var description: String
-    private(set) var schedules: CurrentValueSubject<[Schedule], Never> // [Schedule]이 변경되었을 때만 바인딩을 통해 업데이트를 수행
+    private(set) var schedules: CurrentValueSubject<[YTSchedule], Never> // [Schedule]이 변경되었을 때만 바인딩을 통해 업데이트를 수행
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -52,22 +52,22 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
         }
     }
     
-    init(_ model: TravelPlan) {
-        self.travelPlanTracker = TravelPlanTracker(model)
+    init(_ model: YTTravelPlan) {
+        self.travelPlanTracker = YTTravelPlanTracker(model)
         self.title = model.title
         self.description = model.description
-        self.schedules = CurrentValueSubject<[Schedule], Never>(model.schedules)
+        self.schedules = CurrentValueSubject<[YTSchedule], Never>(model.schedules)
     }
     
     deinit {
         print("deinit: WritingTravelPlanViewModel")
     }
     
-    func createSchedule(_ schedule: Schedule) {
+    func createSchedule(_ schedule: YTSchedule) {
         schedules.value.append(schedule)
     }
     
-    func updateSchedule(at index: Int, _ schedule: Schedule) {
+    func updateSchedule(at index: Int, _ schedule: YTSchedule) {
         schedules.value[index] = schedule
     }
     
@@ -80,7 +80,7 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     }
     
     func setTravelPlanTracker() {
-        travelPlanTracker.travelPlan = TravelPlan(title: title,
+        travelPlanTracker.travelPlan = YTTravelPlan(title: title,
                                                   description: description,
                                                   schedules: schedules.value)
     }
@@ -93,8 +93,8 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
         self.description = description
     }
     
-    func createTravelPlan() throws -> TravelPlan {
+    func createTravelPlan() throws -> YTTravelPlan {
         guard title.count > 0 else { throw WritingTravelPlanError.emptyTitle }
-        return TravelPlan(title: title, description: description, schedules: schedules.value)
+        return YTTravelPlan(title: title, description: description, schedules: schedules.value)
     }
 }

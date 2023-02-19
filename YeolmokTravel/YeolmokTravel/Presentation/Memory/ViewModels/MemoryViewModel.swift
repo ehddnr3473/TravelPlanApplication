@@ -7,15 +7,16 @@
 
 import Foundation
 import Combine
+import Domain
 
 private protocol MemoryViewModel: AnyObject {
     // Input -> Output(Model information)
     func read() async throws
-    func create(_ memory: Memory)
+    func create(_ memory: YTMemory)
 }
 
 final class ConcreteMemoryViewModel: MemoryViewModel {
-    private(set) var model = CurrentValueSubject<[Memory], Never>([])
+    private(set) var model = CurrentValueSubject<[YTMemory], Never>([])
     private let useCaseProvider: MemoryUseCaseProvider
     
     init(_ useCaseProvider: MemoryUseCaseProvider) {
@@ -24,10 +25,10 @@ final class ConcreteMemoryViewModel: MemoryViewModel {
     
     func read() async throws {
         let readUseCase = useCaseProvider.provideMemoryReadUseCase()
-        model.send(try await readUseCase.execute())
+        model.send(try await readUseCase.execute().map { YTMemory(memory: $0) })
     }
     
-    func create(_ memory: Memory) {
+    func create(_ memory: YTMemory) {
         model.value.append(memory)
     }
 }

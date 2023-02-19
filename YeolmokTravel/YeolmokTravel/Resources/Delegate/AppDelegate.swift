@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseCore
 import FirebaseFirestore
+import FirebasePlatform
+import Domain
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,16 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 13 이전의 경우에는 SceneDelegate에서 해주었던 작업을 그대로 진행
         window = UIWindow()
         
-        let travelPlanRepository = TravelPlanRepository()
-        let memoryRepository = MemoryRepository()
+        let database = Firestore.firestore()
+        let travelPlanRepository = TravelPlanRepository(database)
+        let memoryRepository = MemoryRepository(database)
         let memoryImageRepository = MemoryImageRepository()
         
-        let useCaseProviderFactory = ConcreteUseCaseProviderFactory(travelPlanRepository,
-                                                                    memoryRepository,
-                                                                    memoryImageRepository)
-        let travelPlanUseCaseProvider = useCaseProviderFactory.createTravelPlanUseCaseProvider()
-        let memoryUseCaseProvider = useCaseProviderFactory.createMemoryUseCaseProvider()
-        let memoryImageUseCaseProvider = useCaseProviderFactory.createMemoryImageUseCaseProvider()
+        let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
+        let memoryUseCaseProvider = ConcreteMemoryUseCaseProvider(memoryRepository)
+        let memoryImageUseCaseProvider = ConcreteMemoryImageUseCaseProvider(memoryImageRepository)
         
         let travelPlanViewBuilder = ConcreteTravelPlanViewBuilder(travelPlanUseCaseProvider)
         let memoryViewBuilder = ConcreteMemoryViewBuilder(memoryUseCaseProvider, memoryImageUseCaseProvider)

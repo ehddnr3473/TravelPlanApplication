@@ -7,38 +7,40 @@
 
 import Foundation
 import Combine
+import Domain
+import FirebasePlatform
 
 private protocol TravelPlanViewModel: AnyObject {
     // Input(Model update) -> Output(Model information)
-    func create(_ travelPlan: TravelPlan) async throws
+    func create(_ travelPlan: YTTravelPlan) async throws
     func read() async throws
-    func update(at index: Int, _ travelPlan: TravelPlan) async throws
+    func update(at index: Int, _ travelPlan: YTTravelPlan) async throws
     func delete(_ index: Int) async throws
     func swapTravelPlans(at source: Int, to destination: Int) async throws
 }
 
 final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
-    private(set) var model = CurrentValueSubject<[TravelPlan], Never>([])
+    private(set) var model = CurrentValueSubject<[YTTravelPlan], Never>([])
     private let useCaseProvider: TravelPlanUseCaseProvider
     
     init(_ useCaseProvider: TravelPlanUseCaseProvider) {
         self.useCaseProvider = useCaseProvider
     }
     
-    func create(_ travelPlan: TravelPlan) async throws {
+    func create(_ travelPlan: YTTravelPlan) async throws {
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: model.value.endIndex, travelPlan: travelPlan)
+        try await uploadUseCase.execute(at: model.value.endIndex, travelPlan: travelPlan.toDomain())
         model.value.append(travelPlan)
     }
     
     func read() async throws {
         let readUseCase = useCaseProvider.provideTravelPlanReadUseCase()
-        model.send(try await readUseCase.execute())
+        model.send(try await readUseCase.execute().map { YTTravelPlan(travelPlan: $0) })
     }
     
-    func update(at index: Int, _ travelPlan: TravelPlan) async throws {
+    func update(at index: Int, _ travelPlan: YTTravelPlan) async throws {
         let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: index, travelPlan: travelPlan)
+        try await uploadUseCase.execute(at: index, travelPlan: travelPlan.toDomain())
         model.value[index] = travelPlan
     }
     
@@ -55,8 +57,8 @@ final class ConcreteTravelPlanViewModel: TravelPlanViewModel {
                 TravelPlanSwapBox(
                     source: source,
                     destination: destination,
-                    sourceTravelPlan: model.value[source],
-                    destinationTravelPlan: model.value[source]
+                    sourceTravelPlan: model.value[source].toDomain(),
+                    destinationTravelPlan: model.value[source].toDomain()
                 )
             )
             // swap에 성공했다면, 모델 업데이트

@@ -10,8 +10,8 @@ import Combine
 import CoreLocation
 
 protocol ScheduleTransferDelegate: AnyObject {
-    func create(_ schedule: Schedule)
-    func update(at index: Int, _ schedule: Schedule)
+    func create(_ schedule: YTSchedule)
+    func update(at index: Int, _ schedule: YTSchedule)
 }
 
 /*
@@ -19,7 +19,7 @@ protocol ScheduleTransferDelegate: AnyObject {
  - Schedules의 coordinate(좌표 - 위도(latitude) 및 경도(longitude)) 정보를 취합해서 MKMapView로 표현
  */
 final class WritingTravelPlanViewController: UIViewController, Writable {
-    typealias WritableModelType = TravelPlan
+    typealias WritableModelType = YTTravelPlan
     // MARK: - Properties
     var writingStyle: WritingStyle
     weak var delegate: TravelPlanTransferDelegate?
@@ -191,7 +191,7 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    func save(_ travelPlan: TravelPlan, _ index: Int?) {
+    func save(_ travelPlan: YTTravelPlan, _ index: Int?) {
         switch writingStyle {
         case .create:
             Task { try await delegate?.create(travelPlan) }
@@ -214,7 +214,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpCreateScheduleButton() {
-        let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
+        let model = YTSchedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
         let viewModel = ConcreteWritingScheduleViewModel(model)
         let writingView = WritingScheduleViewController(viewModel, writingStyle: .create)
         writingView.delegate = self
@@ -274,7 +274,7 @@ private extension WritingTravelPlanViewController {
             .store(in: &subscriptions)
     }
     
-    func schedulesDidChaged(_ schedules: [Schedule]) {
+    func schedulesDidChaged(_ schedules: [YTSchedule]) {
         let coordinates = extractCoordinatesOfSchedules(schedules)
         
         if coordinates.count == .zero {
@@ -285,7 +285,7 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    func extractCoordinatesOfSchedules(_ schedules: [Schedule]) -> [CLLocationCoordinate2D] {
+    func extractCoordinatesOfSchedules(_ schedules: [YTSchedule]) -> [CLLocationCoordinate2D] {
         var coordinates = [CLLocationCoordinate2D]()
         
         for schedule in schedules {
@@ -449,11 +449,11 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
 }
 
 extension WritingTravelPlanViewController: ScheduleTransferDelegate {
-    func create(_ schedule: Schedule) {
+    func create(_ schedule: YTSchedule) {
         viewModel.createSchedule(schedule)
     }
     
-    func update(at index: Int, _ schedule: Schedule) {
+    func update(at index: Int, _ schedule: YTSchedule) {
         viewModel.updateSchedule(at: index, schedule)
     }
 }

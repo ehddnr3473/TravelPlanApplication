@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import JGProgressHUD
+import FirebasePlatform
 
 final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties
@@ -127,6 +128,7 @@ private extension MemoryCell {
                 self?.progressIndicator.dismiss()
                 switch completion {
                 case .failure(let error):
+                    guard let error = error as? MemoryImageRepositoryError else { return }
                     self?.delegate?.errorDidOccurrued(error.rawValue)
                     break
                 case .finished:

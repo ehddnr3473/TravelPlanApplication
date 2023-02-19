@@ -296,7 +296,7 @@ private extension WritingScheduleViewController {
         navigationController?.pushViewController(mapView, animated: true)
     }
     
-    func save(_ schedule: Schedule, _ index: Int?) {
+    func save(_ schedule: YTSchedule, _ index: Int?) {
         switch writingStyle {
         case .create:
             delegate?.create(schedule)

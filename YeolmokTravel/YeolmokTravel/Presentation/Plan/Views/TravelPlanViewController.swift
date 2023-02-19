@@ -9,10 +9,11 @@ import UIKit
 import SnapKit
 import Combine
 import JGProgressHUD
+import FirebasePlatform
 
 protocol TravelPlanTransferDelegate: AnyObject {
-    func create(_ travelPlan: TravelPlan) async throws
-    func update(at index: Int, _ travelPlan: TravelPlan) async throws
+    func create(_ travelPlan: YTTravelPlan) async throws
+    func update(at index: Int, _ travelPlan: YTTravelPlan) async throws
 }
 
 /// Plans tab
@@ -163,7 +164,7 @@ private extension TravelPlanViewController {
     }
     
     @objc func touchUpAddButton() {
-        let model = TravelPlan(title: "", description: "", schedules: [])
+        let model = YTTravelPlan(title: "", description: "", schedules: [])
         let coordinates = model.coordinates
         let mapViewController = MapViewController(coordinates)
         let writingView = WritingTravelPlanViewController(
@@ -286,7 +287,7 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension TravelPlanViewController: TravelPlanTransferDelegate {
-    func create(_ travelPlan: TravelPlan) async throws {
+    func create(_ travelPlan: YTTravelPlan) async throws {
         startIndicator()
         do {
             try await viewModel.create(travelPlan)
@@ -297,7 +298,7 @@ extension TravelPlanViewController: TravelPlanTransferDelegate {
         dismissIndicator()
     }
     
-    func update(at index: Int, _ travelPlan: TravelPlan) async throws {
+    func update(at index: Int, _ travelPlan: YTTravelPlan) async throws {
         startIndicator()
         do {
             try await viewModel.update(at: index, travelPlan)

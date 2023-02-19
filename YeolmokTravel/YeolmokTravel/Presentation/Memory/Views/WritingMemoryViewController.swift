@@ -9,6 +9,7 @@ import UIKit
 import PhotosUI
 import Combine
 import JGProgressHUD
+import FirebasePlatform
 
 enum PHPickerError: String, Error {
     case imageLoadFailed = "이미지 불러오기를 실패했습니다."
@@ -208,7 +209,7 @@ private extension WritingMemoryViewController {
     func createMemory() async {
         indicatorView.show(in: view)
         guard let image = imageView.image else { return }
-        let memory = Memory(title: titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
+        let memory = YTMemory(title: titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
         do {
             try await viewModel.upload(memoryIndex, image, memory)
             delegate?.create(memory)

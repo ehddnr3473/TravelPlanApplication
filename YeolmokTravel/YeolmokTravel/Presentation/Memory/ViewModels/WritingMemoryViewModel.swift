@@ -8,13 +8,14 @@
 import Foundation
 import UIKit
 import Combine
+import Domain
 
 private protocol WritingMemoryViewModel: AnyObject {
     associatedtype Input
     associatedtype Output
     
     // Input
-    func upload(_ index: Int, _ image: UIImage, _ memory: Memory) async throws
+    func upload(_ index: Int, _ image: UIImage, _ memory: YTMemory) async throws
     
     func transform(input: Input) -> Output
 }
@@ -32,9 +33,9 @@ final class ConcreteWritingMemoryViewModel: WritingMemoryViewModel {
         print("deinit: WritingMemoryViewModel")
     }
     
-    func upload(_ index: Int, _ image: UIImage, _ memory: Memory) async throws {
+    func upload(_ index: Int, _ image: UIImage, _ memory: YTMemory) async throws {
         let memoryUploadUseCase = memoryUseCaseProvider.provideMemoryUploadUseCase()
-        try await memoryUploadUseCase.execute(at: index, memory)
+        try await memoryUploadUseCase.execute(at: index, memory.toDomain())
         
         let memoryImageUploadUseCase = memoryImageUseCaseProvider.provideMemoryImageUploadUseCase()
         try await memoryImageUploadUseCase.execute(at: index, image)

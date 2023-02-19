@@ -7,9 +7,11 @@
 
 import UIKit
 import Combine
+import Domain
+import FirebasePlatform
 
 protocol MemoryTransferDelegate: AnyObject {
-    func create(_ memory: Memory)
+    func create(_ memory: YTMemory)
 }
 
 protocol MemoryCellErrorDelegate: AnyObject {
@@ -26,7 +28,7 @@ final class MemoryViewController: UIViewController {
     private var subscriptions = Set<AnyCancellable>()
     private let memoryUseCaseProvider: MemoryUseCaseProvider
     private let memoryImageUseCaseProvider: MemoryImageUseCaseProvider
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Memory>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, YTMemory>!
     
     init(_ viewModel: ConcreteMemoryViewModel, _ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
         self.viewModel = viewModel
@@ -183,21 +185,21 @@ private extension MemoryViewController {
     }
     
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, Memory> { [self] (cell, indexPath, _) in
+        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, YTMemory> { [self] (cell, indexPath, _) in
             // Cell assembling of MVVM
             let viewModel = ConcreteMemoryCellViewModel(viewModel.model.value[indexPath.row], memoryImageUseCaseProvider)
             cell.setViewModel(viewModel)
             cell.delegate = self
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Memory>(collectionView: memoriesCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Memory) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, YTMemory>(collectionView: memoriesCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: YTMemory) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
     }
     
     func apply() {
         let memories = viewModel.model.value
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Memory>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, YTMemory>()
         snapshot.appendSections([.main])
         snapshot.appendItems(memories)
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -205,7 +207,7 @@ private extension MemoryViewController {
 }
 
 extension MemoryViewController: MemoryTransferDelegate {
-    func create(_ memory: Memory) {
+    func create(_ memory: YTMemory) {
         viewModel.create(memory)
     }
 }

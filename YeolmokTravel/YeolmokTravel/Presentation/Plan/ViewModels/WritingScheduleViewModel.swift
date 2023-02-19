@@ -31,8 +31,8 @@ private protocol WritingScheduleViewModel: AnyObject {
 }
 
 final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
-    private(set) var model: Schedule
-    private(set) var scheduleTracker: ScheduleTracker
+    private(set) var model: YTSchedule
+    private(set) var scheduleTracker: YTScheduleTracker
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -44,9 +44,9 @@ final class ConcreteWritingScheduleViewModel: WritingScheduleViewModel {
         return slicedFromDate <= slicedToDate
     }
     
-    init(_ model: Schedule) {
+    init(_ model: YTSchedule) {
         self.model = model
-        self.scheduleTracker = ScheduleTracker(model)
+        self.scheduleTracker = YTScheduleTracker(model)
     }
     
     deinit {
