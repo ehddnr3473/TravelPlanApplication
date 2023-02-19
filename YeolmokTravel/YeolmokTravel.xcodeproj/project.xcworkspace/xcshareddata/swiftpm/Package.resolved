@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/Domain.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "1fb3e551829660a2639fbd3eea7328c8f56c1575"
+        "revision" : "ab66c1acce7e06bbe80b6aa9104f1ca7976cee6e",
+        "version" : "0.0.2"
       }
     },
     {
