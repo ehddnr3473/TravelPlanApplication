@@ -1,0 +1,6 @@
+framework module FirebasePlatform {
+  umbrella header "FirebasePlatform.h"
+
+  export *
+  module * { export * }
+}

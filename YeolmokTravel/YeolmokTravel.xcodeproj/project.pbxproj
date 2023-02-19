@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B12CDDB29A2A043003117BE /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6B12CDDA29A2A043003117BE /* FirebaseFirestore */; };
+		6B12CDDD29A2A043003117BE /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 6B12CDDC29A2A043003117BE /* FirebaseStorage */; };
 		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
 		6B17E2FE2956A72800AF59EE /* MemoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FD2956A72800AF59EE /* MemoryCellViewModel.swift */; };
 		6B17E3042956A89300AF59EE /* YTMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3032956A89300AF59EE /* YTMemory.swift */; };
 		6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */; };
+		6B195FC229A2D1F100C0F257 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 6B195FC129A2D1F100C0F257 /* Domain */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
 		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
 		6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */; };
@@ -47,7 +50,6 @@
 		6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */; };
 		6BCE6567298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift */; };
 		6BE1818929A0D3410066B80A /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE1818829A0D3410066B80A /* DateConverter.swift */; };
-		6BED0A6329A265F60055530E /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 6BED0A6229A265F60055530E /* Domain */; };
 		6BF15AC2298FD7E000C53BA9 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF15AC1298FD7E000C53BA9 /* Button.swift */; };
 		6BF15AC42990D13400C53BA9 /* MapButtonSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF15AC32990D13400C53BA9 /* MapButtonSetView.swift */; };
 		6BF589AA299678FB0053DC46 /* YTScheduleTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF589A9299678FB0053DC46 /* YTScheduleTracker.swift */; };
@@ -69,6 +71,19 @@
 			remoteInfo = YeolmokTravel;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6BED0A8129A269580055530E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6B17E2FD2956A72800AF59EE /* MemoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCellViewModel.swift; sourceTree = "<group>"; };
@@ -121,9 +136,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6BED0A6329A265F60055530E /* Domain in Frameworks */,
+				6B195FC229A2D1F100C0F257 /* Domain in Frameworks */,
 				6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */,
+				6B12CDDB29A2A043003117BE /* FirebaseFirestore in Frameworks */,
 				6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */,
+				6B12CDDD29A2A043003117BE /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +390,7 @@
 				6B46F9FE29513D4A000430C7 /* Sources */,
 				6B46F9FF29513D4A000430C7 /* Frameworks */,
 				6B46FA0029513D4A000430C7 /* Resources */,
+				6BED0A8129A269580055530E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -382,7 +400,9 @@
 			packageProductDependencies = (
 				6B37A4A329515C4E00BBB8EE /* SnapKit */,
 				6B14F94E2955E4F50055C45D /* JGProgressHUD */,
-				6BED0A6229A265F60055530E /* Domain */,
+				6B12CDDA29A2A043003117BE /* FirebaseFirestore */,
+				6B12CDDC29A2A043003117BE /* FirebaseStorage */,
+				6B195FC129A2D1F100C0F257 /* Domain */,
 			);
 			productName = YeolmokTravel;
 			productReference = 6B46FA0229513D4A000430C7 /* YeolmokTravel.app */;
@@ -463,7 +483,8 @@
 			packageReferences = (
 				6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */,
 				6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
-				6BED0A6129A265F60055530E /* XCRemoteSwiftPackageReference "Domain" */,
+				6B12CDD929A2A043003117BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6B195FC029A2D1F100C0F257 /* XCRemoteSwiftPackageReference "Domain" */,
 			);
 			productRefGroup = 6B46FA0329513D4A000430C7 /* Products */;
 			projectDirPath = "";
@@ -710,6 +731,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 65KV6R2AGS;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/YeolmokTravel/Frameworks",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YeolmokTravel/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -737,6 +762,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 65KV6R2AGS;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/YeolmokTravel/Frameworks",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = YeolmokTravel/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -874,12 +903,28 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B12CDD929A2A043003117BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
+			};
+		};
+		6B195FC029A2D1F100C0F257 /* XCRemoteSwiftPackageReference "Domain" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ehddnr3473/Domain.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.3;
 			};
 		};
 		6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -890,21 +935,28 @@
 				minimumVersion = 5.0.1;
 			};
 		};
-		6BED0A6129A265F60055530E /* XCRemoteSwiftPackageReference "Domain" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ehddnr3473/Domain";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.2;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B12CDDA29A2A043003117BE /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B12CDD929A2A043003117BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6B12CDDC29A2A043003117BE /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B12CDD929A2A043003117BE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
 		6B14F94E2955E4F50055C45D /* JGProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
+		};
+		6B195FC129A2D1F100C0F257 /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B195FC029A2D1F100C0F257 /* XCRemoteSwiftPackageReference "Domain" */;
+			productName = Domain;
 		};
 		6B37A4A329515C4E00BBB8EE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -920,11 +972,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
 			productName = JGProgressHUD;
-		};
-		6BED0A6229A265F60055530E /* Domain */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6BED0A6129A265F60055530E /* XCRemoteSwiftPackageReference "Domain" */;
-			productName = Domain;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

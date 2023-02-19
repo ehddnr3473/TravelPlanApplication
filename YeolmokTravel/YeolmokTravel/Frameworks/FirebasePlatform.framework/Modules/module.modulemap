@@ -1,0 +1,11 @@
+framework module FirebasePlatform {
+  umbrella header "FirebasePlatform.h"
+
+  export *
+  module * { export * }
+}
+
+module FirebasePlatform.Swift {
+  header "FirebasePlatform-Swift.h"
+  requires objc
+}

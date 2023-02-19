@@ -1,0 +1,93 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios16.2-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name FirebasePlatform
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CoreLocation
+import Domain
+import FirebaseFirestore
+@_exported import FirebasePlatform
+import FirebaseStorage
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+public enum MemoryRepositoryError : Swift.String, Swift.Error {
+  case uploadError
+  case readError
+  case deleteError
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct MemoryRepository : Domain.AbstractRepository {
+  public init(_ database: FirebaseFirestore.Firestore)
+  #if compiler(>=5.3) && $AsyncAwait
+  public func upload(at index: Swift.Int, entity: Domain.Memory) async throws
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  public func read() async throws -> [Domain.Memory]
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  public func delete(at index: Swift.Int) async throws
+  #endif
+  public typealias T = Domain.Memory
+}
+public enum DateConverter {
+}
+public enum MemoryImageRepositoryError : Swift.String, Swift.Error {
+  case uploadError
+  case readError
+  case deleteError
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+final public class MemoryImageRepository : Domain.AbstractImageRepository {
+  public init()
+  #if compiler(>=5.3) && $AsyncAwait
+  final public func upload(at index: Swift.Int, _ image: UIKit.UIImage) async throws
+  #endif
+  final public func read(at index: Swift.Int, _ completion: @escaping ((Swift.Result<UIKit.UIImage, Swift.Error>) -> Swift.Void))
+  #if compiler(>=5.3) && $AsyncAwait
+  final public func delete(at index: Swift.Int) async throws
+  #endif
+  @objc deinit
+}
+public enum TravelPlanRepositoryError : Swift.String, Swift.Error {
+  case uploadError
+  case readError
+  case deleteError
+  case swapError
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct TravelPlanRepository : Domain.AbstractRepository {
+  public init(_ database: FirebaseFirestore.Firestore)
+  #if compiler(>=5.3) && $AsyncAwait
+  public func upload(at index: Swift.Int, entity: Domain.TravelPlan) async throws
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  public func read() async throws -> [Domain.TravelPlan]
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  public func delete(at index: Swift.Int) async throws
+  #endif
+  public typealias T = Domain.TravelPlan
+}
+extension FirebasePlatform.MemoryRepositoryError : Swift.Equatable {}
+extension FirebasePlatform.MemoryRepositoryError : Swift.Hashable {}
+extension FirebasePlatform.MemoryRepositoryError : Swift.RawRepresentable {}
+extension FirebasePlatform.MemoryImageRepositoryError : Swift.Equatable {}
+extension FirebasePlatform.MemoryImageRepositoryError : Swift.Hashable {}
+extension FirebasePlatform.MemoryImageRepositoryError : Swift.RawRepresentable {}
+extension FirebasePlatform.TravelPlanRepositoryError : Swift.Equatable {}
+extension FirebasePlatform.TravelPlanRepositoryError : Swift.Hashable {}
+extension FirebasePlatform.TravelPlanRepositoryError : Swift.RawRepresentable {}

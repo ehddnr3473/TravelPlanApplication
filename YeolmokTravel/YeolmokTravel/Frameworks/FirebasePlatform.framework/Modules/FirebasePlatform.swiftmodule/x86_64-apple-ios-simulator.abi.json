@@ -1,0 +1,1719 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Domain",
+        "printedName": "Domain",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Domain",
+        "printedName": "Domain",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Domain",
+        "printedName": "Domain",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "FirebaseFirestore",
+        "printedName": "FirebaseFirestore",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "MemoryRepositoryError",
+        "printedName": "MemoryRepositoryError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "uploadError",
+            "printedName": "uploadError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.MemoryRepositoryError.Type) -> FirebasePlatform.MemoryRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError",
+                    "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "MemoryRepositoryError",
+                        "printedName": "FirebasePlatform.MemoryRepositoryError",
+                        "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO06uploadE0yA2CmF",
+            "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO06uploadE0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "readError",
+            "printedName": "readError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.MemoryRepositoryError.Type) -> FirebasePlatform.MemoryRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError",
+                    "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "MemoryRepositoryError",
+                        "printedName": "FirebasePlatform.MemoryRepositoryError",
+                        "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO04readE0yA2CmF",
+            "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO04readE0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "deleteError",
+            "printedName": "deleteError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.MemoryRepositoryError.Type) -> FirebasePlatform.MemoryRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError",
+                    "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "MemoryRepositoryError",
+                        "printedName": "FirebasePlatform.MemoryRepositoryError",
+                        "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO06deleteE0yA2CmF",
+            "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO06deleteE0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "FirebasePlatform.MemoryRepositoryError?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryRepositoryError",
+                    "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO8rawValueACSgSS_tcfc",
+            "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO8rawValueACSgSS_tcfc",
+            "moduleName": "FirebasePlatform",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO8rawValueSSvp",
+            "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO8rawValueSSvp",
+            "moduleName": "FirebasePlatform",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO8rawValueSSvg",
+                "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO8rawValueSSvg",
+                "moduleName": "FirebasePlatform",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:16FirebasePlatform21MemoryRepositoryErrorO",
+        "mangledName": "$s16FirebasePlatform21MemoryRepositoryErrorO",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "enumRawTypeName": "String",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "MemoryRepository",
+        "printedName": "MemoryRepository",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "MemoryRepository",
+                "printedName": "FirebasePlatform.MemoryRepository",
+                "usr": "s:16FirebasePlatform16MemoryRepositoryV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Firestore",
+                "printedName": "FirebaseFirestore.Firestore",
+                "usr": "c:objc(cs)FIRFirestore"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16FirebasePlatform16MemoryRepositoryVyACSo12FIRFirestoreCcfc",
+            "mangledName": "$s16FirebasePlatform16MemoryRepositoryVyACSo12FIRFirestoreCcfc",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "upload",
+            "printedName": "upload(at:entity:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Memory",
+                "printedName": "Domain.Memory",
+                "usr": "s:6Domain6MemoryV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform16MemoryRepositoryV6upload2at6entityySi_6Domain0C0VtYaKF",
+            "mangledName": "$s16FirebasePlatform16MemoryRepositoryV6upload2at6entityySi_6Domain0C0VtYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "read",
+            "printedName": "read()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Domain.Memory]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Memory",
+                    "printedName": "Domain.Memory",
+                    "usr": "s:6Domain6MemoryV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform16MemoryRepositoryV4readSay6Domain0C0VGyYaKF",
+            "mangledName": "$s16FirebasePlatform16MemoryRepositoryV4readSay6Domain0C0VGyYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "delete",
+            "printedName": "delete(at:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform16MemoryRepositoryV6delete2atySi_tYaKF",
+            "mangledName": "$s16FirebasePlatform16MemoryRepositoryV6delete2atySi_tYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:16FirebasePlatform16MemoryRepositoryV",
+        "mangledName": "$s16FirebasePlatform16MemoryRepositoryV",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "AbstractRepository",
+            "printedName": "AbstractRepository",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "T",
+                "printedName": "T",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Memory",
+                    "printedName": "Domain.Memory",
+                    "usr": "s:6Domain6MemoryV"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:6Domain18AbstractRepositoryP",
+            "mangledName": "$s6Domain18AbstractRepositoryP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Domain",
+        "printedName": "Domain",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "DateConverter",
+        "printedName": "DateConverter",
+        "declKind": "Enum",
+        "usr": "s:16FirebasePlatform13DateConverterO",
+        "mangledName": "$s16FirebasePlatform13DateConverterO",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "AccessControl"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Domain",
+        "printedName": "Domain",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "FirebaseStorage",
+        "printedName": "FirebaseStorage",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "MemoryImageRepositoryError",
+        "printedName": "MemoryImageRepositoryError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "uploadError",
+            "printedName": "uploadError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.MemoryImageRepositoryError.Type) -> FirebasePlatform.MemoryImageRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryImageRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                    "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "MemoryImageRepositoryError",
+                        "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                        "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO06uploadF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO06uploadF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "readError",
+            "printedName": "readError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.MemoryImageRepositoryError.Type) -> FirebasePlatform.MemoryImageRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryImageRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                    "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "MemoryImageRepositoryError",
+                        "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                        "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO04readF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO04readF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "deleteError",
+            "printedName": "deleteError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.MemoryImageRepositoryError.Type) -> FirebasePlatform.MemoryImageRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryImageRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                    "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "MemoryImageRepositoryError",
+                        "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                        "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO06deleteF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO06deleteF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "FirebasePlatform.MemoryImageRepositoryError?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "MemoryImageRepositoryError",
+                    "printedName": "FirebasePlatform.MemoryImageRepositoryError",
+                    "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO8rawValueACSgSS_tcfc",
+            "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO8rawValueACSgSS_tcfc",
+            "moduleName": "FirebasePlatform",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO8rawValueSSvp",
+            "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO8rawValueSSvp",
+            "moduleName": "FirebasePlatform",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO8rawValueSSvg",
+                "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO8rawValueSSvg",
+                "moduleName": "FirebasePlatform",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:16FirebasePlatform26MemoryImageRepositoryErrorO",
+        "mangledName": "$s16FirebasePlatform26MemoryImageRepositoryErrorO",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "enumRawTypeName": "String",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "MemoryImageRepository",
+        "printedName": "MemoryImageRepository",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "MemoryImageRepository",
+                "printedName": "FirebasePlatform.MemoryImageRepository",
+                "usr": "s:16FirebasePlatform21MemoryImageRepositoryC"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16FirebasePlatform21MemoryImageRepositoryCACycfc",
+            "mangledName": "$s16FirebasePlatform21MemoryImageRepositoryCACycfc",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "upload",
+            "printedName": "upload(at:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIImage",
+                "printedName": "UIKit.UIImage",
+                "usr": "c:objc(cs)UIImage"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform21MemoryImageRepositoryC6upload2at_ySi_So7UIImageCtYaKF",
+            "mangledName": "$s16FirebasePlatform21MemoryImageRepositoryC6upload2at_ySi_So7UIImageCtYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "read",
+            "printedName": "read(at:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(Swift.Result<UIKit.UIImage, Swift.Error>) -> ()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Result",
+                    "printedName": "Swift.Result<UIKit.UIImage, Swift.Error>",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Error",
+                        "printedName": "Swift.Error",
+                        "usr": "s:s5ErrorP"
+                      }
+                    ],
+                    "usr": "s:s6ResultO"
+                  }
+                ]
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform21MemoryImageRepositoryC4read2at_ySi_ys6ResultOySo7UIImageCs5Error_pGctF",
+            "mangledName": "$s16FirebasePlatform21MemoryImageRepositoryC4read2at_ySi_ys6ResultOySo7UIImageCs5Error_pGctF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "Final",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "delete",
+            "printedName": "delete(at:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform21MemoryImageRepositoryC6delete2atySi_tYaKF",
+            "mangledName": "$s16FirebasePlatform21MemoryImageRepositoryC6delete2atySi_tYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "Final",
+              "AccessControl"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:16FirebasePlatform21MemoryImageRepositoryC",
+        "mangledName": "$s16FirebasePlatform21MemoryImageRepositoryC",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "AbstractImageRepository",
+            "printedName": "AbstractImageRepository",
+            "usr": "s:6Domain23AbstractImageRepositoryP",
+            "mangledName": "$s6Domain23AbstractImageRepositoryP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Domain",
+        "printedName": "Domain",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "CoreLocation",
+        "printedName": "CoreLocation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "Import",
+        "name": "FirebaseFirestore",
+        "printedName": "FirebaseFirestore",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "TravelPlanRepositoryError",
+        "printedName": "TravelPlanRepositoryError",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "uploadError",
+            "printedName": "uploadError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.TravelPlanRepositoryError.Type) -> FirebasePlatform.TravelPlanRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlanRepositoryError",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                    "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "TravelPlanRepositoryError",
+                        "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                        "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO06uploadF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO06uploadF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "readError",
+            "printedName": "readError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.TravelPlanRepositoryError.Type) -> FirebasePlatform.TravelPlanRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlanRepositoryError",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                    "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "TravelPlanRepositoryError",
+                        "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                        "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO04readF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO04readF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "deleteError",
+            "printedName": "deleteError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.TravelPlanRepositoryError.Type) -> FirebasePlatform.TravelPlanRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlanRepositoryError",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                    "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "TravelPlanRepositoryError",
+                        "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                        "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO06deleteF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO06deleteF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Var",
+            "name": "swapError",
+            "printedName": "swapError",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(FirebasePlatform.TravelPlanRepositoryError.Type) -> FirebasePlatform.TravelPlanRepositoryError",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlanRepositoryError",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                    "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "TravelPlanRepositoryError",
+                        "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                        "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO04swapF0yA2CmF",
+            "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO04swapF0yA2CmF",
+            "moduleName": "FirebasePlatform"
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(rawValue:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "FirebasePlatform.TravelPlanRepositoryError?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlanRepositoryError",
+                    "printedName": "FirebasePlatform.TravelPlanRepositoryError",
+                    "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO"
+                  }
+                ],
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO8rawValueACSgSS_tcfc",
+            "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO8rawValueACSgSS_tcfc",
+            "moduleName": "FirebasePlatform",
+            "implicit": true,
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Var",
+            "name": "rawValue",
+            "printedName": "rawValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO8rawValueSSvp",
+            "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO8rawValueSSvp",
+            "moduleName": "FirebasePlatform",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO8rawValueSSvg",
+                "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO8rawValueSSvg",
+                "moduleName": "FirebasePlatform",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:16FirebasePlatform25TravelPlanRepositoryErrorO",
+        "mangledName": "$s16FirebasePlatform25TravelPlanRepositoryErrorO",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "enumRawTypeName": "String",
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "RawRepresentable",
+            "printedName": "RawRepresentable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "RawValue",
+                "printedName": "RawValue",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:SY",
+            "mangledName": "$sSY"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Error",
+            "printedName": "Error",
+            "usr": "s:s5ErrorP",
+            "mangledName": "$ss5ErrorP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Sendable",
+            "printedName": "Sendable",
+            "usr": "s:s8SendableP",
+            "mangledName": "$ss8SendableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "TravelPlanRepository",
+        "printedName": "TravelPlanRepository",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "TravelPlanRepository",
+                "printedName": "FirebasePlatform.TravelPlanRepository",
+                "usr": "s:16FirebasePlatform20TravelPlanRepositoryV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Firestore",
+                "printedName": "FirebaseFirestore.Firestore",
+                "usr": "c:objc(cs)FIRFirestore"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:16FirebasePlatform20TravelPlanRepositoryVyACSo12FIRFirestoreCcfc",
+            "mangledName": "$s16FirebasePlatform20TravelPlanRepositoryVyACSo12FIRFirestoreCcfc",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "upload",
+            "printedName": "upload(at:entity:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "TravelPlan",
+                "printedName": "Domain.TravelPlan",
+                "usr": "s:6Domain10TravelPlanV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform20TravelPlanRepositoryV6upload2at6entityySi_6Domain0cD0VtYaKF",
+            "mangledName": "$s16FirebasePlatform20TravelPlanRepositoryV6upload2at6entityySi_6Domain0cD0VtYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "read",
+            "printedName": "read()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[Domain.TravelPlan]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlan",
+                    "printedName": "Domain.TravelPlan",
+                    "usr": "s:6Domain10TravelPlanV"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform20TravelPlanRepositoryV4readSay6Domain0cD0VGyYaKF",
+            "mangledName": "$s16FirebasePlatform20TravelPlanRepositoryV4readSay6Domain0cD0VGyYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "delete",
+            "printedName": "delete(at:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:16FirebasePlatform20TravelPlanRepositoryV6delete2atySi_tYaKF",
+            "mangledName": "$s16FirebasePlatform20TravelPlanRepositoryV6delete2atySi_tYaKF",
+            "moduleName": "FirebasePlatform",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "throwing": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:16FirebasePlatform20TravelPlanRepositoryV",
+        "mangledName": "$s16FirebasePlatform20TravelPlanRepositoryV",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "AbstractRepository",
+            "printedName": "AbstractRepository",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "T",
+                "printedName": "T",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "TravelPlan",
+                    "printedName": "Domain.TravelPlan",
+                    "usr": "s:6Domain10TravelPlanV"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:6Domain18AbstractRepositoryP",
+            "mangledName": "$s6Domain18AbstractRepositoryP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "Foundation",
+        "printedName": "Foundation",
+        "declKind": "Import",
+        "moduleName": "FirebasePlatform",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 230,
+      "length": 44,
+      "value": "\"메모리 업로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 296,
+      "length": 47,
+      "value": "\"메모리 다운로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 367,
+      "length": 41,
+      "value": "\"메모리 삭제를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 230,
+      "length": 44,
+      "value": "\"메모리 업로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 296,
+      "length": 47,
+      "value": "\"메모리 다운로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 367,
+      "length": 41,
+      "value": "\"메모리 삭제를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 2438,
+      "length": 7,
+      "value": "\"title\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 2469,
+      "length": 7,
+      "value": "\"index\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 2505,
+      "length": 6,
+      "value": "\"date\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 2569,
+      "length": 8,
+      "value": "\"memory\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/DateConverter.swift",
+      "kind": "StringLiteral",
+      "offset": 168,
+      "length": 18,
+      "value": "\"날짜 미지정\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/DateConverter.swift",
+      "kind": "StringLiteral",
+      "offset": 322,
+      "length": 10,
+      "value": "\"yy.MM.dd\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 251,
+      "length": 44,
+      "value": "\"이미지 업로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 317,
+      "length": 47,
+      "value": "\"이미지 다운로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 388,
+      "length": 41,
+      "value": "\"이미지 삭제를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 251,
+      "length": 44,
+      "value": "\"이미지 업로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 317,
+      "length": 47,
+      "value": "\"이미지 다운로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 388,
+      "length": 41,
+      "value": "\"이미지 삭제를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/MemoryImageRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 3147,
+      "length": 10,
+      "value": "\"memories\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 258,
+      "length": 41,
+      "value": "\"계획 업로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 321,
+      "length": 44,
+      "value": "\"계획 다운로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 389,
+      "length": 38,
+      "value": "\"계획 삭제를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 449,
+      "length": 45,
+      "value": "\"계획 순서 변경을 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 258,
+      "length": 41,
+      "value": "\"계획 업로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 321,
+      "length": 44,
+      "value": "\"계획 다운로드를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 389,
+      "length": 38,
+      "value": "\"계획 삭제를 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 449,
+      "length": 45,
+      "value": "\"계획 순서 변경을 실패했습니다.\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5324,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "IntegerLiteral",
+      "offset": 5347,
+      "length": 1,
+      "value": "1"
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 5421,
+      "length": 11,
+      "value": "\"schedules\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 5478,
+      "length": 7,
+      "value": "\"title\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 5515,
+      "length": 13,
+      "value": "\"description\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 5555,
+      "length": 10,
+      "value": "\"fromDate\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 5590,
+      "length": 8,
+      "value": "\"toDate\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/TravelPlanRepository.swift",
+      "kind": "StringLiteral",
+      "offset": 5627,
+      "length": 12,
+      "value": "\"coordinate\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/DatabasePath.swift",
+      "kind": "StringLiteral",
+      "offset": 144,
+      "length": 7,
+      "value": "\"plans\""
+    },
+    {
+      "filePath": "\/Users\/kimdonguk\/Desktop\/FirebasePlatform\/FirebasePlatform\/FirebasePlatform\/DatabasePath.swift",
+      "kind": "StringLiteral",
+      "offset": 178,
+      "length": 10,
+      "value": "\"memories\""
+    }
+  ]
+}
