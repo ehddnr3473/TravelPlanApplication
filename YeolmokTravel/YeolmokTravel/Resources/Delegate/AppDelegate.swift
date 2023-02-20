@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import FirebaseCore
-import FirebaseFirestore
 import FirebasePlatform
 import Domain
 
@@ -19,16 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if #available(iOS 13.0, *) {
-            FirebaseApp.configure()
+            FirebaseManager.configure()
             return true
         }
         
         // 13 이전의 경우에는 SceneDelegate에서 해주었던 작업을 그대로 진행
         window = UIWindow()
         
-        let database = Firestore.firestore()
-        let travelPlanRepository = TravelPlanRepository(database)
-        let memoryRepository = MemoryRepository(database)
+        let travelPlanRepository = TravelPlanRepository()
+        let memoryRepository = MemoryRepository()
         let memoryImageRepository = MemoryImageRepository()
         
         let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
@@ -42,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
-        FirebaseApp.configure()
+        FirebaseManager.configure()
         return true
     }
 

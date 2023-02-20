@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseFirestore
 import FirebasePlatform
 import Domain
 
@@ -22,9 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let database = Firestore.firestore()
-        let travelPlanRepository = TravelPlanRepository(database)
-        let memoryRepository = MemoryRepository(database)
+        let travelPlanRepository = TravelPlanRepository()
+        let memoryRepository = MemoryRepository()
         let memoryImageRepository = MemoryImageRepository()
         
         let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
