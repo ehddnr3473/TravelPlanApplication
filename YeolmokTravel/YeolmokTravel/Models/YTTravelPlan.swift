@@ -88,8 +88,6 @@ extension YTTravelPlan {
     func toDomain() -> TravelPlan {
         TravelPlan(title: title,
                    description: description,
-                   fromDate: fromDate,
-                   toDate: toDate,
                    schedules: schedules.map { $0.toDomain() })
     }
 }
