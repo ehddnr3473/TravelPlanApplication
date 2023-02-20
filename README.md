@@ -23,10 +23,11 @@
 
 <br></br>
 ## 패키지 종속성 관리
-Swift Package Manager를 사용하여 종속성을 관리했습니다.
+Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 관리했습니다.
 |패키지|내용|
 |---|---|
-|Firebase|데이터 저장|
+|FirebasePlatform|데이터 모듈|
+|Domain|도메인 모듈|
 |SnapKit|레이아웃 코드 작성|
 |JGProgressHUD|Progress indicator 생성|
 
@@ -54,7 +55,7 @@ Swift Package Manager를 사용하여 종속성을 관리했습니다.
  <img src="/Document/Dependency policy.png" height=300>
 </p>
 
-- 의존성은 **Presentation layer -> Domain layer -> Data layer**와 같이 안쪽으로 향하되, 계층의 경계마다 Plug Point 인터페이스(프로토콜)를 두고 코드의 의존성을 역전시킴.
+- 의존성은 **Presentation layer -> Domain layer -> Data layer**와 같이 안쪽으로 향하되, 계층의 경계마다 인터페이스를 두고 코드의 의존성을 역전시킴.
 - **독립적으로 확장 및 유지보수가 가능.** 예를 들어, 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의된 Repository 인터페이스를 청사진으로 삼아 확장하고 연결해주기만 하면 되도록 구성
 
 
