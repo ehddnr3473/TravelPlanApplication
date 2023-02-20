@@ -81,8 +81,8 @@ final class ConcreteWritingTravelPlanViewModel: WritingTravelPlanViewModel {
     
     func setTravelPlanTracker() {
         travelPlanTracker.travelPlan = YTTravelPlan(title: title,
-                                                  description: description,
-                                                  schedules: schedules.value)
+                                                    description: description,
+                                                    schedules: schedules.value)
     }
     
     func editingChangedTitleTextField(_ title: String) {
