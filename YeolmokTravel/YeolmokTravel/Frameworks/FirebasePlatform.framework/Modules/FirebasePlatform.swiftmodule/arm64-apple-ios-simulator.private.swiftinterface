@@ -4,8 +4,8 @@
 // swift-module-flags-ignorable: -enable-bare-slash-regex
 import CoreLocation
 import Domain
-import FirebaseFirestore
 @_exported import FirebasePlatform
+import FirebaseFirestore
 import FirebaseStorage
 import Foundation
 import Swift
