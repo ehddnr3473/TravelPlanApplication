@@ -87,7 +87,7 @@ final class TravelPlanViewController: UIViewController {
 
 // MARK: - Configure View
 private extension TravelPlanViewController {
-    private func configureView() {
+    func configureView() {
         view.backgroundColor = .systemBackground
         configureHierarchy()
         configureLayoutConstraint()
