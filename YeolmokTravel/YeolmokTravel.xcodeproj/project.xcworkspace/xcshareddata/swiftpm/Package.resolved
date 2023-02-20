@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/Domain.git",
       "state" : {
-        "revision" : "948b245eda55a477b00fc3d719952ad6ff922484",
-        "version" : "0.0.4"
+        "revision" : "12ca0ff595321e7a9c744723144081fd32f5ea26",
+        "version" : "0.0.5"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/FirebasePlatform.git",
       "state" : {
-        "revision" : "6cfe52da466cafcda369a89481cdc83eddd96e58",
-        "version" : "0.0.3"
+        "revision" : "1131f49441cb07b52e1b12a415312fda41ebb596",
+        "version" : "0.0.4"
       }
     },
     {
@@ -142,6 +142,15 @@
       "state" : {
         "revision" : "ab3a58b7209a17d781c0d1dbb3e1ff3da306bae8",
         "version" : "1.20.3"
+      }
+    },
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject.git",
+      "state" : {
+        "revision" : "8bc503e60965298984fb58cf47b71c541449fe2a",
+        "version" : "2.8.3"
       }
     }
   ],
