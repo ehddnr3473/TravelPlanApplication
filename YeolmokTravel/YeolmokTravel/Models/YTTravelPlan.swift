@@ -49,6 +49,9 @@ struct YTTravelPlan {
         self.title = travelPlan.title
         self.description = travelPlan.description
         self.schedules = travelPlan.schedules.map { YTSchedule(schedule: $0) }
+        
+        setFromDate()
+        setToDate()
     }
     
     var date: String {
