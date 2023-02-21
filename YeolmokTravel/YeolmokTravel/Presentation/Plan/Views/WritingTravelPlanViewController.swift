@@ -220,19 +220,30 @@ private extension WritingTravelPlanViewController {
     
     @objc func touchUpCreateScheduleButton() {
         let model = YTSchedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
-        let viewModel = ConcreteWritingScheduleViewModel(model)
-        let writingView = WritingScheduleViewController(viewModel, writingStyle: .create)
-        writingView.delegate = self
-        navigationController?.pushViewController(writingView, animated: true)
+        let factory = WritingScheduleViewControllerFactory()
+        navigationController?.pushViewController(
+            factory.createWritingScheduleViewController(
+                with: model,
+                writingStyle: .create,
+                delegate: self,
+                scheduleListIndex: nil
+            ),
+            animated: true
+        )
     }
     
     private func didSelectRow(_ index: Int) {
         let model = viewModel.schedules.value[index]
-        let viewModel = ConcreteWritingScheduleViewModel(model)
-        let writingView = WritingScheduleViewController(viewModel, writingStyle: .update)
-        writingView.delegate = self
-        writingView.scheduleListIndex = index
-        navigationController?.pushViewController(writingView, animated: true)
+        let factory = WritingScheduleViewControllerFactory()
+        navigationController?.pushViewController(
+            factory.createWritingScheduleViewController(
+                with: model,
+                writingStyle: .update,
+                delegate: self,
+                scheduleListIndex: index
+            ),
+            animated: true
+        )
     }
     
     // 이전 좌표로 카메라 이동
