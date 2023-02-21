@@ -13,10 +13,11 @@ import CoreLocation
 /// 위도와 경도를 텍스트필드에 입력하고 버튼을 눌러서 MKMapView로 확인할 수 있음.
 final class WritingScheduleViewController: UIViewController, Writable {
     // MARK: - Properties
-    var writingStyle: WritingStyle
-    weak var delegate: ScheduleTransferDelegate?
-    var scheduleListIndex: Int?
     private let viewModel: ConcreteWritingScheduleViewModel
+    var writingStyle: WritingStyle
+    private weak var delegate: ScheduleTransferDelegate?
+    private let scheduleListIndex: Int?
+
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
@@ -110,9 +111,14 @@ final class WritingScheduleViewController: UIViewController, Writable {
         return coordinateView
     }()
     
-    init(_ viewModel: ConcreteWritingScheduleViewModel, writingStyle: WritingStyle) {
+    init(viewModel: ConcreteWritingScheduleViewModel,
+         writingStyle: WritingStyle,
+         delegate: ScheduleTransferDelegate,
+         scheduleListIndex: Int?) {
         self.viewModel = viewModel
         self.writingStyle = writingStyle
+        self.delegate = delegate
+        self.scheduleListIndex = scheduleListIndex
         super.init(nibName: nil, bundle: nil)
     }
     
