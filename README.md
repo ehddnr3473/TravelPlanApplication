@@ -28,8 +28,10 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 |---|---|
 |FirebasePlatform|데이터 모듈|
 |Domain|도메인 모듈|
+|Swinject|의존성 주입|
 |SnapKit|레이아웃 코드 작성|
 |JGProgressHUD|Progress indicator 생성|
+
 
 
 
