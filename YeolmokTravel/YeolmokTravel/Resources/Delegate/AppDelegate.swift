@@ -8,6 +8,8 @@
 import UIKit
 import FirebasePlatform
 import Domain
+import Swinject
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,18 +26,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 13 이전의 경우에는 SceneDelegate에서 해주었던 작업을 그대로 진행
         window = UIWindow()
         
-        let travelPlanRepository = TravelPlanRepository()
-        let memoryRepository = MemoryRepository()
-        let memoryImageRepository = MemoryImageRepository()
+        let container = Container()
+        // Repository
+        container.register(AbstractTravelPlanRepository.self) { _ in TravelPlanRepository() }
+        container.register(AbstractMemoryRepository.self) { _ in MemoryRepository() }
+        container.register(AbstractImageRepository.self) { _ in MemoryImageRepository() }
+        // UseCaseProvider
+        container.register(TravelPlanUseCaseProvider.self) { resolver in
+            ConcreteTravelPlanUseCaseProvider(resolver.resolve(AbstractTravelPlanRepository.self)!)
+        }
         
-        let travelPlanUseCaseProvider = ConcreteTravelPlanUseCaseProvider(travelPlanRepository)
-        let memoryUseCaseProvider = ConcreteMemoryUseCaseProvider(memoryRepository)
-        let memoryImageUseCaseProvider = ConcreteMemoryImageUseCaseProvider(memoryImageRepository)
+        container.register(MemoryUseCaseProvider.self) { resolver in
+            ConcreteMemoryUseCaseProvider(resolver.resolve(AbstractMemoryRepository.self)!)
+        }
         
-        let travelPlanViewBuilder = ConcreteTravelPlanViewBuilder(travelPlanUseCaseProvider)
-        let memoryViewBuilder = ConcreteMemoryViewBuilder(memoryUseCaseProvider, memoryImageUseCaseProvider)
+        container.register(MemoryImageUseCaseProvider.self) { resolver in
+            ConcreteMemoryImageUseCaseProvider(resolver.resolve(AbstractImageRepository.self)!)
+        }
+        // ViewBuilder
+        container.register(TravelPlanViewBuilder.self) { resolver in
+            ConcreteTravelPlanViewBuilder(resolver.resolve(TravelPlanUseCaseProvider.self)!)
+        }
         
-        let tabBarController = TabBarController(travelPlanViewBuilder, memoryViewBuilder)
+        container.register(MemoryViewBuilder.self) { resolver in
+            ConcreteMemoryViewBuilder(resolver.resolve(MemoryUseCaseProvider.self)!, resolver.resolve(MemoryImageUseCaseProvider.self)!)
+        }
+        
+        let tabBarController = TabBarController(container.resolve(TravelPlanViewBuilder.self)!, container.resolve(MemoryViewBuilder.self)!)
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
