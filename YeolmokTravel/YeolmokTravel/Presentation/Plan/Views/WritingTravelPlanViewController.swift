@@ -21,11 +21,11 @@ protocol ScheduleTransferDelegate: AnyObject {
 final class WritingTravelPlanViewController: UIViewController, Writable {
     typealias WritableModelType = YTTravelPlan
     // MARK: - Properties
-    var writingStyle: WritingStyle
-    weak var delegate: TravelPlanTransferDelegate?
-    var planListIndex: Int?
     private let viewModel: ConcreteWritingTravelPlanViewModel
     private let mapProvider: Mappable
+    var writingStyle: WritingStyle
+    private weak var delegate: TravelPlanTransferDelegate?
+    private let travelPlanListIndex: Int?
     
     private var subscriptions = Set<AnyCancellable>()
     
@@ -70,11 +70,16 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return mapButtonSetView
     }()
     
-    init(viewModel: ConcreteWritingTravelPlanViewModel, mapProvider: Mappable, writingStyle: WritingStyle, delegate: TravelPlanTransferDelegate) {
+    init(viewModel: ConcreteWritingTravelPlanViewModel,
+         mapProvider: Mappable,
+         writingStyle: WritingStyle,
+         delegate: TravelPlanTransferDelegate,
+         travelPlanListIndex: Int?) {
         self.viewModel = viewModel
         self.mapProvider = mapProvider
         self.writingStyle = writingStyle
         self.delegate = delegate
+        self.travelPlanListIndex = travelPlanListIndex
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -182,7 +187,7 @@ private extension WritingTravelPlanViewController {
         do {
             // 변경 사항이 있다면 저장
             if viewModel.travelPlanTracker.isChanged {
-                save(try viewModel.createTravelPlan(), planListIndex)
+                save(try viewModel.createTravelPlan(), travelPlanListIndex)
             }
             navigationController?.popViewController(animated: true)
         } catch {
