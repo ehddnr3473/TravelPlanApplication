@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B08647A29A40C73008B0A7F /* Swinject-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 6B08647929A40C73008B0A7F /* Swinject-Dynamic */; };
+		6B08647F29A4FC15008B0A7F /* WritingTravelPlanViewControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B08647E29A4FC15008B0A7F /* WritingTravelPlanViewControllerFactory.swift */; };
 		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
 		6B17E2FE2956A72800AF59EE /* MemoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FD2956A72800AF59EE /* MemoryCellViewModel.swift */; };
 		6B17E3042956A89300AF59EE /* YTMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E3032956A89300AF59EE /* YTMemory.swift */; };
@@ -86,6 +87,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6B08647E29A4FC15008B0A7F /* WritingTravelPlanViewControllerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingTravelPlanViewControllerFactory.swift; sourceTree = "<group>"; };
 		6B17E2FD2956A72800AF59EE /* MemoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCellViewModel.swift; sourceTree = "<group>"; };
 		6B17E3032956A89300AF59EE /* YTMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTMemory.swift; sourceTree = "<group>"; };
 		6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewController.swift; sourceTree = "<group>"; };
@@ -163,6 +165,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B08647D29A4FBF9008B0A7F /* Factory */ = {
+			isa = PBXGroup;
+			children = (
+				6B08647E29A4FC15008B0A7F /* WritingTravelPlanViewControllerFactory.swift */,
+			);
+			path = Factory;
+			sourceTree = "<group>";
+		};
 		6B17E30F2956D48F00AF59EE /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,6 +289,7 @@
 			children = (
 				6B46FA3529513DA2000430C7 /* Delegate */,
 				6BB76BD7297FCEA200C8C596 /* Builder */,
+				6B08647D29A4FBF9008B0A7F /* Factory */,
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
@@ -533,6 +544,7 @@
 				6BE1818929A0D3410066B80A /* DateConverter.swift in Sources */,
 				6BB76BC8297F7F8800C8C596 /* WritingTravelPlanViewModel.swift in Sources */,
 				6B17E30E2956D39300AF59EE /* WritingMemoryViewController.swift in Sources */,
+				6B08647F29A4FC15008B0A7F /* WritingTravelPlanViewControllerFactory.swift in Sources */,
 				6B37A4B0295163E100BBB8EE /* Writable.swift in Sources */,
 				6B46FA3F295140E9000430C7 /* TravelPlanViewController.swift in Sources */,
 				6BB76BC0297F4F6700C8C596 /* MemoryViewModel.swift in Sources */,
