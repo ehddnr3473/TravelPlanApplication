@@ -165,33 +165,26 @@ private extension TravelPlanViewController {
     
     @objc func touchUpAddButton() {
         let model = YTTravelPlan(title: "", description: "", schedules: [])
-        let coordinates = model.coordinates
-        let mapViewController = MapViewController(coordinates)
-        let writingView = WritingTravelPlanViewController(
-            viewModel: ConcreteWritingTravelPlanViewModel(model),
-            mapProvider: mapViewController,
+        let factory = WritingTravelPlanViewControllerFactory()
+        let writingTravelPlanViewController = factory.createWritingTravelPlanViewController(
+            with: model,
             writingStyle: .create,
-            delegate: self
+            delegate: self,
+            travelPlanListIndex: nil
         )
-        writingView.delegate = self
-        writingView.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(writingView, animated: true)
+        navigationController?.pushViewController(writingTravelPlanViewController, animated: true)
     }
     
     func didSelectRow(_ index: Int) {
         let model = viewModel.model.value[index]
-        let coordinates = model.coordinates
-        let mapViewController = MapViewController(coordinates)
-        let writingView = WritingTravelPlanViewController(
-            viewModel: ConcreteWritingTravelPlanViewModel(model),
-            mapProvider: mapViewController,
+        let factory = WritingTravelPlanViewControllerFactory()
+        let writingTravelPlanViewController = factory.createWritingTravelPlanViewController(
+            with: model,
             writingStyle: .update,
-            delegate: self
+            delegate: self,
+            travelPlanListIndex: index
         )
-        writingView.delegate = self
-        writingView.planListIndex = index
-        writingView.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(writingView, animated: true)
+        navigationController?.pushViewController(writingTravelPlanViewController, animated: true)
     }
 }
 
