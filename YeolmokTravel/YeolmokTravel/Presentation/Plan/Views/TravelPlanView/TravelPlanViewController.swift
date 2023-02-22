@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import Combine
-import JGProgressHUD
 import FirebasePlatform
 
 protocol TravelPlanTransferDelegate: AnyObject {
@@ -22,30 +21,7 @@ final class TravelPlanViewController: UIViewController {
     private let viewModel: ConcreteTravelPlanViewModel
     private var subscriptions = Set<AnyCancellable>()
     
-    private var titleLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.textColor = .white
-        label.text = TextConstants.title
-        label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
-        return label
-    }()
-    
-    private lazy var editTravelPlanButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
-        button.tintColor = AppStyles.mainColor
-        button.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var addTravelPlanButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: AppTextConstants.plusIcon), for: .normal)
-        button.tintColor = AppStyles.mainColor
-        button.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
-        return button
-    }()
+    private let travelPlanView = TravelPlanView()
     
     private var planTableView: UITableView = {
         let tableView = UITableView()
@@ -57,13 +33,6 @@ final class TravelPlanViewController: UIViewController {
         tableView.layer.borderColor = UIColor.white.cgColor
         tableView.isScrollEnabled = false
         return tableView
-    }()
-    
-    private var indicatorView: JGProgressHUD = {
-        let headUpDisplay = JGProgressHUD()
-        headUpDisplay.textLabel.text = IndicatorConstants.titleText
-        headUpDisplay.detailTextLabel.text = IndicatorConstants.detailText
-        return headUpDisplay
     }()
     
     init(_ viewModel: ConcreteTravelPlanViewModel) {
@@ -79,7 +48,8 @@ final class TravelPlanViewController: UIViewController {
         super.viewDidLoad()
         startIndicator()
         configureView()
-        configure()
+        configureDelegate()
+        configureAction()
         setBindings()
         fetchPlans()
     }
@@ -94,34 +64,21 @@ private extension TravelPlanViewController {
     }
     
     func configureHierarchy() {
-        [titleLabel, editTravelPlanButton, addTravelPlanButton, planTableView].forEach {
+        [travelPlanView, planTableView].forEach {
             view.addSubview($0)
         }
     }
     
     func configureLayoutConstraint() {
-        titleLabel.snp.makeConstraints {
+        travelPlanView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
-        }
-        
-        addTravelPlanButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.trailing.equalToSuperview()
-                .inset(AppLayoutConstants.spacing)
-            $0.size.equalTo(LayoutConstants.buttonSize)
-        }
-        
-        editTravelPlanButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.trailing.equalTo(addTravelPlanButton.snp.leading)
-                .offset(-AppLayoutConstants.spacing)
-            $0.size.equalTo(LayoutConstants.buttonSize)
+            $0.height.equalTo(LayoutConstants.travelPlanViewHeight)
         }
         
         planTableView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.top.equalTo(travelPlanView.snp.bottom)
                 .offset(LayoutConstants.planTableViewTopOffset)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -129,9 +86,14 @@ private extension TravelPlanViewController {
         }
     }
     
-    func configure() {
+    func configureDelegate() {
         planTableView.delegate = self
         planTableView.dataSource = self
+    }
+    
+    func configureAction() {
+        travelPlanView.editTravelPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        travelPlanView.addTravelPlanButton.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
     }
 }
 
@@ -152,7 +114,7 @@ private extension TravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             planTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            editTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
+            travelPlanView.editTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
         })
     }
     
@@ -189,7 +151,7 @@ private extension TravelPlanViewController {
 }
 
 // MARK: - TableView
-extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
+extension TravelPlanViewController: UITableViewDataSource {
     private func fetchPlans() {
         Task {
             do {
@@ -264,8 +226,9 @@ extension TravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.isUserInteractionEnabled = true
         }
     }
-    
-    // Delegate
+}
+
+extension TravelPlanViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         .delete
     }
@@ -308,30 +271,21 @@ private extension TravelPlanViewController {
     func startIndicator() {
         planTableView.isUserInteractionEnabled = false
         DispatchQueue.main.async { [self] in
-            indicatorView.show(in: view)
+            travelPlanView.indicatorView.show(in: view)
         }
     }
     
     func dismissIndicator() {
         DispatchQueue.main.async { [self] in
-            indicatorView.dismiss(animated: true)
+            travelPlanView.indicatorView.dismiss(animated: true)
         }
         planTableView.isUserInteractionEnabled = true
     }
 }
 
-private enum TextConstants {
-    static let title = "Plans"
-}
-
 private enum LayoutConstants {
-    static let buttonSize = CGSize(width: 44.44, height: 44.44)
-    static let planTableViewTopOffset: CGFloat = 20
+    static let travelPlanViewHeight: CGFloat = 50
     static let cornerRadius: CGFloat = 10
+    static let planTableViewTopOffset: CGFloat = 20
     static let cellHeight: CGFloat = 100
-}
-
-private enum IndicatorConstants {
-    static let titleText = "Loading.."
-    static let detailText = "Please wait"
 }
