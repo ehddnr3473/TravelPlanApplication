@@ -55,6 +55,7 @@ final class CoordinateView: UIView {
 // MARK: - Configure View
 private extension CoordinateView {
     func configureView() {
+        backgroundColor = .systemBackground
         configureHierarchy()
         configureLayoutConstraint()
     }
