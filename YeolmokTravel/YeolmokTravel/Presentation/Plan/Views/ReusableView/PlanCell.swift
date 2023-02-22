@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// TravelPlanView와 WritingPlanViewController에서 사용하는 공용 커스텀 셀
+/// TravelPlanView와 WritingPlanViewController에서 사용하는 공용 커스텀 셀 클래스
 /// - Title Label
 /// - Date Label
 /// - Description Label
