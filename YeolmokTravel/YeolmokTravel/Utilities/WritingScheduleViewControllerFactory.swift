@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WritingScheduleViewControllerFactory {
-    func createWritingScheduleViewController(with model: YTSchedule,
+final class WritingScheduleViewControllerFactory {
+    func makeWritingScheduleViewController(with model: YTSchedule,
                                              writingStyle: WritingStyle,
                                              delegate: ScheduleTransferDelegate,
                                              scheduleListIndex: Int?) -> WritingScheduleViewController {

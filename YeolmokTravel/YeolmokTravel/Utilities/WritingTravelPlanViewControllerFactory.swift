@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct WritingTravelPlanViewControllerFactory {
-    func createWritingTravelPlanViewController(with model: YTTravelPlan,
+final class WritingTravelPlanViewControllerFactory {
+    func makeWritingTravelPlanViewController(with model: YTTravelPlan,
                                                writingStyle: WritingStyle,
                                                delegate: TravelPlanTransferDelegate,
                                                travelPlanListIndex: Int?) -> WritingTravelPlanViewController {

@@ -222,7 +222,7 @@ private extension WritingTravelPlanViewController {
         let model = YTSchedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
         let factory = WritingScheduleViewControllerFactory()
         navigationController?.pushViewController(
-            factory.createWritingScheduleViewController(
+            factory.makeWritingScheduleViewController(
                 with: model,
                 writingStyle: .create,
                 delegate: self,
@@ -236,7 +236,7 @@ private extension WritingTravelPlanViewController {
         let model = viewModel.schedules.value[index]
         let factory = WritingScheduleViewControllerFactory()
         navigationController?.pushViewController(
-            factory.createWritingScheduleViewController(
+            factory.makeWritingScheduleViewController(
                 with: model,
                 writingStyle: .update,
                 delegate: self,

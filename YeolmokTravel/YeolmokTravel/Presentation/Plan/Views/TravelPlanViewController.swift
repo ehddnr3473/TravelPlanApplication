@@ -166,7 +166,7 @@ private extension TravelPlanViewController {
     @objc func touchUpAddButton() {
         let model = YTTravelPlan(title: "", description: "", schedules: [])
         let factory = WritingTravelPlanViewControllerFactory()
-        let writingTravelPlanViewController = factory.createWritingTravelPlanViewController(
+        let writingTravelPlanViewController = factory.makeWritingTravelPlanViewController(
             with: model,
             writingStyle: .create,
             delegate: self,
@@ -178,7 +178,7 @@ private extension TravelPlanViewController {
     func didSelectRow(_ index: Int) {
         let model = viewModel.model.value[index]
         let factory = WritingTravelPlanViewControllerFactory()
-        let writingTravelPlanViewController = factory.createWritingTravelPlanViewController(
+        let writingTravelPlanViewController = factory.makeWritingTravelPlanViewController(
             with: model,
             writingStyle: .update,
             delegate: self,
