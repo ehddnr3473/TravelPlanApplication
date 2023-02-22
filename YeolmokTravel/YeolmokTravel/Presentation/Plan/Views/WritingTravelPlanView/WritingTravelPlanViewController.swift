@@ -23,7 +23,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     private let viewModel: ConcreteWritingTravelPlanViewModel
     private let mapProvider: Mappable
-    var writingStyle: WritingStyle
+    let writingStyle: WritingStyle
     private weak var delegate: TravelPlanTransferDelegate?
     private let travelPlanListIndex: Int?
     
