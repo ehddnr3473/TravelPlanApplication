@@ -92,8 +92,8 @@ private extension TravelPlanViewController {
     }
     
     func configureAction() {
-        travelPlanView.editTravelPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        travelPlanView.addTravelPlanButton.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
+        travelPlanView.updateTravelPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        travelPlanView.createTravelPlanButton.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
     }
 }
 
@@ -114,7 +114,7 @@ private extension TravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             planTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            travelPlanView.editTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
+            travelPlanView.updateTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
         })
     }
     

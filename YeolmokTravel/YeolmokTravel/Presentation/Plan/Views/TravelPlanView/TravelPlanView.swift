@@ -34,14 +34,14 @@ final class TravelPlanView: UIView {
         return label
     }()
     
-    let editTravelPlanButton: UIButton = {
+    let updateTravelPlanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
         return button
     }()
     
-    let addTravelPlanButton: UIButton = {
+    let createTravelPlanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.plusIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
@@ -72,7 +72,7 @@ private extension TravelPlanView {
     }
     
     func configureHierarchy() {
-        [titleLabel, editTravelPlanButton, addTravelPlanButton].forEach {
+        [titleLabel, updateTravelPlanButton, createTravelPlanButton].forEach {
             addSubview($0)
         }
     }
@@ -83,15 +83,15 @@ private extension TravelPlanView {
             $0.leading.equalToSuperview()
         }
         
-        addTravelPlanButton.snp.makeConstraints {
+        createTravelPlanButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
         
-        editTravelPlanButton.snp.makeConstraints {
+        updateTravelPlanButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.trailing.equalTo(addTravelPlanButton.snp.leading)
+            $0.trailing.equalTo(createTravelPlanButton.snp.leading)
                 .offset(-AppLayoutConstants.spacing)
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
