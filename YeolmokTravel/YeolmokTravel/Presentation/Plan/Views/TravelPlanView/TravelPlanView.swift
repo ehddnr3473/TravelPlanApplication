@@ -68,7 +68,7 @@ final class TravelPlanView: UIView {
 private extension TravelPlanView {
     func configureView() {
         configureHierarchy()
-        configureLayoutConstants()
+        configureLayoutConstraint()
     }
     
     func configureHierarchy() {
@@ -77,7 +77,7 @@ private extension TravelPlanView {
         }
     }
     
-    func configureLayoutConstants() {
+    func configureLayoutConstraint() {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide.snp.top)
             $0.leading.equalToSuperview()
