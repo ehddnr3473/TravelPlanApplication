@@ -26,7 +26,7 @@ enum AppLayoutConstants {
 
 enum AppNumberConstants {
     static let mapViewTag = 77
-    static let titleTextFieldTag = 44
+    static let scheduleTitleTextFieldTag = 44
 }
 
 enum AppTextConstants {
