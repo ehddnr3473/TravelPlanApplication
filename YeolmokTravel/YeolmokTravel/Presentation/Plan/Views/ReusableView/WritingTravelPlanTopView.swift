@@ -15,25 +15,11 @@ import UIKit
 /// - createScheduleButton: 상세 일정 추가 버튼
 final class WritingTravelPlanTopView: UIView {
     // MARK: - Properties
-    let titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.backgroundColor = .systemBackground
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = AppLayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
-        textField.placeholder = AppTextConstants.titlePlaceholder
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.returnKeyType = .done
-        textField.leftView = UIView(frame: CGRect(x: .zero,
-                                                  y: .zero,
-                                                  width: AppLayoutConstants.spacing,
-                                                  height: .zero))
-        textField.leftViewMode = .always
-        return textField
-    }()
+    let titleTextField = TextFieldFactory
+        .makeTitleTextField(
+            AppLayoutConstants.largeFontSize,
+            AppTextConstants.titlePlaceholder
+        )
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
