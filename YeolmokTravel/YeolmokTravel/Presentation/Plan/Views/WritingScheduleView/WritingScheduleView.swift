@@ -11,6 +11,10 @@ final class WritingScheduleView: UIView {
     enum TextConstants {
         static let from = "From"
         static let to = "To"
+        static let latitudePlaceholder = "latitude"
+        static let longitudePlaceholder = "longitude"
+        static let buttonTitle = "Show Map"
+        static let mapIcon = "map"
     }
     
     enum LayoutConstants {
@@ -18,7 +22,8 @@ final class WritingScheduleView: UIView {
         static let mediumFontSize: CGFloat = 20
         static let descriptionTextViewHeight: CGFloat = 100
         static let dateBackgroundViewHeight: CGFloat = 170
-        static let coordinateViewHeight: CGFloat = 150
+        static let buttonHeight: CGFloat = 44.44
+        static let buttonWidthMultiplier: CGFloat = 4
     }
     
     // MARK: - Properties
@@ -41,6 +46,7 @@ final class WritingScheduleView: UIView {
         return textView
     }()
     
+    // 날짜 관련 뷰
     let dateBackgroundView: UIView = {
         let view = UIView()
         view.layer.borderWidth = AppLayoutConstants.borderWidth
@@ -93,7 +99,40 @@ final class WritingScheduleView: UIView {
         return datePicker
     }()
     
-    let coordinateView = CoordinateView()
+    /*
+     좌표값 관련 뷰
+      - 위도 입력 텍스트필드
+      - 경도 입력 텍스트필드
+      - MapView를 보여줄 버튼
+     */
+    let latitudeTextField: UITextField = {
+        let textField = TextFieldFactory.makeTitleTextField(
+            LayoutConstants.mediumFontSize,
+            TextConstants.longitudePlaceholder
+        )
+        textField.keyboardType = .decimalPad
+        
+        return textField
+    }()
+    
+    let longitudeTextField: UITextField = {
+        let textField = TextFieldFactory.makeTitleTextField(
+            LayoutConstants.mediumFontSize,
+            TextConstants.longitudePlaceholder
+        )
+        textField.keyboardType = .decimalPad
+        return textField
+    }()
+    
+    lazy var mapButton: UIButton = {
+        let button = createConfigurationButton()
+        button.tintColor = .systemBackground
+        button.layer.cornerRadius = LayoutConstants.cornerRadius
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
+        button.layer.borderColor = UIColor.systemGray.cgColor
+        button.backgroundColor = AppStyles.mainColor
+        return button
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -116,7 +155,7 @@ private extension WritingScheduleView {
             dateBackgroundView.addSubview($0)
         }
         
-        [titleTextField, descriptionTextView, dateBackgroundView, coordinateView].forEach {
+        [titleTextField, descriptionTextView, dateBackgroundView, latitudeTextField, longitudeTextField, mapButton].forEach {
             addSubview($0)
         }
     }
@@ -174,11 +213,41 @@ private extension WritingScheduleView {
                 .inset(AppLayoutConstants.largeSpacing)
         }
         
-        coordinateView.snp.makeConstraints {
+        latitudeTextField.snp.makeConstraints {
             $0.top.equalTo(dateBackgroundView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(LayoutConstants.coordinateViewHeight)
+                .inset(AppLayoutConstants.spacing)
         }
+        
+        longitudeTextField.snp.makeConstraints {
+            $0.top.equalTo(latitudeTextField.snp.bottom)
+                .offset(AppLayoutConstants.spacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
+        }
+        
+        mapButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(longitudeTextField.snp.bottom)
+                .offset(AppLayoutConstants.spacing)
+            $0.height.equalTo(LayoutConstants.buttonHeight)
+            $0.width.equalTo(mapButton.snp.height)
+                .multipliedBy(LayoutConstants.buttonWidthMultiplier)
+        }
+    }
+    
+    func createConfigurationButton() -> UIButton {
+        var container = AttributeContainer()
+        container.font = .systemFont(ofSize: LayoutConstants.mediumFontSize, weight: .bold)
+        
+        var configuration = UIButton.Configuration.plain()
+        configuration.attributedTitle = AttributedString(TextConstants.buttonTitle, attributes: container)
+        
+        configuration.image = UIImage(systemName: TextConstants.mapIcon)?
+            .withTintColor(.systemBackground, renderingMode: .alwaysTemplate)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = AppLayoutConstants.spacing
+        return UIButton(configuration: configuration)
     }
 }

@@ -42,7 +42,6 @@
 		6B62A0CF2955CA0800450DB2 /* MemoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */; };
 		6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371D298D0E220038E9C8 /* MapViewController.swift */; };
 		6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */; };
-		6B84E461298CF60200EE83AB /* CoordinateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B84E460298CF60200EE83AB /* CoordinateView.swift */; };
 		6BA1CA45299C886C009CF4BB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA1CA44299C886C009CF4BB /* SnapKit */; };
 		6BA1CA47299C8875009CF4BB /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA1CA46299C8875009CF4BB /* JGProgressHUD */; };
 		6BA3402229532E29002E7502 /* YTTravelPlanTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA9F4762952862E00403DCC /* YTTravelPlanTracker.swift */; };
@@ -125,7 +124,6 @@
 		6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCell.swift; sourceTree = "<group>"; };
 		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewModel.swift; sourceTree = "<group>"; };
-		6B84E460298CF60200EE83AB /* CoordinateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateView.swift; sourceTree = "<group>"; };
 		6BA9F4762952862E00403DCC /* YTTravelPlanTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YTTravelPlanTracker.swift; sourceTree = "<group>"; };
 		6BAA75F7299820C100373509 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
 		6BB277C32955893900534B68 /* MemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewController.swift; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 		6B130C2C29A59E56008313DE /* WritingScheduleView */ = {
 			isa = PBXGroup;
 			children = (
-				6B84E460298CF60200EE83AB /* CoordinateView.swift */,
 				6B469E5B29A5F5AC00FDDE4D /* WritingScheduleView.swift */,
 				6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */,
 			);
@@ -613,7 +610,6 @@
 				6BB76BDB297FE31500C8C596 /* TravelPlanViewBuilder.swift in Sources */,
 				6BA3402229532E29002E7502 /* YTTravelPlanTracker.swift in Sources */,
 				6B62A0CF2955CA0800450DB2 /* MemoryCell.swift in Sources */,
-				6B84E461298CF60200EE83AB /* CoordinateView.swift in Sources */,
 				6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
