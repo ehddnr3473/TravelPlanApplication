@@ -77,8 +77,8 @@ private extension WritingScheduleViewController {
         writingScheduleView.titleTextField.tag = AppNumberConstants.scheduleTitleTextFieldTag
         writingScheduleView.titleTextField.text = viewModel.model.title
         writingScheduleView.descriptionTextView.text = viewModel.model.description
-        writingScheduleView.coordinateView.latitudeTextField.text = String(viewModel.model.coordinate.latitude)
-        writingScheduleView.coordinateView.longitudeTextField.text = String(viewModel.model.coordinate.longitude)
+        writingScheduleView.latitudeTextField.text = String(viewModel.model.coordinate.latitude)
+        writingScheduleView.longitudeTextField.text = String(viewModel.model.coordinate.longitude)
         
         if let fromDate = viewModel.model.fromDate, let toDate = viewModel.model.toDate {
             writingScheduleView.dateSwitch.isOn = true
@@ -97,15 +97,15 @@ private extension WritingScheduleViewController {
     func configureDelegate() {
         writingScheduleView.titleTextField.delegate = self
         writingScheduleView.descriptionTextView.delegate = self
-        writingScheduleView.coordinateView.latitudeTextField.delegate = self
-        writingScheduleView.coordinateView.longitudeTextField.delegate = self
+        writingScheduleView.latitudeTextField.delegate = self
+        writingScheduleView.longitudeTextField.delegate = self
         
     }
     func configureAction() {
         writingScheduleView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        writingScheduleView.coordinateView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        writingScheduleView.coordinateView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        writingScheduleView.coordinateView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
+        writingScheduleView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        writingScheduleView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        writingScheduleView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
         writingScheduleView.dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
         writingScheduleView.fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
         writingScheduleView.toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
@@ -122,8 +122,8 @@ private extension WritingScheduleViewController {
                  가장 최근에 유효했던 값이 들어가 있기 때문에 데이터의 일관성을 보장받을 수 없으므로,
                  한 번 더 검사
                  */
-                writingScheduleView.coordinateView.latitudeTextField.text ?? "",
-                writingScheduleView.coordinateView.longitudeTextField.text ?? ""
+                writingScheduleView.latitudeTextField.text ?? "",
+                writingScheduleView.longitudeTextField.text ?? ""
             )
             save(viewModel.model, scheduleListIndex)
             navigationController?.popViewController(animated: true)
@@ -168,9 +168,9 @@ private extension WritingScheduleViewController {
     }
     
     @objc func editingChangedCoordinateTextField() {
-        writingScheduleView.coordinateView.mapButton.isValidAtBackgroundColor = viewModel.editingChangedCoordinateTextField(
-            writingScheduleView.coordinateView.latitudeTextField.text ?? "",
-            writingScheduleView.coordinateView.longitudeTextField.text ?? ""
+        writingScheduleView.mapButton.isValidAtBackgroundColor = viewModel.editingChangedCoordinateTextField(
+            writingScheduleView.latitudeTextField.text ?? "",
+            writingScheduleView.longitudeTextField.text ?? ""
         )
     }
     
