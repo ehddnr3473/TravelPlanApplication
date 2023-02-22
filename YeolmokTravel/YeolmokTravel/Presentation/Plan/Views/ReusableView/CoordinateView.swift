@@ -14,44 +14,21 @@ import UIKit
 final class CoordinateView: UIView {
     // MARK: - Properties
     let latitudeTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.backgroundColor = .systemBackground
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = AppLayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        textField.placeholder = TextConstants.latitudePlaceholder
+        let textField = TextFieldFactory.makeTitleTextField(
+            LayoutConstants.mediumFontSize,
+            TextConstants.longitudePlaceholder
+        )
         textField.keyboardType = .decimalPad
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.returnKeyType = .done
-        textField.leftView = UIView(frame: CGRect(x: .zero,
-                                                  y: .zero,
-                                                  width: AppLayoutConstants.spacing,
-                                                  height: .zero))
-        textField.leftViewMode = .always
+        
         return textField
     }()
     
     let longitudeTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.backgroundColor = .systemBackground
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = AppLayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
-        textField.placeholder = TextConstants.longitudePlaceholder
+        let textField = TextFieldFactory.makeTitleTextField(
+            LayoutConstants.mediumFontSize,
+            TextConstants.longitudePlaceholder
+        )
         textField.keyboardType = .decimalPad
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.returnKeyType = .done
-        textField.leftView = UIView(frame: CGRect(x: .zero,
-                                                  y: .zero,
-                                                  width: AppLayoutConstants.spacing,
-                                                  height: .zero))
-        textField.leftViewMode = .always
         return textField
     }()
     
