@@ -8,11 +8,11 @@
 import UIKit
 import Foundation
 
-enum AppStyles {
+@frozen enum AppStyles {
     static let mainColor = UIColor.systemGreen
 }
 
-enum AppLayoutConstants {
+@frozen enum AppLayoutConstants {
     static let spacing: CGFloat = 8
     static let largeSpacing: CGFloat = 20
     static let borderWidth: CGFloat = 1
@@ -24,12 +24,12 @@ enum AppLayoutConstants {
     static let buttonHeight: CGFloat = 44.44
 }
 
-enum AppNumberConstants {
+@frozen enum AppNumberConstants {
     static let mapViewTag = 77
     static let scheduleTitleTextFieldTag = 44
 }
 
-enum AppTextConstants {
+@frozen enum AppTextConstants {
     static let plusIcon = "plus"
     static let editIcon = "pencil"
     static let leftBarButtonTitle = "Back"
