@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WritingStyle: String {
+@frozen enum WritingStyle: String {
     case create = "New"
     case update = "Edit"
 }
