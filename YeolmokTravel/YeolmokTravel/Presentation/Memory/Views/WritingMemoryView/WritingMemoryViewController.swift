@@ -27,7 +27,7 @@ final class WritingMemoryViewController: UIViewController {
     
     private let memoryIndex: Int
     private let viewModel: ConcreteWritingMemoryViewModel
-    weak var delegate: MemoryTransferDelegate?
+    private weak var delegate: MemoryTransferDelegate?
     
     private let writingMemoryView = WritingMemoryView()
     
