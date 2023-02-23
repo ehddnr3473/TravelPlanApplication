@@ -52,7 +52,7 @@
 		6BB76BD9297FCEF100C8C596 /* MemoryViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BD8297FCEF100C8C596 /* MemoryViewBuilder.swift */; };
 		6BB76BDB297FE31500C8C596 /* TravelPlanViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BDA297FE31500C8C596 /* TravelPlanViewBuilder.swift */; };
 		6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */; };
-		6BCE6567298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift */; };
+		6BCE6567298E2A5700D4B5A0 /* WritingTravelPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanView.swift */; };
 		6BE1818929A0D3410066B80A /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BE1818829A0D3410066B80A /* DateConverter.swift */; };
 		6BF15AC2298FD7E000C53BA9 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF15AC1298FD7E000C53BA9 /* Button.swift */; };
 		6BF15AC42990D13400C53BA9 /* MapButtonSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF15AC32990D13400C53BA9 /* MapButtonSetView.swift */; };
@@ -132,7 +132,7 @@
 		6BB76BD8297FCEF100C8C596 /* MemoryViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewBuilder.swift; sourceTree = "<group>"; };
 		6BB76BDA297FE31500C8C596 /* TravelPlanViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelPlanViewBuilder.swift; sourceTree = "<group>"; };
 		6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewModel.swift; sourceTree = "<group>"; };
-		6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingTravelPlanTopView.swift; sourceTree = "<group>"; };
+		6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingTravelPlanView.swift; sourceTree = "<group>"; };
 		6BE1818829A0D3410066B80A /* DateConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 		6BF15AC1298FD7E000C53BA9 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		6BF15AC32990D13400C53BA9 /* MapButtonSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapButtonSetView.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				6BF15AC32990D13400C53BA9 /* MapButtonSetView.swift */,
-				6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift */,
+				6BCE6566298E2A5700D4B5A0 /* WritingTravelPlanView.swift */,
 				6B37A4AC2951639000BBB8EE /* WritingTravelPlanViewController.swift */,
 			);
 			path = WritingTravelPlanView;
@@ -583,7 +583,7 @@
 				6BB76BC0297F4F6700C8C596 /* MemoryViewModel.swift in Sources */,
 				6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */,
 				6B37A4AD2951639000BBB8EE /* WritingTravelPlanViewController.swift in Sources */,
-				6BCE6567298E2A5700D4B5A0 /* WritingTravelPlanTopView.swift in Sources */,
+				6BCE6567298E2A5700D4B5A0 /* WritingTravelPlanView.swift in Sources */,
 				6B37A4B62951743D00BBB8EE /* TravelPlanViewModel.swift in Sources */,
 				6B37A4BD2951786800BBB8EE /* YTTravelPlan.swift in Sources */,
 				6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */,
