@@ -221,7 +221,7 @@ extension WritingScheduleViewController: UITextFieldDelegate {
     private func keyboardWillAppear() {
         DispatchQueue.main.async {
             UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-                view.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+                writingScheduleView.contentView.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
             }
         }
     }
@@ -229,7 +229,7 @@ extension WritingScheduleViewController: UITextFieldDelegate {
     private func keyboardWillDisappear() {
         DispatchQueue.main.async {
             UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-                view.frame.origin.y = 0
+                writingScheduleView.contentView.frame.origin.y = 0
             }
         }
     }

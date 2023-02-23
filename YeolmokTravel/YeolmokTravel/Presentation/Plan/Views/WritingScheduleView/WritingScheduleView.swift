@@ -27,6 +27,15 @@ final class WritingScheduleView: UIView {
     }
     
     // MARK: - Properties
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isScrollEnabled = false
+        return scrollView
+    }()
+    
+    let contentView = UIView()
+    
     let titleTextField = TextFieldFactory
         .makeTitleTextField(
             AppLayoutConstants.largeFontSize,
@@ -47,7 +56,7 @@ final class WritingScheduleView: UIView {
     }()
     
     // 날짜 관련 뷰
-    let dateBackgroundView: UIView = {
+    let dateContainerView: UIView = {
         let view = UIView()
         view.layer.borderWidth = AppLayoutConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
@@ -152,15 +161,32 @@ private extension WritingScheduleView {
     
     func configureHierarchy() {
         [dateSwitch, fromLabel, fromDatePicker, toLabel, toDatePicker].forEach {
-            dateBackgroundView.addSubview($0)
+            dateContainerView.addSubview($0)
         }
         
-        [titleTextField, descriptionTextView, dateBackgroundView, latitudeTextField, longitudeTextField, mapButton].forEach {
-            addSubview($0)
+        [titleTextField, descriptionTextView, dateContainerView, latitudeTextField, longitudeTextField, mapButton].forEach {
+            contentView.addSubview($0)
         }
+        
+        scrollView.addSubview(contentView)
+        addSubview(scrollView)
     }
     
     func configureLayoutConstraint() {
+        scrollView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.top.equalTo(scrollView.contentLayoutGuide.snp.top)
+            $0.leading.equalTo(scrollView.contentLayoutGuide.snp.leading)
+            $0.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
+            $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
+            
+            $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
+            $0.height.equalTo(scrollView.frameLayoutGuide.snp.height)
+        }
+        
         titleTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -176,7 +202,7 @@ private extension WritingScheduleView {
             $0.height.equalTo(LayoutConstants.descriptionTextViewHeight)
         }
         
-        dateBackgroundView.snp.makeConstraints {
+        dateContainerView.snp.makeConstraints {
             $0.top.equalTo(descriptionTextView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
@@ -218,7 +244,7 @@ private extension WritingScheduleView {
         }
         
         latitudeTextField.snp.makeConstraints {
-            $0.top.equalTo(dateBackgroundView.snp.bottom)
+            $0.top.equalTo(dateContainerView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
