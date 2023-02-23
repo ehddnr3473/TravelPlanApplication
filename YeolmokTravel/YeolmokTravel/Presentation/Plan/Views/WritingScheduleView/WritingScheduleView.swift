@@ -162,14 +162,17 @@ private extension WritingScheduleView {
     
     func configureLayoutConstraint() {
         titleTextField.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top)
+            $0.top.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
         }
         
         descriptionTextView.snp.makeConstraints {
             $0.top.equalTo(titleTextField.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(LayoutConstants.descriptionTextViewHeight)
         }
         
@@ -177,6 +180,7 @@ private extension WritingScheduleView {
             $0.top.equalTo(descriptionTextView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(LayoutConstants.dateBackgroundViewHeight)
         }
         

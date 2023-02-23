@@ -61,9 +61,13 @@ private extension WritingScheduleViewController {
     func configureLayoutConstraint() {
         writingScheduleView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+                .inset(AppLayoutConstants.spacing)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
                 .inset(AppLayoutConstants.spacing)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+                .inset(AppLayoutConstants.spacing)
         }
     }
     

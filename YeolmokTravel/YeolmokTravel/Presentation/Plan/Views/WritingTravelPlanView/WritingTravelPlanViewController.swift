@@ -104,14 +104,19 @@ private extension WritingTravelPlanViewController {
         writingTravelPlanView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.spacing)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+                .inset(AppLayoutConstants.spacing)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+                .inset(AppLayoutConstants.spacing)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
                 .inset(AppLayoutConstants.spacing)
         }
         
         scheduleTableView.snp.makeConstraints {
             $0.top.equalTo(writingTravelPlanView.createScheduleButton.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(viewModel.schedules.value.count * Int(AppLayoutConstants.cellHeight))
         }
     }
@@ -320,7 +325,8 @@ private extension WritingTravelPlanViewController {
         mapProvider.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalTo(writingTravelPlanView.scrollViewContainer.snp.width)
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(AppLayoutConstants.mapViewHeight)
         }
     }
@@ -334,7 +340,8 @@ private extension WritingTravelPlanViewController {
         mapButtonSetView.snp.makeConstraints {
             $0.top.equalTo(mapProvider.mapView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalTo(writingTravelPlanView.scrollViewContainer.snp.width)
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
             $0.height.equalTo(AppLayoutConstants.buttonHeight)
         }
     }
