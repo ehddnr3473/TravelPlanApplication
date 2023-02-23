@@ -1,11 +1,12 @@
 //
-//  WritingTravelPlanTopView.swift
+//  WritingTravelPlanView.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/02/04.
 //
 
 import UIKit
+import MapKit
 
 /// WritingTravelPlanView의 상단 뷰
 /// - titleTextField: 제목
@@ -13,13 +14,33 @@ import UIKit
 /// - scheduleTitleLabel
 /// - updateScheduleButton: 상세 일정 수정 버튼
 /// - createScheduleButton: 상세 일정 추가 버튼
-final class WritingTravelPlanTopView: UIView {
+final class WritingTravelPlanView: UIView {
+    enum TextConstants {
+        static let schedule = "Schedule"
+    }
+    
+    enum LayoutConstants {
+        static let cornerRadius: CGFloat = 5
+        static let mediumFontSize: CGFloat = 20
+        static let textViewHeight: CGFloat = 100
+        static let buttonLength: CGFloat = 30
+    }
+    
     // MARK: - Properties
     let titleTextField = TextFieldFactory
         .makeTitleTextField(
             AppLayoutConstants.largeFontSize,
             AppTextConstants.titlePlaceholder
         )
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isScrollEnabled = true
+        return scrollView
+    }()
+    
+    let scrollViewContainer = UIView()
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -57,30 +78,45 @@ final class WritingTravelPlanTopView: UIView {
         return button
     }()
     
-    override init(frame: CGRect) {
+    init(frame: CGRect,
+         scrollViewContainerHeight: CGFloat) {
         super.init(frame: frame)
-        configureView()
+        backgroundColor = .systemBackground
+        configureHierarchy()
+        configureLayoutConstraint(scrollViewContainerHeight)
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Configure View
-private extension WritingTravelPlanTopView {
-    func configureView() {
-        configureHierarchy()
-        configureLayoutConstraint()
-    }
-    
+private extension WritingTravelPlanView {
     func configureHierarchy() {
         [titleTextField, descriptionTextView, scheduleTitleLabel, updateScheduleButton, createScheduleButton].forEach {
-            addSubview($0)
+            scrollViewContainer.addSubview($0)
         }
+        
+        scrollView.addSubview(scrollViewContainer)
+        addSubview(scrollView)
     }
     
-    func configureLayoutConstraint() {
+    func configureLayoutConstraint(_ scrollViewContainerHeight: CGFloat) {
+        scrollView.snp.makeConstraints {
+            $0.top.leading.bottom.trailing.equalToSuperview()
+        }
+        
+        scrollViewContainer.snp.makeConstraints {
+            $0.top.equalTo(scrollView.contentLayoutGuide.snp.top)
+            $0.leading.equalTo(scrollView.contentLayoutGuide.snp.leading)
+            $0.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
+            $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
+            
+            $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
+            $0.height.equalTo(scrollViewContainerHeight)
+        }
+        
         titleTextField.snp.makeConstraints {
             $0.top.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -117,15 +153,4 @@ private extension WritingTravelPlanTopView {
             $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
     }
-}
-
-private enum LayoutConstants {
-    static let cornerRadius: CGFloat = 5
-    static let mediumFontSize: CGFloat = 20
-    static let textViewHeight: CGFloat = 100
-    static let buttonLength: CGFloat = 30
-}
-
-private enum TextConstants {
-    static let schedule = "Schedule"
 }

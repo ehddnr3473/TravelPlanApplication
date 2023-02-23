@@ -29,20 +29,10 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private var subscriptions = Set<AnyCancellable>()
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.isScrollEnabled = true
-        return scrollView
-    }()
-    
-    private let scrollViewContainer = UIView()
-    
-    private let topView: WritingTravelPlanTopView = {
-        let writingTravelPlanView = WritingTravelPlanTopView()
-        writingTravelPlanView.backgroundColor = .systemBackground
-        return writingTravelPlanView
-    }()
+    private lazy var writingTravelPlanView = WritingTravelPlanView(
+        frame: .zero,
+        scrollViewContainerHeight: viewModel.calculatedScrollViewContainerHeight
+    )
     
     private let scheduleTableView: UITableView = {
         let tableView = UITableView()
@@ -65,10 +55,7 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         return label
     }()
     
-    private let mapButtonSetView: MapButtonSetView = {
-        let mapButtonSetView = MapButtonSetView()
-        return mapButtonSetView
-    }()
+    private let mapButtonSetView = MapButtonSetView()
     
     init(viewModel: ConcreteWritingTravelPlanViewModel,
          mapProvider: Mappable,
@@ -91,7 +78,8 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         super.viewDidLoad()
         configureView()
         embedMapView()
-        configure()
+        configureDelegate()
+        configureAction()
         configureTopViewValue()
         bindingSchedules()
     }
@@ -108,46 +96,22 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureHierarchy() {
-        [topView, scheduleTableView].forEach {
-            scrollViewContainer.addSubview($0)
-        }
-        
-        scrollView.addSubview(scrollViewContainer)
-        
-        [scrollView].forEach {
-            view.addSubview($0)
-        }
+        view.addSubview(writingTravelPlanView)
+        writingTravelPlanView.scrollViewContainer.addSubview(scheduleTableView)
     }
     
     func configureLayoutConstraint() {
-        scrollView.snp.makeConstraints {
+        writingTravelPlanView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.spacing)
-            $0.leading.bottom.trailing.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
-        }
-        
-        scrollViewContainer.snp.makeConstraints {
-            $0.top.equalTo(scrollView.contentLayoutGuide.snp.top)
-            $0.leading.equalTo(scrollView.contentLayoutGuide.snp.leading)
-            $0.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
-            $0.trailing.equalTo(scrollView.contentLayoutGuide.snp.trailing)
-            
-            $0.width.equalTo(scrollView.frameLayoutGuide.snp.width)
-            $0.height.equalTo(viewModel.calculatedScrollViewContainerHeight)
-        }
-        
-        topView.snp.makeConstraints {
-            $0.top.equalTo(scrollViewContainer.snp.top)
-                .inset(AppLayoutConstants.spacing)
-            $0.width.equalTo(scrollViewContainer.snp.width)
-            $0.height.equalTo(AppLayoutConstants.writingTravelPlanViewHeight)
         }
         
         scheduleTableView.snp.makeConstraints {
-            $0.top.equalTo(topView.snp.bottom)
+            $0.top.equalTo(writingTravelPlanView.createScheduleButton.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalTo(scrollViewContainer.snp.width)
+            $0.width.equalToSuperview()
             $0.height.equalTo(viewModel.schedules.value.count * Int(AppLayoutConstants.cellHeight))
         }
     }
@@ -159,8 +123,8 @@ private extension WritingTravelPlanViewController {
     }
     
     func configureTopViewValue() {
-        topView.titleTextField.text = viewModel.title
-        topView.descriptionTextView.text = viewModel.description
+        writingTravelPlanView.titleTextField.text = viewModel.title
+        writingTravelPlanView.descriptionTextView.text = viewModel.description
     }
     
     func configureTapGesture() {
@@ -172,14 +136,17 @@ private extension WritingTravelPlanViewController {
 
 // MARK: - User Interaction
 private extension WritingTravelPlanViewController {
-    func configure() {
+    func configureDelegate() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
-        topView.titleTextField.delegate = self
-        topView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        topView.descriptionTextView.delegate = self
-        topView.updateScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        topView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
+        writingTravelPlanView.titleTextField.delegate = self
+        writingTravelPlanView.descriptionTextView.delegate = self
+    }
+    
+    func configureAction() {
+        writingTravelPlanView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        writingTravelPlanView.updateScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        writingTravelPlanView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
     }
     
     @objc func touchUpRightBarButton() {
@@ -265,12 +232,12 @@ private extension WritingTravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             scheduleTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            topView.updateScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+            writingTravelPlanView.updateScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
         })
     }
     
     @objc func editingChangedTitleTextField() {
-        viewModel.editingChangedTitleTextField(topView.titleTextField.text ?? "")
+        viewModel.editingChangedTitleTextField(writingTravelPlanView.titleTextField.text ?? "")
     }
     
     @objc func tapView() {
@@ -339,7 +306,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapTitleLabel() {
-        scrollViewContainer.addSubview(mapTitleLabel)
+        writingTravelPlanView.scrollViewContainer.addSubview(mapTitleLabel)
         mapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scheduleTableView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
@@ -349,11 +316,11 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapView() {
-        scrollViewContainer.addSubview(mapProvider.mapView)
+        writingTravelPlanView.scrollViewContainer.addSubview(mapProvider.mapView)
         mapProvider.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalTo(scrollViewContainer.snp.width)
+            $0.width.equalTo(writingTravelPlanView.scrollViewContainer.snp.width)
             $0.height.equalTo(AppLayoutConstants.mapViewHeight)
         }
     }
@@ -362,11 +329,12 @@ private extension WritingTravelPlanViewController {
         mapButtonSetView.previousButton.addTarget(self, action: #selector(touchUpPreviousButton), for: .touchUpInside)
         mapButtonSetView.centerButton.addTarget(self, action: #selector(touchUpCenterButton), for: .touchUpInside)
         mapButtonSetView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
-        scrollViewContainer.addSubview(mapButtonSetView)
+        
+        writingTravelPlanView.scrollViewContainer.addSubview(mapButtonSetView)
         mapButtonSetView.snp.makeConstraints {
             $0.top.equalTo(mapProvider.mapView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
-            $0.width.equalTo(scrollViewContainer.snp.width)
+            $0.width.equalTo(writingTravelPlanView.scrollViewContainer.snp.width)
             $0.height.equalTo(AppLayoutConstants.buttonHeight)
         }
     }
@@ -391,7 +359,7 @@ private extension WritingTravelPlanViewController {
     
     // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
     func mapContentsIsAdded() -> Bool {
-        scrollViewContainer.subviews.contains {
+        writingTravelPlanView.scrollViewContainer.subviews.contains {
             $0.tag == AppNumberConstants.mapViewTag
         }
     }
@@ -412,7 +380,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func updateScrollViewContainerHeight() {
-        scrollViewContainer.snp.updateConstraints {
+        writingTravelPlanView.scrollViewContainer.snp.updateConstraints {
             $0.height.equalTo(viewModel.calculatedScrollViewContainerHeight)
         }
     }
