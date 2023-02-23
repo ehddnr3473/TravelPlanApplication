@@ -30,17 +30,6 @@ final class MemoryViewController: UIViewController {
     private let memoryImageUseCaseProvider: MemoryImageUseCaseProvider
     private var dataSource: UICollectionViewDiffableDataSource<Section, YTMemory>!
     
-    init(_ viewModel: ConcreteMemoryViewModel, _ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
-        self.viewModel = viewModel
-        self.memoryUseCaseProvider = memoryUseCaseProvider
-        self.memoryImageUseCaseProvider = memoryImageUseCaseProvider
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -50,7 +39,7 @@ final class MemoryViewController: UIViewController {
         return label
     }()
     
-    private let addButton: UIButton = {
+    private let createButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: TextConstants.plusIconName), for: .normal)
         button.tintColor = AppStyles.mainColor
@@ -64,10 +53,21 @@ final class MemoryViewController: UIViewController {
         return collectionView
     }()
     
+    init(_ viewModel: ConcreteMemoryViewModel, _ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
+        self.viewModel = viewModel
+        self.memoryUseCaseProvider = memoryUseCaseProvider
+        self.memoryImageUseCaseProvider = memoryImageUseCaseProvider
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        configure()
+        configureAction()
         configureDataSource()
         setBindings()
         fetchMemories()
@@ -83,7 +83,7 @@ private extension MemoryViewController {
     }
     
     func configureHierarchy() {
-        [titleLabel, addButton, memoriesCollectionView].forEach {
+        [titleLabel, createButton, memoriesCollectionView].forEach {
             view.addSubview($0)
         }
     }
@@ -95,7 +95,7 @@ private extension MemoryViewController {
                 .inset(AppLayoutConstants.spacing)
         }
         
-        addButton.snp.makeConstraints {
+        createButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -113,8 +113,8 @@ private extension MemoryViewController {
         }
     }
     
-    func configure() {
-        addButton.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
+    func configureAction() {
+        createButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
     
     func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
@@ -150,9 +150,9 @@ private extension MemoryViewController {
     }
 }
 
-// MARK: - User Interacion
+// MARK: - User Interacion & Binding
 private extension MemoryViewController {
-    @objc func touchUpAddButton() {
+    @objc func touchUpCreateButton() {
         let viewModel = ConcreteWritingMemoryViewModel(memoryUseCaseProvider, memoryImageUseCaseProvider)
         let writingMemoryViewController = WritingMemoryViewController(viewModel,
                                                                       self.viewModel.model.value.count,
