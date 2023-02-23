@@ -10,16 +10,16 @@ import UIKit
 import JGProgressHUD
 
 final class TravelPlanView: UIView {
-    enum TextConstants {
+    private enum TextConstants {
         static let title = "Plans"
     }
     
-    enum LayoutConstants {
+    private enum LayoutConstants {
         static let cornerRadius: CGFloat = 10
         static let buttonSize = CGSize(width: 44.44, height: 44.44)
     }
     
-    enum IndicatorConstants {
+    private enum IndicatorConstants {
         static let titleText = "Loading.."
         static let detailText = "Please wait"
     }

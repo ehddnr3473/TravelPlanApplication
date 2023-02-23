@@ -8,7 +8,7 @@
 import UIKit
 
 final class WritingScheduleView: UIView {
-    enum TextConstants {
+    private enum TextConstants {
         static let from = "From"
         static let to = "To"
         static let latitudePlaceholder = "latitude"
@@ -17,7 +17,7 @@ final class WritingScheduleView: UIView {
         static let mapIcon = "map"
     }
     
-    enum LayoutConstants {
+    private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
         static let mediumFontSize: CGFloat = 20
         static let descriptionTextViewHeight: CGFloat = 100

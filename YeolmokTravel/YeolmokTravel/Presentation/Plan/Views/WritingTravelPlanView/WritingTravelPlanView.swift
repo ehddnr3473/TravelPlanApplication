@@ -15,11 +15,11 @@ import MapKit
 /// - updateScheduleButton: 상세 일정 수정 버튼
 /// - createScheduleButton: 상세 일정 추가 버튼
 final class WritingTravelPlanView: UIView {
-    enum TextConstants {
+    private enum TextConstants {
         static let schedule = "Schedule"
     }
     
-    enum LayoutConstants {
+    private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
         static let mediumFontSize: CGFloat = 20
         static let textViewHeight: CGFloat = 100
