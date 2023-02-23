@@ -97,7 +97,7 @@ private extension WritingTravelPlanViewController {
     
     func configureHierarchy() {
         view.addSubview(writingTravelPlanView)
-        writingTravelPlanView.scrollViewContainer.addSubview(scheduleTableView)
+        writingTravelPlanView.contentView.addSubview(scheduleTableView)
     }
     
     func configureLayoutConstraint() {
@@ -311,7 +311,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapTitleLabel() {
-        writingTravelPlanView.scrollViewContainer.addSubview(mapTitleLabel)
+        writingTravelPlanView.contentView.addSubview(mapTitleLabel)
         mapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scheduleTableView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
@@ -321,7 +321,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapView() {
-        writingTravelPlanView.scrollViewContainer.addSubview(mapProvider.mapView)
+        writingTravelPlanView.contentView.addSubview(mapProvider.mapView)
         mapProvider.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
@@ -336,7 +336,7 @@ private extension WritingTravelPlanViewController {
         mapButtonSetView.centerButton.addTarget(self, action: #selector(touchUpCenterButton), for: .touchUpInside)
         mapButtonSetView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         
-        writingTravelPlanView.scrollViewContainer.addSubview(mapButtonSetView)
+        writingTravelPlanView.contentView.addSubview(mapButtonSetView)
         mapButtonSetView.snp.makeConstraints {
             $0.top.equalTo(mapProvider.mapView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
@@ -366,7 +366,7 @@ private extension WritingTravelPlanViewController {
     
     // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
     func mapContentsIsAdded() -> Bool {
-        writingTravelPlanView.scrollViewContainer.subviews.contains {
+        writingTravelPlanView.contentView.subviews.contains {
             $0.tag == AppNumberConstants.mapViewTag
         }
     }
@@ -387,7 +387,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func updateScrollViewContainerHeight() {
-        writingTravelPlanView.scrollViewContainer.snp.updateConstraints {
+        writingTravelPlanView.contentView.snp.updateConstraints {
             $0.height.equalTo(viewModel.calculatedScrollViewContainerHeight)
         }
     }

@@ -40,7 +40,7 @@ final class WritingTravelPlanView: UIView {
         return scrollView
     }()
     
-    let scrollViewContainer = UIView()
+    let contentView = UIView()
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -95,10 +95,10 @@ final class WritingTravelPlanView: UIView {
 private extension WritingTravelPlanView {
     func configureHierarchy() {
         [titleTextField, descriptionTextView, scheduleTitleLabel, updateScheduleButton, createScheduleButton].forEach {
-            scrollViewContainer.addSubview($0)
+            contentView.addSubview($0)
         }
         
-        scrollView.addSubview(scrollViewContainer)
+        scrollView.addSubview(contentView)
         addSubview(scrollView)
     }
     
@@ -107,7 +107,7 @@ private extension WritingTravelPlanView {
             $0.top.leading.bottom.trailing.equalToSuperview()
         }
         
-        scrollViewContainer.snp.makeConstraints {
+        contentView.snp.makeConstraints {
             $0.top.equalTo(scrollView.contentLayoutGuide.snp.top)
             $0.leading.equalTo(scrollView.contentLayoutGuide.snp.leading)
             $0.bottom.equalTo(scrollView.contentLayoutGuide.snp.bottom)
