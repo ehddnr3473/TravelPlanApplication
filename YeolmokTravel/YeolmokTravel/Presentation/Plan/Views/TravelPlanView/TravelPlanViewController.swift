@@ -92,8 +92,8 @@ private extension TravelPlanViewController {
     }
     
     func configureAction() {
-        travelPlanView.updateTravelPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        travelPlanView.createTravelPlanButton.addTarget(self, action: #selector(touchUpAddButton), for: .touchUpInside)
+        travelPlanView.editTravelPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        travelPlanView.createTravelPlanButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
 }
 
@@ -114,7 +114,7 @@ private extension TravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             planTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            travelPlanView.updateTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
+            travelPlanView.editTravelPlanButton.isEditingAtTintColor = planTableView.isEditing
         })
     }
     
@@ -125,7 +125,7 @@ private extension TravelPlanViewController {
             .store(in: &subscriptions)
     }
     
-    @objc func touchUpAddButton() {
+    @objc func touchUpCreateButton() {
         let model = YTTravelPlan(title: "", description: "", schedules: [])
         let factory = WritingTravelPlanViewControllerFactory()
         let writingTravelPlanViewController = factory.makeWritingTravelPlanViewController(

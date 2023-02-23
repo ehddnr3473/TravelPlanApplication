@@ -34,7 +34,7 @@ final class TravelPlanView: UIView {
         return label
     }()
     
-    let updateTravelPlanButton: UIButton = {
+    let editTravelPlanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
@@ -72,7 +72,7 @@ private extension TravelPlanView {
     }
     
     func configureHierarchy() {
-        [titleLabel, updateTravelPlanButton, createTravelPlanButton].forEach {
+        [titleLabel, editTravelPlanButton, createTravelPlanButton].forEach {
             addSubview($0)
         }
     }
@@ -89,7 +89,7 @@ private extension TravelPlanView {
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
         
-        updateTravelPlanButton.snp.makeConstraints {
+        editTravelPlanButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalTo(createTravelPlanButton.snp.leading)
                 .offset(-AppLayoutConstants.spacing)

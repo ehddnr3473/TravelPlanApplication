@@ -146,7 +146,7 @@ private extension WritingTravelPlanViewController {
     func configureAction() {
         writingTravelPlanView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
         writingTravelPlanView.updateScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        writingTravelPlanView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateScheduleButton), for: .touchUpInside)
+        writingTravelPlanView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
     
     @objc func touchUpRightBarButton() {
@@ -185,7 +185,7 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    @objc func touchUpCreateScheduleButton() {
+    @objc func touchUpCreateButton() {
         let model = YTSchedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
         let factory = WritingScheduleViewControllerFactory()
         navigationController?.pushViewController(
