@@ -218,18 +218,23 @@ extension WritingScheduleViewController: UITextFieldDelegate {
         }
     }
     
+    // 스크린의 높이가 클 때는 조작할 필요 없음.
     private func keyboardWillAppear() {
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-                writingScheduleView.contentView.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+        if let screenHeight = view.window?.windowScene?.screen.bounds.height, screenHeight <= DisplayConstants.smallScreenHeight {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: AnimationConstants.duration) { [self] in
+                    writingScheduleView.contentView.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+                }
             }
         }
     }
     
     private func keyboardWillDisappear() {
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-                writingScheduleView.contentView.frame.origin.y = 0
+        if let screenHeight = view.window?.windowScene?.screen.bounds.height, screenHeight <= DisplayConstants.smallScreenHeight {
+            DispatchQueue.main.async {
+                UIView.animate(withDuration: AnimationConstants.duration) { [self] in
+                    writingScheduleView.contentView.frame.origin.y = 0
+                }
             }
         }
     }
@@ -264,4 +269,13 @@ private enum LayoutConstants {
 
 private enum AnimationConstants {
     static let duration: TimeInterval = 0.3
+}
+
+/*
+ 디스플레이 세로 길이
+ iPhone SE(2nd, 3rd generation): 667
+ iPhone 14 Pro Max: 932
+ */
+private enum DisplayConstants {
+    static let smallScreenHeight: CGFloat = 667
 }
