@@ -40,10 +40,7 @@ final class MemoryCell: UICollectionViewCell {
         return label
     }()
     
-    private let progressIndicator: JGProgressHUD = {
-        let indicator = JGProgressHUD()
-        return indicator
-    }()
+    private let progressIndicator = JGProgressHUD()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
