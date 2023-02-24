@@ -40,6 +40,8 @@ final class MapButtonSetView: UIView {
         return stackView
     }()
     
+    lazy var previousButton = createConfigurationButton(.leftImage)
+    
     let centerButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: TextConstants.centerIcon)?
@@ -50,7 +52,6 @@ final class MapButtonSetView: UIView {
         return button
     }()
     
-    lazy var previousButton = createConfigurationButton(.leftImage)
     lazy var nextButton = createConfigurationButton(.rightImage)
     
     override init(frame: CGRect) {
