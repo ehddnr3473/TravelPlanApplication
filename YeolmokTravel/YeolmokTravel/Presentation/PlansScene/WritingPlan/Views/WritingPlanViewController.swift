@@ -10,28 +10,26 @@ import Combine
 import CoreLocation
 
 protocol ScheduleTransferDelegate: AnyObject {
-    func create(_ schedule: YTSchedule)
-    func update(at index: Int, _ schedule: YTSchedule)
+    func create(_ schedule: Schedule)
+    func update(at index: Int, _ schedule: Schedule)
 }
 
 /*
- - 여행 계획의 자세한 일정 추가 및 수정을 위한 ViewController
+ - 여행 계획(Plan)의 자세한 일정(Schedule) 추가 및 수정을 위한 ViewController
  - Schedules의 coordinate(좌표 - 위도(latitude) 및 경도(longitude)) 정보를 취합해서 MKMapView로 표현
  */
-final class WritingTravelPlanViewController: UIViewController, Writable {
-    typealias WritableModelType = YTTravelPlan
+final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
-    private let viewModel: ConcreteWritingTravelPlanViewModel
+    private let viewModel: WritingPlanViewModel
     private let mapProvider: Mappable
     let writingStyle: WritingStyle
     private weak var delegate: TravelPlanTransferDelegate?
-    private let travelPlanListIndex: Int?
-    
+    private let plansListIndex: Int?
     private var subscriptions = Set<AnyCancellable>()
     
-    private lazy var writingTravelPlanView = WritingTravelPlanView(
+    private lazy var writingPlanView = WritingPlanView(
         frame: .zero,
-        scrollViewContainerHeight: viewModel.calculatedScrollViewContainerHeight
+        scrollViewContainerHeight: viewModel.calculatedContentViewHeight
     )
     
     private let scheduleTableView: UITableView = {
@@ -57,16 +55,17 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
     
     private let mapButtonSetView = MapButtonSetView()
     
-    init(viewModel: ConcreteWritingTravelPlanViewModel,
+    // MARK: - Init
+    init(viewModel: DefaultWritingPlanViewModel,
          mapProvider: Mappable,
          writingStyle: WritingStyle,
          delegate: TravelPlanTransferDelegate,
-         travelPlanListIndex: Int?) {
+         plansListIndex: Int?) {
         self.viewModel = viewModel
         self.mapProvider = mapProvider
         self.writingStyle = writingStyle
         self.delegate = delegate
-        self.travelPlanListIndex = travelPlanListIndex
+        self.plansListIndex = plansListIndex
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -74,34 +73,35 @@ final class WritingTravelPlanViewController: UIViewController, Writable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         embedMapView()
         configureDelegate()
         configureAction()
-        configureTopViewValue()
-        bindingSchedules()
+        configureTapGesture()
+        configureViewValue()
+        bind()
     }
 }
 
 // MARK: - Configure View
-private extension WritingTravelPlanViewController {
+private extension WritingPlanViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
         configureNavigationItems()
         configureHierarchy()
         configureLayoutConstraint()
-        configureTapGesture()
     }
     
     func configureHierarchy() {
-        view.addSubview(writingTravelPlanView)
-        writingTravelPlanView.contentView.addSubview(scheduleTableView)
+        view.addSubview(writingPlanView)
+        writingPlanView.contentView.addSubview(scheduleTableView)
     }
     
     func configureLayoutConstraint() {
-        writingTravelPlanView.snp.makeConstraints {
+        writingPlanView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.spacing)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
@@ -113,7 +113,7 @@ private extension WritingTravelPlanViewController {
         }
         
         scheduleTableView.snp.makeConstraints {
-            $0.top.equalTo(writingTravelPlanView.createScheduleButton.snp.bottom)
+            $0.top.equalTo(writingPlanView.createScheduleButton.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -123,13 +123,21 @@ private extension WritingTravelPlanViewController {
     
     func configureNavigationItems() {
         navigationItem.title = "\(writingStyle.rawValue) \(TextConstants.plan)"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpLeftBarButton))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpRightBarButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpCancelButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpSaveButton))
     }
     
-    func configureTopViewValue() {
-        writingTravelPlanView.titleTextField.text = viewModel.title
-        writingTravelPlanView.descriptionTextView.text = viewModel.description
+    func configureDelegate() {
+        scheduleTableView.delegate = self
+        scheduleTableView.dataSource = self
+        writingPlanView.titleTextField.delegate = self
+        writingPlanView.descriptionTextView.delegate = self
+    }
+    
+    func configureAction() {
+        writingPlanView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        writingPlanView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        writingPlanView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
     
     func configureTapGesture() {
@@ -137,29 +145,29 @@ private extension WritingTravelPlanViewController {
         tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
     }
+    
+    func configureViewValue() {
+        writingPlanView.titleTextField.text = viewModel.title.value
+        writingPlanView.descriptionTextView.text = viewModel.description.value
+    }
 }
 
 // MARK: - User Interaction
-private extension WritingTravelPlanViewController {
-    func configureDelegate() {
-        scheduleTableView.delegate = self
-        scheduleTableView.dataSource = self
-        writingTravelPlanView.titleTextField.delegate = self
-        writingTravelPlanView.descriptionTextView.delegate = self
-    }
-    
-    func configureAction() {
-        writingTravelPlanView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        writingTravelPlanView.updateScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        writingTravelPlanView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
-    }
-    
-    @objc func touchUpRightBarButton() {
-        viewModel.setTravelPlanTracker()
+private extension WritingPlanViewController {
+    @objc func touchUpSaveButton() {
+        viewModel.didTouchUpAnyButton()
         do {
             // 변경 사항이 있다면 저장
-            if viewModel.travelPlanTracker.isChanged {
-                save(try viewModel.createTravelPlan(), travelPlanListIndex)
+            if viewModel.isChanged {
+                let plan = try viewModel.validateAndGetPlan()
+                
+                switch writingStyle {
+                case .create:
+                    Task { try await delegate?.create(plan) }
+                case .update:
+                    guard let index = plansListIndex else { return }
+                    Task { try await delegate?.update(at: index, plan) }
+                }
             }
             navigationController?.popViewController(animated: true)
         } catch {
@@ -168,21 +176,10 @@ private extension WritingTravelPlanViewController {
         }
     }
     
-    func save(_ travelPlan: YTTravelPlan, _ index: Int?) {
-        switch writingStyle {
-        case .create:
-            Task { try await delegate?.create(travelPlan) }
-        case .update:
-            guard let index = index else { return }
-            Task { try await delegate?.update(at: index, travelPlan) }
-        }
-    }
-    
-    @objc func touchUpLeftBarButton() {
-        viewModel.setTravelPlanTracker()
-        if viewModel.travelPlanTracker.isChanged {
-            let actionSheetText = fetchActionSheetText()
-            actionSheetWillAppear(actionSheetText.0, actionSheetText.1) { [weak self] in
+    @objc func touchUpCancelButton() {
+        viewModel.didTouchUpAnyButton()
+        if viewModel.isChanged {
+            actionSheetWillAppear(isChangedText.0, isChangedText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
         } else {
@@ -191,7 +188,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @objc func touchUpCreateButton() {
-        let model = YTSchedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
+        let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
         let factory = WritingScheduleViewControllerFactory()
         navigationController?.pushViewController(
             factory.makeWritingScheduleViewController(
@@ -237,12 +234,12 @@ private extension WritingTravelPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             scheduleTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            writingTravelPlanView.updateScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+            writingPlanView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
         })
     }
     
     @objc func editingChangedTitleTextField() {
-        viewModel.editingChangedTitleTextField(writingTravelPlanView.titleTextField.text ?? "")
+        viewModel.title.send(writingPlanView.titleTextField.text ?? "")
     }
     
     @objc func tapView() {
@@ -251,8 +248,8 @@ private extension WritingTravelPlanViewController {
 }
 
 // MARK: - Binding
-private extension WritingTravelPlanViewController {
-    func bindingSchedules() {
+private extension WritingPlanViewController {
+    func bind() {
         viewModel.schedules
             .receive(on: DispatchQueue.main)
             .sink { [self] schedules in
@@ -262,18 +259,18 @@ private extension WritingTravelPlanViewController {
             .store(in: &subscriptions)
     }
     
-    func schedulesDidChaged(_ schedules: [YTSchedule]) {
+    func schedulesDidChaged(_ schedules: [Schedule]) {
         let coordinates = extractCoordinatesOfSchedules(schedules)
         
         if coordinates.count == .zero {
             removeMapContentsView()
-            updateScrollViewContainerHeight()
+            updateContentViewHeight()
         } else {
             updateMapView(coordinates)
         }
     }
     
-    func extractCoordinatesOfSchedules(_ schedules: [YTSchedule]) -> [CLLocationCoordinate2D] {
+    func extractCoordinatesOfSchedules(_ schedules: [Schedule]) -> [CLLocationCoordinate2D] {
         var coordinates = [CLLocationCoordinate2D]()
         
         for schedule in schedules {
@@ -285,7 +282,7 @@ private extension WritingTravelPlanViewController {
 }
 
 // MARK: - MapView
-private extension WritingTravelPlanViewController {
+private extension WritingPlanViewController {
     func embedMapView() {
         mapProvider.configureMapView()
         addChild(mapProvider as! UIViewController)
@@ -311,7 +308,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapTitleLabel() {
-        writingTravelPlanView.contentView.addSubview(mapTitleLabel)
+        writingPlanView.contentView.addSubview(mapTitleLabel)
         mapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scheduleTableView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
@@ -321,7 +318,7 @@ private extension WritingTravelPlanViewController {
     }
     
     @MainActor func addMapView() {
-        writingTravelPlanView.contentView.addSubview(mapProvider.mapView)
+        writingPlanView.contentView.addSubview(mapProvider.mapView)
         mapProvider.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
@@ -336,7 +333,7 @@ private extension WritingTravelPlanViewController {
         mapButtonSetView.centerButton.addTarget(self, action: #selector(touchUpCenterButton), for: .touchUpInside)
         mapButtonSetView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         
-        writingTravelPlanView.contentView.addSubview(mapButtonSetView)
+        writingPlanView.contentView.addSubview(mapButtonSetView)
         mapButtonSetView.snp.makeConstraints {
             $0.top.equalTo(mapProvider.mapView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
@@ -366,7 +363,7 @@ private extension WritingTravelPlanViewController {
     
     // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
     func mapContentsIsAdded() -> Bool {
-        writingTravelPlanView.contentView.subviews.contains {
+        writingPlanView.contentView.subviews.contains {
             $0.tag == AppNumberConstants.mapViewTag
         }
     }
@@ -374,21 +371,21 @@ private extension WritingTravelPlanViewController {
     func updateMapView(_ coordinates: [CLLocationCoordinate2D]) {
         // Map 관련 뷰가 없다면, ScrollView 높이를 갱신하고, Map 관련 뷰 추가
         if !mapContentsIsAdded() {
-            updateScrollViewContainerHeight()
+            updateContentViewHeight()
             addMapContentsViews()
         }
         mapProvider.updateMapView(coordinates)
     }
     
     @MainActor func reload() {
-        updateScrollViewContainerHeight()
+        updateContentViewHeight()
         updateTableViewConstraints()
         scheduleTableView.reloadData()
     }
     
-    @MainActor func updateScrollViewContainerHeight() {
-        writingTravelPlanView.contentView.snp.updateConstraints {
-            $0.height.equalTo(viewModel.calculatedScrollViewContainerHeight)
+    @MainActor func updateContentViewHeight() {
+        writingPlanView.contentView.snp.updateConstraints {
+            $0.height.equalTo(viewModel.calculatedContentViewHeight)
         }
     }
     
@@ -400,7 +397,7 @@ private extension WritingTravelPlanViewController {
 }
 
 // MARK: - Schedule TableView
-extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataSource {
+extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanCell.identifier, for: indexPath) as? PlanCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.schedules.value[indexPath.row].title
@@ -439,30 +436,34 @@ extension WritingTravelPlanViewController: UITableViewDelegate, UITableViewDataS
     }
 }
 
-extension WritingTravelPlanViewController: ScheduleTransferDelegate {
-    func create(_ schedule: YTSchedule) {
-        viewModel.createSchedule(schedule)
+// MARK: - ScheduleTransferDelegate
+extension WritingPlanViewController: ScheduleTransferDelegate {
+    func create(_ schedule: Schedule) {
+        viewModel.didEndCreating(schedule)
     }
     
-    func update(at index: Int, _ schedule: YTSchedule) {
-        viewModel.updateSchedule(at: index, schedule)
+    func update(at index: Int, _ schedule: Schedule) {
+        viewModel.didEndUpdating(at: index, schedule)
     }
 }
 
-extension WritingTravelPlanViewController: UITextFieldDelegate {
+// MARK: - UITextFieldDelegate
+extension WritingPlanViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
 
-extension WritingTravelPlanViewController: UITextViewDelegate {
+// MARK: - UITextViewDelegate
+extension WritingPlanViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        viewModel.editingChangedDescriptionTextField(textView.text)
+        viewModel.description.send(textView.text)
     }
 }
 
-extension WritingTravelPlanViewController: UIGestureRecognizerDelegate {
+// MARK: - UIGestureRecognizerDelegate
+extension WritingPlanViewController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         if let view = touch.view, view.isDescendant(of: scheduleTableView) {
             return false
@@ -471,11 +472,14 @@ extension WritingTravelPlanViewController: UIGestureRecognizerDelegate {
     }
 }
 
-private enum LayoutConstants {
-    static let tableViewCornerRadius: CGFloat = 10
-}
+// MARK: - Magic number/string
+private extension WritingPlanViewController {
+    @frozen enum LayoutConstants {
+        static let tableViewCornerRadius: CGFloat = 10
+    }
 
-private enum TextConstants {
-    static let plan = "Plan"
-    static let map = "Map"
+    @frozen enum TextConstants {
+        static let plan = "Plan"
+        static let map = "Map"
+    }
 }

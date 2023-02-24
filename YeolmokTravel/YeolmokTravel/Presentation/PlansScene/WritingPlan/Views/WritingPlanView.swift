@@ -1,5 +1,5 @@
 //
-//  WritingTravelPlanView.swift
+//  WritingPlanView.swift
 //  YeolmokTravel
 //
 //  Created by 김동욱 on 2023/02/04.
@@ -12,18 +12,19 @@ import MapKit
 /// - titleTextField: 제목
 /// - descriptionTextView: 상세
 /// - scheduleTitleLabel
-/// - updateScheduleButton: 상세 일정 수정 버튼
+/// - editScheduleButton: 상세 일정 수정 버튼
 /// - createScheduleButton: 상세 일정 추가 버튼
-final class WritingTravelPlanView: UIView {
-    private enum TextConstants {
-        static let schedule = "Schedule"
-    }
-    
-    private enum LayoutConstants {
+final class WritingPlanView: UIView {
+    // MARK: - Magic number/string
+    @frozen private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
         static let mediumFontSize: CGFloat = 20
         static let textViewHeight: CGFloat = 100
         static let buttonLength: CGFloat = 30
+    }
+    
+    @frozen private enum TextConstants {
+        static let schedule = "Schedule"
     }
     
     // MARK: - Properties
@@ -64,7 +65,7 @@ final class WritingTravelPlanView: UIView {
         return label
     }()
     
-    let updateScheduleButton: UIButton = {
+    let editScheduleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
         button.tintColor = AppStyles.mainColor
@@ -78,6 +79,7 @@ final class WritingTravelPlanView: UIView {
         return button
     }()
     
+    // MARK: - Init
     init(frame: CGRect,
          scrollViewContainerHeight: CGFloat) {
         super.init(frame: frame)
@@ -92,9 +94,9 @@ final class WritingTravelPlanView: UIView {
 }
 
 // MARK: - Configure View
-private extension WritingTravelPlanView {
+private extension WritingPlanView {
     func configureHierarchy() {
-        [titleTextField, descriptionTextView, scheduleTitleLabel, updateScheduleButton, createScheduleButton].forEach {
+        [titleTextField, descriptionTextView, scheduleTitleLabel, editScheduleButton, createScheduleButton].forEach {
             contentView.addSubview($0)
         }
         
@@ -146,7 +148,7 @@ private extension WritingTravelPlanView {
             $0.width.height.equalTo(LayoutConstants.buttonLength)
         }
         
-        updateScheduleButton.snp.makeConstraints {
+        editScheduleButton.snp.makeConstraints {
             $0.centerY.equalTo(scheduleTitleLabel)
             $0.trailing.equalTo(createScheduleButton.snp.leading)
                 .offset(-AppLayoutConstants.spacing)
