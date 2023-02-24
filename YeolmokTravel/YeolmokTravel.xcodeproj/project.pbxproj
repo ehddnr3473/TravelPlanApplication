@@ -290,7 +290,6 @@
 				6BFB44FA296EF3E700AEAD77 /* Presentation */,
 				6BFB4507296EF50200AEAD77 /* Models */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
-				6B46FA1329513D4C000430C7 /* Info.plist */,
 			);
 			path = YeolmokTravel;
 			sourceTree = "<group>";
@@ -354,6 +353,7 @@
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
 				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
+				6B46FA1329513D4C000430C7 /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -809,7 +809,7 @@
 					"$(PROJECT_DIR)/YeolmokTravel/Frameworks",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YeolmokTravel/Info.plist;
+				INFOPLIST_FILE = YeolmokTravel/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -840,7 +840,7 @@
 					"$(PROJECT_DIR)/YeolmokTravel/Frameworks",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = YeolmokTravel/Info.plist;
+				INFOPLIST_FILE = YeolmokTravel/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
