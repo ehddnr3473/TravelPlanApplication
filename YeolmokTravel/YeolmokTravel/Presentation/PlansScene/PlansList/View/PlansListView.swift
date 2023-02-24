@@ -11,13 +11,13 @@ import JGProgressHUD
 
 final class PlansListView: UIView {
     // MARK: - Magic number/string
-    @frozen private enum TextConstants {
-        static let title = "Plans"
-    }
-    
     @frozen private enum LayoutConstants {
         static let cornerRadius: CGFloat = 10
         static let buttonSize = CGSize(width: 44.44, height: 44.44)
+    }
+    
+    @frozen private enum TextConstants {
+        static let title = "Plans"
     }
     
     @frozen private enum IndicatorConstants {
