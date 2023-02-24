@@ -10,6 +10,7 @@ import UIKit
 import JGProgressHUD
 
 final class PlansListView: UIView {
+    // MARK: - Magic number/string
     @frozen private enum TextConstants {
         static let title = "Plans"
     }
@@ -55,6 +56,7 @@ final class PlansListView: UIView {
         return headUpDisplay
     }()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -65,6 +67,7 @@ final class PlansListView: UIView {
     }
 }
 
+// MARK: - Configure View
 private extension PlansListView {
     func configureView() {
         configureHierarchy()
