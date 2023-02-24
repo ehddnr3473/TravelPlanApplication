@@ -155,11 +155,11 @@ private extension WritingPlanViewController {
 // MARK: - User Interaction
 private extension WritingPlanViewController {
     @objc func touchUpSaveButton() {
-        viewModel.didTouchUpButton()
+        viewModel.didTouchUpAnyButton()
         do {
             // 변경 사항이 있다면 저장
             if viewModel.isChanged {
-                let plan = try viewModel.createTravelPlan()
+                let plan = try viewModel.validateAndGetPlan()
                 
                 switch writingStyle {
                 case .create:
@@ -177,7 +177,7 @@ private extension WritingPlanViewController {
     }
     
     @objc func touchUpCancelButton() {
-        viewModel.didTouchUpButton()
+        viewModel.didTouchUpAnyButton()
         if viewModel.isChanged {
             actionSheetWillAppear(isChangedText.0, isChangedText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
