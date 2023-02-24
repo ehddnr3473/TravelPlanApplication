@@ -287,8 +287,6 @@
 			isa = PBXGroup;
 			children = (
 				6BE1249A2959B0F00068B788 /* Resources */,
-				6B37A4AE295163C900BBB8EE /* Protocols */,
-				6B37A4C729519C7C00BBB8EE /* Extensions */,
 				6BFB44FA296EF3E700AEAD77 /* Presentation */,
 				6BFB4507296EF50200AEAD77 /* Models */,
 				6B37A4A529515D9D00BBB8EE /* Utilities */,
@@ -330,6 +328,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6BA8743229A89D05005036DF /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				6B37A4AE295163C900BBB8EE /* Protocols */,
+				6B37A4C729519C7C00BBB8EE /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		6BB76BD7297FCEA200C8C596 /* Builder */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +372,7 @@
 				6B17E30F2956D48F00AF59EE /* TabBar */,
 				6BFB44FB296EF40A00AEAD77 /* Plan */,
 				6BFB44FC296EF41000AEAD77 /* Memory */,
+				6BA8743229A89D05005036DF /* Utils */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
