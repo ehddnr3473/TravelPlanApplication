@@ -54,6 +54,7 @@ final class MapButtonSetView: UIView {
     
     lazy var nextButton = createConfigurationButton(.rightImage)
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
