@@ -12,10 +12,25 @@ import UIKit
 /// - centerButton: 중심으로 카메라 이동
 /// - nextButton: 다음 좌표로 카메라 이동
 final class MapButtonSetView: UIView {
-    private enum ButtonStyle {
+    @frozen private enum ButtonStyle {
         case leftImage
         case rightImage
     }
+    
+    // MARK: - Magic number/string
+    @frozen private enum LayoutConstants {
+        static let cornerRadius: CGFloat = 8
+        static let buttonFontSize: CGFloat = 20
+    }
+    
+    @frozen private enum TextConstants {
+        static let previousTitle = "Pre"
+        static let nextTitle = "Next"
+        static let previousIcon = "arrow.left.circle.fill"
+        static let centerIcon = "scope"
+        static let nextIcon = "arrow.right.circle.fill"
+    }
+    
     // MARK: - Properties
     private let buttonStackView: UIStackView = {
         let stackView = UIStackView()
@@ -24,8 +39,6 @@ final class MapButtonSetView: UIView {
         stackView.spacing = AppLayoutConstants.spacing
         return stackView
     }()
-    
-    lazy var previousButton = createConfigurationButton(.leftImage)
     
     let centerButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -37,6 +50,7 @@ final class MapButtonSetView: UIView {
         return button
     }()
     
+    lazy var previousButton = createConfigurationButton(.leftImage)
     lazy var nextButton = createConfigurationButton(.rightImage)
     
     override init(frame: CGRect) {
@@ -94,17 +108,4 @@ private extension MapButtonSetView {
         button.backgroundColor = AppStyles.mainColor
         return button
     }
-}
-
-private enum LayoutConstants {
-    static let cornerRadius: CGFloat = 8
-    static let buttonFontSize: CGFloat = 20
-}
-
-private enum TextConstants {
-    static let previousTitle = "Pre"
-    static let nextTitle = "Next"
-    static let previousIcon = "arrow.left.circle.fill"
-    static let centerIcon = "scope"
-    static let nextIcon = "arrow.right.circle.fill"
 }
