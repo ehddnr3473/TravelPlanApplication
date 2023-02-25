@@ -9,6 +9,7 @@ import UIKit
 import PhotosUI
 import Combine
 import FirebasePlatform
+import Domain
 
 enum PHPickerError: String, Error {
     case imageLoadFailed = "이미지 불러오기를 실패했습니다."
@@ -26,10 +27,10 @@ final class WritingMemoryViewController: UIViewController {
     private var subscriptions = Set<AnyCancellable>()
     
     private let memoryIndex: Int
-    private let viewModel: ConcreteWritingMemoryViewModel
+    private let viewModel: DefaultWritingMemoryViewModel
     private weak var delegate: MemoryTransferDelegate?
     
-    private let writingMemoryView = WritingMemoryView()
+    private let ownView = WritingMemoryView()
     
     private let phPicker: PHPickerViewController = {
         var configuration = PHPickerConfiguration()
@@ -38,7 +39,8 @@ final class WritingMemoryViewController: UIViewController {
         return phPicker
     }()
     
-    init(_ viewModel: ConcreteWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
+    // MARK: - Init
+    init(_ viewModel: DefaultWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
         self.viewModel = viewModel
         self.memoryIndex = memoryIndex
         self.delegate = delegate
@@ -49,17 +51,35 @@ final class WritingMemoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureDelegate()
         configureAction()
         configureTapGesture()
-        setBindings()
+        bind()
+    }
+    
+    // MARK: - Binding
+    private func bind() {
+        let input = DefaultWritingMemoryViewModel.Input(
+            title: titlePublisher.eraseToAnyPublisher(),
+            image: imageIsExistPublisher.eraseToAnyPublisher()
+        )
+        
+        let output = viewModel.transform(input: input)
+        
+        output.buttonState
+            .receive(on: DispatchQueue.main)
+            .sink{ [weak self] state in
+                self?.ownView.saveBarButton.isEnabled = state
+            }
+            .store(in: &subscriptions)
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 extension WritingMemoryViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
@@ -68,37 +88,37 @@ extension WritingMemoryViewController {
     }
     
     func configureHierarchy() {
-        view.addSubview(writingMemoryView)
+        view.addSubview(ownView)
     }
     
     func configureLayoutConstraint() {
-        writingMemoryView.snp.makeConstraints {
+        ownView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     func configureDelegate() {
-        writingMemoryView.titleTextField.delegate = self
+        ownView.titleTextField.delegate = self
         phPicker.delegate = self
     }
     
     func configureAction() {
-        writingMemoryView.saveBarButton.addTarget(self, action: #selector(touchUpRightBarButton), for: .touchUpInside)
-        writingMemoryView.cancelBarButton.addTarget(self, action: #selector(touchUpLeftBarButton), for: .touchUpInside)
-        writingMemoryView.imageLoadButton.addTarget(self, action: #selector(touchUpImageLoadButton), for: .touchUpInside)
-        writingMemoryView.imageDeleteButton.addTarget(self, action: #selector(touchUpImageDeleteButton), for: .touchUpInside)
-        writingMemoryView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        ownView.saveBarButton.addTarget(self, action: #selector(touchUpSaveButton), for: .touchUpInside)
+        ownView.cancelBarButton.addTarget(self, action: #selector(touchUpCancelButton), for: .touchUpInside)
+        ownView.imageLoadButton.addTarget(self, action: #selector(touchUpImageLoadButton), for: .touchUpInside)
+        ownView.imageDeleteButton.addTarget(self, action: #selector(touchUpImageDeleteButton), for: .touchUpInside)
+        ownView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
     }
 }
 
-// MARK: - User Interaction & Binding
+// MARK: - User Interaction
 private extension WritingMemoryViewController {
-    @objc func touchUpRightBarButton() {
-        if writingMemoryView.titleTextField.text == "" {
+    @objc func touchUpSaveButton() {
+        if ownView.titleTextField.text == "" {
             alertWillAppear(MemoryCreatingError.titleError.rawValue)
             return
-        } else if writingMemoryView.imageView.image == nil {
+        } else if ownView.imageView.image == nil {
             alertWillAppear(MemoryCreatingError.nilImageError.rawValue)
             return
         }
@@ -106,25 +126,25 @@ private extension WritingMemoryViewController {
     }
     
     func createMemory() async {
-        writingMemoryView.indicatorView.show(in: view)
-        guard let image = writingMemoryView.imageView.image else { return }
-        let memory = YTMemory(title: writingMemoryView.titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
+        ownView.indicatorView.show(in: view)
+        guard let image = ownView.imageView.image else { return }
+        let memory = Memory(title: ownView.titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
         do {
             try await viewModel.upload(memoryIndex, image, memory)
             delegate?.create(memory)
-            writingMemoryView.indicatorView.dismiss(animated: true)
+            ownView.indicatorView.dismiss(animated: true)
             dismiss(animated: true)
         } catch {
-            if let error = error as? MemoryRepositoryError {
+            if let error = error as? MemoriesRepositoryError {
                 alertWillAppear(error.rawValue)
-            } else if let error = error as? MemoryImageRepositoryError {
+            } else if let error = error as? ImagesRepositoryError {
                 alertWillAppear(error.rawValue)
             }
-            writingMemoryView.indicatorView.dismiss(animated: true)
+            ownView.indicatorView.dismiss(animated: true)
         }
     }
     
-    @objc func touchUpLeftBarButton() {
+    @objc func touchUpCancelButton() {
         dismiss(animated: true)
     }
     
@@ -135,12 +155,12 @@ private extension WritingMemoryViewController {
     }
     
     @objc func touchUpImageDeleteButton() {
-        writingMemoryView.imageView.image = nil
+        ownView.imageView.image = nil
         self.imageIsExistPublisher.value = false
     }
     
     @objc func editingChangedTitleTextField() {
-        titlePublisher.send(writingMemoryView.titleTextField.text ?? "")
+        titlePublisher.send(ownView.titleTextField.text ?? "")
     }
     
     @objc func tapView() {
@@ -151,25 +171,9 @@ private extension WritingMemoryViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
         view.addGestureRecognizer(tapGesture)
     }
-    
-    func setBindings() {
-        let input = ConcreteWritingMemoryViewModel.Input(
-            title: titlePublisher.eraseToAnyPublisher(),
-            image: imageIsExistPublisher.eraseToAnyPublisher()
-        )
-        
-        let output = viewModel.transform(input: input)
-        
-        output.buttonState
-            .receive(on: DispatchQueue.main)
-            .sink{ [weak self] state in
-                self?.writingMemoryView.saveBarButton.isEnabled = state
-            }
-            .store(in: &subscriptions)
-    }
 }
 
-// MARK: - PHPicker
+// MARK: - PHPickerContollerDelegate
 extension WritingMemoryViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
@@ -189,13 +193,13 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
             }
             
             DispatchQueue.main.async {
-                guard let width = self?.writingMemoryView.imageView.frame.width,
-                      let height = self?.writingMemoryView.imageView.frame.height,
+                guard let width = self?.ownView.imageView.frame.width,
+                      let height = self?.ownView.imageView.frame.height,
                       let image = self?.compressImage(image, CGSize(width: width, height: height)) else {
                     self?.alertWillAppear(PHPickerError.imageLoadFailed.rawValue)
                     return
                 }
-                self?.writingMemoryView.imageView.image = image
+                self?.ownView.imageView.image = image
             }
             
             self?.imageIsExistPublisher.value = true
@@ -212,6 +216,7 @@ extension WritingMemoryViewController: PHPickerViewControllerDelegate {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension WritingMemoryViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -219,6 +224,9 @@ extension WritingMemoryViewController: UITextFieldDelegate {
     }
 }
 
-private enum ImageConstants {
-    static let compressionScale: CGFloat = 1.0
+// MARK: - Magic number
+private extension WritingMemoryViewController {
+    @frozen enum ImageConstants {
+        static let compressionScale: CGFloat = 1.0
+    }
 }
