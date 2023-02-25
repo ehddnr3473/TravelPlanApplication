@@ -8,9 +8,6 @@
 import UIKit
 
 /// TravelPlanView와 WritingPlanViewController에서 사용하는 공용 커스텀 셀 클래스
-/// - Title Label
-/// - Date Label
-/// - Description Label
 final class PlanCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
     // MARK: - Properties
@@ -41,6 +38,7 @@ final class PlanCell: UITableViewCell {
     
     lazy var indicatorView: UIActivityIndicatorView? = nil
     
+    // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
@@ -50,6 +48,7 @@ final class PlanCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    // MARK: - Lifecycle
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -59,7 +58,7 @@ final class PlanCell: UITableViewCell {
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension PlanCell {
     private func configureView() {
         self.backgroundColor = .darkGray
@@ -136,10 +135,12 @@ extension PlanCell {
     }
 }
 
-// Layout magic number
-private enum LayoutConstants {
-    static let titleFontSize: CGFloat = 20
-    static let borderWidth: CGFloat = 0.5
-    static let fontSize: CGFloat = 15
-    static let indicatorTrailing: CGFloat = 50
+// MARK: - Magic number
+private extension PlanCell {
+    @frozen enum LayoutConstants {
+        static let titleFontSize: CGFloat = 20
+        static let borderWidth: CGFloat = 0.5
+        static let fontSize: CGFloat = 15
+        static let indicatorTrailing: CGFloat = 50
+    }
 }
