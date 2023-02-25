@@ -14,7 +14,7 @@ private protocol WritingMemoryViewModel: AnyObject {
     associatedtype Input
     associatedtype Output
     
-    func upload(_ index: Int, _ image: UIImage, _ memory: Memory) async throws
+    func upload(_ index: Int, _ image: UIImage, _ memory: YTMemory) async throws
     func transform(input: Input) -> Output
 }
 
@@ -28,9 +28,9 @@ final class DefaultWritingMemoryViewModel: WritingMemoryViewModel {
         self.imagesUseCaseProvider = imagesUseCaseProvider
     }
     
-    func upload(_ index: Int, _ image: UIImage, _ memory: Memory) async throws {
+    func upload(_ index: Int, _ image: UIImage, _ memory: YTMemory) async throws {
         let uploadMemoryUseCase = memoriesUseCaseProvider.provideUploadMemoryUseCase()
-        try await uploadMemoryUseCase.execute(at: index, memory)
+        try await uploadMemoryUseCase.execute(at: index, memory.toDomain())
         
         let uploadImageUseCase = imagesUseCaseProvider.provideUploadImageUseCase()
         try await uploadImageUseCase.execute(at: index, image)
