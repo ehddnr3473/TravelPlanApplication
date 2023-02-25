@@ -28,31 +28,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let container = Container()
         // Repository
-        container.register(AbstractTravelPlanRepository.self) { _ in TravelPlanRepository() }
-        container.register(AbstractMemoryRepository.self) { _ in MemoryRepository() }
-        container.register(AbstractImageRepository.self) { _ in MemoryImageRepository() }
+        container.register(PlansRepository.self) { _ in DefaultPlansRepository() }
+        container.register(MemoriesRepository.self) { _ in DefaultMemoriesRepository() }
+        container.register(ImagesRepository.self) { _ in DefaultImagesRepository() }
+        
         // UseCaseProvider
-        container.register(TravelPlanUseCaseProvider.self) { resolver in
-            ConcreteTravelPlanUseCaseProvider(resolver.resolve(AbstractTravelPlanRepository.self)!)
+        container.register(PlansUseCaseProvider.self) { resolver in
+            DefaultPlansUseCaseProvider(repository: resolver.resolve(PlansRepository.self)!)
         }
         
-        container.register(MemoryUseCaseProvider.self) { resolver in
-            ConcreteMemoryUseCaseProvider(resolver.resolve(AbstractMemoryRepository.self)!)
+        container.register(MemoriesUseCaseProvider.self) { resolver in
+            DefaultMemoriesUseCaseProvider(repository: resolver.resolve(MemoriesRepository.self)!)
         }
         
-        container.register(MemoryImageUseCaseProvider.self) { resolver in
-            ConcreteMemoryImageUseCaseProvider(resolver.resolve(AbstractImageRepository.self)!)
+        container.register(ImagesUseCaseProvider.self) { resolver in
+            DefaultImagesUseCaseProvider(repository: resolver.resolve(ImagesRepository.self)!)
         }
+        
         // ViewBuilder
-        container.register(TravelPlanViewBuilder.self) { resolver in
-            ConcreteTravelPlanViewBuilder(resolver.resolve(TravelPlanUseCaseProvider.self)!)
+        container.register(PlansListViewBuilder.self) { resolver in
+            DefaultPlansListViewBuilder(resolver.resolve(PlansUseCaseProvider.self)!)
         }
         
-        container.register(MemoryViewBuilder.self) { resolver in
-            ConcreteMemoryViewBuilder(resolver.resolve(MemoryUseCaseProvider.self)!, resolver.resolve(MemoryImageUseCaseProvider.self)!)
+        container.register(MemoriesListViewBuilder.self) { resolver in
+            DefaultMemoriesListViewBuilder(resolver.resolve(MemoriesUseCaseProvider.self)!, resolver.resolve(ImagesUseCaseProvider.self)!)
         }
         
-        let tabBarController = TabBarController(container.resolve(TravelPlanViewBuilder.self)!, container.resolve(MemoryViewBuilder.self)!)
+        let tabBarController = TabBarController(container.resolve(PlansListViewBuilder.self)!, container.resolve(MemoriesListViewBuilder.self)!)
         
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
