@@ -93,7 +93,7 @@ final class WritingPlanView: UIView {
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension WritingPlanView {
     func configureHierarchy() {
         [titleTextField, descriptionTextView, scheduleTitleLabel, editScheduleButton, createScheduleButton].forEach {
