@@ -14,7 +14,7 @@ final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
     weak var delegate: MemoryCellErrorDelegate?
-    private var viewModel: ConcreteMemoryCellViewModel?
+    private var viewModel: DefaultMemoryCellViewModel?
     private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
@@ -42,6 +42,7 @@ final class MemoryCell: UICollectionViewCell {
     
     private let progressIndicator = JGProgressHUD()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -51,6 +52,7 @@ final class MemoryCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    // MARK: - Lifecycle
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -66,14 +68,35 @@ final class MemoryCell: UICollectionViewCell {
         subscriptions.removeAll()
     }
     
-    func setViewModel(_ viewModel: ConcreteMemoryCellViewModel) {
+    func setViewModel(_ viewModel: DefaultMemoryCellViewModel) {
         self.viewModel = viewModel
-        setBindings()
+        bind()
         configure()
+    }
+    
+    // MARK: - Binding
+    func bind() {
+        viewModel?.imagePublisher
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [weak self] completion in
+                self?.progressIndicator.dismiss()
+                switch completion {
+                case .failure(let error):
+                    guard let error = error as? ImagesRepositoryError else { return }
+                    self?.delegate?.errorDidOccurrued(error.rawValue)
+                    break
+                case .finished:
+                    break
+                }
+            }) { [weak self] image in
+                self?.progressIndicator.dismiss()
+                self?.imageView.image = image
+            }
+            .store(in: &subscriptions)
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension MemoryCell {
     private func configureView() {
         contentView.backgroundColor = .clear
@@ -110,40 +133,20 @@ private extension MemoryCell {
     
     func configure() {
         progressIndicator.show(in: imageView)
-        titleLabel.text = viewModel?.model.title
+        titleLabel.text = viewModel?.memory.title
         dateLabel.text = viewModel?.uploadDate
         viewModel?.read()
     }
 }
 
-// MARK: - Bindings
+// MARK: - Magic number
 private extension MemoryCell {
-    func setBindings() {
-        viewModel?.imagePublisher
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.progressIndicator.dismiss()
-                switch completion {
-                case .failure(let error):
-                    guard let error = error as? MemoryImageRepositoryError else { return }
-                    self?.delegate?.errorDidOccurrued(error.rawValue)
-                    break
-                case .finished:
-                    break
-                }
-            }) { [weak self] image in
-                self?.progressIndicator.dismiss()
-                self?.imageView.image = image
-            }
-            .store(in: &subscriptions)
+    @frozen enum FontSize {
+        static let title: CGFloat = 25
+        static let date: CGFloat = 15
     }
-}
 
-private enum FontSize {
-    static let title: CGFloat = 25
-    static let date: CGFloat = 15
-}
-
-private enum LayoutConstants {
-    static let cornerRadius: CGFloat = 8
+    @frozen enum LayoutConstants {
+        static let cornerRadius: CGFloat = 8
+    }
 }
