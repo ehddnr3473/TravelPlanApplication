@@ -67,7 +67,7 @@ final class PlansListView: UIView {
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension PlansListView {
     func configureView() {
         configureHierarchy()
