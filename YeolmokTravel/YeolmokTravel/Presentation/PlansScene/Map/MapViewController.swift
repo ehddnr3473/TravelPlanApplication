@@ -40,6 +40,7 @@ final class MapViewController: UIViewController {
         return mapView
     }()
     
+    // MARK: - Init
     init(_ coordinates: [CLLocationCoordinate2D]) {
         self.coordinates = coordinates
         super.init(nibName: nil, bundle: nil)
@@ -49,6 +50,7 @@ final class MapViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(mapView)
@@ -63,9 +65,6 @@ final class MapViewController: UIViewController {
 
 // MARK: - Mappable(Packaging)
 extension MapViewController: Mappable {
-    /*
-     Path는 실용적으로 구현하지 않았기 때문에 보류.
-     */
     func configureMapView() {
         mapView.overrideUserInterfaceStyle = .light
         configure()
@@ -149,6 +148,7 @@ extension MapViewController {
     }
 }
 
+// MARK: - Private. Related to MKMapView contents
 private extension MapViewController {
     func updateCoordinates(_ coordinates: [CLLocationCoordinate2D]) {
         self.coordinates = coordinates
@@ -222,6 +222,7 @@ private extension MapViewController {
     }
 }
 
+// MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
     private func configure() {
         mapView.delegate = self
@@ -267,23 +268,26 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
-private enum CoordinateConstants {
-    static let mapSpan: CLLocationDegrees = 0.005
-    static let littleSpan: CLLocationDegrees = 0.02
-    static let wideRange: CLLocationDegrees = 5
-    static let largeSpan: CLLocationDegrees = 1
-    static let pointSpan: CLLocationDistance = 300
-    static let maximumNumberOfCoordinates = 50
-}
+// MARK: - Magic number
+private extension MapViewController {
+    @frozen enum CoordinateConstants {
+        static let mapSpan: CLLocationDegrees = 0.005
+        static let littleSpan: CLLocationDegrees = 0.02
+        static let wideRange: CLLocationDegrees = 5
+        static let largeSpan: CLLocationDegrees = 1
+        static let pointSpan: CLLocationDistance = 300
+        static let maximumNumberOfCoordinates = 50
+    }
 
-private enum PointerConstants {
-    static let initialValue = -1
-}
+    @frozen enum PointerConstants {
+        static let initialValue = -1
+    }
 
-private enum LayoutConstants {
-    static let cornerRadius: CGFloat = 10
-}
+    @frozen enum LayoutConstants {
+        static let cornerRadius: CGFloat = 10
+    }
 
-private enum AnimationConstants {
-    static let duration: TimeInterval = 1.5
+    @frozen enum AnimationConstants {
+        static let duration: TimeInterval = 1.5
+    }
 }
