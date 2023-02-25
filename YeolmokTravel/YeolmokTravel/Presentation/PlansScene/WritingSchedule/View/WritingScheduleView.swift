@@ -8,22 +8,23 @@
 import UIKit
 
 final class WritingScheduleView: UIView {
-    private enum TextConstants {
-        static let from = "From"
-        static let to = "To"
-        static let latitudePlaceholder = "latitude"
-        static let longitudePlaceholder = "longitude"
-        static let buttonTitle = "Show Map"
-        static let mapIcon = "map"
-    }
-    
-    private enum LayoutConstants {
+    // MARK: - Magic number/string
+    @frozen private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
         static let mediumFontSize: CGFloat = 20
         static let descriptionTextViewHeight: CGFloat = 100
         static let dateBackgroundViewHeight: CGFloat = 170
         static let buttonHeight: CGFloat = 44.44
         static let buttonWidthMultiplier: CGFloat = 4
+    }
+    
+    @frozen private enum TextConstants {
+        static let from = "From"
+        static let to = "To"
+        static let latitudePlaceholder = "latitude"
+        static let longitudePlaceholder = "longitude"
+        static let buttonTitle = "Show Map"
+        static let mapIcon = "map"
     }
     
     // MARK: - Properties
@@ -143,6 +144,7 @@ final class WritingScheduleView: UIView {
         return button
     }()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -153,6 +155,7 @@ final class WritingScheduleView: UIView {
     }
 }
 
+// MARK: - Configure view
 private extension WritingScheduleView {
     func configureView() {
         configureHierarchy()
