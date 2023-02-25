@@ -27,7 +27,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     private let plansListIndex: Int?
     private var subscriptions = Set<AnyCancellable>()
     
-    private lazy var writingPlanView = WritingPlanView(
+    private lazy var ownView = WritingPlanView(
         frame: .zero,
         scrollViewContainerHeight: viewModel.calculatedContentViewHeight
     )
@@ -96,12 +96,12 @@ private extension WritingPlanViewController {
     }
     
     func configureHierarchy() {
-        view.addSubview(writingPlanView)
-        writingPlanView.contentView.addSubview(scheduleTableView)
+        view.addSubview(ownView)
+        ownView.contentView.addSubview(scheduleTableView)
     }
     
     func configureLayoutConstraint() {
-        writingPlanView.snp.makeConstraints {
+        ownView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.spacing)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
@@ -113,7 +113,7 @@ private extension WritingPlanViewController {
         }
         
         scheduleTableView.snp.makeConstraints {
-            $0.top.equalTo(writingPlanView.createScheduleButton.snp.bottom)
+            $0.top.equalTo(ownView.createScheduleButton.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -130,14 +130,14 @@ private extension WritingPlanViewController {
     func configureDelegate() {
         scheduleTableView.delegate = self
         scheduleTableView.dataSource = self
-        writingPlanView.titleTextField.delegate = self
-        writingPlanView.descriptionTextView.delegate = self
+        ownView.titleTextField.delegate = self
+        ownView.descriptionTextView.delegate = self
     }
     
     func configureAction() {
-        writingPlanView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        writingPlanView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
-        writingPlanView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
+        ownView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        ownView.editScheduleButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
+        ownView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
     
     func configureTapGesture() {
@@ -147,8 +147,8 @@ private extension WritingPlanViewController {
     }
     
     func configureViewValue() {
-        writingPlanView.titleTextField.text = viewModel.title.value
-        writingPlanView.descriptionTextView.text = viewModel.description.value
+        ownView.titleTextField.text = viewModel.title.value
+        ownView.descriptionTextView.text = viewModel.description.value
     }
 }
 
@@ -234,12 +234,12 @@ private extension WritingPlanViewController {
         UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
             scheduleTableView.isEditing.toggle()
         }, completion: { [self] _ in
-            writingPlanView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
+            ownView.editScheduleButton.isEditingAtTintColor = scheduleTableView.isEditing
         })
     }
     
     @objc func editingChangedTitleTextField() {
-        viewModel.title.send(writingPlanView.titleTextField.text ?? "")
+        viewModel.title.send(ownView.titleTextField.text ?? "")
     }
     
     @objc func tapView() {
@@ -308,7 +308,7 @@ private extension WritingPlanViewController {
     }
     
     @MainActor func addMapTitleLabel() {
-        writingPlanView.contentView.addSubview(mapTitleLabel)
+        ownView.contentView.addSubview(mapTitleLabel)
         mapTitleLabel.snp.makeConstraints {
             $0.top.equalTo(scheduleTableView.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
@@ -318,7 +318,7 @@ private extension WritingPlanViewController {
     }
     
     @MainActor func addMapView() {
-        writingPlanView.contentView.addSubview(mapProvider.mapView)
+        ownView.contentView.addSubview(mapProvider.mapView)
         mapProvider.mapView.snp.makeConstraints {
             $0.top.equalTo(mapTitleLabel.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
@@ -333,7 +333,7 @@ private extension WritingPlanViewController {
         mapButtonSetView.centerButton.addTarget(self, action: #selector(touchUpCenterButton), for: .touchUpInside)
         mapButtonSetView.nextButton.addTarget(self, action: #selector(touchUpNextButton), for: .touchUpInside)
         
-        writingPlanView.contentView.addSubview(mapButtonSetView)
+        ownView.contentView.addSubview(mapButtonSetView)
         mapButtonSetView.snp.makeConstraints {
             $0.top.equalTo(mapProvider.mapView.snp.bottom)
                 .offset(AppLayoutConstants.spacing)
@@ -363,7 +363,7 @@ private extension WritingPlanViewController {
     
     // Map 관련 뷰가 subview에 있는지(+ 레이아웃 제약이 설정되어 있는지) 확인하는 메서드
     func mapContentsIsAdded() -> Bool {
-        writingPlanView.contentView.subviews.contains {
+        ownView.contentView.subviews.contains {
             $0.tag == AppNumberConstants.mapViewTag
         }
     }
@@ -384,7 +384,7 @@ private extension WritingPlanViewController {
     }
     
     @MainActor func updateContentViewHeight() {
-        writingPlanView.contentView.snp.updateConstraints {
+        ownView.contentView.snp.updateConstraints {
             $0.height.equalTo(viewModel.calculatedContentViewHeight)
         }
     }
