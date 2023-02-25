@@ -9,14 +9,8 @@ import UIKit
 import JGProgressHUD
 
 final class WritingMemoryView: UIView {
-    private enum TextConstants {
-        static let saveButtonTitle = "Save"
-        static let cancelButtonTItle = "Cancel"
-        static let createButtonTitle = "Load"
-        static let deleteButtonTitle = "Delete"
-    }
-    
-    private enum LayoutConstants {
+    // MARK: - Magic number/string
+    @frozen private enum LayoutConstants {
         static let stackViewCornerRadius: CGFloat = 10
         static let topBottomMargin: CGFloat = 10
         static let sideMargin: CGFloat = 15
@@ -25,7 +19,15 @@ final class WritingMemoryView: UIView {
         static let buttonWidth: CGFloat = 100
     }
     
-    private enum IndicatorConstants {
+    @frozen private enum TextConstants {
+        static let title = "New memory"
+        static let saveButtonTitle = "Save"
+        static let cancelButtonTItle = "Cancel"
+        static let createButtonTitle = "Load"
+        static let deleteButtonTitle = "Delete"
+    }
+    
+    @frozen private enum IndicatorConstants {
         static let titleText = "Uploading image.."
         static let detailText = "Please wait"
     }
@@ -33,7 +35,6 @@ final class WritingMemoryView: UIView {
     // MARK: - Properties
     private let topBarStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.distribution = .equalCentering
         stackView.backgroundColor = .darkGray
@@ -49,7 +50,7 @@ final class WritingMemoryView: UIView {
     
     private let barTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "New memory"
+        label.text = TextConstants.title
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         label.textColor = .white
@@ -71,25 +72,11 @@ final class WritingMemoryView: UIView {
         return button
     }()
     
-    let titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = .white
-        textField.backgroundColor = .systemBackground
-        textField.layer.cornerRadius = LayoutConstants.cornerRadius
-        textField.layer.borderWidth = AppLayoutConstants.borderWidth
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
-        textField.placeholder = AppTextConstants.titlePlaceholder
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.returnKeyType = .done
-        textField.leftView = UIView(frame: CGRect(x: .zero,
-                                                  y: .zero,
-                                                  width: AppLayoutConstants.spacing,
-                                                  height: .zero))
-        textField.leftViewMode = .always
-        return textField
-    }()
+    let titleTextField = TextFieldFactory
+        .makeTitleTextField(
+            AppLayoutConstants.largeFontSize,
+            AppTextConstants.titlePlaceholder
+        )
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -119,11 +106,6 @@ final class WritingMemoryView: UIView {
         return button
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-    
     lazy var indicatorView: JGProgressHUD = {
         let headUpDisplay = JGProgressHUD()
         headUpDisplay.textLabel.text = IndicatorConstants.titleText
@@ -131,6 +113,7 @@ final class WritingMemoryView: UIView {
         return headUpDisplay
     }()
     
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
@@ -141,6 +124,7 @@ final class WritingMemoryView: UIView {
     }
 }
 
+// MARK: - Configure view
 private extension WritingMemoryView {
     func configureView() {
         backgroundColor = .systemBackground
