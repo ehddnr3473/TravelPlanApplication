@@ -12,11 +12,11 @@ import FirebasePlatform
 final class PlansSceneDIContainer {
     // MARK: - Use Case Provider
     func makeTravelPlanUseCaseProvider() -> PlansUseCaseProvider {
-        DefaultPlansUseCaseProvider(repository: makeTravelPlanRepository())
+        DefaultPlansUseCaseProvider(repository: makePlansRepository())
     }
     
     // MARK: - Repositories
-    func makeTravelPlanRepository() -> PlansRepository {
+    func makePlansRepository() -> PlansRepository {
         DefaultPlansRepository()
     }
     
