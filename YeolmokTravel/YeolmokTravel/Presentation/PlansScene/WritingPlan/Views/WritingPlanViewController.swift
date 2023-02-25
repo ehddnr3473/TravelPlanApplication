@@ -57,7 +57,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     private let mapButtonSetView = MapButtonSetView()
     
     // MARK: - Init
-    init(viewModel: DefaultWritingPlanViewModel,
+    init(viewModel: WritingPlanViewModel,
          mapProvider: Mappable,
          writingStyle: WritingStyle,
          delegate: PlanTransferDelegate,
