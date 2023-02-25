@@ -53,7 +53,7 @@ final class MemoriesListViewController: UIViewController {
     }()
     
     // MARK: - Init
-    init(_ viewModel: DefaultMemoriesListViewModel,
+    init(_ viewModel: MemoriesListViewModel,
          _ memoriesUseCaseProvider: MemoriesUseCaseProvider,
          _ imagesUseCaseProvider: ImagesUseCaseProvider) {
         self.viewModel = viewModel
@@ -177,7 +177,7 @@ private extension MemoriesListViewController {
 // MARK: - User Interacion
 private extension MemoriesListViewController {
     @objc func touchUpCreateButton() {
-        let viewModel = DefaultWritingMemoryViewModel(memoriesUseCaseProvider, imagesUseCaseProvider)
+        let viewModel = DefaultWritingMemoryViewModel(memoriesUseCaseProvider: memoriesUseCaseProvider, imagesUseCaseProvider: imagesUseCaseProvider)
         let writingMemoryViewController = WritingMemoryViewController(viewModel,
                                                                       self.viewModel.memories.value.count,
                                                                       delegate: self)
