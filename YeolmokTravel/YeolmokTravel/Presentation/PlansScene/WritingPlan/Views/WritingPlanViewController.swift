@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import CoreLocation
+import Domain
 
 protocol ScheduleTransferDelegate: AnyObject {
     func create(_ schedule: Schedule)
@@ -23,7 +24,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     private let viewModel: WritingPlanViewModel
     private let mapProvider: Mappable
     let writingStyle: WritingStyle
-    private weak var delegate: TravelPlanTransferDelegate?
+    private weak var delegate: PlanTransferDelegate?
     private let plansListIndex: Int?
     private var subscriptions = Set<AnyCancellable>()
     
@@ -59,7 +60,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     init(viewModel: DefaultWritingPlanViewModel,
          mapProvider: Mappable,
          writingStyle: WritingStyle,
-         delegate: TravelPlanTransferDelegate,
+         delegate: PlanTransferDelegate,
          plansListIndex: Int?) {
         self.viewModel = viewModel
         self.mapProvider = mapProvider
@@ -86,7 +87,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension WritingPlanViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
@@ -188,11 +189,15 @@ private extension WritingPlanViewController {
     }
     
     @objc func touchUpCreateButton() {
-        let model = Schedule(title: "", description: "", coordinate: CLLocationCoordinate2D())
+        let schedule = Schedule(title: "",
+                                description: "",
+                                coordinate: CLLocationCoordinate2D(),
+                                fromDate: nil,
+                                toDate: nil)
         let factory = WritingScheduleViewControllerFactory()
         navigationController?.pushViewController(
             factory.makeWritingScheduleViewController(
-                with: model,
+                with: schedule,
                 writingStyle: .create,
                 delegate: self,
                 scheduleListIndex: nil
@@ -402,7 +407,7 @@ extension WritingPlanViewController: UITableViewDelegate, UITableViewDataSource 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanCell.identifier, for: indexPath) as? PlanCell else { return UITableViewCell() }
         cell.titleLabel.text = viewModel.schedules.value[indexPath.row].title
         cell.descriptionLabel.text = viewModel.schedules.value[indexPath.row].description
-        cell.dateLabel.text = viewModel.schedules.value[indexPath.row].date
+        cell.dateLabel.text = viewModel.getDateString(at: indexPath.row)
         cell.accessoryType = .disclosureIndicator
         return cell
     }
