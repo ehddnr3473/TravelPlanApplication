@@ -18,16 +18,15 @@ protocol MemoryCellErrorDelegate: AnyObject {
     func errorDidOccurrued(_ message: String)
 }
 
-/// Memories tab
-final class MemoryViewController: UIViewController {
-    enum Section: CaseIterable {
+final class MemoriesListViewController: UIViewController {
+    @frozen enum Section: CaseIterable {
         case main
     }
     // MARK: - Properties
-    private let viewModel: ConcreteMemoryViewModel
+    private let viewModel: MemoriesListViewModel
     private var subscriptions = Set<AnyCancellable>()
-    private let memoryUseCaseProvider: MemoryUseCaseProvider
-    private let memoryImageUseCaseProvider: MemoryImageUseCaseProvider
+    private let memoriesUseCaseProvider: MemoriesUseCaseProvider
+    private let imagesUseCaseProvider: ImagesUseCaseProvider
     private var dataSource: UICollectionViewDiffableDataSource<Section, YTMemory>!
     
     private let titleLabel: UILabel = {
@@ -53,10 +52,13 @@ final class MemoryViewController: UIViewController {
         return collectionView
     }()
     
-    init(_ viewModel: ConcreteMemoryViewModel, _ memoryUseCaseProvider: MemoryUseCaseProvider, _ memoryImageUseCaseProvider: MemoryImageUseCaseProvider) {
+    // MARK: - Init
+    init(_ viewModel: DefaultMemoriesListViewModel,
+         _ memoriesUseCaseProvider: MemoriesUseCaseProvider,
+         _ imagesUseCaseProvider: ImagesUseCaseProvider) {
         self.viewModel = viewModel
-        self.memoryUseCaseProvider = memoryUseCaseProvider
-        self.memoryImageUseCaseProvider = memoryImageUseCaseProvider
+        self.memoriesUseCaseProvider = memoriesUseCaseProvider
+        self.imagesUseCaseProvider = imagesUseCaseProvider
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -64,18 +66,40 @@ final class MemoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureAction()
         configureDataSource()
-        setBindings()
+        bind()
         fetchMemories()
+    }
+    
+    // MARK: - Private
+    private func fetchMemories() {
+        Task {
+            do {
+                try await viewModel.read()
+            } catch {
+                guard let error = error as? MemoriesRepositoryError else { return }
+                alertWillAppear(error.rawValue)
+            }
+        }
+    }
+    
+    private func bind() {
+        viewModel.memories
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.apply()
+            }
+            .store(in: &subscriptions)
     }
 }
 
-// MARK: - Configure View
-private extension MemoryViewController {
+// MARK: - Configure view
+private extension MemoriesListViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
         configureHierarchy()
@@ -150,44 +174,24 @@ private extension MemoryViewController {
     }
 }
 
-// MARK: - User Interacion & Binding
-private extension MemoryViewController {
+// MARK: - User Interacion
+private extension MemoriesListViewController {
     @objc func touchUpCreateButton() {
-        let viewModel = ConcreteWritingMemoryViewModel(memoryUseCaseProvider, memoryImageUseCaseProvider)
+        let viewModel = DefaultWritingMemoryViewModel(memoriesUseCaseProvider, imagesUseCaseProvider)
         let writingMemoryViewController = WritingMemoryViewController(viewModel,
-                                                                      self.viewModel.model.value.count,
+                                                                      self.viewModel.memories.value.count,
                                                                       delegate: self)
         writingMemoryViewController.modalPresentationStyle = .fullScreen
         present(writingMemoryViewController, animated: true)
     }
-    
-    func setBindings() {
-        viewModel.model
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.apply()
-            }
-            .store(in: &subscriptions)
-    }
 }
 
-// MARK: - CollectionView
-private extension MemoryViewController {
-    func fetchMemories() {
-        Task {
-            do {
-                try await viewModel.read()
-            } catch {
-                guard let error = error as? MemoryRepositoryError else { return }
-                alertWillAppear(error.rawValue)
-            }
-        }
-    }
-    
+// MARK: - UICollectionView
+private extension MemoriesListViewController {
     func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<MemoryCell, YTMemory> { [self] (cell, indexPath, _) in
             // Cell assembling of MVVM
-            let viewModel = ConcreteMemoryCellViewModel(viewModel.model.value[indexPath.row], memoryImageUseCaseProvider)
+            let viewModel = DefaultMemoryCellViewModel(viewModel.memories.value[indexPath.row], imagesUseCaseProvider)
             cell.setViewModel(viewModel)
             cell.delegate = self
         }
@@ -198,7 +202,7 @@ private extension MemoryViewController {
     }
     
     func apply() {
-        let memories = viewModel.model.value
+        let memories = viewModel.memories.value
         var snapshot = NSDiffableDataSourceSnapshot<Section, YTMemory>()
         snapshot.appendSections([.main])
         snapshot.appendItems(memories)
@@ -206,28 +210,33 @@ private extension MemoryViewController {
     }
 }
 
-extension MemoryViewController: MemoryTransferDelegate {
+// MARK: - MemoryTransferDelegate
+extension MemoriesListViewController: MemoryTransferDelegate {
     func create(_ memory: YTMemory) {
         viewModel.create(memory)
     }
 }
 
-extension MemoryViewController: MemoryCellErrorDelegate {
+// MARK: - MemoryCellErrorDelegate
+extension MemoriesListViewController: MemoryCellErrorDelegate {
     func errorDidOccurrued(_ message: String) {
         alertWillAppear(message)
     }
 }
 
-private enum TextConstants {
-    static let title = "Memories"
-    static let plusIconName = "plus"
-}
-
-private enum LayoutConstants {
-    static let buttonSize = CGSize(width: 44.44, height: 44.44)
-    static let memoriesCollectionViewTopOffset: CGFloat = 20
-    static let memoriesCollectionViewWidthMultiplier: CGFloat = 0.9
-    static let inset: CGFloat = 10
-    static let original: CGFloat = 1.0
-    static let magnification: CGFloat = 1.3
+// MARK: - Magic number/string
+private extension MemoriesListViewController {
+    @frozen enum LayoutConstants {
+        static let buttonSize = CGSize(width: 44.44, height: 44.44)
+        static let memoriesCollectionViewTopOffset: CGFloat = 20
+        static let memoriesCollectionViewWidthMultiplier: CGFloat = 0.9
+        static let inset: CGFloat = 10
+        static let original: CGFloat = 1.0
+        static let magnification: CGFloat = 1.3
+    }
+    
+    @frozen enum TextConstants {
+        static let title = "Memories"
+        static let plusIconName = "plus"
+    }
 }
