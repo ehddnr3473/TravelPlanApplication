@@ -7,6 +7,8 @@
 
 import Foundation
 import Combine
+import Domain
+import FirebasePlatform
 
 @frozen enum WritingTravelPlanError: String, Error {
     case emptyTitle = "제목을 작성해주세요."
@@ -25,11 +27,12 @@ protocol WritingPlanViewModelOutput {
     var title: CurrentValueSubject<String, Never> { get }
     var description: CurrentValueSubject<String, Never> { get }
     var schedules: CurrentValueSubject<[Schedule], Never> { get }
-    var calculatedContentViewHeight: CGFloat { get }
     var isChanged: Bool { get }
+    var calculatedContentViewHeight: CGFloat { get }
+    func getDateString(at index: Int) -> String
 }
 
-protocol WritingPlanViewModel: WritingPlanViewModelInput, WritingPlanViewModelOutput, AnyObject  { }
+protocol WritingPlanViewModel: WritingPlanViewModelInput, WritingPlanViewModelOutput, AnyObject  {}
 
 final class DefaultWritingPlanViewModel: WritingPlanViewModel {
     private var planTracker: PlanTracker
@@ -51,6 +54,21 @@ final class DefaultWritingPlanViewModel: WritingPlanViewModel {
             AppLayoutConstants.spacing +
             AppLayoutConstants.buttonHeight +
             AppLayoutConstants.largeSpacing * 3
+        }
+    }
+    
+    func getDateString(at index: Int) -> String {
+        let schedule = schedules.value[index]
+        if let fromDate = schedule.fromDate, let toDate = schedule.toDate {
+            let slicedFromDate = DateConverter.dateToString(fromDate)
+            let slicedToDate = DateConverter.dateToString(toDate)
+            if slicedFromDate == slicedToDate {
+                return slicedFromDate
+            } else {
+                return "\(slicedFromDate) ~ \(slicedToDate)"
+            }
+        } else {
+            return DateConverter.Constants.nilDateText
         }
     }
     

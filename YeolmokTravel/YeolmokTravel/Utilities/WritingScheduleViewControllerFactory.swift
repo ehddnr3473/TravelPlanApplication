@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import Domain
 
 final class WritingScheduleViewControllerFactory {
-    func makeWritingScheduleViewController(with model: YTSchedule,
+    func makeWritingScheduleViewController(with schedule: Schedule,
                                              writingStyle: WritingStyle,
                                              delegate: ScheduleTransferDelegate,
                                              scheduleListIndex: Int?) -> WritingScheduleViewController {
         WritingScheduleViewController(
-            viewModel: ConcreteWritingScheduleViewModel(model),
+            viewModel: DefaultWritingScheduleViewModel(schedule),
             writingStyle: writingStyle,
             delegate: delegate,
             scheduleListIndex: scheduleListIndex

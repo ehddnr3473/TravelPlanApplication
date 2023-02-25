@@ -65,7 +65,7 @@ final class MapButtonSetView: UIView {
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension MapButtonSetView {
     func configureView() {
         configureHierarchy()

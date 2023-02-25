@@ -9,6 +9,7 @@ import Foundation
 import Combine
 import Domain
 import FirebasePlatform
+import CoreLocation
 
 protocol PlansListViewModelInput {
     func create(_ plan: Plan) async throws
@@ -20,55 +21,71 @@ protocol PlansListViewModelInput {
 protocol PlansListViewModelOutput {
     var plans: CurrentValueSubject<[Plan], Never> { get }
     func read() async throws // viewDidLoad
+    func getDateString(at index: Int) -> String
 }
 
 protocol PlansListViewModel: PlansListViewModelInput, PlansListViewModelOutput, AnyObject {}
 
 final class DefaultPlansListViewModel: PlansListViewModel {
-    private let useCaseProvider: TravelPlanUseCaseProvider
+    private let useCaseProvider: PlansUseCaseProvider
     // MARK: - Output
     let plans = CurrentValueSubject<[Plan], Never>([])
     
     // MARK: - Init
-    init(_ useCaseProvider: TravelPlanUseCaseProvider) {
+    init(_ useCaseProvider: PlansUseCaseProvider) {
         self.useCaseProvider = useCaseProvider
     }
     
     func read() async throws {
-        let readUseCase = useCaseProvider.provideTravelPlanReadUseCase()
-        plans.send(try await readUseCase.execute().map { Plan(travelPlan: $0) })
+        let readUseCase = useCaseProvider.provideReadPlansUseCase()
+        plans.send(try await readUseCase.execute())
+    }
+    
+    func getDateString(at index: Int) -> String {
+        if let fromDate = plans.value[index].schedules.compactMap({ $0.fromDate }).min(),
+           let toDate = plans.value[index].schedules.compactMap({ $0.toDate }).max() {
+            let slicedFromDate = DateConverter.dateToString(fromDate)
+            let slicedToDate = DateConverter.dateToString(toDate)
+            if slicedFromDate == slicedToDate {
+                return slicedFromDate
+            } else {
+                return "\(slicedFromDate) ~ \(slicedToDate)"
+            }
+        } else {
+            return DateConverter.Constants.nilDateText
+        }
     }
 }
 
 // MARK: - Input
 extension DefaultPlansListViewModel {
     func create(_ plan: Plan) async throws {
-        let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: plans.value.endIndex, travelPlan: plan.toDomain())
+        let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
+        try await uploadUseCase.execute(at: plans.value.endIndex, plan: plan)
         plans.value.append(plan)
     }
     
     func update(at index: Int, _ plan: Plan) async throws {
-        let uploadUseCase = useCaseProvider.provideTravelPlanUploadUseCase()
-        try await uploadUseCase.execute(at: index, travelPlan: plan.toDomain())
+        let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
+        try await uploadUseCase.execute(at: index, plan: plan)
         plans.value[index] = plan
     }
     
     func delete(_ index: Int) async throws {
-        let deleteUseCase = useCaseProvider.provideTravelPlanDeleteUseCase()
+        let deleteUseCase = useCaseProvider.provideDeletePlanUseCase()
         try await deleteUseCase.execute(at: index)
         plans.value.remove(at: index)
     }
     
     func swapTravelPlans(at source: Int, to destination: Int) async throws {
-        let swapUseCase = useCaseProvider.provideTravelPlanSwapUseCase()
+        let swapUseCase = useCaseProvider.provideSwapPlansUseCase()
         do {
             try await swapUseCase.execute(
-                TravelPlanSwapBox(
+                SwapPlansBox(
                     source: source,
                     destination: destination,
-                    sourceTravelPlan: plans.value[source].toDomain(),
-                    destinationTravelPlan: plans.value[source].toDomain()
+                    sourcePlan: plans.value[source],
+                    destinationPlan: plans.value[source]
                 )
             )
             // swap에 성공했다면, 업데이트
@@ -80,7 +97,7 @@ extension DefaultPlansListViewModel {
              */
             try? await update(at: source, plans.value[source])
             try? await update(at: destination, plans.value[destination])
-            throw TravelPlanRepositoryError.swapError
+            throw PlansRepositoryError.swapError
         }
     }
 }

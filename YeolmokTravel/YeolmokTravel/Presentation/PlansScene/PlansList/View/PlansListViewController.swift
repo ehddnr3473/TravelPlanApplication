@@ -9,8 +9,9 @@ import UIKit
 import SnapKit
 import Combine
 import FirebasePlatform
+import Domain
 
-protocol TravelPlanTransferDelegate: AnyObject {
+protocol PlanTransferDelegate: AnyObject {
     func create(_ plan: Plan) async throws
     func update(at index: Int, _ plan: Plan) async throws
 }
@@ -61,7 +62,7 @@ final class PlansListViewController: UIViewController {
             do {
                 try await viewModel.read()
             } catch {
-                if let error = error as? TravelPlanRepositoryError {
+                if let error = error as? PlansRepositoryError {
                     alertWillAppear(error.rawValue)
                 }
             }
@@ -77,7 +78,7 @@ final class PlansListViewController: UIViewController {
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension PlansListViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
@@ -171,7 +172,7 @@ extension PlansListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanCell.identifier, for: indexPath) as? PlanCell else { return UITableViewCell() }
         
         cell.titleLabel.text = viewModel.plans.value[indexPath.row].title
-        cell.dateLabel.text = viewModel.plans.value[indexPath.row].date
+        cell.dateLabel.text = viewModel.getDateString(at: indexPath.row)
         cell.descriptionLabel.text = viewModel.plans.value[indexPath.row].description
         return cell
     }
@@ -196,7 +197,7 @@ extension PlansListViewController: UITableViewDataSource {
                         self.updateTableViewConstraints()
                     }
                 } catch {
-                    guard let error = error as? TravelPlanRepositoryError else { return }
+                    guard let error = error as? PlansRepositoryError else { return }
                     alertWillAppear(error.rawValue)
                 }
                 deletedCell.stopAndDeallocateIndicator()
@@ -219,7 +220,7 @@ extension PlansListViewController: UITableViewDataSource {
             do {
                 try await viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
             } catch {
-                guard let error = error as? TravelPlanRepositoryError else { return }
+                guard let error = error as? PlansRepositoryError else { return }
                 alertWillAppear(error.rawValue)
             }
             sourceCell.stopAndDeallocateIndicator()
@@ -244,14 +245,14 @@ extension PlansListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - TravelPlanTransferDelegate
-extension PlansListViewController: TravelPlanTransferDelegate {
+// MARK: - PlanTransferDelegate
+extension PlansListViewController: PlanTransferDelegate {
     func create(_ plan: Plan) async throws {
         startIndicator()
         do {
             try await viewModel.create(plan)
         } catch {
-            guard let error = error as? TravelPlanRepositoryError else { return }
+            guard let error = error as? PlansRepositoryError else { return }
             alertWillAppear(error.rawValue)
         }
         dismissIndicator()
@@ -262,7 +263,7 @@ extension PlansListViewController: TravelPlanTransferDelegate {
         do {
             try await viewModel.update(at: index, plan)
         } catch {
-            guard let error = error as? TravelPlanRepositoryError else { return }
+            guard let error = error as? PlansRepositoryError else { return }
             alertWillAppear(error.rawValue)
         }
         dismissIndicator()
