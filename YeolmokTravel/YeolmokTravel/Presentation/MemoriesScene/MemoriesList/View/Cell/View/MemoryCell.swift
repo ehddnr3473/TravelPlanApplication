@@ -14,7 +14,7 @@ final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
     weak var delegate: MemoryCellErrorDelegate?
-    private var viewModel: DefaultMemoryCellViewModel?
+    private var viewModel: MemoryCellViewModel?
     private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
