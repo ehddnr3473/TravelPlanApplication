@@ -9,12 +9,12 @@ import UIKit
 import JGProgressHUD
 
 final class TabBarController: UITabBarController {
-    private var travelPlanViewBuilder: TravelPlanViewBuilder?
-    private var memoryViewBuilder: MemoryViewBuilder?
+    private var plansListViewBuilder: PlansListViewBuilder?
+    private var memoriesListViewBuilder: MemoriesListViewBuilder?
     
-    init(_ travelPlanViewBuilder: TravelPlanViewBuilder, _ memoryViewBuilder: MemoryViewBuilder) {
-        self.travelPlanViewBuilder = travelPlanViewBuilder
-        self.memoryViewBuilder = memoryViewBuilder
+    init(_ plansListViewBuilder: PlansListViewBuilder, _ memoriesListViewBuilder: MemoriesListViewBuilder) {
+        self.plansListViewBuilder = plansListViewBuilder
+        self.memoriesListViewBuilder = memoriesListViewBuilder
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,18 +39,18 @@ private extension TabBarController {
     }
     
     func configureViewControllers() {
-        let travelPlanViewController = buildPlanView()
-        let memoryViewController = buildMemoryView()
+        let plansListViewController = buildPlanView()
+        let memoriesListViewController = buildMemoryView()
         
-        viewControllers = [travelPlanViewController, memoryViewController]
+        viewControllers = [plansListViewController, memoriesListViewController]
         setViewControllers(viewControllers, animated: true)
     }
     
     // 첫 번째 탭: Plans
     func buildPlanView() -> UINavigationController {
-        guard let travelPlanViewBuilder = travelPlanViewBuilder else { fatalError("travelPlanViewBuilder has not been injected.") }
-        let travelPlanViewController = travelPlanViewBuilder.build()
-        let navigationController = UINavigationController(rootViewController: travelPlanViewController)
+        guard let plansListViewBuilder = plansListViewBuilder else { fatalError("plansListViewBulider has not been injected.") }
+        let plansListViewController = plansListViewBuilder.build()
+        let navigationController = UINavigationController(rootViewController: plansListViewController)
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.plan,
                                                  image: UIImage(systemName: ImageNames.note),
                                                  tag: NumberConstants.first)
@@ -60,9 +60,9 @@ private extension TabBarController {
     
     // 두 번째 탭: Memories
     func buildMemoryView() -> UINavigationController {
-        guard let memoryViewBuilder = memoryViewBuilder else { fatalError("memoryViewBuilder has not been injected.") }
-        let memoryViewController = memoryViewBuilder.build()
-        let navigationController = UINavigationController(rootViewController: memoryViewController)
+        guard let memoriesListViewBuilder = memoriesListViewBuilder else { fatalError("memoriesListViewBuilder has not been injected.") }
+        let memoriesListViewController = memoriesListViewBuilder.build()
+        let navigationController = UINavigationController(rootViewController: memoriesListViewController)
         navigationController.tabBarItem = UITabBarItem(title: TitleConstants.memory,
                                              image: UIImage(systemName: ImageNames.memory),
                                              tag: NumberConstants.second)
@@ -70,8 +70,8 @@ private extension TabBarController {
     }
     
     func deallocateViewBuilder() {
-        travelPlanViewBuilder = nil
-        memoryViewBuilder = nil
+        plansListViewBuilder = nil
+        memoriesListViewBuilder = nil
     }
 }
 
