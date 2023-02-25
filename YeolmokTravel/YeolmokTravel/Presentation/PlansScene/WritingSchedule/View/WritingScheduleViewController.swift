@@ -13,14 +13,15 @@ import CoreLocation
 /// 위도와 경도를 텍스트필드에 입력하고 버튼을 눌러서 MKMapView로 확인할 수 있음.
 final class WritingScheduleViewController: UIViewController, Writable {
     // MARK: - Properties
-    private let viewModel: ConcreteWritingScheduleViewModel
+    private let viewModel: WritingScheduleViewModel
     let writingStyle: WritingStyle
     private weak var delegate: ScheduleTransferDelegate?
     private let scheduleListIndex: Int?
 
-    private let writingScheduleView = WritingScheduleView()
+    private let ownView = WritingScheduleView()
     
-    init(viewModel: ConcreteWritingScheduleViewModel,
+    // MARK: - Init
+    init(viewModel: WritingScheduleViewModel,
          writingStyle: WritingStyle,
          delegate: ScheduleTransferDelegate,
          scheduleListIndex: Int?) {
@@ -35,31 +36,32 @@ final class WritingScheduleViewController: UIViewController, Writable {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         configureDelegate()
         configureAction()
-        configureNavigationItems()
         configureViewValue()
         configureTapGesture()
     }
 }
 
-// MARK: - Configure View
+// MARK: - Configure view
 private extension WritingScheduleViewController {
     func configureView() {
         view.backgroundColor = .systemBackground
+        configureNavigationItems()
         configureHierarchy()
         configureLayoutConstraint()
     }
     
     func configureHierarchy() {
-        view.addSubview(writingScheduleView)
+        view.addSubview(ownView)
     }
     
     func configureLayoutConstraint() {
-        writingScheduleView.snp.makeConstraints {
+        ownView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
                 .inset(AppLayoutConstants.spacing)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
@@ -73,23 +75,23 @@ private extension WritingScheduleViewController {
     
     func configureNavigationItems() {
         navigationItem.title = "\(writingStyle.rawValue) \(TextConstants.schedule)"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpLeftBarButton))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpRightBarButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: AppTextConstants.leftBarButtonTitle, style: .plain, target: self, action: #selector(touchUpCancelButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: AppTextConstants.rightBarButtonTitle, style: .done, target: self, action: #selector(touchUpSaveButton))
     }
     
     func configureViewValue() {
-        writingScheduleView.titleTextField.tag = AppNumberConstants.scheduleTitleTextFieldTag
-        writingScheduleView.titleTextField.text = viewModel.model.title
-        writingScheduleView.descriptionTextView.text = viewModel.model.description
-        writingScheduleView.latitudeTextField.text = String(viewModel.model.coordinate.latitude)
-        writingScheduleView.longitudeTextField.text = String(viewModel.model.coordinate.longitude)
+        ownView.titleTextField.tag = AppNumberConstants.scheduleTitleTextFieldTag
+        ownView.titleTextField.text = viewModel.title.value
+        ownView.descriptionTextView.text = viewModel.description.value
+        ownView.latitudeTextField.text = String(viewModel.coordinate.value.latitude)
+        ownView.longitudeTextField.text = String(viewModel.coordinate.value.longitude)
         
-        if let fromDate = viewModel.model.fromDate, let toDate = viewModel.model.toDate {
-            writingScheduleView.dateSwitch.isOn = true
-            writingScheduleView.fromDatePicker.isValidAtBackgroundColor = true
-            writingScheduleView.toDatePicker.isValidAtBackgroundColor = true
-            writingScheduleView.fromDatePicker.date = fromDate
-            writingScheduleView.toDatePicker.date = toDate
+        if let fromDate = viewModel.fromDate.value, let toDate = viewModel.toDate.value {
+            ownView.dateSwitch.isOn = true
+            ownView.fromDatePicker.isValidAtBackgroundColor = true
+            ownView.toDatePicker.isValidAtBackgroundColor = true
+            ownView.fromDatePicker.date = fromDate
+            ownView.toDatePicker.date = toDate
         }
     }
     
@@ -99,37 +101,45 @@ private extension WritingScheduleViewController {
     }
     
     func configureDelegate() {
-        writingScheduleView.titleTextField.delegate = self
-        writingScheduleView.descriptionTextView.delegate = self
-        writingScheduleView.latitudeTextField.delegate = self
-        writingScheduleView.longitudeTextField.delegate = self
+        ownView.titleTextField.delegate = self
+        ownView.descriptionTextView.delegate = self
+        ownView.latitudeTextField.delegate = self
+        ownView.longitudeTextField.delegate = self
         
     }
     func configureAction() {
-        writingScheduleView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        writingScheduleView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        writingScheduleView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        writingScheduleView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
-        writingScheduleView.dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
-        writingScheduleView.fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
-        writingScheduleView.toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
+        ownView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
+        ownView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        ownView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        ownView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
+        ownView.dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
+        ownView.fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
+        ownView.toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
     }
 }
 
 // MARK: - User Interaction
 private extension WritingScheduleViewController {
-    @objc func touchUpRightBarButton() {
+    @objc func touchUpSaveButton() {
         do {
-            try viewModel.isValidSave(
+            try viewModel.validate(
                 /*
                  좌푯값 입력이 유효하지 않아서 적용이 되지 않았다면,
                  가장 최근에 유효했던 값이 들어가 있기 때문에 데이터의 일관성을 보장받을 수 없으므로,
                  한 번 더 검사
                  */
-                writingScheduleView.latitudeTextField.text ?? "",
-                writingScheduleView.longitudeTextField.text ?? ""
+                ownView.latitudeTextField.text ?? "",
+                ownView.longitudeTextField.text ?? ""
             )
-            save(viewModel.model, scheduleListIndex)
+            
+            switch writingStyle {
+            case .create:
+                delegate?.create(viewModel.getSchedule())
+            case .update:
+                guard let index = scheduleListIndex else { return }
+                delegate?.update(at: index, viewModel.getSchedule())
+            }
+            
             navigationController?.popViewController(animated: true)
         } catch {
             guard let error = error as? ScheduleError else {
@@ -140,11 +150,10 @@ private extension WritingScheduleViewController {
         }
     }
     
-    @objc func touchUpLeftBarButton() {
-        viewModel.setScheduleTracker()
-        if viewModel.scheduleTracker.isChanged {
-            let actionSheetText = fetchActionSheetText()
-            actionSheetWillAppear(actionSheetText.0, actionSheetText.1) { [weak self] in
+    @objc func touchUpCancelButton() {
+        viewModel.didTouchUpCancelButton()
+        if viewModel.isChanged {
+            actionSheetWillAppear(isChangedText.0, isChangedText.1) { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
         } else {
@@ -153,45 +162,35 @@ private extension WritingScheduleViewController {
     }
     
     @objc func touchUpMapButton() {
-        let mapView = MapViewController([viewModel.model.coordinate])
+        let mapView = MapViewController([viewModel.coordinate.value])
         navigationController?.pushViewController(mapView, animated: true)
     }
     
-    func save(_ schedule: YTSchedule, _ index: Int?) {
-        switch writingStyle {
-        case .create:
-            delegate?.create(schedule)
-        case .update:
-            guard let index = index else { return }
-            delegate?.update(at: index, schedule)
-        }
-    }
-    
     @objc func editingChangedTitleTextField() {
-        viewModel.editingChangedTitleTextField(writingScheduleView.titleTextField.text ?? "")
+        viewModel.title.value = ownView.titleTextField.text ?? ""
     }
     
     @objc func editingChangedCoordinateTextField() {
-        writingScheduleView.mapButton.isValidAtBackgroundColor = viewModel.editingChangedCoordinateTextField(
-            writingScheduleView.latitudeTextField.text ?? "",
-            writingScheduleView.longitudeTextField.text ?? ""
+        ownView.mapButton.isValidAtBackgroundColor = viewModel.editingChangedCoordinateTextField(
+            ownView.latitudeTextField.text ?? "",
+            ownView.longitudeTextField.text ?? ""
         )
     }
     
     @objc func toggledDateSwitch() {
-        viewModel.toggledSwitch(writingScheduleView.dateSwitch.isOn,
-                                writingScheduleView.fromDatePicker.date,
-                                writingScheduleView.toDatePicker.date)
-        writingScheduleView.fromDatePicker.isValidAtBackgroundColor = writingScheduleView.dateSwitch.isOn
-        writingScheduleView.toDatePicker.isValidAtBackgroundColor = writingScheduleView.dateSwitch.isOn
+        viewModel.toggledSwitch(ownView.dateSwitch.isOn,
+                                ownView.fromDatePicker.date,
+                                ownView.toDatePicker.date)
+        ownView.fromDatePicker.isValidAtBackgroundColor = ownView.dateSwitch.isOn
+        ownView.toDatePicker.isValidAtBackgroundColor = ownView.dateSwitch.isOn
     }
     
     @objc func valueChangedFromDatePicker() {
-        viewModel.valueChangedFromDatePicker(writingScheduleView.fromDatePicker.date)
+        viewModel.fromDate.value = ownView.fromDatePicker.date
     }
     
     @objc func valueChangedtoDatePicker() {
-        viewModel.valueChangedToDatePicker(writingScheduleView.toDatePicker.date)
+        viewModel.toDate.value = ownView.toDatePicker.date
     }
     
     @objc func tapView() {
@@ -199,6 +198,7 @@ private extension WritingScheduleViewController {
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension WritingScheduleViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -223,7 +223,7 @@ extension WritingScheduleViewController: UITextFieldDelegate {
         if let screenHeight = view.window?.windowScene?.screen.bounds.height, screenHeight <= DisplayConstants.smallScreenHeight {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-                    writingScheduleView.contentView.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
+                    ownView.contentView.frame.origin.y = -LayoutConstants.yWhenKeyboardAppear
                 }
             }
         }
@@ -233,19 +233,45 @@ extension WritingScheduleViewController: UITextFieldDelegate {
         if let screenHeight = view.window?.windowScene?.screen.bounds.height, screenHeight <= DisplayConstants.smallScreenHeight {
             DispatchQueue.main.async {
                 UIView.animate(withDuration: AnimationConstants.duration) { [self] in
-                    writingScheduleView.contentView.frame.origin.y = 0
+                    ownView.contentView.frame.origin.y = 0
                 }
             }
         }
     }
 }
 
+// MARK:  - UITextViewDelegate
 extension WritingScheduleViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        viewModel.didChangeDescriptionTextView(textView.text)
+        viewModel.description.value = textView.text
     }
 }
 
+// MARK: - Magic number/string
+private extension WritingScheduleViewController {
+    @frozen enum LayoutConstants {
+        static let yWhenKeyboardAppear: CGFloat = 150
+    }
+
+    @frozen enum AnimationConstants {
+        static let duration: TimeInterval = 0.3
+    }
+    
+    @frozen enum TextConstants {
+        static let schedule = "Schedule"
+    }
+
+    /*
+     디스플레이 세로 길이
+     iPhone SE(2nd, 3rd generation): 667
+     iPhone 14 Pro Max: 932
+     */
+    @frozen enum DisplayConstants {
+        static let smallScreenHeight: CGFloat = 667
+    }
+}
+
+// MARK: - UIDatePicker private extension
 private extension UIDatePicker {
     var isValidAtBackgroundColor: Bool {
         get {
@@ -257,25 +283,4 @@ private extension UIDatePicker {
             isEnabled = newValue
         }
     }
-}
-
-private enum TextConstants {
-    static let schedule = "Schedule"
-}
-
-private enum LayoutConstants {
-    static let yWhenKeyboardAppear: CGFloat = 150
-}
-
-private enum AnimationConstants {
-    static let duration: TimeInterval = 0.3
-}
-
-/*
- 디스플레이 세로 길이
- iPhone SE(2nd, 3rd generation): 667
- iPhone 14 Pro Max: 932
- */
-private enum DisplayConstants {
-    static let smallScreenHeight: CGFloat = 667
 }
