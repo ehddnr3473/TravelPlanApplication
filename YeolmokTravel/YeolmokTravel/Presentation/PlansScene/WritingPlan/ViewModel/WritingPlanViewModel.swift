@@ -49,12 +49,12 @@ final class DefaultWritingPlanViewModel: WritingPlanViewModel {
             AppLayoutConstants.largeSpacing
         } else {
             return WritingPlanView.Constants.nonSpacingHeightFromTitleLabelToScheduleLabel +
+            AppLayoutConstants.spacing * 5 +
+            AppLayoutConstants.largeSpacing * 2 +
             Double(schedules.value.count) * AppLayoutConstants.cellHeight +
             AppLayoutConstants.mapViewHeight +
             AppLayoutConstants.largeFontSize +
-            AppLayoutConstants.spacing +
-            AppLayoutConstants.buttonHeight +
-            AppLayoutConstants.largeSpacing * 3
+            AppLayoutConstants.buttonHeight
         }
     }
     
