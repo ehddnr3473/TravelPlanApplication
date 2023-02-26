@@ -29,7 +29,7 @@ final class MemoriesSceneDIContainer {
     }
     
     // MARK: - Memories List
-    func makeMemoriesListViewController(coordinator: MemoriesFlowCoordinator) -> MemoriesListViewController {
+    func makeMemoriesListViewController(coordinator: MemoriesWriteFlowCoordinator) -> MemoriesListViewController {
         MemoriesListViewController(viewModel: makeMemoriesListViewModel(),
                                    coordinator: coordinator,
                                    memoriesUseCaseProvider: makeMemoriesUseCaseProvider(),
