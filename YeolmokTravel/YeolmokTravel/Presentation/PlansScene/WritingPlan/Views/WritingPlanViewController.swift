@@ -22,6 +22,7 @@ protocol ScheduleTransferDelegate: AnyObject {
 final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     private let viewModel: WritingPlanViewModel
+    private weak var coordinator: PlansFlowCoordinator?
     private let mapProvider: Mappable
     let writingStyle: WritingStyle
     private weak var delegate: PlanTransferDelegate?
@@ -57,12 +58,14 @@ final class WritingPlanViewController: UIViewController, Writable {
     private let mapButtonSetView = MapButtonSetView()
     
     // MARK: - Init
-    init(viewModel: DefaultWritingPlanViewModel,
+    init(viewModel: WritingPlanViewModel,
+         coordinator: PlansFlowCoordinator,
          mapProvider: Mappable,
          writingStyle: WritingStyle,
          delegate: PlanTransferDelegate,
          plansListIndex: Int?) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         self.mapProvider = mapProvider
         self.writingStyle = writingStyle
         self.delegate = delegate
@@ -172,7 +175,7 @@ private extension WritingPlanViewController {
             }
             navigationController?.popViewController(animated: true)
         } catch {
-            guard let error = error as? WritingTravelPlanError else { return }
+            guard let error = error as? WritingPlanError else { return }
             alertWillAppear(error.rawValue)
         }
     }
@@ -194,30 +197,18 @@ private extension WritingPlanViewController {
                                 coordinate: CLLocationCoordinate2D(),
                                 fromDate: nil,
                                 toDate: nil)
-        let factory = WritingScheduleViewControllerFactory()
-        navigationController?.pushViewController(
-            factory.makeWritingScheduleViewController(
-                with: schedule,
-                writingStyle: .create,
-                delegate: self,
-                scheduleListIndex: nil
-            ),
-            animated: true
-        )
+        coordinator?.toWriteSchedule(schedule: schedule,
+                                     writingStyle: .create,
+                                     delegate: self,
+                                     scheduleListIndex: nil)
     }
     
     private func didSelectRow(_ index: Int) {
-        let model = viewModel.schedules.value[index]
-        let factory = WritingScheduleViewControllerFactory()
-        navigationController?.pushViewController(
-            factory.makeWritingScheduleViewController(
-                with: model,
-                writingStyle: .update,
-                delegate: self,
-                scheduleListIndex: index
-            ),
-            animated: true
-        )
+        let schedule = viewModel.schedules.value[index]
+        coordinator?.toWriteSchedule(schedule: schedule,
+                                     writingStyle: .update,
+                                     delegate: self,
+                                     scheduleListIndex: index)
     }
     
     // 이전 좌표로 카메라 이동
