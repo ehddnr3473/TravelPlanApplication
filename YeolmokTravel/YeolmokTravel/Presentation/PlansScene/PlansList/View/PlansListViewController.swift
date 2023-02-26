@@ -187,7 +187,7 @@ extension PlansListViewController: UITableViewDataSource {
             
             Task {
                 do {
-                    try await viewModel.delete(indexPath.row)
+                    try await viewModel.delete(at: indexPath.row)
                     
                     DispatchQueue.main.async {
                         self.updateTableViewConstraints()

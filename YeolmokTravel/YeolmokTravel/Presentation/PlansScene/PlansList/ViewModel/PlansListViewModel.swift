@@ -14,7 +14,7 @@ import CoreLocation
 protocol PlansListViewModelInput {
     func create(_ plan: Plan) async throws
     func update(at index: Int, _ plan: Plan) async throws
-    func delete(_ index: Int) async throws
+    func delete(at index: Int) async throws
     func swapPlans(at source: Int, to destination: Int) async throws
 }
 
@@ -80,9 +80,9 @@ extension DefaultPlansListViewModel {
         plans.value[index] = plan
     }
     
-    func delete(_ index: Int) async throws {
+    func delete(at index: Int) async throws {
         let deleteUseCase = useCaseProvider.provideDeletePlanUseCase()
-        try await deleteUseCase.execute(at: index)
+        try await deleteUseCase.execute(at: index, plans: plans.value)
         plans.value.remove(at: index)
     }
     
@@ -94,7 +94,7 @@ extension DefaultPlansListViewModel {
                     source: source,
                     destination: destination,
                     sourcePlan: plans.value[source],
-                    destinationPlan: plans.value[source]
+                    destinationPlan: plans.value[destination]
                 )
             )
             // swap에 성공했다면, 업데이트
