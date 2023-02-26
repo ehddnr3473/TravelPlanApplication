@@ -11,6 +11,7 @@ import JGProgressHUD
 final class WritingMemoryView: UIView {
     // MARK: - Magic number/string
     @frozen private enum LayoutConstants {
+        static let topBarHeight: CGFloat = 50
         static let stackViewCornerRadius: CGFloat = 10
         static let topBottomMargin: CGFloat = 10
         static let sideMargin: CGFloat = 15
@@ -144,9 +145,9 @@ private extension WritingMemoryView {
     
     func configureLayoutConstraint() {
         topBarStackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.width.equalToSuperview()
-            $0.height.greaterThanOrEqualToSuperview()
+            $0.height.equalTo(LayoutConstants.topBarHeight)
         }
         
         titleTextField.snp.makeConstraints {
