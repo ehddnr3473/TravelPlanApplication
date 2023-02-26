@@ -23,7 +23,8 @@ final class DefaultWritingMemoryViewModel: WritingMemoryViewModel {
     private let imagesUseCaseProvider: ImagesUseCaseProvider
     
     // MARK: - Init
-    init(_ memoriesUseCaseProvider: MemoriesUseCaseProvider, _ imagesUseCaseProvider: ImagesUseCaseProvider) {
+    init(memoriesUseCaseProvider: MemoriesUseCaseProvider,
+         imagesUseCaseProvider: ImagesUseCaseProvider) {
         self.memoriesUseCaseProvider = memoriesUseCaseProvider
         self.imagesUseCaseProvider = imagesUseCaseProvider
     }
