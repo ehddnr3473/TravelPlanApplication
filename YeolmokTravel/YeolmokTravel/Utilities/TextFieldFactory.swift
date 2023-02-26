@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct TextFieldFactory {
+final class TextFieldFactory {
     @frozen private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
     }
