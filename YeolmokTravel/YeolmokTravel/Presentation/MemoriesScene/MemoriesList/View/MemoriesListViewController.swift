@@ -24,7 +24,7 @@ final class MemoriesListViewController: UIViewController {
     }
     // MARK: - Properties
     private let viewModel: MemoriesListViewModel
-    private weak var coordinator: MemoriesFlowCoordinator?
+    private weak var coordinator: MemoriesWriteFlowCoordinator?
     private var subscriptions = Set<AnyCancellable>()
     private let memoriesUseCaseProvider: MemoriesUseCaseProvider
     private let imagesUseCaseProvider: ImagesUseCaseProvider
@@ -55,7 +55,7 @@ final class MemoriesListViewController: UIViewController {
     
     // MARK: - Init
     init(viewModel: MemoriesListViewModel,
-         coordinator: MemoriesFlowCoordinator,
+         coordinator: MemoriesWriteFlowCoordinator,
          memoriesUseCaseProvider: MemoriesUseCaseProvider,
          imagesUseCaseProvider: ImagesUseCaseProvider) {
         self.viewModel = viewModel
