@@ -10,6 +10,11 @@ import MapKit
 
 final class WritingPlanView: UIView {
     // MARK: - Magic number/string
+    @frozen enum Constants {
+        // titleTextField + descriptionTextView + schduleTitleLabel
+        static let nonSpacingHeightFromTitleLabelToScheduleLabel: CGFloat = 170
+    }
+    
     @frozen private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
         static let mediumFontSize: CGFloat = 20
