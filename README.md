@@ -33,7 +33,6 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 
 
 
-
 <br></br>
 ## MVVM Architecture
 <p align="center">
@@ -72,7 +71,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 ### Plans
 |메인|계획 수정|계획 수정 2|계획 추가|
 |---|---|---|---|
-|<image src="Document/plansList.png" width="180">|<image src="Document/editPlan.png" width="180">|<image src="Document/editPlan2.png" width="180">|<image src="Document/newPlan.png" width="180">|
+|<image src="Document/plansList.png" width="180">|<image src="Document/editPlans.png" width="180">|<image src="Document/editPlans2.png" width="180">|<image src="Document/newPlan.png" width="180">|
 
 - 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
 - 따라서 여행 계획은 상세 일정의 내용을 취합하여 보여줌.
@@ -81,7 +80,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 <br></br>
 |상세 일정 추가|상세 일정 수정|변경 사항 추적|동적인 레이아웃|
 |---|---|---|---|
-|<image src="Document/newSchedule.png" width="180">|<image src="Document/editSchedule.png" width="180">|<image src="Document/cancel.png" width="180">|<image src="Document/dynamicLayout.gif" width="180">|
+|<image src="Document/newSchedule.png" width="180">|<image src="Document/editSchedule.png" width="180">|<image src="Document/tracking.png" width="180">|<image src="Document/dynamicLayout.gif" width="180">|
 
 - 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌.
 - 동적인 레이아웃을 제공하여 불필요한 뷰를 줄임.
