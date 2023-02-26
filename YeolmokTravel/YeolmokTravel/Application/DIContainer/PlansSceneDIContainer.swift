@@ -8,28 +8,64 @@
 import Foundation
 import Domain
 import FirebasePlatform
+import CoreLocation
 
 final class PlansSceneDIContainer {
     // MARK: - Use Case Provider
-    func makeTravelPlanUseCaseProvider() -> PlansUseCaseProvider {
+    private func makePlansUseCaseProvider() -> PlansUseCaseProvider {
         DefaultPlansUseCaseProvider(repository: makePlansRepository())
     }
     
-    // MARK: - Repositories
-    func makePlansRepository() -> PlansRepository {
+    // MARK: - Repository
+    private func makePlansRepository() -> PlansRepository {
         DefaultPlansRepository()
     }
     
     // MARK: - Plans List
-    func makePlansListViewController() -> PlansListViewController {
-        PlansListViewController(viewModel: makePlansListViewModel())
+    func makePlansListViewController(coordinator: PlansFlowCoordinator) -> PlansListViewController {
+        PlansListViewController(viewModel: makePlansListViewModel(),
+                                coordinator: coordinator)
     }
     
-    func makePlansListViewModel() -> PlansListViewModel {
-        DefaultPlansListViewModel(makeTravelPlanUseCaseProvider())
+    private func makePlansListViewModel() -> PlansListViewModel {
+        DefaultPlansListViewModel(makePlansUseCaseProvider())
     }
     
     // MARK: - Writing Plan
+    func makeWritingPlanViewController(plan: Plan,
+                                       writingStyle: WritingStyle,
+                                       delegate: PlanTransferDelegate,
+                                       plansListIndex: Int?,
+                                       coordinates: [CLLocationCoordinate2D],
+                                       coordinator: PlansFlowCoordinator) -> WritingPlanViewController {
+        WritingPlanViewController(
+            viewModel: makeWritingPlanViewModel(plan: plan),
+            coordinator: coordinator,
+            mapProvider: MapViewController(coordinates),
+            writingStyle: writingStyle,
+            delegate: delegate,
+            plansListIndex: plansListIndex
+        )
+    }
+    
+    private func makeWritingPlanViewModel(plan: Plan) -> WritingPlanViewModel {
+        DefaultWritingPlanViewModel(plan)
+    }
     
     // MARK: - Writing Schedule
+    func makeWritingScheduleViewController(schedule: Schedule,
+                                           writingStyle: WritingStyle,
+                                           delegate: ScheduleTransferDelegate,
+                                           scheduleListIndex: Int?) -> WritingScheduleViewController {
+        WritingScheduleViewController(
+            viewModel: makeWritingScheduleViewModel(schedule: schedule),
+            writingStyle: writingStyle,
+            delegate: delegate,
+            scheduleListIndex: scheduleListIndex
+        )
+    }
+    
+    private func makeWritingScheduleViewModel(schedule: Schedule) -> WritingScheduleViewModel {
+        DefaultWritingScheduleViewModel(schedule)
+    }
 }
