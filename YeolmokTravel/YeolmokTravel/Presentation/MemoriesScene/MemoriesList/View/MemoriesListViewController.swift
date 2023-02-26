@@ -24,6 +24,7 @@ final class MemoriesListViewController: UIViewController {
     }
     // MARK: - Properties
     private let viewModel: MemoriesListViewModel
+    private weak var coordinator: MemoriesFlowCoordinator?
     private var subscriptions = Set<AnyCancellable>()
     private let memoriesUseCaseProvider: MemoriesUseCaseProvider
     private let imagesUseCaseProvider: ImagesUseCaseProvider
@@ -53,10 +54,12 @@ final class MemoriesListViewController: UIViewController {
     }()
     
     // MARK: - Init
-    init(_ viewModel: MemoriesListViewModel,
-         _ memoriesUseCaseProvider: MemoriesUseCaseProvider,
-         _ imagesUseCaseProvider: ImagesUseCaseProvider) {
+    init(viewModel: MemoriesListViewModel,
+         coordinator: MemoriesFlowCoordinator,
+         memoriesUseCaseProvider: MemoriesUseCaseProvider,
+         imagesUseCaseProvider: ImagesUseCaseProvider) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         self.memoriesUseCaseProvider = memoriesUseCaseProvider
         self.imagesUseCaseProvider = imagesUseCaseProvider
         super.init(nibName: nil, bundle: nil)
@@ -177,12 +180,10 @@ private extension MemoriesListViewController {
 // MARK: - User Interacion
 private extension MemoriesListViewController {
     @objc func touchUpCreateButton() {
-        let viewModel = DefaultWritingMemoryViewModel(memoriesUseCaseProvider: memoriesUseCaseProvider, imagesUseCaseProvider: imagesUseCaseProvider)
-        let writingMemoryViewController = WritingMemoryViewController(viewModel,
-                                                                      self.viewModel.memories.value.count,
-                                                                      delegate: self)
-        writingMemoryViewController.modalPresentationStyle = .fullScreen
-        present(writingMemoryViewController, animated: true)
+        coordinator?.toWriteMemory(index: self.viewModel.memories.value.count,
+                                   delegate: self,
+                                   memoriesUseCaseProvider,
+                                   imagesUseCaseProvider)
     }
 }
 
