@@ -96,7 +96,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 <br></br>
 ### Memories
 <p align="center">
- <img src="Document/memoriesTab.gif" width="250">
+ <img src="Document/memoriesList.gif" width="250">
 </p>
 
 - 추억이 담긴 사진 업로드 및 다운로드
