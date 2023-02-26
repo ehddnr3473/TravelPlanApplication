@@ -13,7 +13,7 @@
 ## 사용 기술
 |구현 내용|도구|
 |---|---|
-|아키텍처|MVVM + Clean Architecture|
+|아키텍처|MVVM-C + Clean Architecture|
 |UI|UIKit|
 |동시성 프로그래밍|Swift Concurrency|
 |원격 데이터 저장소|Firebase Firestore 및 Storage|
@@ -40,7 +40,8 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 </p>
 
 - Combine 프레임워크를 사용해서 **View**와 **View Model**간에 바인딩을 수행
-- 콘텐츠를 작성하는 사용자 액션(UIControl event 발생)과 **ViewModel**의 데이터를 바인딩하고 저장할 때 **Model**을 업데이트
+- **ViewModel**은 **View**에 필요한 데이터를 **Model**에서 가져와서 바인딩 및 사용자의 입력을 처리하고 **Model**을 업데이트
+- Coordinator 패턴을 사용해서 애플리케이션의 내비게이션 흐름 관리
 
 <br></br>
 ## Clean Architecture
