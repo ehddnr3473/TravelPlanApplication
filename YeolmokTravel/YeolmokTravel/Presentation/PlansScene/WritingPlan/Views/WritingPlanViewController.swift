@@ -22,7 +22,7 @@ protocol ScheduleTransferDelegate: AnyObject {
 final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     private let viewModel: WritingPlanViewModel
-    private weak var coordinator: PlansFlowCoordinator?
+    private weak var coordinator: PlansWriteFlowCoordinator?
     private let mapProvider: Mappable
     let writingStyle: WritingStyle
     private weak var delegate: PlanTransferDelegate?
@@ -59,7 +59,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     
     // MARK: - Init
     init(viewModel: WritingPlanViewModel,
-         coordinator: PlansFlowCoordinator,
+         coordinator: PlansWriteFlowCoordinator,
          mapProvider: Mappable,
          writingStyle: WritingStyle,
          delegate: PlanTransferDelegate,

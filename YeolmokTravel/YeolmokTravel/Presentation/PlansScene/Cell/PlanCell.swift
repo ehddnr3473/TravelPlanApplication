@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// TravelPlanView와 WritingPlanViewController에서 사용하는 공용 커스텀 셀 클래스
+/// PlansListViewController와 WritingPlanViewController에서 사용하는 공용 커스텀 셀 클래스
 final class PlanCell: UITableViewCell {
     static let identifier = "PlanTableViewCell"
     // MARK: - Properties

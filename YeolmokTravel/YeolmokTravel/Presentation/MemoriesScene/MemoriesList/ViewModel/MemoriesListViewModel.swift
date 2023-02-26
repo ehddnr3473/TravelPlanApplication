@@ -24,7 +24,7 @@ final class DefaultMemoriesListViewModel: MemoriesListViewModel {
     let memories = CurrentValueSubject<[YTMemory], Never>([])
     
     // MARK: - Init
-    init(_ useCaseProvider: MemoriesUseCaseProvider) {
+    init(useCaseProvider: MemoriesUseCaseProvider) {
         self.useCaseProvider = useCaseProvider
     }
     

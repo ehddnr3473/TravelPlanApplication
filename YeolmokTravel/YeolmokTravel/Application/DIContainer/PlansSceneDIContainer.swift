@@ -22,7 +22,7 @@ final class PlansSceneDIContainer {
     }
     
     // MARK: - Plans List
-    func makePlansListViewController(coordinator: PlansFlowCoordinator) -> PlansListViewController {
+    func makePlansListViewController(coordinator: PlansWriteFlowCoordinator) -> PlansListViewController {
         PlansListViewController(viewModel: makePlansListViewModel(),
                                 coordinator: coordinator)
     }
@@ -37,7 +37,7 @@ final class PlansSceneDIContainer {
                                        delegate: PlanTransferDelegate,
                                        plansListIndex: Int?,
                                        coordinates: [CLLocationCoordinate2D],
-                                       coordinator: PlansFlowCoordinator) -> WritingPlanViewController {
+                                       coordinator: PlansWriteFlowCoordinator) -> WritingPlanViewController {
         WritingPlanViewController(
             viewModel: makeWritingPlanViewModel(plan: plan),
             coordinator: coordinator,

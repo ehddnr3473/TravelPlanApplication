@@ -15,13 +15,14 @@ protocol PlansListViewModelInput {
     func create(_ plan: Plan) async throws
     func update(at index: Int, _ plan: Plan) async throws
     func delete(_ index: Int) async throws
-    func swapTravelPlans(at source: Int, to destination: Int) async throws
+    func swapPlans(at source: Int, to destination: Int) async throws
 }
 
 protocol PlansListViewModelOutput {
     var plans: CurrentValueSubject<[Plan], Never> { get }
     func read() async throws // viewDidLoad
     func getDateString(at index: Int) -> String
+    func getCoordinates(at index: Int) -> [CLLocationCoordinate2D]
 }
 
 protocol PlansListViewModel: PlansListViewModelInput, PlansListViewModelOutput, AnyObject {}
@@ -55,6 +56,14 @@ final class DefaultPlansListViewModel: PlansListViewModel {
             return DateConverter.Constants.nilDateText
         }
     }
+    
+    func getCoordinates(at index: Int) -> [CLLocationCoordinate2D] {
+        var coordinates = [CLLocationCoordinate2D]()
+        for schedule in plans.value[index].schedules {
+            coordinates.append(schedule.coordinate)
+        }
+        return coordinates
+    }
 }
 
 // MARK: - Input
@@ -77,7 +86,7 @@ extension DefaultPlansListViewModel {
         plans.value.remove(at: index)
     }
     
-    func swapTravelPlans(at source: Int, to destination: Int) async throws {
+    func swapPlans(at source: Int, to destination: Int) async throws {
         let swapUseCase = useCaseProvider.provideSwapPlansUseCase()
         do {
             try await swapUseCase.execute(
@@ -92,7 +101,7 @@ extension DefaultPlansListViewModel {
             plans.value.swapAt(source, destination)
         } catch {
             /*
-             swap(총 2번의 upload(at:travelPlanDTO:))을 하며 sourceTravelPlan, destinationTravelPlan 둘 중 하나의,
+             swap(총 2번의 upload(at:plan:))을 하며 sourcePlan, destinationPlan 둘 중 하나의,
              또는 둘 다의 업로드에 실패했다면, 초기 상태로 돌리기 위해 각각 update(at:_:) 수행
              */
             try? await update(at: source, plans.value[source])

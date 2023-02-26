@@ -40,7 +40,7 @@ final class WritingMemoryViewController: UIViewController {
     }()
     
     // MARK: - Init
-    init(_ viewModel: DefaultWritingMemoryViewModel, _ memoryIndex: Int, delegate: MemoryTransferDelegate) {
+    init(viewModel: DefaultWritingMemoryViewModel, memoryIndex: Int, delegate: MemoryTransferDelegate) {
         self.viewModel = viewModel
         self.memoryIndex = memoryIndex
         self.delegate = delegate
@@ -94,7 +94,9 @@ extension WritingMemoryViewController {
     func configureLayoutConstraint() {
         ownView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
     
