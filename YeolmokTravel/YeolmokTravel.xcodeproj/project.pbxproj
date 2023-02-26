@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B08647A29A40C73008B0A7F /* Swinject-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 6B08647929A40C73008B0A7F /* Swinject-Dynamic */; };
 		6B130C2A29A597C4008313DE /* TextFieldFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B130C2929A597C4008313DE /* TextFieldFactory.swift */; };
 		6B130C3029A59FF0008313DE /* PlansListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B130C2F29A59FF0008313DE /* PlansListView.swift */; };
 		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
@@ -141,7 +140,6 @@
 				6B195FC229A2D1F100C0F257 /* Domain in Frameworks */,
 				6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */,
 				6B1D5F7F29A34B8600F9254F /* FirebasePlatform in Frameworks */,
-				6B08647A29A40C73008B0A7F /* Swinject-Dynamic in Frameworks */,
 				6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -541,7 +539,6 @@
 				6B14F94E2955E4F50055C45D /* JGProgressHUD */,
 				6B195FC129A2D1F100C0F257 /* Domain */,
 				6B1D5F7E29A34B8600F9254F /* FirebasePlatform */,
-				6B08647929A40C73008B0A7F /* Swinject-Dynamic */,
 			);
 			productName = YeolmokTravel;
 			productReference = 6B46FA0229513D4A000430C7 /* YeolmokTravel.app */;
@@ -624,7 +621,6 @@
 				6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 				6B195FC029A2D1F100C0F257 /* XCRemoteSwiftPackageReference "Domain" */,
 				6B1D5F7D29A34B8600F9254F /* XCRemoteSwiftPackageReference "FirebasePlatform" */,
-				6B08647829A40C73008B0A7F /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			productRefGroup = 6B46FA0329513D4A000430C7 /* Products */;
 			projectDirPath = "";
@@ -1044,14 +1040,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6B08647829A40C73008B0A7F /* XCRemoteSwiftPackageReference "Swinject" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Swinject/Swinject.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
 		6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/JonasGessner/JGProgressHUD.git";
@@ -1087,11 +1075,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6B08647929A40C73008B0A7F /* Swinject-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6B08647829A40C73008B0A7F /* XCRemoteSwiftPackageReference "Swinject" */;
-			productName = "Swinject-Dynamic";
-		};
 		6B14F94E2955E4F50055C45D /* JGProgressHUD */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B14F94D2955E4F50055C45D /* XCRemoteSwiftPackageReference "JGProgressHUD" */;
