@@ -8,12 +8,6 @@
 import UIKit
 import MapKit
 
-/// WritingTravelPlanView의 상단 뷰
-/// - titleTextField: 제목
-/// - descriptionTextView: 상세
-/// - scheduleTitleLabel
-/// - editScheduleButton: 상세 일정 수정 버튼
-/// - createScheduleButton: 상세 일정 추가 버튼
 final class WritingPlanView: UIView {
     // MARK: - Magic number/string
     @frozen private enum LayoutConstants {
