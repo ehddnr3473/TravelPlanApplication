@@ -10,7 +10,7 @@ import Combine
 import Domain
 import FirebasePlatform
 
-@frozen enum WritingTravelPlanError: String, Error {
+@frozen enum WritingPlanError: String, Error {
     case emptyTitle = "제목을 작성해주세요."
 }
 
@@ -44,10 +44,11 @@ final class DefaultWritingPlanViewModel: WritingPlanViewModel {
     
     var calculatedContentViewHeight: CGFloat {
         if schedules.value.count == 0 {
-            return AppLayoutConstants.writingTravelPlanViewHeight +
-            AppLayoutConstants.largeSpacing * 2
+            return WritingPlanView.Constants.nonSpacingHeightFromTitleLabelToScheduleLabel +
+            AppLayoutConstants.spacing * 2 +
+            AppLayoutConstants.largeSpacing
         } else {
-            return AppLayoutConstants.writingTravelPlanViewHeight +
+            return WritingPlanView.Constants.nonSpacingHeightFromTitleLabelToScheduleLabel +
             Double(schedules.value.count) * AppLayoutConstants.cellHeight +
             AppLayoutConstants.mapViewHeight +
             AppLayoutConstants.largeFontSize +
@@ -106,7 +107,7 @@ extension DefaultWritingPlanViewModel {
     }
     
     func validateAndGetPlan() throws -> Plan {
-        guard title.value.count > 0 else { throw WritingTravelPlanError.emptyTitle }
+        guard title.value.count > 0 else { throw WritingPlanError.emptyTitle }
         return Plan(title: title.value,
                     description: description.value,
                     schedules: schedules.value)
