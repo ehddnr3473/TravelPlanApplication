@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/Domain.git",
       "state" : {
-        "revision" : "7848e9056f43bde130e7afbdce77ff9c535d5fba",
-        "version" : "0.0.7"
+        "revision" : "eea78acc3ffdcfed5d4923ddcbe57d98b84f2bd6",
+        "version" : "0.0.8"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/FirebasePlatform.git",
       "state" : {
-        "revision" : "159812c3f91e73a2a951cfd1abebd38c5b537581",
-        "version" : "0.0.7"
+        "revision" : "807ae9ccf65e659d93afec74e854efee319d3b8c",
+        "version" : "0.0.8"
       }
     },
     {
