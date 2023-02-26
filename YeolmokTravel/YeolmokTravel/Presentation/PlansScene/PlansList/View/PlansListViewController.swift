@@ -19,6 +19,7 @@ protocol PlanTransferDelegate: AnyObject {
 final class PlansListViewController: UIViewController {
     // MARK: - Properties
     private let viewModel: PlansListViewModel
+    private weak var coordinator: PlansWriteFlowCoordinator?
     private var subscriptions = Set<AnyCancellable>()
     
     private let plansListView = PlansListView()
@@ -36,8 +37,9 @@ final class PlansListViewController: UIViewController {
     }()
     
     // MARK: - Init
-    init(viewModel: PlansListViewModel) {
+    init(viewModel: PlansListViewModel, coordinator: PlansWriteFlowCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -142,27 +144,21 @@ private extension PlansListViewController {
     }
     
     @objc func touchUpCreateButton() {
-        let model = Plan(title: "", description: "", schedules: [])
-        let factory = WritingPlanViewControllerFactory()
-        let writingTravelPlanViewController = factory.makeWritingTravelPlanViewController(
-            with: model,
-            writingStyle: .create,
-            delegate: self,
-            plansListIndex: nil
-        )
-        navigationController?.pushViewController(writingTravelPlanViewController, animated: true)
+        let plan = Plan(title: "", description: "", schedules: [])
+        coordinator?.toWritePlan(plan: plan,
+                                 writingStyle: .create,
+                                 delegate: self,
+                                 plansListIndex: nil,
+                                 coordinates: [])
     }
     
     func didSelectRow(_ index: Int) {
-        let model = viewModel.plans.value[index]
-        let factory = WritingPlanViewControllerFactory()
-        let writingTravelPlanViewController = factory.makeWritingTravelPlanViewController(
-            with: model,
-            writingStyle: .update,
-            delegate: self,
-            plansListIndex: index
-        )
-        navigationController?.pushViewController(writingTravelPlanViewController, animated: true)
+        let plan = viewModel.plans.value[index]
+        coordinator?.toWritePlan(plan: plan,
+                                 writingStyle: .update,
+                                 delegate: self,
+                                 plansListIndex: index,
+                                 coordinates: viewModel.getCoordinates(at: index))
     }
 }
 
@@ -218,7 +214,7 @@ extension PlansListViewController: UITableViewDataSource {
         
         Task {
             do {
-                try await viewModel.swapTravelPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
+                try await viewModel.swapPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
             } catch {
                 guard let error = error as? PlansRepositoryError else { return }
                 alertWillAppear(error.rawValue)
