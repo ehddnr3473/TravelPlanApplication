@@ -33,6 +33,9 @@
 		6B46FA2929513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */; };
 		6B46FA3F295140E9000430C7 /* PlansListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* PlansListViewController.swift */; };
 		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
+		6B5743BD29AC37A100BA0390 /* PlansListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */; };
+		6B5743BF29AC393D00BA0390 /* FirebasePlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 6B5743BE29AC393D00BA0390 /* FirebasePlatform */; };
+		6B5743C229AC398900BA0390 /* PlansRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5743C129AC398900BA0390 /* PlansRepositoryMock.swift */; };
 		6B62A0CF2955CA0800450DB2 /* MemoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */; };
 		6B77371E298D0E220038E9C8 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371D298D0E220038E9C8 /* MapViewController.swift */; };
 		6B773720298D1C230038E9C8 /* WritingScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */; };
@@ -112,6 +115,8 @@
 		6B46FA2829513D4C000430C7 /* YeolmokTravelUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YeolmokTravelUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		6B46FA3E295140E9000430C7 /* PlansListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewController.swift; sourceTree = "<group>"; };
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewModelTests.swift; sourceTree = "<group>"; };
+		6B5743C129AC398900BA0390 /* PlansRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansRepositoryMock.swift; sourceTree = "<group>"; };
 		6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCell.swift; sourceTree = "<group>"; };
 		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewModel.swift; sourceTree = "<group>"; };
@@ -149,6 +154,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BA1CA47299C8875009CF4BB /* JGProgressHUD in Frameworks */,
+				6B5743BF29AC393D00BA0390 /* FirebasePlatform in Frameworks */,
 				6BA1CA45299C886C009CF4BB /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,7 +246,9 @@
 		6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */ = {
 			isa = PBXGroup;
 			children = (
+				6B5743C029AC396500BA0390 /* Mocks */,
 				6B46FA1C29513D4C000430C7 /* YeolmokTravelTests.swift */,
+				6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */,
 			);
 			path = YeolmokTravelTests;
 			sourceTree = "<group>";
@@ -347,6 +355,14 @@
 				6B77371D298D0E220038E9C8 /* MapViewController.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		6B5743C029AC396500BA0390 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				6B5743C129AC398900BA0390 /* PlansRepositoryMock.swift */,
+			);
+			path = Mocks;
 			sourceTree = "<group>";
 		};
 		6BA1CA3D299C874E009CF4BB /* Frameworks */ = {
@@ -561,6 +577,7 @@
 			packageProductDependencies = (
 				6BA1CA44299C886C009CF4BB /* SnapKit */,
 				6BA1CA46299C8875009CF4BB /* JGProgressHUD */,
+				6B5743BE29AC393D00BA0390 /* FirebasePlatform */,
 			);
 			productName = YeolmokTravelTests;
 			productReference = 6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */;
@@ -707,6 +724,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA1D29513D4C000430C7 /* YeolmokTravelTests.swift in Sources */,
+				6B5743C229AC398900BA0390 /* PlansRepositoryMock.swift in Sources */,
+				6B5743BD29AC37A100BA0390 /* PlansListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,6 +1113,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B37A4A229515C4D00BBB8EE /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		6B5743BE29AC393D00BA0390 /* FirebasePlatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B1D5F7D29A34B8600F9254F /* XCRemoteSwiftPackageReference "FirebasePlatform" */;
+			productName = FirebasePlatform;
 		};
 		6BA1CA44299C886C009CF4BB /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
