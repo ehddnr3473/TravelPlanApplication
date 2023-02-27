@@ -99,13 +99,13 @@
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
 		6B469E5B29A5F5AC00FDDE4D /* WritingScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleView.swift; sourceTree = "<group>"; };
 		6B469E5F29A6EABA00FDDE4D /* WritingMemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryView.swift; sourceTree = "<group>"; };
-		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = YeolmokTravel.app; path = "/Users/kimdonguk/Desktop/Travel/YeolmokTravel/build/Debug-iphoneos/YeolmokTravel.app"; sourceTree = "<absolute>"; };
 		6B46FA0529513D4A000430C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0729513D4A000430C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0E29513D4C000430C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B46FA1129513D4C000430C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B46FA1329513D4C000430C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YeolmokTravelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = YeolmokTravelTests.xctest; path = "/Users/kimdonguk/Desktop/Travel/YeolmokTravel/build/Debug-iphoneos/YeolmokTravelTests.xctest"; sourceTree = "<absolute>"; };
 		6B46FA3E295140E9000430C7 /* PlansListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewController.swift; sourceTree = "<group>"; };
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewModelTests.swift; sourceTree = "<group>"; };
@@ -201,18 +201,7 @@
 			children = (
 				6B46FA0429513D4A000430C7 /* YeolmokTravel */,
 				6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */,
-				6B46FA0329513D4A000430C7 /* Products */,
-				6BA1CA3D299C874E009CF4BB /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		6B46FA0329513D4A000430C7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6B46FA0229513D4A000430C7 /* YeolmokTravel.app */,
-				6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		6B46FA0429513D4A000430C7 /* YeolmokTravel */ = {
@@ -340,13 +329,6 @@
 				6B1A576729AC813200E80248 /* ImagesRepositoryMock.swift */,
 			);
 			path = Mocks;
-			sourceTree = "<group>";
-		};
-		6BA1CA3D299C874E009CF4BB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6BA27B9A29A8C89B008E4439 /* Application */ = {
@@ -585,7 +567,7 @@
 				6B1A576B29ACE0E900E80248 /* XCRemoteSwiftPackageReference "Domain" */,
 				6B1A576E29ACE13A00E80248 /* XCRemoteSwiftPackageReference "FirebasePlatform" */,
 			);
-			productRefGroup = 6B46FA0329513D4A000430C7 /* Products */;
+			productRefGroup = 6B46F9F929513D4A000430C7;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
