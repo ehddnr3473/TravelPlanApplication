@@ -40,7 +40,9 @@ final class WritingMemoryViewController: UIViewController {
     }()
     
     // MARK: - Init
-    init(viewModel: DefaultWritingMemoryViewModel, memoryIndex: Int, delegate: MemoryTransferDelegate) {
+    init(viewModel: DefaultWritingMemoryViewModel,
+         memoryIndex: Int,
+         delegate: MemoryTransferDelegate) {
         self.viewModel = viewModel
         self.memoryIndex = memoryIndex
         self.delegate = delegate
