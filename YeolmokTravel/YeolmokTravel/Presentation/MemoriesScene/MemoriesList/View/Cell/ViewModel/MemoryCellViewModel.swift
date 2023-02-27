@@ -19,7 +19,7 @@ protocol MemoryCellViewModel: AnyObject {
     func read()
 }
 
-/// memory에 해당하는 이미지를 가져와서 MemoriesCollectionViewCell에 제공
+/// memory에 해당하는 이미지를 가져와서 MemoryCell에 제공
 final class DefaultMemoryCellViewModel: MemoryCellViewModel {
     private let useCaseProvider: ImagesUseCaseProvider
     // MARK: - Output
@@ -38,12 +38,12 @@ final class DefaultMemoryCellViewModel: MemoryCellViewModel {
     
     func read() {
         let readUseCase = useCaseProvider.provideReadImageUseCase()
-        readUseCase.execute(at: memory.index) { result in
+        readUseCase.execute(at: memory.index) { [weak self] result in
             switch result {
             case .success(let image):
-                self.imagePublisher.send(image)
+                self?.imagePublisher.send(image)
             case .failure(let error):
-                self.imagePublisher.send(completion: .failure(error))
+                self?.imagePublisher.send(completion: .failure(error))
             }
         }
     }
