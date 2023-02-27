@@ -11,27 +11,27 @@ import Domain
 final class MemoriesRepositoryMock: MemoriesRepository {
     var memories: [Memory] = [
         Memory(
+            id: 0,
             title: "title0",
-            index: 0,
             uploadDate: Date(timeIntervalSince1970: 0)
         ),
         Memory(
+            id: 1,
             title: "title1",
-            index: 1,
             uploadDate: Date(timeIntervalSince1970: 1)
         ),
         Memory(
+            id: 2,
             title: "title2",
-            index: 2,
             uploadDate: Date(timeIntervalSince1970: 2)
         )
     ]
     
-    func upload(at index: Int, memory: Domain.Memory) async throws {
-        memories.insert(memory, at: index)
+    func upload(_ memory: Memory) async throws {
+        memories.insert(memory, at: memory.id)
     }
     
-    func read() async throws -> [Domain.Memory] {
+    func read() async throws -> [Memory] {
         memories
     }
     
