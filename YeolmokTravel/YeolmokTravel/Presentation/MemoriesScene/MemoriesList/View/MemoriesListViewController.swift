@@ -193,7 +193,7 @@ private extension MemoriesListViewController {
         let cellRegistration = UICollectionView.CellRegistration<MemoryCell, YTMemory> { [self] (cell, indexPath, _) in
             // Cell assembling of MVVM
             let viewModel = DefaultMemoryCellViewModel(viewModel.memories.value[indexPath.row], imagesUseCaseProvider)
-            cell.setViewModel(viewModel)
+            cell.didDequeue(with: viewModel)
             cell.delegate = self
         }
         
