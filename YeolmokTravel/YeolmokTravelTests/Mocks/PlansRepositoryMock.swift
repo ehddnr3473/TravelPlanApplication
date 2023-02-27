@@ -31,7 +31,7 @@ final class PlansRepositoryMock: PlansRepository {
         Plan(title: "title2", description: "description2", schedules: [])
     ]
     
-    func upload(at index: Int, plan: Domain.Plan) async throws {
+    func upload(at index: Int, plan: Plan) async throws {
         self.plans.insert(plan, at: index)
     }
     
@@ -39,7 +39,7 @@ final class PlansRepositoryMock: PlansRepository {
         self.plans
     }
     
-    func delete(at index: Int, plans: [Domain.Plan]) async throws {
+    func delete(at index: Int, plans: [Plan]) async throws {
         self.plans.remove(at: index)
     }
 }
