@@ -23,13 +23,13 @@ final class WritingMemoryViewModelTests: XCTestCase {
                                                   imagesUseCaseProvider: imagesUseCaseProvider)
         
         let expectedImage = UIImage(systemName: "testtube.2")!
-        let memory = YTMemory(title: "newMemoryTitle", index: 3, uploadDate: Date())
+        let memory = Memory(id: 3, title: "newMemoryTitle", uploadDate: Date())
         
         // when
-        try await viewModel.upload(memory.index, expectedImage, memory)
+        try await viewModel.upload(memory, expectedImage)
         
         // then
-        XCTAssertEqual(memoriesRepository.memories[memory.index].title, memory.title)
-        XCTAssertEqual(imagesRepository.images[memory.index], expectedImage)
+        XCTAssertEqual(memoriesRepository.memories[memory.id].title, memory.title)
+        XCTAssertEqual(imagesRepository.images[memory.id], expectedImage)
     }
 }
