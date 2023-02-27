@@ -68,10 +68,13 @@ final class MemoryCell: UICollectionViewCell {
         subscriptions.removeAll()
     }
     
-    func setViewModel(_ viewModel: DefaultMemoryCellViewModel) {
+    func didDequeue(with viewModel: DefaultMemoryCellViewModel) {
         self.viewModel = viewModel
         bind()
-        configure()
+        progressIndicator.show(in: imageView)
+        titleLabel.text = viewModel.memory.title
+        dateLabel.text = viewModel.uploadDate
+        viewModel.read()
     }
     
     // MARK: - Binding
@@ -80,16 +83,17 @@ final class MemoryCell: UICollectionViewCell {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 self?.progressIndicator.dismiss()
+                self?.viewModel = nil
                 switch completion {
                 case .failure(let error):
                     guard let error = error as? ImagesRepositoryError else { return }
                     self?.delegate?.errorDidOccurrued(error.rawValue)
-                    break
                 case .finished:
                     break
                 }
             }) { [weak self] image in
                 self?.progressIndicator.dismiss()
+                self?.viewModel = nil
                 self?.imageView.image = image
             }
             .store(in: &subscriptions)
@@ -129,13 +133,6 @@ private extension MemoryCell {
             $0.trailing.equalTo(contentView.snp.trailing)
                 .inset(AppLayoutConstants.spacing)
         }
-    }
-    
-    func configure() {
-        progressIndicator.show(in: imageView)
-        titleLabel.text = viewModel?.memory.title
-        dateLabel.text = viewModel?.uploadDate
-        viewModel?.read()
     }
 }
 
