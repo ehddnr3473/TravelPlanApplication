@@ -130,9 +130,9 @@ private extension WritingMemoryViewController {
     func createMemory() async {
         ownView.indicatorView.show(in: view)
         guard let image = ownView.imageView.image else { return }
-        let memory = YTMemory(title: ownView.titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
+        let memory = Memory(id: memoryIndex, title: ownView.titleTextField.text ?? "", uploadDate: Date())
         do {
-            try await viewModel.upload(memoryIndex, image, memory)
+            try await viewModel.upload(memory, image)
             delegate?.create(memory)
             ownView.indicatorView.dismiss(animated: true)
             dismiss(animated: true)
