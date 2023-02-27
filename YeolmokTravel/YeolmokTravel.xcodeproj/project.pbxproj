@@ -16,6 +16,7 @@
 		6B1A576429AC810C00E80248 /* WritingMemoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1A576329AC810C00E80248 /* WritingMemoryViewModelTests.swift */; };
 		6B1A576629AC812600E80248 /* MemoriesRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1A576529AC812600E80248 /* MemoriesRepositoryMock.swift */; };
 		6B1A576829AC813200E80248 /* ImagesRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1A576729AC813200E80248 /* ImagesRepositoryMock.swift */; };
+		6B1A576A29AC943D00E80248 /* MemoryCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B1A576929AC943D00E80248 /* MemoryCellViewModelTests.swift */; };
 		6B1D5F7F29A34B8600F9254F /* FirebasePlatform in Frameworks */ = {isa = PBXBuildFile; productRef = 6B1D5F7E29A34B8600F9254F /* FirebasePlatform */; };
 		6B37A4A429515C4E00BBB8EE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 6B37A4A329515C4E00BBB8EE /* SnapKit */; };
 		6B37A4A729515DBB00BBB8EE /* AppNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */; };
@@ -98,6 +99,7 @@
 		6B1A576329AC810C00E80248 /* WritingMemoryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewModelTests.swift; sourceTree = "<group>"; };
 		6B1A576529AC812600E80248 /* MemoriesRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesRepositoryMock.swift; sourceTree = "<group>"; };
 		6B1A576729AC813200E80248 /* ImagesRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesRepositoryMock.swift; sourceTree = "<group>"; };
+		6B1A576929AC943D00E80248 /* MemoryCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCellViewModelTests.swift; sourceTree = "<group>"; };
 		6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNamespace.swift; sourceTree = "<group>"; };
 		6B37A4AC2951639000BBB8EE /* WritingPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanViewController.swift; sourceTree = "<group>"; };
 		6B37A4AF295163E100BBB8EE /* Writable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writable.swift; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 				6B5743C029AC396500BA0390 /* Mocks */,
 				6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */,
 				6B1A576329AC810C00E80248 /* WritingMemoryViewModelTests.swift */,
+				6B1A576929AC943D00E80248 /* MemoryCellViewModelTests.swift */,
 			);
 			path = YeolmokTravelTests;
 			sourceTree = "<group>";
@@ -734,6 +737,7 @@
 				6B1A576629AC812600E80248 /* MemoriesRepositoryMock.swift in Sources */,
 				6B1A576429AC810C00E80248 /* WritingMemoryViewModelTests.swift in Sources */,
 				6B1A576829AC813200E80248 /* ImagesRepositoryMock.swift in Sources */,
+				6B1A576A29AC943D00E80248 /* MemoryCellViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
