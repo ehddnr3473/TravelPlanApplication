@@ -11,7 +11,6 @@ import UIKit
 import Domain
 
 final class ImagesRepositoryMock: ImagesRepository {
-    var expectation: XCTestExpectation?
     var error: Error?
     var images: [UIImage] = [
         UIImage(systemName: "0.circle")!,
@@ -29,7 +28,6 @@ final class ImagesRepositoryMock: ImagesRepository {
         } else {
             completion(.success(images[index]))
         }
-        expectation?.fulfill()
     }
     
     func delete(at index: Int) async throws {
