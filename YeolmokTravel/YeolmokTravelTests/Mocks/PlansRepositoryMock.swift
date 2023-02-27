@@ -16,7 +16,7 @@ final class PlansRepositoryMock: PlansRepository {
     var plans: [Plan] = [
         Plan(
             title: "title0",
-            description: "description1",
+            description: "description0",
             schedules: [
                 Schedule(
                     title: "schedule_title0",
