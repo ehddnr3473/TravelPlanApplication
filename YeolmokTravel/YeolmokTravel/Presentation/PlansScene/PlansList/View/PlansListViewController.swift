@@ -144,21 +144,31 @@ private extension PlansListViewController {
     }
     
     @objc func touchUpCreateButton() {
-        let plan = Plan(title: "", description: "", schedules: [])
-        coordinator?.toWritePlan(plan: plan,
-                                 writingStyle: .create,
-                                 delegate: self,
-                                 plansListIndex: nil,
-                                 coordinates: [])
+        guard let coordinator = coordinator else { return }
+        coordinator.toWritePlan(
+            .init(
+                plan: Plan(title: "", description: "", schedules: []),
+                coordinator: coordinator,
+                writingStyle: .create,
+                delegate: self,
+                plansListIndex: nil,
+                coordinates: []
+            )
+        )
     }
     
     func didSelectRow(_ index: Int) {
-        let plan = viewModel.plans.value[index]
-        coordinator?.toWritePlan(plan: plan,
-                                 writingStyle: .update,
-                                 delegate: self,
-                                 plansListIndex: index,
-                                 coordinates: viewModel.getCoordinates(at: index))
+        guard let coordinator = coordinator else { return }
+        coordinator.toWritePlan(
+            .init(
+                plan: viewModel.plans.value[index],
+                coordinator: coordinator,
+                writingStyle: .update,
+                delegate: self,
+                plansListIndex: index,
+                coordinates: viewModel.getCoordinates(at: index)
+            )
+        )
     }
 }
 

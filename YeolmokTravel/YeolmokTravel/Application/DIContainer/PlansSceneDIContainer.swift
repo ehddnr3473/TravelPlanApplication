@@ -23,8 +23,10 @@ final class PlansSceneDIContainer {
     
     // MARK: - Plans List
     func makePlansListViewController(coordinator: PlansWriteFlowCoordinator) -> PlansListViewController {
-        PlansListViewController(viewModel: makePlansListViewModel(),
-                                coordinator: coordinator)
+        PlansListViewController(
+            viewModel: makePlansListViewModel(),
+            coordinator: coordinator
+        )
     }
     
     private func makePlansListViewModel() -> PlansListViewModel {
@@ -32,40 +34,54 @@ final class PlansSceneDIContainer {
     }
     
     // MARK: - Writing Plan
-    func makeWritingPlanViewController(plan: Plan,
-                                       writingStyle: WritingStyle,
-                                       delegate: PlanTransferDelegate,
-                                       plansListIndex: Int?,
-                                       coordinates: [CLLocationCoordinate2D],
-                                       coordinator: PlansWriteFlowCoordinator) -> WritingPlanViewController {
+    func makeWritingPlanViewController(_ box: WritingPlanBox) -> WritingPlanViewController {
         WritingPlanViewController(
-            viewModel: makeWritingPlanViewModel(plan: plan),
-            coordinator: coordinator,
-            mapProvider: MapViewController(coordinates),
-            writingStyle: writingStyle,
-            delegate: delegate,
-            plansListIndex: plansListIndex
+            viewModel: makeWritingPlanViewModel(box.plan),
+            coordinator: box.coordinator,
+            mapProvider: makeMapViewController(box.coordinates),
+            writingStyle: box.writingStyle,
+            delegate: box.delegate,
+            plansListIndex: box.plansListIndex
         )
     }
     
-    private func makeWritingPlanViewModel(plan: Plan) -> WritingPlanViewModel {
+    private func makeWritingPlanViewModel(_ plan: Plan) -> WritingPlanViewModel {
         DefaultWritingPlanViewModel(plan)
     }
     
+    private func makeMapViewController(_ coordinates: [CLLocationCoordinate2D]) -> MapViewController {
+        MapViewController(coordinates)
+    }
+    
     // MARK: - Writing Schedule
-    func makeWritingScheduleViewController(schedule: Schedule,
-                                           writingStyle: WritingStyle,
-                                           delegate: ScheduleTransferDelegate,
-                                           scheduleListIndex: Int?) -> WritingScheduleViewController {
+    func makeWritingScheduleViewController(_ box: WritingScheduleBox) -> WritingScheduleViewController {
         WritingScheduleViewController(
-            viewModel: makeWritingScheduleViewModel(schedule: schedule),
-            writingStyle: writingStyle,
-            delegate: delegate,
-            scheduleListIndex: scheduleListIndex
+            viewModel: makeWritingScheduleViewModel(schedule: box.schedule),
+            writingStyle: box.writingStyle,
+            delegate: box.delegate,
+            schedulesListIndex: box.schedulesListIndex
         )
     }
     
     private func makeWritingScheduleViewModel(schedule: Schedule) -> WritingScheduleViewModel {
         DefaultWritingScheduleViewModel(schedule)
+    }
+}
+
+extension PlansSceneDIContainer {
+    struct WritingPlanBox {
+        let plan: Plan
+        let coordinator: PlansWriteFlowCoordinator
+        let writingStyle: WritingStyle
+        let delegate: PlanTransferDelegate
+        let plansListIndex: Int?
+        let coordinates: [CLLocationCoordinate2D]
+    }
+    
+    struct WritingScheduleBox {
+        let schedule: Schedule
+        let writingStyle: WritingStyle
+        let delegate: ScheduleTransferDelegate
+        let schedulesListIndex: Int?
     }
 }

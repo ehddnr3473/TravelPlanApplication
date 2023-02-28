@@ -72,7 +72,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         self.plansListIndex = plansListIndex
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -192,23 +192,29 @@ private extension WritingPlanViewController {
     }
     
     @objc func touchUpCreateButton() {
-        let schedule = Schedule(title: "",
-                                description: "",
-                                coordinate: CLLocationCoordinate2D(),
-                                fromDate: nil,
-                                toDate: nil)
-        coordinator?.toWriteSchedule(schedule: schedule,
-                                     writingStyle: .create,
-                                     delegate: self,
-                                     scheduleListIndex: nil)
+        coordinator?.toWriteSchedule(
+            .init(
+                schedule: Schedule(
+                    title: "",
+                    description: "",
+                    coordinate: CLLocationCoordinate2D(),
+                    fromDate: nil,
+                    toDate: nil
+                ),
+                writingStyle: .create,
+                delegate: self,
+                schedulesListIndex: nil)
+        )
     }
     
     private func didSelectRow(_ index: Int) {
-        let schedule = viewModel.schedules.value[index]
-        coordinator?.toWriteSchedule(schedule: schedule,
-                                     writingStyle: .update,
-                                     delegate: self,
-                                     scheduleListIndex: index)
+        coordinator?.toWriteSchedule(
+            .init(
+                schedule: viewModel.schedules.value[index],
+                writingStyle: .update,
+                delegate: self,
+                schedulesListIndex: index)
+        )
     }
     
     // 이전 좌표로 카메라 이동
@@ -473,7 +479,7 @@ private extension WritingPlanViewController {
     @frozen enum LayoutConstants {
         static let tableViewCornerRadius: CGFloat = 10
     }
-
+    
     @frozen enum TextConstants {
         static let plan = "Plan"
         static let map = "Map"
