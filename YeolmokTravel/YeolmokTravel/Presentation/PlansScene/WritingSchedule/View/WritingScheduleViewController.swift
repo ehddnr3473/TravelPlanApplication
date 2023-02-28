@@ -16,19 +16,19 @@ final class WritingScheduleViewController: UIViewController, Writable {
     private let viewModel: WritingScheduleViewModel
     let writingStyle: WritingStyle
     private weak var delegate: ScheduleTransferDelegate?
-    private let scheduleListIndex: Int?
-
+    private let schedulesListIndex: Int?
+    
     private let ownView = WritingScheduleView()
     
     // MARK: - Init
     init(viewModel: WritingScheduleViewModel,
          writingStyle: WritingStyle,
          delegate: ScheduleTransferDelegate,
-         scheduleListIndex: Int?) {
+         schedulesListIndex: Int?) {
         self.viewModel = viewModel
         self.writingStyle = writingStyle
         self.delegate = delegate
-        self.scheduleListIndex = scheduleListIndex
+        self.schedulesListIndex = schedulesListIndex
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -136,7 +136,7 @@ private extension WritingScheduleViewController {
             case .create:
                 delegate?.create(viewModel.getSchedule())
             case .update:
-                guard let index = scheduleListIndex else { return }
+                guard let index = schedulesListIndex else { return }
                 delegate?.update(at: index, viewModel.getSchedule())
             }
             
@@ -252,7 +252,7 @@ private extension WritingScheduleViewController {
     @frozen enum LayoutConstants {
         static let yWhenKeyboardAppear: CGFloat = 150
     }
-
+    
     @frozen enum AnimationConstants {
         static let duration: TimeInterval = 0.3
     }
@@ -260,7 +260,7 @@ private extension WritingScheduleViewController {
     @frozen enum TextConstants {
         static let schedule = "Schedule"
     }
-
+    
     /*
      디스플레이 세로 길이
      iPhone SE(2nd, 3rd generation): 667
