@@ -180,10 +180,13 @@ private extension MemoriesListViewController {
 // MARK: - User Interacion
 private extension MemoriesListViewController {
     @objc func touchUpCreateButton() {
-        coordinator?.toWriteMemory(index: self.viewModel.memories.value.count,
-                                   delegate: self,
-                                   memoriesUseCaseProvider,
-                                   imagesUseCaseProvider)
+        coordinator?.toWriteMemory(
+            .init(
+                memoriesUseCaseProvider: memoriesUseCaseProvider,
+                imagesUseCaseProvider: imagesUseCaseProvider,
+                delegate: self,
+                memoriesListIndex: viewModel.memories.value.count)
+        )
     }
 }
 

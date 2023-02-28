@@ -30,10 +30,12 @@ final class MemoriesSceneDIContainer {
     
     // MARK: - Memories List
     func makeMemoriesListViewController(coordinator: MemoriesWriteFlowCoordinator) -> MemoriesListViewController {
-        MemoriesListViewController(viewModel: makeMemoriesListViewModel(),
-                                   coordinator: coordinator,
-                                   memoriesUseCaseProvider: makeMemoriesUseCaseProvider(),
-                                   imagesUseCaseProvider: makeImagesUseCaseProvider())
+        MemoriesListViewController(
+            viewModel: makeMemoriesListViewModel(),
+            coordinator: coordinator,
+            memoriesUseCaseProvider: makeMemoriesUseCaseProvider(),
+            imagesUseCaseProvider: makeImagesUseCaseProvider()
+        )
     }
     
     private func makeMemoriesListViewModel() -> MemoriesListViewModel {
@@ -41,17 +43,31 @@ final class MemoriesSceneDIContainer {
     }
     
     // MARK: - Writing Memory
-    func makeWritingMemoryViewController(index: Int,
-                                         delegate: MemoryTransferDelegate,
-                                         _ memoriesUseCaseProvider: MemoriesUseCaseProvider,
-                                         _ imagesUseCaseProvider: ImagesUseCaseProvider) -> WritingMemoryViewController {
-        WritingMemoryViewController(viewModel: makeWritingMemoryViewModel(memoriesUseCaseProvider, imagesUseCaseProvider),
-                                    memoryIndex: index,
-                                    delegate: delegate)
+    func makeWritingMemoryViewController(_ box: WritingMemoryBox) -> WritingMemoryViewController {
+        WritingMemoryViewController(
+            viewModel: makeWritingMemoryViewModel(
+                box.memoriesUseCaseProvider,
+                box.imagesUseCaseProvider
+            ),
+            memoriesListIndex: box.memoriesListIndex,
+            delegate: box.delegate
+        )
     }
     
     private func makeWritingMemoryViewModel(_ memoriesUseCaseProvider: MemoriesUseCaseProvider,
                                             _ imagesUseCaseProvider: ImagesUseCaseProvider) -> DefaultWritingMemoryViewModel {
-        DefaultWritingMemoryViewModel(memoriesUseCaseProvider: memoriesUseCaseProvider, imagesUseCaseProvider: imagesUseCaseProvider)
+        DefaultWritingMemoryViewModel(
+            memoriesUseCaseProvider: memoriesUseCaseProvider,
+            imagesUseCaseProvider: imagesUseCaseProvider
+        )
+    }
+}
+
+extension MemoriesSceneDIContainer {
+    struct WritingMemoryBox {
+        let memoriesUseCaseProvider: MemoriesUseCaseProvider
+        let imagesUseCaseProvider: ImagesUseCaseProvider
+        let delegate: MemoryTransferDelegate
+        let memoriesListIndex: Int
     }
 }
