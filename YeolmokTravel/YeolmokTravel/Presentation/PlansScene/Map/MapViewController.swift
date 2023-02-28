@@ -67,7 +67,7 @@ final class MapViewController: UIViewController {
 extension MapViewController: Mappable {
     func configureMapView() {
         mapView.overrideUserInterfaceStyle = .light
-        configure()
+        mapView.delegate = self
         animateCameraToCenter()
         addAnnotation()
 //        addPath()
@@ -224,10 +224,6 @@ private extension MapViewController {
 
 // MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
-    private func configure() {
-        mapView.delegate = self
-    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView()
         guard coordinates.count > 1,
