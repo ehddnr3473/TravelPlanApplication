@@ -24,12 +24,14 @@
 <br></br>
 ## 패키지 종속성 관리
 Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 관리했습니다.
-|패키지|내용|
-|---|---|
-|FirebasePlatform|데이터 모듈|
-|Domain|도메인 모듈|
-|SnapKit|레이아웃 코드 작성|
-|JGProgressHUD|Progress indicator 생성|
+|패키지|내용|코드 저장소 URL|
+|---|---|---|
+|FirebasePlatform|데이터 모듈|https://github.com/ehddnr3473/FirebasePlatform.git|
+|Domain|도메인 모듈|https://github.com/ehddnr3473/Domain_framework_build.git|
+|SnapKit|레이아웃 코드 작성|-|
+|JGProgressHUD|Progress indicator 생성|-|
+
+* 프로젝트에서 도메인 모듈의 실제 참조 URL: https://github.com/ehddnr3473/Domain.git
 
 
 
