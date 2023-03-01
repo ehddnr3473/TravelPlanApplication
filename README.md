@@ -48,7 +48,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 <br></br>
 ## Clean Architecture
 
-- MVVM 아키텍처 패턴을 기반으로 Presentation layer, Domain layer, Data layer로 나눔.
+- MVVM-C 아키텍처 패턴을 기반으로 Presentation layer를 구성하고, 애플리케이션 외부와의 통신을 위한 로직을 Domain layer, Data layer로 나누어서 모듈화
 - Clean Architecture의 핵심은 계층을 나누고 의존성 정책을 정의하여 그것을 지키는 것이며 올바른 의존성 정책에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있다고 생각하였음.
 
 
@@ -66,7 +66,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 ### Use case
 
 - Use case는 애플리케이션의 핵심 비즈니스 로직을 포함
-- 각 Use case는 데이터 포맷을 정의하여 Repository와 데이터를 주고받는 로직을 최소한의 단위로 캡슐화함.
+- 각 Use case는 엔티티를 정의하여 Repository와 데이터를 주고받는 로직을 최소한의 단위로 캡슐화함.
 
 
 <br></br>
