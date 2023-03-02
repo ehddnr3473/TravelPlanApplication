@@ -13,8 +13,8 @@ import FirebasePlatform
 final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties
     static let identifier = "MemoriesCollectionViewCell"
-    weak var delegate: MemoryCellErrorDelegate?
     private var viewModel: MemoryCellViewModel?
+    weak var delegate: MemoryCellErrorDelegate?
     private var subscriptions = Set<AnyCancellable>()
     
     var imageView: UIImageView = {
@@ -60,6 +60,7 @@ final class MemoryCell: UICollectionViewCell {
             progressIndicator.dismiss()
         }
         viewModel = nil
+        delegate = nil
         imageView.image = nil
         titleLabel.text = ""
         dateLabel.text = ""
