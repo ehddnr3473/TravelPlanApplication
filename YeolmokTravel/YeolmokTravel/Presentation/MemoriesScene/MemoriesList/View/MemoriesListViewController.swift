@@ -185,7 +185,8 @@ private extension MemoriesListViewController {
                 memoriesUseCaseProvider: memoriesUseCaseProvider,
                 imagesUseCaseProvider: imagesUseCaseProvider,
                 delegate: self,
-                memoriesListIndex: viewModel.memories.value.count)
+                memoriesListIndex: viewModel.memories.value.count
+            )
         )
     }
 }
