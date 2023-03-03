@@ -9,7 +9,9 @@ import UIKit
 import MapKit
 import CoreLocation
 
-protocol Mappable: CameraControllable, AnyObject {
+typealias MapProvider = Mappable & CameraControllable
+
+protocol Mappable: AnyObject {
     var mapView: MKMapView { get }
     func configureMapView()
     func updateMapView(_ coordinates: [CLLocationCoordinate2D])
@@ -84,7 +86,7 @@ extension MapViewController: Mappable {
 }
 
 // MARK: - CameraControllable(Packaging) / Pointer control
-extension MapViewController {
+extension MapViewController: CameraControllable {
     func animateCameraToPreviousPoint() {
         decreasePointer()
         animateCameraToCenter(completion: animateCameraToPoint)
