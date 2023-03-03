@@ -38,7 +38,9 @@ final class WritingScheduleView: UIView {
     let contentView = UIView()
     
     let titleTextField = UITextField()
-        .makeCustomTextField(AppLayoutConstants.largeFontSize, AppTextConstants.titlePlaceholder)
+        .makeCustomTextField()
+        .withFontSize(AppLayoutConstants.largeFontSize)
+        .withPlaceholder(AppTextConstants.titlePlaceholder)
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -114,15 +116,18 @@ final class WritingScheduleView: UIView {
      */
     let latitudeTextField: UITextField = {
         let textField = UITextField()
-            .makeCustomTextField(LayoutConstants.mediumFontSize, TextConstants.latitudePlaceholder)
+            .makeCustomTextField()
+            .withFontSize(LayoutConstants.mediumFontSize)
+            .withPlaceholder(TextConstants.latitudePlaceholder)
         textField.keyboardType = .decimalPad
-        
         return textField
     }()
     
     let longitudeTextField: UITextField = {
         let textField = UITextField()
-            .makeCustomTextField(LayoutConstants.mediumFontSize, TextConstants.longitudePlaceholder)
+            .makeCustomTextField()
+            .withFontSize(LayoutConstants.mediumFontSize)
+            .withPlaceholder(TextConstants.longitudePlaceholder)
         textField.keyboardType = .decimalPad
         return textField
     }()

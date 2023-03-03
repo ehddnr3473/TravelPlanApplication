@@ -74,7 +74,9 @@ final class WritingMemoryView: UIView {
     }()
     
     let titleTextField = UITextField()
-        .makeCustomTextField(AppLayoutConstants.largeSpacing, AppTextConstants.titlePlaceholder)
+        .makeCustomTextField()
+        .withFontSize(AppLayoutConstants.largeFontSize)
+        .withPlaceholder(AppTextConstants.titlePlaceholder)
     
     let imageView: UIImageView = {
         let imageView = UIImageView()
