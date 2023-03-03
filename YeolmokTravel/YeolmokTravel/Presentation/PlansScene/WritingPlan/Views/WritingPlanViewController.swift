@@ -23,7 +23,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     private let viewModel: WritingPlanViewModel
     private weak var coordinator: PlansWriteFlowCoordinator?
-    private let mapProvider: Mappable
+    private let mapProvider: MapProvider
     let writingStyle: WritingStyle
     private weak var delegate: PlanTransferDelegate?
     private let plansListIndex: Int?
@@ -60,7 +60,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Init
     init(viewModel: WritingPlanViewModel,
          coordinator: PlansWriteFlowCoordinator,
-         mapProvider: Mappable,
+         mapProvider: MapProvider,
          writingStyle: WritingStyle,
          delegate: PlanTransferDelegate,
          plansListIndex: Int?) {
