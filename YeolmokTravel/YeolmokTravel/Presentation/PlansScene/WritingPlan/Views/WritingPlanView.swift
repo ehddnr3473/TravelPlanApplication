@@ -27,11 +27,8 @@ final class WritingPlanView: UIView {
     }
     
     // MARK: - Properties
-    let titleTextField = TextFieldFactory
-        .makeTitleTextField(
-            AppLayoutConstants.largeFontSize,
-            AppTextConstants.titlePlaceholder
-        )
+    let titleTextField = UITextField()
+        .makeCustomTextField(AppLayoutConstants.largeFontSize, AppTextConstants.titlePlaceholder)
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()

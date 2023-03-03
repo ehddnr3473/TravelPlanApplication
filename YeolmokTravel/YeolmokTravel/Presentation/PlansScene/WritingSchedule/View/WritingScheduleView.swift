@@ -37,11 +37,8 @@ final class WritingScheduleView: UIView {
     
     let contentView = UIView()
     
-    let titleTextField = TextFieldFactory
-        .makeTitleTextField(
-            AppLayoutConstants.largeFontSize,
-            AppTextConstants.titlePlaceholder
-        )
+    let titleTextField = UITextField()
+        .makeCustomTextField(AppLayoutConstants.largeFontSize, AppTextConstants.titlePlaceholder)
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -116,20 +113,16 @@ final class WritingScheduleView: UIView {
       - MapView를 보여줄 버튼
      */
     let latitudeTextField: UITextField = {
-        let textField = TextFieldFactory.makeTitleTextField(
-            LayoutConstants.mediumFontSize,
-            TextConstants.longitudePlaceholder
-        )
+        let textField = UITextField()
+            .makeCustomTextField(LayoutConstants.mediumFontSize, TextConstants.latitudePlaceholder)
         textField.keyboardType = .decimalPad
         
         return textField
     }()
     
     let longitudeTextField: UITextField = {
-        let textField = TextFieldFactory.makeTitleTextField(
-            LayoutConstants.mediumFontSize,
-            TextConstants.longitudePlaceholder
-        )
+        let textField = UITextField()
+            .makeCustomTextField(LayoutConstants.mediumFontSize, TextConstants.longitudePlaceholder)
         textField.keyboardType = .decimalPad
         return textField
     }()
