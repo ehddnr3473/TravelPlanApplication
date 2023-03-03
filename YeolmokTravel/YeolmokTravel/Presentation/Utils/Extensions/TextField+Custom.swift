@@ -9,19 +9,27 @@ import Foundation
 import UIKit
 
 extension UITextField {
-    func makeCustomTextField(_ fontSize: CGFloat, _ placeholderText: String) -> Self {
+    func makeCustomTextField() -> Self {
         textColor = .white
         backgroundColor = .systemBackground
         layer.cornerRadius = AppLayoutConstants.cornerRadius
         layer.borderWidth = AppLayoutConstants.borderWidth
         layer.borderColor = UIColor.white.cgColor
-        font = .boldSystemFont(ofSize: fontSize)
-        placeholder = placeholderText
         autocorrectionType = .no
         autocapitalizationType = .none
         returnKeyType = .done
         leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: AppLayoutConstants.spacing, height: .zero))
         leftViewMode = .always
+        return self
+    }
+    
+    func withPlaceholder(_ placeholderText: String) -> Self {
+        placeholder = placeholderText
+        return self
+    }
+    
+    func withFontSize(_ fontSize: CGFloat) -> Self {
+        font = .boldSystemFont(ofSize: fontSize)
         return self
     }
 }
