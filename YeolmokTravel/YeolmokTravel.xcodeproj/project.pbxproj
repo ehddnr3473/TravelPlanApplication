@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B130C2A29A597C4008313DE /* TextFieldFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B130C2929A597C4008313DE /* TextFieldFactory.swift */; };
 		6B130C3029A59FF0008313DE /* PlansListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B130C2F29A59FF0008313DE /* PlansListView.swift */; };
 		6B14F94F2955E4F50055C45D /* JGProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 6B14F94E2955E4F50055C45D /* JGProgressHUD */; };
 		6B17E2FE2956A72800AF59EE /* MemoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B17E2FD2956A72800AF59EE /* MemoryCellViewModel.swift */; };
@@ -27,6 +26,7 @@
 		6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4C829519C8800BBB8EE /* Alert.swift */; };
 		6B37A4CF2951C30800BBB8EE /* PlanCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4CE2951C30800BBB8EE /* PlanCell.swift */; };
 		6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */; };
+		6B417F8C29B1C2EB00AAC72F /* TextField+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B417F8B29B1C2EB00AAC72F /* TextField+Custom.swift */; };
 		6B469E5C29A5F5AC00FDDE4D /* WritingScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B469E5B29A5F5AC00FDDE4D /* WritingScheduleView.swift */; };
 		6B469E6029A6EABA00FDDE4D /* WritingMemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B469E5F29A6EABA00FDDE4D /* WritingMemoryView.swift */; };
 		6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA0529513D4A000430C7 /* AppDelegate.swift */; };
@@ -82,7 +82,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6B130C2929A597C4008313DE /* TextFieldFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldFactory.swift; sourceTree = "<group>"; };
 		6B130C2F29A59FF0008313DE /* PlansListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListView.swift; sourceTree = "<group>"; };
 		6B17E2FD2956A72800AF59EE /* MemoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCellViewModel.swift; sourceTree = "<group>"; };
 		6B17E30D2956D39300AF59EE /* WritingMemoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewController.swift; sourceTree = "<group>"; };
@@ -97,15 +96,16 @@
 		6B37A4C829519C8800BBB8EE /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		6B37A4CE2951C30800BBB8EE /* PlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCell.swift; sourceTree = "<group>"; };
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
+		6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YeolmokTravelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B417F8B29B1C2EB00AAC72F /* TextField+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Custom.swift"; sourceTree = "<group>"; };
 		6B469E5B29A5F5AC00FDDE4D /* WritingScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleView.swift; sourceTree = "<group>"; };
 		6B469E5F29A6EABA00FDDE4D /* WritingMemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryView.swift; sourceTree = "<group>"; };
-		6B46FA0229513D4A000430C7 /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = YeolmokTravel.app; path = "/Users/kimdonguk/Desktop/Travel/YeolmokTravel/build/Debug-iphoneos/YeolmokTravel.app"; sourceTree = "<absolute>"; };
 		6B46FA0529513D4A000430C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0729513D4A000430C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		6B46FA0E29513D4C000430C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B46FA1129513D4C000430C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B46FA1329513D4C000430C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = YeolmokTravelTests.xctest; path = "/Users/kimdonguk/Desktop/Travel/YeolmokTravel/build/Debug-iphoneos/YeolmokTravelTests.xctest"; sourceTree = "<absolute>"; };
 		6B46FA3E295140E9000430C7 /* PlansListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewController.swift; sourceTree = "<group>"; };
 		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewModelTests.swift; sourceTree = "<group>"; };
@@ -174,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */,
-				6B130C2929A597C4008313DE /* TextFieldFactory.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -192,6 +191,7 @@
 			children = (
 				6B37A4C829519C8800BBB8EE /* Alert.swift */,
 				6BF15AC1298FD7E000C53BA9 /* Button.swift */,
+				6B417F8B29B1C2EB00AAC72F /* TextField+Custom.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -201,6 +201,8 @@
 			children = (
 				6B46FA0429513D4A000430C7 /* YeolmokTravel */,
 				6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */,
+				6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */,
+				6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -507,7 +509,7 @@
 				6B1A576F29ACE13A00E80248 /* FirebasePlatform */,
 			);
 			productName = YeolmokTravel;
-			productReference = 6B46FA0229513D4A000430C7 /* YeolmokTravel.app */;
+			productReference = 6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */;
 			productType = "com.apple.product-type.application";
 		};
 		6B46FA1729513D4C000430C7 /* YeolmokTravelTests */ = {
@@ -530,7 +532,7 @@
 				6B1A577129ACE1F100E80248 /* FirebasePlatform */,
 			);
 			productName = YeolmokTravelTests;
-			productReference = 6B46FA1829513D4C000430C7 /* YeolmokTravelTests.xctest */;
+			productReference = 6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -624,9 +626,9 @@
 				6BB277C42955893900534B68 /* MemoriesListViewController.swift in Sources */,
 				6B37A4D22951D9CB00BBB8EE /* WritingScheduleViewController.swift in Sources */,
 				6BF15AC2298FD7E000C53BA9 /* Button.swift in Sources */,
+				6B417F8C29B1C2EB00AAC72F /* TextField+Custom.swift in Sources */,
 				6BDA450629AA31F900C63269 /* PlansWriteFlowCoordinator.swift in Sources */,
 				6B46FA0629513D4A000430C7 /* AppDelegate.swift in Sources */,
-				6B130C2A29A597C4008313DE /* TextFieldFactory.swift in Sources */,
 				6B37A4C929519C8800BBB8EE /* Alert.swift in Sources */,
 				6BF15AC42990D13400C53BA9 /* MapButtonSetView.swift in Sources */,
 				6B469E6029A6EABA00FDDE4D /* WritingMemoryView.swift in Sources */,
