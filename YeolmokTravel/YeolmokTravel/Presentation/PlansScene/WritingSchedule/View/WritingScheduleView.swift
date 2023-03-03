@@ -114,23 +114,17 @@ final class WritingScheduleView: UIView {
       - 경도 입력 텍스트필드
       - MapView를 보여줄 버튼
      */
-    let latitudeTextField: UITextField = {
-        let textField = UITextField()
-            .makeCustomTextField()
-            .withFontSize(LayoutConstants.mediumFontSize)
-            .withPlaceholder(TextConstants.latitudePlaceholder)
-        textField.keyboardType = .decimalPad
-        return textField
-    }()
+    let latitudeTextField = UITextField()
+        .makeCustomTextField()
+        .withFontSize(LayoutConstants.mediumFontSize)
+        .withPlaceholder(TextConstants.latitudePlaceholder)
+        .withKeyboardType(.decimalPad)
     
-    let longitudeTextField: UITextField = {
-        let textField = UITextField()
-            .makeCustomTextField()
-            .withFontSize(LayoutConstants.mediumFontSize)
-            .withPlaceholder(TextConstants.longitudePlaceholder)
-        textField.keyboardType = .decimalPad
-        return textField
-    }()
+    let longitudeTextField = UITextField()
+        .makeCustomTextField()
+        .withFontSize(LayoutConstants.mediumFontSize)
+        .withPlaceholder(TextConstants.longitudePlaceholder)
+        .withKeyboardType(.decimalPad)
     
     lazy var mapButton: UIButton = {
         let button = createConfigurationButton()
