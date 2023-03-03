@@ -46,6 +46,7 @@ final class DefaultWritingScheduleViewModel: WritingScheduleViewModel {
     let fromDate: CurrentValueSubject<Date?, Never>
     let toDate: CurrentValueSubject<Date?, Never>
     let coordinate: CurrentValueSubject<CLLocationCoordinate2D, Never>
+    var isChanged: Bool { scheduleTracker.isChanged }
     
     // MARK: - Init
     init(_ schedule: Schedule) {
@@ -55,10 +56,6 @@ final class DefaultWritingScheduleViewModel: WritingScheduleViewModel {
         self.toDate = CurrentValueSubject<Date?, Never>(schedule.toDate)
         self.coordinate = CurrentValueSubject<CLLocationCoordinate2D, Never>(schedule.coordinate)
         self.scheduleTracker = ScheduleTracker(schedule)
-    }
-    
-    var isChanged: Bool {
-        scheduleTracker.isChanged
     }
     
     func validate(_ latitude: String, _ longitude: String) throws {
