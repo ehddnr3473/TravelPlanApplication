@@ -68,6 +68,7 @@ final class PlansSceneDIContainer {
     }
 }
 
+// MARK: - Parameter box
 extension PlansSceneDIContainer {
     struct WritingPlanBox {
         let plan: Plan

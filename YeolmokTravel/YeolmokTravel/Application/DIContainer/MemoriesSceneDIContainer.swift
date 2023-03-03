@@ -63,6 +63,7 @@ final class MemoriesSceneDIContainer {
     }
 }
 
+// MARK: - Parameter box
 extension MemoriesSceneDIContainer {
     struct WritingMemoryBox {
         let memoriesUseCaseProvider: MemoriesUseCaseProvider
