@@ -23,13 +23,18 @@ extension UITextField {
         return self
     }
     
-    func withPlaceholder(_ placeholderText: String) -> Self {
-        placeholder = placeholderText
+    func withPlaceholder(_ text: String) -> Self {
+        placeholder = text
         return self
     }
     
     func withFontSize(_ fontSize: CGFloat) -> Self {
         font = .boldSystemFont(ofSize: fontSize)
+        return self
+    }
+    
+    func withKeyboardType(_ type: UIKeyboardType) -> Self {
+        keyboardType = type
         return self
     }
 }
