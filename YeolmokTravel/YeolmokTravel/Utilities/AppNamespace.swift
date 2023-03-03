@@ -16,6 +16,7 @@ import Foundation
     static let spacing: CGFloat = 8
     static let largeSpacing: CGFloat = 20
     static let borderWidth: CGFloat = 1
+    static let cornerRadius: CGFloat = 5
     static let titleFontSize: CGFloat = 30
     static let largeFontSize: CGFloat = 25
     static let cellHeight: CGFloat = 100
