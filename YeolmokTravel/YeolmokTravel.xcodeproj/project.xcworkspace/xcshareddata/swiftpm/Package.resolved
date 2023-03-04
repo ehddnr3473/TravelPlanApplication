@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/FirebasePlatform.git",
       "state" : {
-        "revision" : "4ade1b93f8670c9a88592157f14a888e7c2acd87",
-        "version" : "1.0.0"
+        "revision" : "d34a5217e0f79ec5fd53709af7784660856c1e0f",
+        "version" : "1.2.0"
       }
     },
     {
