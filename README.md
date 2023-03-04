@@ -72,7 +72,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 <br></br>
 ## 뷰 및 동작
 ### Plans
-|메인|계획 수정|계획 수정 2|계획 추가|
+|메인|계획 리스트 수정|계획 수정|계획 추가|
 |---|---|---|---|
 |<image src="Document/plansList.png" width="180">|<image src="Document/editPlansList.gif" width="180">|<image src="Document/editPlan.png" width="180">|<image src="Document/newPlan.png" width="180">|
 
