@@ -38,7 +38,7 @@ final class DefaultMemoryCellViewModel: MemoryCellViewModel {
     
     func read() {
         let readUseCase = useCaseProvider.provideReadImageUseCase()
-        readUseCase.execute(at: memory.id) { [weak self] result in
+        readUseCase.execute(key: String(memory.id)) { [weak self] result in
             switch result {
             case .success(let image):
                 self?.imagePublisher.send(image)

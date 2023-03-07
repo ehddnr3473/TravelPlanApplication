@@ -70,19 +70,19 @@ final class DefaultPlansListViewModel: PlansListViewModel {
 extension DefaultPlansListViewModel {
     func create(_ plan: Plan) async throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
-        try await uploadUseCase.execute(at: plans.value.endIndex, plan: plan)
+        try await uploadUseCase.execute(key: String(plans.value.endIndex), plan: plan)
         plans.value.append(plan)
     }
     
     func update(at index: Int, _ plan: Plan) async throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
-        try await uploadUseCase.execute(at: index, plan: plan)
+        try await uploadUseCase.execute(key: String(index), plan: plan)
         plans.value[index] = plan
     }
     
     func delete(at index: Int) async throws {
         let deleteUseCase = useCaseProvider.provideDeletePlanUseCase()
-        try await deleteUseCase.execute(at: index, plans: plans.value)
+        try await deleteUseCase.execute(key: String(index), plans: plans.value)
         plans.value.remove(at: index)
     }
     
@@ -91,8 +91,8 @@ extension DefaultPlansListViewModel {
         do {
             try await swapUseCase.execute(
                 SwapPlansBox(
-                    source: source,
-                    destination: destination,
+                    sourceKey: String(source),
+                    destinationKey: String(destination),
                     sourcePlan: plans.value[source],
                     destinationPlan: plans.value[destination]
                 )

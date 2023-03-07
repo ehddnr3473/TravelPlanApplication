@@ -34,7 +34,7 @@ final class DefaultWritingMemoryViewModel: WritingMemoryViewModel {
         try await uploadMemoryUseCase.execute(memory)
         
         let uploadImageUseCase = imagesUseCaseProvider.provideUploadImageUseCase()
-        try await uploadImageUseCase.execute(at: memory.id, image)
+        try await uploadImageUseCase.execute(key: String(memory.id), image)
     }
 }
 
