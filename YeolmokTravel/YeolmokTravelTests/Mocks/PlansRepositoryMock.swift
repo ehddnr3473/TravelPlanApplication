@@ -31,15 +31,21 @@ final class PlansRepositoryMock: PlansRepository {
         Plan(title: "title2", description: "description2", schedules: [])
     ]
     
-    func upload(at index: Int, plan: Plan) async throws {
-        self.plans.insert(plan, at: index)
+    func upload(plan: Plan) throws {
+        if let index = plans.firstIndex(where: { $0.title == plan.title }) {
+            plans[index] = plan
+        } else {
+            self.plans.append(plan)
+        }
     }
     
     func read() async throws -> [Domain.Plan] {
         self.plans
     }
     
-    func delete(at index: Int, plans: [Plan]) async throws {
-        self.plans.remove(at: index)
+    func delete(key: String) async throws {
+        if let index = plans.firstIndex(where: { $0.title == key }) {
+            plans.remove(at: index)
+        }
     }
 }

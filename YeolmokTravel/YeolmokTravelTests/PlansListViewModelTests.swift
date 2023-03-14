@@ -34,7 +34,7 @@ final class PlansListViewModelTests: XCTestCase {
         let plan = Plan(title: "createdTitle", description: "createdDescription", schedules: [])
         
         // when
-        try viewModel.upload(plan)
+        try viewModel.create(plan)
         
         // then
         XCTAssert(viewModel.plans.value.count == 4)
@@ -47,7 +47,7 @@ final class PlansListViewModelTests: XCTestCase {
         let plan = Plan(title: "updatedTitle", description: "updatedDescription", schedules: [])
         
         // when
-        try viewModel.upload(plan)
+        try viewModel.update(at: index, plan)
         
         // then
         XCTAssert(viewModel.plans.value[index].title == "updatedTitle")

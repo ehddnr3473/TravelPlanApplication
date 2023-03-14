@@ -35,7 +35,7 @@ final class MemoriesRepositoryMock: MemoriesRepository {
         memories
     }
     
-    func delete(at index: Int) async throws {
-        memories.remove(at: index)
+    func delete(key: String) async throws {
+        memories.remove(at: Int(key)!)
     }
 }
