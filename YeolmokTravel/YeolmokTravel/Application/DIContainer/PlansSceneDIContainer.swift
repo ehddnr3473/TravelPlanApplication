@@ -74,7 +74,7 @@ extension PlansSceneDIContainer {
         let plan: Plan
         let coordinator: PlansWriteFlowCoordinator
         let writingStyle: WritingStyle
-        let delegate: PlanTransferDelegate
+        let delegate: WritingPlanDelegate
         let plansListIndex: Int?
         let coordinates: [CLLocationCoordinate2D]
     }
