@@ -12,8 +12,7 @@ import FirebasePlatform
 import Domain
 
 protocol PlanTransferDelegate: AnyObject {
-    func create(_ plan: Plan) async throws
-    func update(at index: Int, _ plan: Plan) async throws
+    func didEndWritingPlan(_ plan: Plan) async throws
 }
 
 final class PlansListViewController: UIViewController {
@@ -253,21 +252,10 @@ extension PlansListViewController: UITableViewDelegate {
 
 // MARK: - PlanTransferDelegate
 extension PlansListViewController: PlanTransferDelegate {
-    func create(_ plan: Plan) async throws {
+    func didEndWritingPlan(_ plan: Plan) async throws {
         startIndicator()
         do {
-            try await viewModel.create(plan)
-        } catch {
-            guard let error = error as? PlansRepositoryError else { return }
-            alertWillAppear(error.rawValue)
-        }
-        dismissIndicator()
-    }
-    
-    func update(at index: Int, _ plan: Plan) async throws {
-        startIndicator()
-        do {
-            try await viewModel.update(at: index, plan)
+            try viewModel.upload(plan)
         } catch {
             guard let error = error as? PlansRepositoryError else { return }
             alertWillAppear(error.rawValue)
