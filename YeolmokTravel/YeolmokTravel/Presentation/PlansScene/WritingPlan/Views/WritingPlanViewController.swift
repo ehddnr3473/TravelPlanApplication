@@ -165,13 +165,13 @@ private extension WritingPlanViewController {
             if viewModel.isChanged {
                 let plan = try viewModel.validateAndGetPlan()
                 
-                try delegate?.validate(plan.title)
-                
                 switch writingStyle {
                 case .create:
+                    try delegate?.validateCreation(plan.title)
                     try delegate?.create(plan)
                 case .update:
                     guard let index = plansListIndex else { return }
+                    try delegate?.validateUpdate(at: index, plan.title)
                     try delegate?.update(at: index, plan)
                 }
             }
