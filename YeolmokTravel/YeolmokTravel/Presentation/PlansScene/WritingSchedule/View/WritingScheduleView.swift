@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 final class WritingScheduleView: UIView {
     // MARK: - Magic number/string
@@ -27,6 +28,11 @@ final class WritingScheduleView: UIView {
         static let buttonTitle = "Show Map"
         static let mapIcon = "map"
         static let coordinateSearchTextFieldPlaceholder = "Type place name or address."
+    }
+    
+    @frozen private enum IndicatorConstants {
+        static let titleText = "Searching.."
+        static let detailText = "Please wait"
     }
     
     // MARK: - Properties
@@ -155,6 +161,13 @@ final class WritingScheduleView: UIView {
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.backgroundColor = AppStyles.mainColor
         return button
+    }()
+    
+    lazy var indicatorView: JGProgressHUD = {
+        let headUpDisplay = JGProgressHUD()
+        headUpDisplay.textLabel.text = IndicatorConstants.titleText
+        headUpDisplay.detailTextLabel.text = IndicatorConstants.detailText
+        return headUpDisplay
     }()
     
     // MARK: - Init
