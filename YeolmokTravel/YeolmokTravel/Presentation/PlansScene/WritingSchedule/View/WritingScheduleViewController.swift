@@ -103,18 +103,19 @@ private extension WritingScheduleViewController {
     func configureDelegate() {
         ownView.titleTextField.delegate = self
         ownView.descriptionTextView.delegate = self
+        ownView.coordinateSearchTextField.delegate = self
         ownView.latitudeTextField.delegate = self
         ownView.longitudeTextField.delegate = self
-        
     }
+    
     func configureAction() {
         ownView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        ownView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        ownView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        ownView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
         ownView.dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
         ownView.fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
         ownView.toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
+        ownView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        ownView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        ownView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
     }
 }
 
@@ -201,6 +202,11 @@ private extension WritingScheduleViewController {
 // MARK: - UITextFieldDelegate
 extension WritingScheduleViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == ownView.coordinateSearchTextField {
+            // search
+            
+        }
+        
         textField.resignFirstResponder()
         return true
     }
@@ -244,6 +250,21 @@ extension WritingScheduleViewController: UITextFieldDelegate {
 extension WritingScheduleViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         viewModel.description.value = textView.text
+    }
+}
+
+// MARK: - Indicator
+private extension WritingScheduleViewController {
+    func startIndicator() {
+        DispatchQueue.main.async { [self] in
+            ownView.indicatorView.show(in: view)
+        }
+    }
+    
+    func dismissIndicator() {
+        DispatchQueue.main.async { [self] in
+            ownView.indicatorView.dismiss(animated: true)
+        }
     }
 }
 
