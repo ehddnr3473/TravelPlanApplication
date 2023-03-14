@@ -68,7 +68,7 @@ private extension PlansListView {
     }
     
     func configureHierarchy() {
-        [titleLabel, editPlanButton, createPlanButton].forEach {
+        [titleLabel, createPlanButton].forEach {
             addSubview($0)
         }
     }
@@ -82,13 +82,6 @@ private extension PlansListView {
         createPlanButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
-            $0.size.equalTo(LayoutConstants.buttonSize)
-        }
-        
-        editPlanButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.trailing.equalTo(createPlanButton.snp.leading)
-                .offset(-AppLayoutConstants.spacing)
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
     }
