@@ -127,6 +127,9 @@ final class WritingScheduleView: UIView {
     
     let coordinateSearchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
+        searchTextField.autocorrectionType = .no
+        searchTextField.autocapitalizationType = .none
+        searchTextField.returnKeyType = .search
         searchTextField.placeholder = TextConstants.coordinateSearchTextFieldPlaceholder
         searchTextField.backgroundColor = .black
         return searchTextField
