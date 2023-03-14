@@ -70,13 +70,14 @@ extension DefaultPlansListViewModel {
     func create(_ plan: Plan) throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
         try uploadUseCase.execute(plan: plan)
-        plans.value.append(plan)
+        plans.value.insert(plan, at: 0)
     }
     
     func update(at index: Int, _ plan: Plan) throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
         try uploadUseCase.execute(plan: plan)
         plans.value[index] = plan
+        plans.value.swapAt(0, index)
     }
     
     func delete(at index: Int) async throws {
