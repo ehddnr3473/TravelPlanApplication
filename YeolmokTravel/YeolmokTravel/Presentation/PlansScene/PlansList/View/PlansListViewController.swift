@@ -116,7 +116,6 @@ private extension PlansListViewController {
     }
     
     func configureAction() {
-        plansListView.editPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
         plansListView.createPlanButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
 }
@@ -132,14 +131,6 @@ private extension PlansListViewController {
         planTableView.snp.updateConstraints {
             $0.height.equalTo(viewModel.plans.value.count * Int(LayoutConstants.cellHeight))
         }
-    }
-    
-    @objc func touchUpEditButton() {
-        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
-            planTableView.isEditing.toggle()
-        }, completion: { [self] _ in
-            plansListView.editPlanButton.isEditingAtTintColor = planTableView.isEditing
-        })
     }
     
     @objc func touchUpCreateButton() {
@@ -210,37 +201,10 @@ extension PlansListViewController: UITableViewDataSource {
             }
         }
     }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? PlanCell else { return }
-        guard let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? PlanCell else { return }
-        
-        tableView.isUserInteractionEnabled = false
-        sourceCell.createIndicator()
-        destinationCell.createIndicator()
-        sourceCell.startIndicator()
-        destinationCell.startIndicator()
-        
-        Task {
-            do {
-                try await viewModel.swapPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
-            } catch {
-                guard let error = error as? PlansRepositoryError else { return }
-                alertWillAppear(error.rawValue)
-            }
-            sourceCell.stopAndDeallocateIndicator()
-            destinationCell.stopAndDeallocateIndicator()
-            tableView.isUserInteractionEnabled = true
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate
 extension PlansListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        .delete
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         LayoutConstants.cellHeight
     }
