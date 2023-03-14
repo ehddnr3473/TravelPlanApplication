@@ -12,7 +12,8 @@ import FirebasePlatform
 import CoreLocation
 
 protocol PlansListViewModelInput {
-    func upload(_ plan: Plan) throws
+    func create(_ plan: Plan) throws
+    func update(at index: Int, _ plan: Plan) throws
     func delete(at index: Int) async throws
 }
 
@@ -66,10 +67,16 @@ final class DefaultPlansListViewModel: PlansListViewModel {
 
 // MARK: - Input
 extension DefaultPlansListViewModel {
-    func upload(_ plan: Plan) throws {
+    func create(_ plan: Plan) throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
         try uploadUseCase.execute(plan: plan)
         plans.value.append(plan)
+    }
+    
+    func update(at index: Int, _ plan: Plan) throws {
+        let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
+        try uploadUseCase.execute(plan: plan)
+        plans.value[index] = plan
     }
     
     func delete(at index: Int) async throws {
