@@ -19,7 +19,8 @@ protocol PlanTransferDelegate: AnyObject {
 }
 
 protocol ValidationDelegate: AnyObject {
-    func validate(_ identifier: String) throws
+    func validateCreation(_ identifier: String) throws
+    func validateUpdate(at index: Int, _ identifier: String) throws
 }
 
 final class PlansListViewController: UIViewController {
@@ -248,8 +249,22 @@ extension PlansListViewController: PlanTransferDelegate {
 
 // MARK: - ValidationDelegate
 extension PlansListViewController: ValidationDelegate {
-    func validate(_ identifier: String) throws {
+    func validateCreation(_ identifier: String) throws {
         if viewModel.plans.value.contains(where: { $0.title == identifier }) {
+            throw WritingPlanError.notIdentifiable
+        }
+    }
+    
+    func validateUpdate(at index: Int, _ identifier: String) throws {
+        if viewModel.plans.value.contains(where: { plan in
+            if plan.title != identifier {
+                return false
+            } else if viewModel.plans.value.firstIndex(where: { $0.title == plan.title }) == index {
+                return false
+            } else {
+                return true
+            }
+        }) {
             throw WritingPlanError.notIdentifiable
         }
     }
