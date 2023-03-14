@@ -34,7 +34,7 @@ final class PlansListViewModelTests: XCTestCase {
         let plan = Plan(title: "createdTitle", description: "createdDescription", schedules: [])
         
         // when
-        try await viewModel.create(plan)
+        try viewModel.upload(plan)
         
         // then
         XCTAssert(viewModel.plans.value.count == 4)
@@ -47,7 +47,7 @@ final class PlansListViewModelTests: XCTestCase {
         let plan = Plan(title: "updatedTitle", description: "updatedDescription", schedules: [])
         
         // when
-        try await viewModel.update(at: index, plan)
+        try viewModel.upload(plan)
         
         // then
         XCTAssert(viewModel.plans.value[index].title == "updatedTitle")
@@ -65,20 +65,6 @@ final class PlansListViewModelTests: XCTestCase {
         // then
         XCTAssert(viewModel.plans.value.count == 2)
         XCTAssert(viewModel.plans.value[1].title == "title2")
-    }
-    
-    func test_whenSwapPlans_thenPlansContainsSwapedPlans() async throws {
-        // given
-        try await viewModel.read()
-        let sourceIndex = 1
-        let destinationIndex = 2
-        
-        // when
-        try await viewModel.swapPlans(at: sourceIndex, to: destinationIndex)
-        
-        // then
-        XCTAssert(viewModel.plans.value[sourceIndex].title == "title2")
-        XCTAssert(viewModel.plans.value[destinationIndex].title == "title1")
     }
     
     // MARK: - Get data func
