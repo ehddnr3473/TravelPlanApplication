@@ -35,13 +35,6 @@ final class PlansListView: UIView {
         return label
     }()
     
-    let editPlanButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
-        button.tintColor = AppStyles.mainColor
-        return button
-    }()
-    
     let createPlanButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setBackgroundImage(UIImage(systemName: AppTextConstants.plusIcon), for: .normal)
