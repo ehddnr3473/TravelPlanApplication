@@ -25,7 +25,7 @@ final class WritingPlanViewController: UIViewController, Writable {
     private weak var coordinator: PlansWriteFlowCoordinator?
     private let mapProvider: MapProvider
     let writingStyle: WritingStyle
-    private weak var delegate: PlanTransferDelegate?
+    private weak var delegate: WritingPlanDelegate?
     private let plansListIndex: Int?
     private var subscriptions = Set<AnyCancellable>()
     
@@ -62,7 +62,7 @@ final class WritingPlanViewController: UIViewController, Writable {
          coordinator: PlansWriteFlowCoordinator,
          mapProvider: MapProvider,
          writingStyle: WritingStyle,
-         delegate: PlanTransferDelegate,
+         delegate: WritingPlanDelegate,
          plansListIndex: Int?) {
         self.viewModel = viewModel
         self.coordinator = coordinator
@@ -165,12 +165,14 @@ private extension WritingPlanViewController {
             if viewModel.isChanged {
                 let plan = try viewModel.validateAndGetPlan()
                 
+                try delegate?.validate(plan.title)
+                
                 switch writingStyle {
                 case .create:
-                    Task { try await delegate?.create(plan) }
+                    try delegate?.create(plan)
                 case .update:
                     guard let index = plansListIndex else { return }
-                    Task { try await delegate?.update(at: index, plan) }
+                    try delegate?.update(at: index, plan)
                 }
             }
             navigationController?.popViewController(animated: true)
