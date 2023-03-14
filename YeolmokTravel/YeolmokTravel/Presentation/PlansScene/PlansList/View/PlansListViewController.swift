@@ -11,9 +11,15 @@ import Combine
 import FirebasePlatform
 import Domain
 
+typealias WritingPlanDelegate = PlanTransferDelegate & ValidationDelegate
+
 protocol PlanTransferDelegate: AnyObject {
     func create(_ plan: Plan) throws
     func update(at index: Int, _ plan: Plan) throws
+}
+
+protocol ValidationDelegate: AnyObject {
+    func validate(_ identifier: String) throws
 }
 
 final class PlansListViewController: UIViewController {
@@ -237,6 +243,15 @@ extension PlansListViewController: PlanTransferDelegate {
             alertWillAppear(error.rawValue)
         }
         dismissIndicator()
+    }
+}
+
+// MARK: - ValidationDelegate
+extension PlansListViewController: ValidationDelegate {
+    func validate(_ identifier: String) throws {
+        if viewModel.plans.value.contains(where: { $0.title == identifier }) {
+            throw WritingPlanError.notIdentifiable
+        }
     }
 }
 
