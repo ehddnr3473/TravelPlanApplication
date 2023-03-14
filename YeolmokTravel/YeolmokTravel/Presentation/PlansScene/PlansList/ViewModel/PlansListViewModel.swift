@@ -81,7 +81,7 @@ extension DefaultPlansListViewModel {
     
     func delete(at index: Int) async throws {
         let deleteUseCase = useCaseProvider.provideDeletePlanUseCase()
-        try await deleteUseCase.execute(key: String(index))
+        try await deleteUseCase.execute(key: plans.value[index].title)
         plans.value.remove(at: index)
     }
 }
