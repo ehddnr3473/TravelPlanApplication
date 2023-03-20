@@ -26,8 +26,9 @@
 Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 관리했습니다.
 |패키지|내용|코드 저장소 URL|
 |---|---|---|
-|FirebasePlatform|데이터 모듈|https://github.com/ehddnr3473/FirebasePlatform.git|
 |Domain|도메인 모듈|https://github.com/ehddnr3473/Domain_framework_build.git|
+|FirebasePlatform|데이터 모듈|https://github.com/ehddnr3473/FirebasePlatform.git|
+|NetworkPlatform|데이터 모듈|https://github.com/ehddnr3473/NetworkPlatform.git|
 |SnapKit|레이아웃 코드 작성|-|
 |JGProgressHUD|Progress indicator 생성|-|
 
