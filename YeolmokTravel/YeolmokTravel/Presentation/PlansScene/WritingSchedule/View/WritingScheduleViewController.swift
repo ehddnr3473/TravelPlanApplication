@@ -215,7 +215,7 @@ extension WritingScheduleViewController: UITextFieldDelegate {
         return true
     }
     
-    func performCoordinateSearch(with query: String) async {
+    private func performCoordinateSearch(with query: String) async {
         Task {
             startIndicator()
             
