@@ -9,6 +9,7 @@ import Foundation
 import Domain
 import FirebasePlatform
 import CoreLocation
+import NetworkPlatform
 
 final class PlansSceneDIContainer {
     // MARK: - Use Case Provider
@@ -16,9 +17,17 @@ final class PlansSceneDIContainer {
         DefaultPlansUseCaseProvider(repository: makePlansRepository())
     }
     
+    private func makeCoordinateUseCaseProvider() -> CoordinateUseCaseProvider {
+        DefaultCoordinateUseCaseProvider(repository: makeCoordinateRepository())
+    }
+    
     // MARK: - Repository
     private func makePlansRepository() -> PlansRepository {
         DefaultPlansRepository()
+    }
+    
+    private func makeCoordinateRepository() -> CoordinateRepository {
+        DefaultCoordinateRepository()
     }
     
     // MARK: - Plans List
@@ -64,7 +73,10 @@ final class PlansSceneDIContainer {
     }
     
     private func makeWritingScheduleViewModel(schedule: Schedule) -> WritingScheduleViewModel {
-        DefaultWritingScheduleViewModel(schedule)
+        DefaultWritingScheduleViewModel(
+            schedule: schedule,
+            useCaseProvider: makeCoordinateUseCaseProvider()
+        )
     }
 }
 
