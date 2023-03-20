@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import CoreLocation
+import NetworkPlatform
 
 /// 여행 계획 추가 및 수정을 위한 ViewController
 /// 위도와 경도를 텍스트필드에 입력하고 버튼을 눌러서 MKMapView로 확인할 수 있음.
@@ -204,11 +205,38 @@ extension WritingScheduleViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == ownView.coordinateSearchTextField {
             // search
-            
+            if let text = textField.text, !text.isEmpty {
+                Task { await performCoordinateSearch(with: text) }
+                textField.text = ""
+            }
         }
         
         textField.resignFirstResponder()
         return true
+    }
+    
+    func performCoordinateSearch(with query: String) async {
+        Task {
+            startIndicator()
+            
+            do {
+                let coordinate = try await viewModel.perfomeCoordinateSearch(with: query)
+                DispatchQueue.main.async { [self] in
+                    ownView.latitudeTextField.text = coordinate.latitude
+                    ownView.longitudeTextField.text = coordinate.longitude
+                }
+            } catch {
+                if let error = error as? CoordinateRepositoryError {
+                    alertWillAppear(error.rawValue)
+                } else if let error = error as? CoordinateResponseError {
+                    alertWillAppear(error.rawValue)
+                } else {
+                    alertWillAppear(AlertText.undefinedError)
+                }
+            }
+            
+            dismissIndicator()
+        }
     }
     
     // 키보드가 나타날 때, view를 위로 이동시킴.
