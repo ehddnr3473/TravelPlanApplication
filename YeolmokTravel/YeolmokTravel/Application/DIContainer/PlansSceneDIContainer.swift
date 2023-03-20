@@ -27,7 +27,15 @@ final class PlansSceneDIContainer {
     }
     
     private func makeCoordinateRepository() -> CoordinateRepository {
-        DefaultCoordinateRepository()
+        if let fileURL = Bundle.main.url(forResource: "APIKey", withExtension: "txt") {
+            let key = try? String(contentsOf: fileURL, encoding: .utf8)
+            return DefaultCoordinateRepository(configuration: Configuration(key: key))
+        } else {
+            #if DEBUG
+            print("APIKey.txt not found.")
+            #endif
+            return DefaultCoordinateRepository(configuration: Configuration(key: nil))
+        }
     }
     
     // MARK: - Plans List
