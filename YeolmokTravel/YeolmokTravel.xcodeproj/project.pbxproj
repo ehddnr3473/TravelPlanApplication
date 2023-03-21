@@ -969,7 +969,7 @@
 			repositoryURL = "https://github.com/ehddnr3473/NetworkPlatform.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

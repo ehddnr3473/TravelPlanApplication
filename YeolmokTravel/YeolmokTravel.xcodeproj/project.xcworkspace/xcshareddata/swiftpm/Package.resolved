@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/GoogleMapsGeoCodingSwift.git",
       "state" : {
-        "revision" : "c2467bc1e561aa4ff9a96c85dd3cce085df6739d",
-        "version" : "0.0.3"
+        "revision" : "0ea06c910497ab620b90404e0681f633fbe39087",
+        "version" : "0.0.6"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ehddnr3473/NetworkPlatform.git",
       "state" : {
-        "revision" : "a40c4cec922c7760a837827d4332f526df8dad75",
-        "version" : "0.0.4"
+        "revision" : "4eddffa82d8626ffe8c73f7c57c1111c74948fb5",
+        "version" : "1.0.0"
       }
     },
     {
