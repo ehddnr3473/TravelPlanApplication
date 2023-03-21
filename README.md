@@ -34,7 +34,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 
 - 프로젝트에서 Domain 모듈의 실제 참조 URL
   * Domain: https://github.com/ehddnr3473/Domain.git
-- NetworkPlatform 모듈은 Domain 모듈 뿐만이 아니라 GoogleMapsGeoCodingSwift 모듈에도 의존성을 가짐.
+- NetworkPlatform 모듈은 Domain 모듈뿐만이 아니라 GoogleMapsGeoCodingSwift 모듈에도 의존성을 가짐.
   * GoogleMapsGeoCodingSwift: https://github.com/ehddnr3473/GoogleMapsGeoCodingSwift.git
 
 
@@ -116,5 +116,5 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 |<img src="Document/memoriesList.gif" width="180">|<img src="Document/uploadMemory.gif" width="180">|
 
 - 사진 업로드 및 다운로드
-- Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage)
+- Firebase Storage의 데이터를 다운로드하여 사용 가능한 이미지로 변환(Data <-> UIImage)
 - **Memory**탭 초기 진입 시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용
