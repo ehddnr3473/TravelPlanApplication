@@ -73,12 +73,13 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 <br></br>
 ## 뷰 및 동작
 ### Plans
-|메인|계획 리스트 수정|계획 수정|계획 추가|
+|메인|계획 리스트 수정|계획 추가|계획 수정|
 |---|---|---|---|
-|<image src="Document/plansList.png" width="180">|<image src="Document/editPlansList.gif" width="180">|<image src="Document/editPlan.png" width="180">|<image src="Document/newPlan.png" width="180">|
+|<image src="Document/plansList.png" width="180">|<image src="Document/editPlansList.gif" width="180">|<image src="Document/newPlan.png" width="180">|<image src="Document/editPlan.png" width="180">|
 
 - 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
 - 따라서 여행 계획은 상세 일정의 내용을 취합하여 보여줌.
+- 최근에 추가/수정된 계획을 리스트의 위에 위치시킴.
 
 
 <br></br>
