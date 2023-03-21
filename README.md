@@ -6,7 +6,7 @@
 
 <br></br>
 ## 프로젝트 기간
-2023.1 ~ 2023.2
+2023.1 ~ 2023.3
 
 
 <br></br>
@@ -32,7 +32,10 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 |SnapKit|레이아웃 코드 작성|-|
 |JGProgressHUD|Progress indicator 생성|-|
 
-* 프로젝트에서 도메인 모듈의 실제 참조 URL: https://github.com/ehddnr3473/Domain.git
+- 프로젝트에서 Domain 모듈의 실제 참조 URL
+  * Domain: https://github.com/ehddnr3473/Domain.git
+- NetworkPlatform 모듈은 Domain 모듈 뿐만이 아니라 GoogleMapsGeoCodingSwift 모듈에도 의존성을 가짐.
+  * GoogleMapsGeoCodingSwift: https://github.com/ehddnr3473/GoogleMapsGeoCodingSwift.git
 
 
 
@@ -89,6 +92,14 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 
 - 추가, 수정 중 취소를 눌렀을 때, 변경 사항을 추적해서 알려줌.
 - 동적인 레이아웃을 제공하여 불필요한 뷰를 줄임.
+
+
+<br></br>
+|좌표 검색|
+|---|
+|<image src="Document/network.gif" width="180">|
+
+- 네트워크 통신을 통해 좌표를 검색할 수 있음.
 
 
 <br></br>
