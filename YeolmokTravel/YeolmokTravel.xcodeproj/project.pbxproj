@@ -34,7 +34,6 @@
 		6B46FA0F29513D4C000430C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA0E29513D4C000430C7 /* Assets.xcassets */; };
 		6B46FA1229513D4C000430C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */; };
 		6B46FA3F295140E9000430C7 /* PlansListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B46FA3E295140E9000430C7 /* PlansListViewController.swift */; };
-		6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B46FA4029514340000430C7 /* GoogleService-Info.plist */; };
 		6B5743BD29AC37A100BA0390 /* PlansListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */; };
 		6B5743C229AC398900BA0390 /* PlansRepositoryMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B5743C129AC398900BA0390 /* PlansRepositoryMock.swift */; };
 		6B62A0CF2955CA0800450DB2 /* MemoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */; };
@@ -49,6 +48,7 @@
 		6BB76BC0297F4F6700C8C596 /* MemoriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BBF297F4F6700C8C596 /* MemoriesListViewModel.swift */; };
 		6BB76BC8297F7F8800C8C596 /* WritingPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */; };
 		6BB883A1297C5F4800C3E2E4 /* WritingMemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */; };
+		6BCC428329E12BBA00FF00FB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6BCC428229E12BBA00FF00FB /* GoogleService-Info.plist */; };
 		6BCE6567298E2A5700D4B5A0 /* WritingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BCE6566298E2A5700D4B5A0 /* WritingPlanView.swift */; };
 		6BDA450329AA289500C63269 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA450229AA289500C63269 /* AppConfiguration.swift */; };
 		6BDA450629AA31F900C63269 /* PlansWriteFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDA450529AA31F900C63269 /* PlansWriteFlowCoordinator.swift */; };
@@ -109,7 +109,6 @@
 		6B46FA1129513D4C000430C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6B46FA1329513D4C000430C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B46FA3E295140E9000430C7 /* PlansListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewController.swift; sourceTree = "<group>"; };
-		6B46FA4029514340000430C7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewModelTests.swift; sourceTree = "<group>"; };
 		6B5743C129AC398900BA0390 /* PlansRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansRepositoryMock.swift; sourceTree = "<group>"; };
 		6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCell.swift; sourceTree = "<group>"; };
@@ -122,6 +121,7 @@
 		6BB76BBF297F4F6700C8C596 /* MemoriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoriesListViewModel.swift; sourceTree = "<group>"; };
 		6BB76BC7297F7F8800C8C596 /* WritingPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanViewModel.swift; sourceTree = "<group>"; };
 		6BB883A0297C5F4800C3E2E4 /* WritingMemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryViewModel.swift; sourceTree = "<group>"; };
+		6BCC428229E12BBA00FF00FB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6BCE6566298E2A5700D4B5A0 /* WritingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingPlanView.swift; sourceTree = "<group>"; };
 		6BDA450229AA289500C63269 /* AppConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
 		6BDA450529AA31F900C63269 /* PlansWriteFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansWriteFlowCoordinator.swift; sourceTree = "<group>"; };
@@ -351,7 +351,6 @@
 		6BA27B9B29A8CA76008E4439 /* DIContainer */ = {
 			isa = PBXGroup;
 			children = (
-				6BFD2CA229C8F05D00540014 /* APIKey.txt */,
 				6BA27B9C29A8CACD008E4439 /* PlansSceneDIContainer.swift */,
 				6BA27B9E29A8CE08008E4439 /* MemoriesSceneDIContainer.swift */,
 			);
@@ -450,8 +449,9 @@
 			isa = PBXGroup;
 			children = (
 				6B46FA0E29513D4C000430C7 /* Assets.xcassets */,
-				6B46FA4029514340000430C7 /* GoogleService-Info.plist */,
 				6B46FA1029513D4C000430C7 /* LaunchScreen.storyboard */,
+				6BFD2CA229C8F05D00540014 /* APIKey.txt */,
+				6BCC428229E12BBA00FF00FB /* GoogleService-Info.plist */,
 				6B46FA1329513D4C000430C7 /* Info.plist */,
 			);
 			path = Resources;
@@ -592,8 +592,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B46FA1229513D4C000430C7 /* LaunchScreen.storyboard in Resources */,
+				6BCC428329E12BBA00FF00FB /* GoogleService-Info.plist in Resources */,
 				6B46FA0F29513D4C000430C7 /* Assets.xcassets in Resources */,
-				6B46FA4129514340000430C7 /* GoogleService-Info.plist in Resources */,
 				6BFD2CA329C8F05D00540014 /* APIKey.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
