@@ -44,7 +44,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         configureDelegate()
         configureAction()
         configureViewValue()
-        configureTapGesture()
+        configureGesture()
     }
 }
 
@@ -96,9 +96,13 @@ private extension WritingScheduleViewController {
         }
     }
     
-    func configureTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
-        view.addGestureRecognizer(tapGesture)
+    func configureGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        view.addGestureRecognizer(tapGestureRecognizer)
+        
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(touchUpCancelButton))
+        swipeGestureRecognizer.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
     func configureDelegate() {

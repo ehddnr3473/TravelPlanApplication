@@ -84,7 +84,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         embedMapView()
         configureDelegate()
         configureAction()
-        configureTapGesture()
+        configureGesture()
         configureViewValue()
         bind()
     }
@@ -144,10 +144,14 @@ private extension WritingPlanViewController {
         ownView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
     
-    func configureTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
-        tapGesture.delegate = self
-        view.addGestureRecognizer(tapGesture)
+    func configureGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        tapGestureRecognizer.delegate = self
+        view.addGestureRecognizer(tapGestureRecognizer)
+        
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(touchUpCancelButton))
+        swipeGestureRecognizer.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
     func configureViewValue() {
