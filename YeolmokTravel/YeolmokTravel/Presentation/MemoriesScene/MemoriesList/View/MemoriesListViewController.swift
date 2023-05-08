@@ -7,8 +7,9 @@
 
 import UIKit
 import Combine
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.MemoriesRepositoryError
 
 protocol MemoryTransferDelegate: AnyObject {
     func create(_ memory: Memory)

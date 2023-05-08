@@ -7,8 +7,9 @@
 
 import UIKit
 import Combine
+
 import JGProgressHUD
-import FirebasePlatform
+import enum FirebasePlatform.ImagesRepositoryError
 
 final class MemoryCell: UICollectionViewCell {
     // MARK: - Properties

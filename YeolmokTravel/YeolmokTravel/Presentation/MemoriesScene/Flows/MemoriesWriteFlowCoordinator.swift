@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import Domain
 
 protocol MemoriesWriteFlowCoordinator: AnyObject {
     func start()

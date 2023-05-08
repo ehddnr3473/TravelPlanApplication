@@ -6,10 +6,11 @@
 //
 
 import Foundation
-import Combine
 import UIKit
+import Combine
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.DateConverter
 
 protocol MemoryCellViewModel: AnyObject {
     // Output
