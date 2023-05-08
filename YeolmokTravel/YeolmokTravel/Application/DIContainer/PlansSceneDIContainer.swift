@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
+
 import Domain
-import FirebasePlatform
-import CoreLocation
+import struct FirebasePlatform.DefaultPlansRepository
 import NetworkPlatform
 
 final class PlansSceneDIContainer {
