@@ -50,8 +50,8 @@ final class PlansListViewModelTests: XCTestCase {
         try viewModel.update(at: index, plan)
         
         // then
-        XCTAssert(viewModel.plans.value[index].title == "updatedTitle")
-        XCTAssert(viewModel.plans.value[index].description == "updatedDescription")
+        XCTAssert(viewModel.plans.value[0].title == "updatedTitle")
+        XCTAssert(viewModel.plans.value[0].description == "updatedDescription")
     }
     
     func test_whenDeletePlan_thenPlansContainsTwoPlans() async throws {
