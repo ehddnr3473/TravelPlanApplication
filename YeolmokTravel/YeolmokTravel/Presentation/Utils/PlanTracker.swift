@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import Domain
+
+import struct Domain.Plan
 
 /// Plan의 변경 사항을 추적하고 alert을 띄워주기 위한 데이터 struct
 struct PlanTracker {
