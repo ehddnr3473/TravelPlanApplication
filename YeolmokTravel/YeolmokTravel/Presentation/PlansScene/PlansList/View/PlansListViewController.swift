@@ -6,10 +6,11 @@
 //
 
 import UIKit
-import SnapKit
 import Combine
-import FirebasePlatform
-import Domain
+
+import struct Domain.Plan
+import enum FirebasePlatform.PlansRepositoryError
+import SnapKit
 
 typealias WritingPlanDelegate = PlanTransferDelegate & ValidationDelegate
 

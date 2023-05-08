@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-import CoreLocation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
 
 typealias MapProvider = Mappable & CameraControllable
 

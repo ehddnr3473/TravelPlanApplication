@@ -7,9 +7,10 @@
 
 import Foundation
 import Combine
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
+
 import Domain
-import FirebasePlatform
-import CoreLocation
+import enum FirebasePlatform.DateConverter
 
 protocol PlansListViewModelInput {
     func create(_ plan: Plan) throws

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MapKit
 
 final class WritingPlanView: UIView {
     // MARK: - Magic number/string

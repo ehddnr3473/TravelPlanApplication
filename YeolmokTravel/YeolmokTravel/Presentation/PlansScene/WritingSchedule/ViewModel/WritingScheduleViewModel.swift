@@ -8,8 +8,9 @@
 import Foundation
 import Combine
 import CoreLocation
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.DateConverter
 
 enum ScheduleError: String, Error {
     case titleError = "제목을 입력해주세요."

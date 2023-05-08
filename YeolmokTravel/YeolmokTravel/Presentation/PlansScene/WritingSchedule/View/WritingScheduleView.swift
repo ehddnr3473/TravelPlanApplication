@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import JGProgressHUD
 
 final class WritingScheduleView: UIView {

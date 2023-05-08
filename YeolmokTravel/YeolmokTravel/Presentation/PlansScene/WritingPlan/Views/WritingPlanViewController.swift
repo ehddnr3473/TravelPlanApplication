@@ -8,7 +8,8 @@
 import UIKit
 import Combine
 import CoreLocation
-import Domain
+
+import struct Domain.Schedule
 
 protocol ScheduleTransferDelegate: AnyObject {
     func create(_ schedule: Schedule)

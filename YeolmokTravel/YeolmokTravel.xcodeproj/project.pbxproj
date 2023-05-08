@@ -99,7 +99,7 @@
 		6B37A4CE2951C30800BBB8EE /* PlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCell.swift; sourceTree = "<group>"; };
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
 		6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YeolmokTravelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = YeolmokTravelTests.xctest; path = "/Users/kimdonguk/Desktop/TravelApplication/YeolmokTravel/build/Debug-iphoneos/YeolmokTravelTests.xctest"; sourceTree = "<absolute>"; };
 		6B417F8B29B1C2EB00AAC72F /* TextField+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Custom.swift"; sourceTree = "<group>"; };
 		6B469E5B29A5F5AC00FDDE4D /* WritingScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleView.swift; sourceTree = "<group>"; };
 		6B469E5F29A6EABA00FDDE4D /* WritingMemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryView.swift; sourceTree = "<group>"; };
@@ -205,8 +205,8 @@
 			children = (
 				6B46FA0429513D4A000430C7 /* YeolmokTravel */,
 				6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */,
+				6B745C7D2A08C16B00E15DDE /* Frameworks */,
 				6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */,
-				6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -335,6 +335,13 @@
 				6B1A576729AC813200E80248 /* ImagesRepositoryMock.swift */,
 			);
 			path = Mocks;
+			sourceTree = "<group>";
+		};
+		6B745C7D2A08C16B00E15DDE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		6BA27B9A29A8C89B008E4439 /* Application */ = {
