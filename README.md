@@ -1,4 +1,4 @@
-# TravelApplication
+# TravelPlanApplication
 
 ## 개요
 여행 계획을 작성하고, 추억이 담긴 사진을 업로드하는 애플리케이션 프로젝트입니다.
