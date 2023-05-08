@@ -99,7 +99,6 @@
 		6B37A4CE2951C30800BBB8EE /* PlanCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanCell.swift; sourceTree = "<group>"; };
 		6B37A4D12951D9CB00BBB8EE /* WritingScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewController.swift; sourceTree = "<group>"; };
 		6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YeolmokTravel.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = YeolmokTravelTests.xctest; path = "/Users/kimdonguk/Desktop/TravelApplication/YeolmokTravel/build/Debug-iphoneos/YeolmokTravelTests.xctest"; sourceTree = "<absolute>"; };
 		6B417F8B29B1C2EB00AAC72F /* TextField+Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Custom.swift"; sourceTree = "<group>"; };
 		6B469E5B29A5F5AC00FDDE4D /* WritingScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleView.swift; sourceTree = "<group>"; };
 		6B469E5F29A6EABA00FDDE4D /* WritingMemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingMemoryView.swift; sourceTree = "<group>"; };
@@ -112,6 +111,7 @@
 		6B5743BC29AC37A100BA0390 /* PlansListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansListViewModelTests.swift; sourceTree = "<group>"; };
 		6B5743C129AC398900BA0390 /* PlansRepositoryMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansRepositoryMock.swift; sourceTree = "<group>"; };
 		6B62A0CE2955CA0800450DB2 /* MemoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCell.swift; sourceTree = "<group>"; };
+		6B745C7E2A08D7B000E15DDE /* YeolmokTravelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YeolmokTravelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B77371D298D0E220038E9C8 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6B77371F298D1C230038E9C8 /* WritingScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritingScheduleViewModel.swift; sourceTree = "<group>"; };
 		6BA27B9C29A8CACD008E4439 /* PlansSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansSceneDIContainer.swift; sourceTree = "<group>"; };
@@ -174,14 +174,6 @@
 			path = Flows;
 			sourceTree = "<group>";
 		};
-		6B37A4A529515D9D00BBB8EE /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */,
-			);
-			path = Utilities;
-			sourceTree = "<group>";
-		};
 		6B37A4AE295163C900BBB8EE /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +198,7 @@
 				6B46FA0429513D4A000430C7 /* YeolmokTravel */,
 				6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */,
 				6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */,
+				6B745C7E2A08D7B000E15DDE /* YeolmokTravelTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -215,7 +208,6 @@
 				6BA27B9A29A8C89B008E4439 /* Application */,
 				6BE1249A2959B0F00068B788 /* Resources */,
 				6BFB44FA296EF3E700AEAD77 /* Presentation */,
-				6B37A4A529515D9D00BBB8EE /* Utilities */,
 			);
 			path = YeolmokTravel;
 			sourceTree = "<group>";
@@ -342,6 +334,7 @@
 				6B46FA0529513D4A000430C7 /* AppDelegate.swift */,
 				6B46FA0729513D4A000430C7 /* SceneDelegate.swift */,
 				6BDA450229AA289500C63269 /* AppConfiguration.swift */,
+				6B37A4A629515DBB00BBB8EE /* AppNamespace.swift */,
 				6BA27B9B29A8CA76008E4439 /* DIContainer */,
 			);
 			path = Application;
@@ -537,7 +530,7 @@
 				6B1A577129ACE1F100E80248 /* FirebasePlatform */,
 			);
 			productName = YeolmokTravelTests;
-			productReference = 6B417F8A29B1BFD400AAC72F /* YeolmokTravelTests.xctest */;
+			productReference = 6B745C7E2A08D7B000E15DDE /* YeolmokTravelTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
