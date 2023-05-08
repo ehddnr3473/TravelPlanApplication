@@ -205,7 +205,6 @@
 			children = (
 				6B46FA0429513D4A000430C7 /* YeolmokTravel */,
 				6B46FA1B29513D4C000430C7 /* YeolmokTravelTests */,
-				6B745C7D2A08C16B00E15DDE /* Frameworks */,
 				6B417F8929B1BFD400AAC72F /* YeolmokTravel.app */,
 			);
 			sourceTree = "<group>";
@@ -335,13 +334,6 @@
 				6B1A576729AC813200E80248 /* ImagesRepositoryMock.swift */,
 			);
 			path = Mocks;
-			sourceTree = "<group>";
-		};
-		6B745C7D2A08C16B00E15DDE /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		6BA27B9A29A8C89B008E4439 /* Application */ = {

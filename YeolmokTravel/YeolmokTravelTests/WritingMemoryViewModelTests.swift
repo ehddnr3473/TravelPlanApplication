@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import YeolmokTravel
+
 import Domain
 
 final class WritingMemoryViewModelTests: XCTestCase {

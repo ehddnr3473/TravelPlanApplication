@@ -7,8 +7,9 @@
 
 import XCTest
 @testable import YeolmokTravel
-import Domain
 import Combine
+
+import Domain
 
 final class MemoryCellViewModelTests: XCTestCase {
     

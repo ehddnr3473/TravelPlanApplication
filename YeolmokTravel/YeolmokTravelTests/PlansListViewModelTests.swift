@@ -7,8 +7,9 @@
 
 import XCTest
 @testable import YeolmokTravel
+
 import Domain
-import CoreLocation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
 
 final class PlansListViewModelTests: XCTestCase {
     var viewModel: DefaultPlansListViewModel!

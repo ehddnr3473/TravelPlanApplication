@@ -7,7 +7,7 @@
 
 import Foundation
 import Domain
-import CoreLocation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
 
 /// 테스트를 위해 작성된 가상의 저장소 클래스이므로, 실제 저장소와는 다르게 작동할 수 있음을 인지
 /// 따라서 Data layer 모듈에서 적절한 테스트가 이루어진다는 전제하에 작성

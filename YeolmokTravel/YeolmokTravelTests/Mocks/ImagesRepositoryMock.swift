@@ -8,7 +8,8 @@
 import XCTest
 import Foundation
 import UIKit
-import Domain
+
+import protocol Domain.ImagesRepository
 
 final class ImagesRepositoryMock: ImagesRepository {
     var error: Error?
