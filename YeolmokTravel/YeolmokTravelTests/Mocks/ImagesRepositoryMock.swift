@@ -8,7 +8,8 @@
 import XCTest
 import Foundation
 import UIKit
-import Domain
+
+import protocol Domain.ImagesRepository
 
 final class ImagesRepositoryMock: ImagesRepository {
     var error: Error?
@@ -18,19 +19,19 @@ final class ImagesRepositoryMock: ImagesRepository {
         UIImage(systemName: "2.circle")!
     ]
     
-    func upload(at index: Int, _ image: UIImage) async throws {
-        images.insert(image, at: index)
+    func upload(key: String, _ image: UIImage) async throws {
+        images.insert(image, at: Int(key)!)
     }
     
-    func read(at index: Int, _ completion: @escaping ((Result<UIImage, Error>) -> Void)) {
+    func read(key: String, _ completion: @escaping ((Result<UIImage, Error>) -> Void)) {
         if let error = error {
             completion(.failure(error))
         } else {
-            completion(.success(images[index]))
+            completion(.success(images[Int(key)!]))
         }
     }
     
-    func delete(at index: Int) async throws {
-        images.remove(at: index)
+    func delete(key: String) async throws {
+        images.remove(at: Int(key)!)
     }
 }

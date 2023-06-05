@@ -26,7 +26,7 @@ final class WritingMemoryViewController: UIViewController {
     private let imageIsExistPublisher = CurrentValueSubject<Bool, Never>(false)
     private var subscriptions = Set<AnyCancellable>()
     
-    private let memoryIndex: Int
+    private let memoriesListIndex: Int
     private let viewModel: DefaultWritingMemoryViewModel
     private weak var delegate: MemoryTransferDelegate?
     
@@ -40,9 +40,11 @@ final class WritingMemoryViewController: UIViewController {
     }()
     
     // MARK: - Init
-    init(viewModel: DefaultWritingMemoryViewModel, memoryIndex: Int, delegate: MemoryTransferDelegate) {
+    init(viewModel: DefaultWritingMemoryViewModel,
+         memoriesListIndex: Int,
+         delegate: MemoryTransferDelegate) {
         self.viewModel = viewModel
-        self.memoryIndex = memoryIndex
+        self.memoriesListIndex = memoriesListIndex
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -130,9 +132,9 @@ private extension WritingMemoryViewController {
     func createMemory() async {
         ownView.indicatorView.show(in: view)
         guard let image = ownView.imageView.image else { return }
-        let memory = YTMemory(title: ownView.titleTextField.text ?? "", index: memoryIndex, uploadDate: Date())
+        let memory = Memory(id: memoriesListIndex, title: ownView.titleTextField.text ?? "", uploadDate: Date())
         do {
-            try await viewModel.upload(memoryIndex, image, memory)
+            try await viewModel.upload(memory, image)
             delegate?.create(memory)
             ownView.indicatorView.dismiss(animated: true)
             dismiss(animated: true)

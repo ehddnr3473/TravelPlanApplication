@@ -8,8 +8,9 @@
 import Foundation
 import Combine
 import CoreLocation
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.DateConverter
 
 enum ScheduleError: String, Error {
     case titleError = "제목을 입력해주세요."
@@ -23,6 +24,7 @@ protocol WritingSchduleViewModelInput {
     func editingChangedCoordinateTextField(_ latitude: String, _ longitude: String) -> Bool
     func toggledSwitch(_ isOn: Bool, _ fromDate: Date, _ toDate: Date)
     func didTouchUpCancelButton()
+    func perfomeCoordinateSearch(with query: String) async throws -> (latitude: String, longitude: String)
 }
 
 protocol WritingScheduleViewModelOutPut {
@@ -39,6 +41,7 @@ protocol WritingScheduleViewModelOutPut {
 protocol WritingScheduleViewModel: WritingSchduleViewModelInput, WritingScheduleViewModelOutPut, AnyObject {}
 
 final class DefaultWritingScheduleViewModel: WritingScheduleViewModel {
+    private let useCaseProvider: CoordinateUseCaseProvider
     private var scheduleTracker: ScheduleTracker
     // MARK: - Output
     let title: CurrentValueSubject<String, Never>
@@ -46,19 +49,17 @@ final class DefaultWritingScheduleViewModel: WritingScheduleViewModel {
     let fromDate: CurrentValueSubject<Date?, Never>
     let toDate: CurrentValueSubject<Date?, Never>
     let coordinate: CurrentValueSubject<CLLocationCoordinate2D, Never>
+    var isChanged: Bool { scheduleTracker.isChanged }
     
     // MARK: - Init
-    init(_ schedule: Schedule) {
+    init(schedule: Schedule, useCaseProvider: CoordinateUseCaseProvider) {
+        self.useCaseProvider = useCaseProvider
         self.title = CurrentValueSubject<String, Never>(schedule.title)
         self.description = CurrentValueSubject<String, Never>(schedule.description)
         self.fromDate = CurrentValueSubject<Date?, Never>(schedule.fromDate)
         self.toDate = CurrentValueSubject<Date?, Never>(schedule.toDate)
         self.coordinate = CurrentValueSubject<CLLocationCoordinate2D, Never>(schedule.coordinate)
         self.scheduleTracker = ScheduleTracker(schedule)
-    }
-    
-    var isChanged: Bool {
-        scheduleTracker.isChanged
     }
     
     func validate(_ latitude: String, _ longitude: String) throws {
@@ -110,6 +111,14 @@ extension DefaultWritingScheduleViewModel {
                                             coordinate: coordinate.value,
                                             fromDate: fromDate.value,
                                             toDate: toDate.value)
+    }
+    
+    func perfomeCoordinateSearch(with query: String) async throws -> (latitude: String, longitude: String) {
+        let useCase = useCaseProvider.provideSearchCoordinateUseCase()
+        let coordinate = try await useCase.execute(query: .init(query: query))
+        self.coordinate.value.latitude = coordinate.latitude
+        self.coordinate.value.longitude = coordinate.longitude
+        return (String(coordinate.latitude), String(coordinate.longitude))
     }
 }
 

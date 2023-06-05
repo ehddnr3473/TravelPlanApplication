@@ -6,14 +6,22 @@
 //
 
 import UIKit
-import SnapKit
 import Combine
-import FirebasePlatform
-import Domain
+
+import struct Domain.Plan
+import enum FirebasePlatform.PlansRepositoryError
+import SnapKit
+
+typealias WritingPlanDelegate = PlanTransferDelegate & ValidationDelegate
 
 protocol PlanTransferDelegate: AnyObject {
-    func create(_ plan: Plan) async throws
-    func update(at index: Int, _ plan: Plan) async throws
+    func create(_ plan: Plan) throws
+    func update(at index: Int, _ plan: Plan) throws
+}
+
+protocol ValidationDelegate: AnyObject {
+    func validateCreation(_ identifier: String) throws
+    func validateUpdate(at index: Int, _ identifier: String) throws
 }
 
 final class PlansListViewController: UIViewController {
@@ -117,7 +125,6 @@ private extension PlansListViewController {
     }
     
     func configureAction() {
-        plansListView.editPlanButton.addTarget(self, action: #selector(touchUpEditButton), for: .touchUpInside)
         plansListView.createPlanButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
 }
@@ -135,30 +142,32 @@ private extension PlansListViewController {
         }
     }
     
-    @objc func touchUpEditButton() {
-        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
-            planTableView.isEditing.toggle()
-        }, completion: { [self] _ in
-            plansListView.editPlanButton.isEditingAtTintColor = planTableView.isEditing
-        })
-    }
-    
     @objc func touchUpCreateButton() {
-        let plan = Plan(title: "", description: "", schedules: [])
-        coordinator?.toWritePlan(plan: plan,
-                                 writingStyle: .create,
-                                 delegate: self,
-                                 plansListIndex: nil,
-                                 coordinates: [])
+        guard let coordinator = coordinator else { return }
+        coordinator.toWritePlan(
+            .init(
+                plan: Plan(title: "", description: "", schedules: []),
+                coordinator: coordinator,
+                writingStyle: .create,
+                delegate: self,
+                plansListIndex: nil,
+                coordinates: []
+            )
+        )
     }
     
     func didSelectRow(_ index: Int) {
-        let plan = viewModel.plans.value[index]
-        coordinator?.toWritePlan(plan: plan,
-                                 writingStyle: .update,
-                                 delegate: self,
-                                 plansListIndex: index,
-                                 coordinates: viewModel.getCoordinates(at: index))
+        guard let coordinator = coordinator else { return }
+        coordinator.toWritePlan(
+            .init(
+                plan: viewModel.plans.value[index],
+                coordinator: coordinator,
+                writingStyle: .update,
+                delegate: self,
+                plansListIndex: index,
+                coordinates: viewModel.getCoordinates(at: index)
+            )
+        )
     }
 }
 
@@ -201,37 +210,10 @@ extension PlansListViewController: UITableViewDataSource {
             }
         }
     }
-    
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        guard let sourceCell = tableView.cellForRow(at: sourceIndexPath) as? PlanCell else { return }
-        guard let destinationCell = tableView.cellForRow(at: destinationIndexPath) as? PlanCell else { return }
-        
-        tableView.isUserInteractionEnabled = false
-        sourceCell.createIndicator()
-        destinationCell.createIndicator()
-        sourceCell.startIndicator()
-        destinationCell.startIndicator()
-        
-        Task {
-            do {
-                try await viewModel.swapPlans(at: sourceIndexPath.row, to: destinationIndexPath.row)
-            } catch {
-                guard let error = error as? PlansRepositoryError else { return }
-                alertWillAppear(error.rawValue)
-            }
-            sourceCell.stopAndDeallocateIndicator()
-            destinationCell.stopAndDeallocateIndicator()
-            tableView.isUserInteractionEnabled = true
-        }
-    }
 }
 
 // MARK: - UITableViewDelegate
 extension PlansListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        .delete
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         LayoutConstants.cellHeight
     }
@@ -243,10 +225,10 @@ extension PlansListViewController: UITableViewDelegate {
 
 // MARK: - PlanTransferDelegate
 extension PlansListViewController: PlanTransferDelegate {
-    func create(_ plan: Plan) async throws {
+    func create(_ plan: Plan) throws {
         startIndicator()
         do {
-            try await viewModel.create(plan)
+            try viewModel.create(plan)
         } catch {
             guard let error = error as? PlansRepositoryError else { return }
             alertWillAppear(error.rawValue)
@@ -254,15 +236,38 @@ extension PlansListViewController: PlanTransferDelegate {
         dismissIndicator()
     }
     
-    func update(at index: Int, _ plan: Plan) async throws {
+    func update(at index: Int, _ plan: Plan) throws {
         startIndicator()
         do {
-            try await viewModel.update(at: index, plan)
+            try viewModel.update(at: index, plan)
         } catch {
             guard let error = error as? PlansRepositoryError else { return }
             alertWillAppear(error.rawValue)
         }
         dismissIndicator()
+    }
+}
+
+// MARK: - ValidationDelegate
+extension PlansListViewController: ValidationDelegate {
+    func validateCreation(_ identifier: String) throws {
+        if viewModel.plans.value.contains(where: { $0.title == identifier }) {
+            throw WritingPlanError.notIdentifiable
+        }
+    }
+    
+    func validateUpdate(at index: Int, _ identifier: String) throws {
+        if viewModel.plans.value.contains(where: { plan in
+            if plan.title != identifier {
+                return false
+            } else if viewModel.plans.value.firstIndex(where: { $0.title == plan.title }) == index {
+                return false
+            } else {
+                return true
+            }
+        }) {
+            throw WritingPlanError.notIdentifiable
+        }
     }
 }
 

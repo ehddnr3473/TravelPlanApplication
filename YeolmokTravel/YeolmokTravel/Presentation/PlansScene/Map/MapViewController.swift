@@ -7,9 +7,11 @@
 
 import UIKit
 import MapKit
-import CoreLocation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
 
-protocol Mappable: CameraControllable, AnyObject {
+typealias MapProvider = Mappable & CameraControllable
+
+protocol Mappable: AnyObject {
     var mapView: MKMapView { get }
     func configureMapView()
     func updateMapView(_ coordinates: [CLLocationCoordinate2D])
@@ -67,7 +69,7 @@ final class MapViewController: UIViewController {
 extension MapViewController: Mappable {
     func configureMapView() {
         mapView.overrideUserInterfaceStyle = .light
-        configure()
+        mapView.delegate = self
         animateCameraToCenter()
         addAnnotation()
 //        addPath()
@@ -84,7 +86,7 @@ extension MapViewController: Mappable {
 }
 
 // MARK: - CameraControllable(Packaging) / Pointer control
-extension MapViewController {
+extension MapViewController: CameraControllable {
     func animateCameraToPreviousPoint() {
         decreasePointer()
         animateCameraToCenter(completion: animateCameraToPoint)
@@ -224,10 +226,6 @@ private extension MapViewController {
 
 // MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
-    private func configure() {
-        mapView.delegate = self
-    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let annotationView = MKAnnotationView()
         guard coordinates.count > 1,

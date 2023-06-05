@@ -7,11 +7,12 @@
 
 import UIKit
 import Combine
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.MemoriesRepositoryError
 
 protocol MemoryTransferDelegate: AnyObject {
-    func create(_ memory: YTMemory)
+    func create(_ memory: Memory)
 }
 
 protocol MemoryCellErrorDelegate: AnyObject {
@@ -28,7 +29,7 @@ final class MemoriesListViewController: UIViewController {
     private var subscriptions = Set<AnyCancellable>()
     private let memoriesUseCaseProvider: MemoriesUseCaseProvider
     private let imagesUseCaseProvider: ImagesUseCaseProvider
-    private var dataSource: UICollectionViewDiffableDataSource<Section, YTMemory>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Memory>!
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -180,31 +181,35 @@ private extension MemoriesListViewController {
 // MARK: - User Interacion
 private extension MemoriesListViewController {
     @objc func touchUpCreateButton() {
-        coordinator?.toWriteMemory(index: self.viewModel.memories.value.count,
-                                   delegate: self,
-                                   memoriesUseCaseProvider,
-                                   imagesUseCaseProvider)
+        coordinator?.toWriteMemory(
+            .init(
+                memoriesUseCaseProvider: memoriesUseCaseProvider,
+                imagesUseCaseProvider: imagesUseCaseProvider,
+                delegate: self,
+                memoriesListIndex: viewModel.memories.value.count
+            )
+        )
     }
 }
 
 // MARK: - UICollectionView
 private extension MemoriesListViewController {
     func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, YTMemory> { [self] (cell, indexPath, _) in
+        let cellRegistration = UICollectionView.CellRegistration<MemoryCell, Memory> { [self] (cell, indexPath, _) in
             // Cell assembling of MVVM
             let viewModel = DefaultMemoryCellViewModel(viewModel.memories.value[indexPath.row], imagesUseCaseProvider)
             cell.didDequeue(with: viewModel)
             cell.delegate = self
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, YTMemory>(collectionView: memoriesCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: YTMemory) -> UICollectionViewCell? in
+        dataSource = UICollectionViewDiffableDataSource<Section, Memory>(collectionView: memoriesCollectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Memory) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
     }
     
     func apply() {
         let memories = viewModel.memories.value
-        var snapshot = NSDiffableDataSourceSnapshot<Section, YTMemory>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Memory>()
         snapshot.appendSections([.main])
         snapshot.appendItems(memories)
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -213,7 +218,7 @@ private extension MemoriesListViewController {
 
 // MARK: - MemoryTransferDelegate
 extension MemoriesListViewController: MemoryTransferDelegate {
-    func create(_ memory: YTMemory) {
+    func create(_ memory: Memory) {
         viewModel.create(memory)
     }
 }

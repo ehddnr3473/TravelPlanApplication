@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import FirebasePlatform
-import Domain
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 

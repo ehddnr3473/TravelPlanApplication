@@ -4,6 +4,7 @@
 xcuserdata/
 *.xcuserstate
 GoogleService-Info.plist
+APIKey.txt
 
 ### folder meta data ###
 *.DS_Store

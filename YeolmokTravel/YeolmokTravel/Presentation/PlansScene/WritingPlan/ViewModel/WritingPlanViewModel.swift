@@ -7,11 +7,13 @@
 
 import Foundation
 import Combine
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.DateConverter
 
 @frozen enum WritingPlanError: String, Error {
     case emptyTitle = "제목을 작성해주세요."
+    case notIdentifiable = "고유한 제목을 입력해주세요."
 }
 
 protocol WritingPlanViewModelInput {

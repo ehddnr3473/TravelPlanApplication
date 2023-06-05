@@ -7,15 +7,15 @@
 
 import Foundation
 import Combine
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
+
 import Domain
-import FirebasePlatform
-import CoreLocation
+import enum FirebasePlatform.DateConverter
 
 protocol PlansListViewModelInput {
-    func create(_ plan: Plan) async throws
-    func update(at index: Int, _ plan: Plan) async throws
+    func create(_ plan: Plan) throws
+    func update(at index: Int, _ plan: Plan) throws
     func delete(at index: Int) async throws
-    func swapPlans(at source: Int, to destination: Int) async throws
 }
 
 protocol PlansListViewModelOutput {
@@ -68,45 +68,22 @@ final class DefaultPlansListViewModel: PlansListViewModel {
 
 // MARK: - Input
 extension DefaultPlansListViewModel {
-    func create(_ plan: Plan) async throws {
+    func create(_ plan: Plan) throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
-        try await uploadUseCase.execute(at: plans.value.endIndex, plan: plan)
-        plans.value.append(plan)
+        try uploadUseCase.execute(plan: plan)
+        plans.value.insert(plan, at: 0)
     }
     
-    func update(at index: Int, _ plan: Plan) async throws {
+    func update(at index: Int, _ plan: Plan) throws {
         let uploadUseCase = useCaseProvider.provideUploadPlanUseCase()
-        try await uploadUseCase.execute(at: index, plan: plan)
+        try uploadUseCase.execute(plan: plan)
         plans.value[index] = plan
+        plans.value.swapAt(0, index)
     }
     
     func delete(at index: Int) async throws {
         let deleteUseCase = useCaseProvider.provideDeletePlanUseCase()
-        try await deleteUseCase.execute(at: index, plans: plans.value)
+        try await deleteUseCase.execute(key: plans.value[index].title)
         plans.value.remove(at: index)
-    }
-    
-    func swapPlans(at source: Int, to destination: Int) async throws {
-        let swapUseCase = useCaseProvider.provideSwapPlansUseCase()
-        do {
-            try await swapUseCase.execute(
-                SwapPlansBox(
-                    source: source,
-                    destination: destination,
-                    sourcePlan: plans.value[source],
-                    destinationPlan: plans.value[destination]
-                )
-            )
-            // swap에 성공했다면, 업데이트
-            plans.value.swapAt(source, destination)
-        } catch {
-            /*
-             swap(총 2번의 upload(at:plan:))을 하며 sourcePlan, destinationPlan 둘 중 하나의,
-             또는 둘 다의 업로드에 실패했다면, 초기 상태로 돌리기 위해 각각 update(at:_:) 수행
-             */
-            try? await update(at: source, plans.value[source])
-            try? await update(at: destination, plans.value[destination])
-            throw PlansRepositoryError.swapError
-        }
     }
 }

@@ -7,8 +7,9 @@
 
 import XCTest
 @testable import YeolmokTravel
-import Domain
 import Combine
+
+import Domain
 
 final class MemoryCellViewModelTests: XCTestCase {
     
@@ -18,7 +19,7 @@ final class MemoryCellViewModelTests: XCTestCase {
         let imageExpectation = expectation(description: "Image received")
         let useCaseProvider = DefaultImagesUseCaseProvider(repository: repository)
         
-        let memory = YTMemory(title: "title2", index: 2, uploadDate: Date())
+        let memory = Memory(id: 2, title: "title2", uploadDate: Date())
         let expectedImage = UIImage(systemName: "2.circle")!
         
         let viewModel = DefaultMemoryCellViewModel(memory, useCaseProvider)

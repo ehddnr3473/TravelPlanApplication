@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MapKit
 
 final class WritingPlanView: UIView {
     // MARK: - Magic number/string
@@ -27,11 +26,10 @@ final class WritingPlanView: UIView {
     }
     
     // MARK: - Properties
-    let titleTextField = TextFieldFactory
-        .makeTitleTextField(
-            AppLayoutConstants.largeFontSize,
-            AppTextConstants.titlePlaceholder
-        )
+    let titleTextField = UITextField()
+        .makeCustomTextField()
+        .withFontSize(AppLayoutConstants.largeFontSize)
+        .withPlaceholder(AppTextConstants.titlePlaceholder)
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()

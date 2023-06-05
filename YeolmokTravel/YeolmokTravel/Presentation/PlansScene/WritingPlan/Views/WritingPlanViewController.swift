@@ -8,7 +8,8 @@
 import UIKit
 import Combine
 import CoreLocation
-import Domain
+
+import struct Domain.Schedule
 
 protocol ScheduleTransferDelegate: AnyObject {
     func create(_ schedule: Schedule)
@@ -23,9 +24,9 @@ final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Properties
     private let viewModel: WritingPlanViewModel
     private weak var coordinator: PlansWriteFlowCoordinator?
-    private let mapProvider: Mappable
+    private let mapProvider: MapProvider
     let writingStyle: WritingStyle
-    private weak var delegate: PlanTransferDelegate?
+    private weak var delegate: WritingPlanDelegate?
     private let plansListIndex: Int?
     private var subscriptions = Set<AnyCancellable>()
     
@@ -60,9 +61,9 @@ final class WritingPlanViewController: UIViewController, Writable {
     // MARK: - Init
     init(viewModel: WritingPlanViewModel,
          coordinator: PlansWriteFlowCoordinator,
-         mapProvider: Mappable,
+         mapProvider: MapProvider,
          writingStyle: WritingStyle,
-         delegate: PlanTransferDelegate,
+         delegate: WritingPlanDelegate,
          plansListIndex: Int?) {
         self.viewModel = viewModel
         self.coordinator = coordinator
@@ -72,7 +73,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         self.plansListIndex = plansListIndex
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -84,7 +85,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         embedMapView()
         configureDelegate()
         configureAction()
-        configureTapGesture()
+        configureGesture()
         configureViewValue()
         bind()
     }
@@ -144,10 +145,14 @@ private extension WritingPlanViewController {
         ownView.createScheduleButton.addTarget(self, action: #selector(touchUpCreateButton), for: .touchUpInside)
     }
     
-    func configureTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
-        tapGesture.delegate = self
-        view.addGestureRecognizer(tapGesture)
+    func configureGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        tapGestureRecognizer.delegate = self
+        view.addGestureRecognizer(tapGestureRecognizer)
+        
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(touchUpCancelButton))
+        swipeGestureRecognizer.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
     func configureViewValue() {
@@ -167,10 +172,12 @@ private extension WritingPlanViewController {
                 
                 switch writingStyle {
                 case .create:
-                    Task { try await delegate?.create(plan) }
+                    try delegate?.validateCreation(plan.title)
+                    try delegate?.create(plan)
                 case .update:
                     guard let index = plansListIndex else { return }
-                    Task { try await delegate?.update(at: index, plan) }
+                    try delegate?.validateUpdate(at: index, plan.title)
+                    try delegate?.update(at: index, plan)
                 }
             }
             navigationController?.popViewController(animated: true)
@@ -192,23 +199,29 @@ private extension WritingPlanViewController {
     }
     
     @objc func touchUpCreateButton() {
-        let schedule = Schedule(title: "",
-                                description: "",
-                                coordinate: CLLocationCoordinate2D(),
-                                fromDate: nil,
-                                toDate: nil)
-        coordinator?.toWriteSchedule(schedule: schedule,
-                                     writingStyle: .create,
-                                     delegate: self,
-                                     scheduleListIndex: nil)
+        coordinator?.toWriteSchedule(
+            .init(
+                schedule: Schedule(
+                    title: "",
+                    description: "",
+                    coordinate: CLLocationCoordinate2D(),
+                    fromDate: nil,
+                    toDate: nil
+                ),
+                writingStyle: .create,
+                delegate: self,
+                schedulesListIndex: nil)
+        )
     }
     
     private func didSelectRow(_ index: Int) {
-        let schedule = viewModel.schedules.value[index]
-        coordinator?.toWriteSchedule(schedule: schedule,
-                                     writingStyle: .update,
-                                     delegate: self,
-                                     scheduleListIndex: index)
+        coordinator?.toWriteSchedule(
+            .init(
+                schedule: viewModel.schedules.value[index],
+                writingStyle: .update,
+                delegate: self,
+                schedulesListIndex: index)
+        )
     }
     
     // 이전 좌표로 카메라 이동
@@ -473,7 +486,7 @@ private extension WritingPlanViewController {
     @frozen enum LayoutConstants {
         static let tableViewCornerRadius: CGFloat = 10
     }
-
+    
     @frozen enum TextConstants {
         static let plan = "Plan"
         static let map = "Map"

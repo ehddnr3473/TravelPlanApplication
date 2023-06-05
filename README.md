@@ -1,4 +1,4 @@
-# TravelApplication
+# TravelPlanApplication
 
 ## 개요
 여행 계획을 작성하고, 추억이 담긴 사진을 업로드하는 애플리케이션 프로젝트입니다.
@@ -6,7 +6,7 @@
 
 <br></br>
 ## 프로젝트 기간
-2022.1 ~ 2023.2
+2023.1 ~ 2023.3
 
 
 <br></br>
@@ -24,12 +24,18 @@
 <br></br>
 ## 패키지 종속성 관리
 Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 관리했습니다.
-|패키지|내용|
-|---|---|
-|FirebasePlatform|데이터 모듈|
-|Domain|도메인 모듈|
-|SnapKit|레이아웃 코드 작성|
-|JGProgressHUD|Progress indicator 생성|
+|패키지|내용|코드 저장소 URL|
+|---|---|---|
+|Domain|도메인 모듈|https://github.com/ehddnr3473/Domain_framework_build.git|
+|FirebasePlatform|데이터 모듈|https://github.com/ehddnr3473/FirebasePlatform.git|
+|NetworkPlatform|데이터 모듈|https://github.com/ehddnr3473/NetworkPlatform.git|
+|SnapKit|레이아웃 코드 작성|-|
+|JGProgressHUD|Progress indicator 생성|-|
+
+- 프로젝트에서 Domain 모듈의 실제 참조 URL
+  * Domain: https://github.com/ehddnr3473/Domain.git
+- NetworkPlatform 모듈은 Domain 모듈뿐만이 아니라 GoogleMapsGeoCodingSwift 모듈에도 의존성을 가짐.
+  * GoogleMapsGeoCodingSwift: https://github.com/ehddnr3473/GoogleMapsGeoCodingSwift.git
 
 
 
@@ -46,7 +52,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 <br></br>
 ## Clean Architecture
 
-- MVVM 아키텍처 패턴을 기반으로 Presentation layer, Domain layer, Data layer로 나눔.
+- MVVM-C 아키텍처 패턴을 기반으로 Presentation layer를 구성하고, 애플리케이션 외부와의 통신을 위한 로직을 Domain layer, Data layer로 나누어서 모듈화
 - Clean Architecture의 핵심은 계층을 나누고 의존성 정책을 정의하여 그것을 지키는 것이며 올바른 의존성 정책에서 테스트 용이성, 낮은 유지보수 비용이라는 이점을 누릴 수 있다고 생각하였음.
 
 
@@ -56,7 +62,7 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
  <img src="/Document/Dependency policy.png" height=300>
 </p>
 
-- 의존성은 **Presentation layer -> Domain layer -> Data layer**와 같이 안쪽으로 향하되, 계층의 경계마다 인터페이스를 두고 코드의 의존성을 역전시킴.
+- 계층의 경계마다 인터페이스를 두고 코드의 의존성을 역전시켜, **Presentation layer -> Domain layer <- Data layer**와 같이 안쪽으로 향하도록 함.
 - **독립적으로 확장 및 유지보수가 가능.** 예를 들어, 원격 데이터 저장소로 Firebase 서비스를 이용하고 있는데, 후에 이를 교체할 필요가 있다면 이미 정의된 Repository 인터페이스를 청사진으로 삼아 확장하고 연결해주기만 하면 되도록 구성
 
 
@@ -64,18 +70,19 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 ### Use case
 
 - Use case는 애플리케이션의 핵심 비즈니스 로직을 포함
-- 각 Use case는 데이터 포맷을 정의하여 Repository와 데이터를 주고받는 로직을 최소한의 단위로 캡슐화함.
+- 각 Use case는 엔티티를 정의하여 Repository와 데이터를 주고받는 로직을 최소한의 단위로 캡슐화함.
 
 
 <br></br>
 ## 뷰 및 동작
 ### Plans
-|메인|계획 수정|계획 수정 2|계획 추가|
+|메인|계획 리스트 수정|계획 추가|계획 수정|
 |---|---|---|---|
-|<image src="Document/plansList.png" width="180">|<image src="Document/editPlans.png" width="180">|<image src="Document/editPlans2.png" width="180">|<image src="Document/newPlan.png" width="180">|
+|<image src="Document/plansList.png" width="180">|<image src="Document/editPlansList.gif" width="180">|<image src="Document/newPlan.png" width="180">|<image src="Document/editPlan.png" width="180">|
 
 - 각 여행 계획(Plan)에는 상세 일정(Schedule)들이 포함됨.
 - 따라서 여행 계획은 상세 일정의 내용을 취합하여 보여줌.
+- 최근에 추가/수정된 계획을 리스트의 위에 위치시킴.
 
 
 <br></br>
@@ -88,6 +95,14 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 
 
 <br></br>
+|좌표 검색|
+|---|
+|<image src="Document/network.gif" width="180">|
+
+- 네트워크 통신을 통해 좌표를 검색할 수 있음.
+
+
+<br></br>
 ### MapKit과 애니메이션
 |HybridMap|Dark mode|카메라 애니메이션|상세 일정 순서 수정|
 |---|---|---|---|
@@ -96,10 +111,10 @@ Swift Package Manager를 사용하여 모듈 및 라이브러리 종속성을 �
 
 <br></br>
 ### Memories
-<p align="center">
- <img src="Document/memoriesList.gif" width="250">
-</p>
+|메인|사진 업로드|
+|---|---|
+|<img src="Document/memoriesList.gif" width="180">|<img src="Document/uploadMemory.gif" width="180">|
 
-- 추억이 담긴 사진 업로드 및 다운로드
-- Firebase Storage의 데이터를 다운로드하여 사용가능한 이미지로 변환(Data <-> UIImage)
+- 사진 업로드 및 다운로드
+- Firebase Storage의 데이터를 다운로드하여 사용 가능한 이미지로 변환(Data <-> UIImage)
 - **Memory**탭 초기 진입 시 이미지 다운로드 병렬 처리 및 재진입 시 캐시 전략 적용

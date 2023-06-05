@@ -5,8 +5,8 @@
 //  Created by 김동욱 on 2023/02/22.
 //
 
-import Foundation
 import UIKit
+
 import JGProgressHUD
 
 final class PlansListView: UIView {
@@ -33,13 +33,6 @@ final class PlansListView: UIView {
         label.text = TextConstants.title
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
         return label
-    }()
-    
-    let editPlanButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setBackgroundImage(UIImage(systemName: AppTextConstants.editIcon), for: .normal)
-        button.tintColor = AppStyles.mainColor
-        return button
     }()
     
     let createPlanButton: UIButton = {
@@ -75,7 +68,7 @@ private extension PlansListView {
     }
     
     func configureHierarchy() {
-        [titleLabel, editPlanButton, createPlanButton].forEach {
+        [titleLabel, createPlanButton].forEach {
             addSubview($0)
         }
     }
@@ -89,13 +82,6 @@ private extension PlansListView {
         createPlanButton.snp.makeConstraints {
             $0.centerY.equalTo(titleLabel.snp.centerY)
             $0.trailing.equalToSuperview()
-            $0.size.equalTo(LayoutConstants.buttonSize)
-        }
-        
-        editPlanButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.trailing.equalTo(createPlanButton.snp.leading)
-                .offset(-AppLayoutConstants.spacing)
             $0.size.equalTo(LayoutConstants.buttonSize)
         }
     }

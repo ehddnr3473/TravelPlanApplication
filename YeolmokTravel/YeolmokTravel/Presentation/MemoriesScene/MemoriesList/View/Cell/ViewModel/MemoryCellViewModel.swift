@@ -6,14 +6,15 @@
 //
 
 import Foundation
-import Combine
 import UIKit
+import Combine
+
 import Domain
-import FirebasePlatform
+import enum FirebasePlatform.DateConverter
 
 protocol MemoryCellViewModel: AnyObject {
     // Output
-    var memory: YTMemory { get }
+    var memory: Memory { get }
     var imagePublisher: PassthroughSubject<UIImage, Error> { get }
     var uploadDate: String { get }
     func read()
@@ -23,7 +24,7 @@ protocol MemoryCellViewModel: AnyObject {
 final class DefaultMemoryCellViewModel: MemoryCellViewModel {
     private let useCaseProvider: ImagesUseCaseProvider
     // MARK: - Output
-    let memory: YTMemory
+    let memory: Memory
     let imagePublisher = PassthroughSubject<UIImage, Error>()
     
     var uploadDate: String {
@@ -31,14 +32,14 @@ final class DefaultMemoryCellViewModel: MemoryCellViewModel {
     }
     
     // MARK: - Init
-    init(_ memory: YTMemory, _ useCaseProvider: ImagesUseCaseProvider) {
+    init(_ memory: Memory, _ useCaseProvider: ImagesUseCaseProvider) {
         self.memory = memory
         self.useCaseProvider = useCaseProvider
     }
     
     func read() {
         let readUseCase = useCaseProvider.provideReadImageUseCase()
-        readUseCase.execute(at: memory.index) { [weak self] result in
+        readUseCase.execute(key: String(memory.id)) { [weak self] result in
             switch result {
             case .success(let image):
                 self?.imagePublisher.send(image)

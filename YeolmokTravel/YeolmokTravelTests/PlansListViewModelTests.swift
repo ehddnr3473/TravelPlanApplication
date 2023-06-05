@@ -7,8 +7,9 @@
 
 import XCTest
 @testable import YeolmokTravel
+
 import Domain
-import CoreLocation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
 
 final class PlansListViewModelTests: XCTestCase {
     var viewModel: DefaultPlansListViewModel!
@@ -34,7 +35,7 @@ final class PlansListViewModelTests: XCTestCase {
         let plan = Plan(title: "createdTitle", description: "createdDescription", schedules: [])
         
         // when
-        try await viewModel.create(plan)
+        try viewModel.create(plan)
         
         // then
         XCTAssert(viewModel.plans.value.count == 4)
@@ -47,11 +48,11 @@ final class PlansListViewModelTests: XCTestCase {
         let plan = Plan(title: "updatedTitle", description: "updatedDescription", schedules: [])
         
         // when
-        try await viewModel.update(at: index, plan)
+        try viewModel.update(at: index, plan)
         
         // then
-        XCTAssert(viewModel.plans.value[index].title == "updatedTitle")
-        XCTAssert(viewModel.plans.value[index].description == "updatedDescription")
+        XCTAssert(viewModel.plans.value[0].title == "updatedTitle")
+        XCTAssert(viewModel.plans.value[0].description == "updatedDescription")
     }
     
     func test_whenDeletePlan_thenPlansContainsTwoPlans() async throws {
@@ -65,20 +66,6 @@ final class PlansListViewModelTests: XCTestCase {
         // then
         XCTAssert(viewModel.plans.value.count == 2)
         XCTAssert(viewModel.plans.value[1].title == "title2")
-    }
-    
-    func test_whenSwapPlans_thenPlansContainsSwapedPlans() async throws {
-        // given
-        try await viewModel.read()
-        let sourceIndex = 1
-        let destinationIndex = 2
-        
-        // when
-        try await viewModel.swapPlans(at: sourceIndex, to: destinationIndex)
-        
-        // then
-        XCTAssert(viewModel.plans.value[sourceIndex].title == "title2")
-        XCTAssert(viewModel.plans.value[destinationIndex].title == "title1")
     }
     
     // MARK: - Get data func

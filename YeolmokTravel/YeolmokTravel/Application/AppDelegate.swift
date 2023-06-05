@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import FirebasePlatform
+
+import struct FirebasePlatform.FirebaseManager
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

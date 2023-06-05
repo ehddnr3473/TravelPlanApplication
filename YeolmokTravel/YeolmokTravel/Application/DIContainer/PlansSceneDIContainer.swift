@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import struct CoreLocation.CLLocation.CLLocationCoordinate2D
+
 import Domain
-import FirebasePlatform
-import CoreLocation
+import struct FirebasePlatform.DefaultPlansRepository
+import NetworkPlatform
 
 final class PlansSceneDIContainer {
     // MARK: - Use Case Provider
@@ -16,15 +18,33 @@ final class PlansSceneDIContainer {
         DefaultPlansUseCaseProvider(repository: makePlansRepository())
     }
     
+    private func makeCoordinateUseCaseProvider() -> CoordinateUseCaseProvider {
+        DefaultCoordinateUseCaseProvider(repository: makeCoordinateRepository())
+    }
+    
     // MARK: - Repository
     private func makePlansRepository() -> PlansRepository {
         DefaultPlansRepository()
     }
     
+    private func makeCoordinateRepository() -> CoordinateRepository {
+        if let fileURL = Bundle.main.url(forResource: "APIKey", withExtension: "txt") {
+            let key = try? String(contentsOf: fileURL, encoding: .utf8)
+            return DefaultCoordinateRepository(configuration: Configuration(key: key))
+        } else {
+            #if DEBUG
+            print("APIKey.txt not found.")
+            #endif
+            return DefaultCoordinateRepository(configuration: Configuration(key: nil))
+        }
+    }
+    
     // MARK: - Plans List
     func makePlansListViewController(coordinator: PlansWriteFlowCoordinator) -> PlansListViewController {
-        PlansListViewController(viewModel: makePlansListViewModel(),
-                                coordinator: coordinator)
+        PlansListViewController(
+            viewModel: makePlansListViewModel(),
+            coordinator: coordinator
+        )
     }
     
     private func makePlansListViewModel() -> PlansListViewModel {
@@ -32,40 +52,58 @@ final class PlansSceneDIContainer {
     }
     
     // MARK: - Writing Plan
-    func makeWritingPlanViewController(plan: Plan,
-                                       writingStyle: WritingStyle,
-                                       delegate: PlanTransferDelegate,
-                                       plansListIndex: Int?,
-                                       coordinates: [CLLocationCoordinate2D],
-                                       coordinator: PlansWriteFlowCoordinator) -> WritingPlanViewController {
+    func makeWritingPlanViewController(_ box: WritingPlanBox) -> WritingPlanViewController {
         WritingPlanViewController(
-            viewModel: makeWritingPlanViewModel(plan: plan),
-            coordinator: coordinator,
-            mapProvider: MapViewController(coordinates),
-            writingStyle: writingStyle,
-            delegate: delegate,
-            plansListIndex: plansListIndex
+            viewModel: makeWritingPlanViewModel(box.plan),
+            coordinator: box.coordinator,
+            mapProvider: makeMapViewController(box.coordinates),
+            writingStyle: box.writingStyle,
+            delegate: box.delegate,
+            plansListIndex: box.plansListIndex
         )
     }
     
-    private func makeWritingPlanViewModel(plan: Plan) -> WritingPlanViewModel {
+    private func makeWritingPlanViewModel(_ plan: Plan) -> WritingPlanViewModel {
         DefaultWritingPlanViewModel(plan)
     }
     
+    private func makeMapViewController(_ coordinates: [CLLocationCoordinate2D]) -> MapViewController {
+        MapViewController(coordinates)
+    }
+    
     // MARK: - Writing Schedule
-    func makeWritingScheduleViewController(schedule: Schedule,
-                                           writingStyle: WritingStyle,
-                                           delegate: ScheduleTransferDelegate,
-                                           scheduleListIndex: Int?) -> WritingScheduleViewController {
+    func makeWritingScheduleViewController(_ box: WritingScheduleBox) -> WritingScheduleViewController {
         WritingScheduleViewController(
-            viewModel: makeWritingScheduleViewModel(schedule: schedule),
-            writingStyle: writingStyle,
-            delegate: delegate,
-            scheduleListIndex: scheduleListIndex
+            viewModel: makeWritingScheduleViewModel(schedule: box.schedule),
+            writingStyle: box.writingStyle,
+            delegate: box.delegate,
+            schedulesListIndex: box.schedulesListIndex
         )
     }
     
     private func makeWritingScheduleViewModel(schedule: Schedule) -> WritingScheduleViewModel {
-        DefaultWritingScheduleViewModel(schedule)
+        DefaultWritingScheduleViewModel(
+            schedule: schedule,
+            useCaseProvider: makeCoordinateUseCaseProvider()
+        )
+    }
+}
+
+// MARK: - Parameter box
+extension PlansSceneDIContainer {
+    struct WritingPlanBox {
+        let plan: Plan
+        let coordinator: PlansWriteFlowCoordinator
+        let writingStyle: WritingStyle
+        let delegate: WritingPlanDelegate
+        let plansListIndex: Int?
+        let coordinates: [CLLocationCoordinate2D]
+    }
+    
+    struct WritingScheduleBox {
+        let schedule: Schedule
+        let writingStyle: WritingStyle
+        let delegate: ScheduleTransferDelegate
+        let schedulesListIndex: Int?
     }
 }

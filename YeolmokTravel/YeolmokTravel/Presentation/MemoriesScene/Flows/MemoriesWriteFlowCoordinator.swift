@@ -7,14 +7,10 @@
 
 import Foundation
 import UIKit
-import Domain
 
 protocol MemoriesWriteFlowCoordinator: AnyObject {
     func start()
-    func toWriteMemory(index: Int,
-                       delegate: MemoryTransferDelegate,
-                       _ memoriesUseCaseProvider: MemoriesUseCaseProvider,
-                       _ imagesUseCaseProvider: ImagesUseCaseProvider)
+    func toWriteMemory(_ box: MemoriesSceneDIContainer.WritingMemoryBox)
 }
 
 final class DefaultMemoriesWriteFlowCoordinator: MemoriesWriteFlowCoordinator {
@@ -30,15 +26,10 @@ final class DefaultMemoriesWriteFlowCoordinator: MemoriesWriteFlowCoordinator {
         navigationController?.pushViewController(container.makeMemoriesListViewController(coordinator: self), animated: true)
     }
     
-    func toWriteMemory(index: Int,
-                       delegate: MemoryTransferDelegate,
-                       _ memoriesUseCaseProvider: MemoriesUseCaseProvider,
-                       _ imagesUseCaseProvider: ImagesUseCaseProvider) {
-        let writingMemoryViewController = container.makeWritingMemoryViewController(index: index,
-                                                                                    delegate: delegate,
-                                                                                    memoriesUseCaseProvider,
-                                                                                    imagesUseCaseProvider)
-        if let presentingViewController = delegate as? UIViewController {
+    func toWriteMemory(_ box: MemoriesSceneDIContainer.WritingMemoryBox) {
+        let writingMemoryViewController = container.makeWritingMemoryViewController(box)
+        
+        if let presentingViewController = box.delegate as? UIViewController {
             writingMemoryViewController.modalPresentationStyle = .fullScreen
             presentingViewController.present(writingMemoryViewController, animated: true)
         }

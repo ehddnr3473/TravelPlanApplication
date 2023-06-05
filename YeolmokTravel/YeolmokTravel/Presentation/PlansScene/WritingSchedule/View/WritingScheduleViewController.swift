@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import Combine
-import CoreLocation
+
+import NetworkPlatform
 
 /// 여행 계획 추가 및 수정을 위한 ViewController
 /// 위도와 경도를 텍스트필드에 입력하고 버튼을 눌러서 MKMapView로 확인할 수 있음.
@@ -16,19 +16,19 @@ final class WritingScheduleViewController: UIViewController, Writable {
     private let viewModel: WritingScheduleViewModel
     let writingStyle: WritingStyle
     private weak var delegate: ScheduleTransferDelegate?
-    private let scheduleListIndex: Int?
-
+    private let schedulesListIndex: Int?
+    
     private let ownView = WritingScheduleView()
     
     // MARK: - Init
     init(viewModel: WritingScheduleViewModel,
          writingStyle: WritingStyle,
          delegate: ScheduleTransferDelegate,
-         scheduleListIndex: Int?) {
+         schedulesListIndex: Int?) {
         self.viewModel = viewModel
         self.writingStyle = writingStyle
         self.delegate = delegate
-        self.scheduleListIndex = scheduleListIndex
+        self.schedulesListIndex = schedulesListIndex
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,7 +43,7 @@ final class WritingScheduleViewController: UIViewController, Writable {
         configureDelegate()
         configureAction()
         configureViewValue()
-        configureTapGesture()
+        configureGesture()
     }
 }
 
@@ -95,26 +95,31 @@ private extension WritingScheduleViewController {
         }
     }
     
-    func configureTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapView))
-        view.addGestureRecognizer(tapGesture)
+    func configureGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapView))
+        view.addGestureRecognizer(tapGestureRecognizer)
+        
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(touchUpCancelButton))
+        swipeGestureRecognizer.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
     func configureDelegate() {
         ownView.titleTextField.delegate = self
         ownView.descriptionTextView.delegate = self
+        ownView.coordinateSearchTextField.delegate = self
         ownView.latitudeTextField.delegate = self
         ownView.longitudeTextField.delegate = self
-        
     }
+    
     func configureAction() {
         ownView.titleTextField.addTarget(self, action: #selector(editingChangedTitleTextField), for: .editingChanged)
-        ownView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        ownView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
-        ownView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
         ownView.dateSwitch.addTarget(self, action: #selector(toggledDateSwitch), for: .valueChanged)
         ownView.fromDatePicker.addTarget(self, action: #selector(valueChangedFromDatePicker), for: .valueChanged)
         ownView.toDatePicker.addTarget(self, action: #selector(valueChangedtoDatePicker), for: .valueChanged)
+        ownView.latitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        ownView.longitudeTextField.addTarget(self, action: #selector(editingChangedCoordinateTextField), for: .editingChanged)
+        ownView.mapButton.addTarget(self, action: #selector(touchUpMapButton), for: .touchUpInside)
     }
 }
 
@@ -136,7 +141,7 @@ private extension WritingScheduleViewController {
             case .create:
                 delegate?.create(viewModel.getSchedule())
             case .update:
-                guard let index = scheduleListIndex else { return }
+                guard let index = schedulesListIndex else { return }
                 delegate?.update(at: index, viewModel.getSchedule())
             }
             
@@ -201,8 +206,40 @@ private extension WritingScheduleViewController {
 // MARK: - UITextFieldDelegate
 extension WritingScheduleViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == ownView.coordinateSearchTextField {
+            // search
+            if let text = textField.text, !text.isEmpty {
+                Task { await performCoordinateSearch(with: text) }
+                textField.text = ""
+            }
+        }
+        
         textField.resignFirstResponder()
         return true
+    }
+    
+    private func performCoordinateSearch(with query: String) async {
+        Task {
+            startIndicator()
+            
+            do {
+                let coordinate = try await viewModel.perfomeCoordinateSearch(with: query)
+                DispatchQueue.main.async { [self] in
+                    ownView.latitudeTextField.text = coordinate.latitude
+                    ownView.longitudeTextField.text = coordinate.longitude
+                }
+            } catch {
+                if let error = error as? CoordinateRepositoryError {
+                    alertWillAppear(error.rawValue)
+                } else if let error = error as? CoordinateResponseError {
+                    alertWillAppear(error.rawValue)
+                } else {
+                    alertWillAppear(AlertText.undefinedError)
+                }
+            }
+            
+            dismissIndicator()
+        }
     }
     
     // 키보드가 나타날 때, view를 위로 이동시킴.
@@ -247,12 +284,27 @@ extension WritingScheduleViewController: UITextViewDelegate {
     }
 }
 
+// MARK: - Indicator
+private extension WritingScheduleViewController {
+    func startIndicator() {
+        DispatchQueue.main.async { [self] in
+            ownView.indicatorView.show(in: view)
+        }
+    }
+    
+    func dismissIndicator() {
+        DispatchQueue.main.async { [self] in
+            ownView.indicatorView.dismiss(animated: true)
+        }
+    }
+}
+
 // MARK: - Magic number/string
 private extension WritingScheduleViewController {
     @frozen enum LayoutConstants {
         static let yWhenKeyboardAppear: CGFloat = 150
     }
-
+    
     @frozen enum AnimationConstants {
         static let duration: TimeInterval = 0.3
     }
@@ -260,7 +312,7 @@ private extension WritingScheduleViewController {
     @frozen enum TextConstants {
         static let schedule = "Schedule"
     }
-
+    
     /*
      디스플레이 세로 길이
      iPhone SE(2nd, 3rd generation): 667

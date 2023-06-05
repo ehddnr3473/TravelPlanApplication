@@ -7,13 +7,16 @@
 
 import UIKit
 
+import JGProgressHUD
+
 final class WritingScheduleView: UIView {
     // MARK: - Magic number/string
     @frozen private enum LayoutConstants {
         static let cornerRadius: CGFloat = 5
         static let mediumFontSize: CGFloat = 20
         static let descriptionTextViewHeight: CGFloat = 100
-        static let dateBackgroundViewHeight: CGFloat = 170
+        static let dateContainerViewHeight: CGFloat = 170
+        static let coordinateContainerViewHeight: CGFloat = 220
         static let buttonHeight: CGFloat = 44.44
         static let buttonWidthMultiplier: CGFloat = 4
     }
@@ -25,6 +28,12 @@ final class WritingScheduleView: UIView {
         static let longitudePlaceholder = "longitude"
         static let buttonTitle = "Show Map"
         static let mapIcon = "map"
+        static let coordinateSearchTextFieldPlaceholder = "Type place name or address."
+    }
+    
+    @frozen private enum IndicatorConstants {
+        static let titleText = "Searching.."
+        static let detailText = "Please wait"
     }
     
     // MARK: - Properties
@@ -37,11 +46,10 @@ final class WritingScheduleView: UIView {
     
     let contentView = UIView()
     
-    let titleTextField = TextFieldFactory
-        .makeTitleTextField(
-            AppLayoutConstants.largeFontSize,
-            AppTextConstants.titlePlaceholder
-        )
+    let titleTextField = UITextField()
+        .makeCustomTextField()
+        .withFontSize(AppLayoutConstants.largeFontSize)
+        .withPlaceholder(AppTextConstants.titlePlaceholder)
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
@@ -57,7 +65,7 @@ final class WritingScheduleView: UIView {
     }()
     
     // 날짜 관련 뷰
-    let dateContainerView: UIView = {
+    private let dateContainerView: UIView = {
         let view = UIView()
         view.layer.borderWidth = AppLayoutConstants.borderWidth
         view.layer.borderColor = UIColor.white.cgColor
@@ -115,24 +123,36 @@ final class WritingScheduleView: UIView {
       - 경도 입력 텍스트필드
       - MapView를 보여줄 버튼
      */
-    let latitudeTextField: UITextField = {
-        let textField = TextFieldFactory.makeTitleTextField(
-            LayoutConstants.mediumFontSize,
-            TextConstants.longitudePlaceholder
-        )
-        textField.keyboardType = .decimalPad
-        
-        return textField
+    
+    private let coordinateContainerView: UIView = {
+        let view = UIView()
+        view.layer.borderWidth = AppLayoutConstants.borderWidth
+        view.layer.borderColor = UIColor.white.cgColor
+        view.backgroundColor = .darkGray
+        return view
     }()
     
-    let longitudeTextField: UITextField = {
-        let textField = TextFieldFactory.makeTitleTextField(
-            LayoutConstants.mediumFontSize,
-            TextConstants.longitudePlaceholder
-        )
-        textField.keyboardType = .decimalPad
-        return textField
+    let coordinateSearchTextField: UISearchTextField = {
+        let searchTextField = UISearchTextField()
+        searchTextField.autocorrectionType = .no
+        searchTextField.autocapitalizationType = .none
+        searchTextField.returnKeyType = .search
+        searchTextField.placeholder = TextConstants.coordinateSearchTextFieldPlaceholder
+        searchTextField.backgroundColor = .black
+        return searchTextField
     }()
+    
+    let latitudeTextField = UITextField()
+        .makeCustomTextField()
+        .withFontSize(LayoutConstants.mediumFontSize)
+        .withPlaceholder(TextConstants.latitudePlaceholder)
+        .withKeyboardType(.decimalPad)
+    
+    let longitudeTextField = UITextField()
+        .makeCustomTextField()
+        .withFontSize(LayoutConstants.mediumFontSize)
+        .withPlaceholder(TextConstants.longitudePlaceholder)
+        .withKeyboardType(.decimalPad)
     
     lazy var mapButton: UIButton = {
         let button = createConfigurationButton()
@@ -142,6 +162,13 @@ final class WritingScheduleView: UIView {
         button.layer.borderColor = UIColor.systemGray.cgColor
         button.backgroundColor = AppStyles.mainColor
         return button
+    }()
+    
+    lazy var indicatorView: JGProgressHUD = {
+        let headUpDisplay = JGProgressHUD()
+        headUpDisplay.textLabel.text = IndicatorConstants.titleText
+        headUpDisplay.detailTextLabel.text = IndicatorConstants.detailText
+        return headUpDisplay
     }()
     
     // MARK: - Init
@@ -167,7 +194,11 @@ private extension WritingScheduleView {
             dateContainerView.addSubview($0)
         }
         
-        [titleTextField, descriptionTextView, dateContainerView, latitudeTextField, longitudeTextField, mapButton].forEach {
+        [coordinateSearchTextField, latitudeTextField, longitudeTextField, mapButton].forEach {
+            coordinateContainerView.addSubview($0)
+        }
+        
+        [titleTextField, descriptionTextView, dateContainerView, coordinateContainerView].forEach {
             contentView.addSubview($0)
         }
         
@@ -210,7 +241,7 @@ private extension WritingScheduleView {
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
-            $0.height.equalTo(LayoutConstants.dateBackgroundViewHeight)
+            $0.height.equalTo(LayoutConstants.dateContainerViewHeight)
         }
         
         dateSwitch.snp.makeConstraints {
@@ -246,8 +277,23 @@ private extension WritingScheduleView {
                 .inset(AppLayoutConstants.largeSpacing)
         }
         
-        latitudeTextField.snp.makeConstraints {
+        coordinateContainerView.snp.makeConstraints {
             $0.top.equalTo(dateContainerView.snp.bottom)
+                .offset(AppLayoutConstants.largeSpacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
+            $0.height.equalTo(LayoutConstants.coordinateContainerViewHeight)
+        }
+        
+        coordinateSearchTextField.snp.makeConstraints {
+            $0.top.equalToSuperview()
+                .inset(AppLayoutConstants.largeSpacing)
+            $0.leading.trailing.equalToSuperview()
+                .inset(AppLayoutConstants.spacing)
+        }
+        
+        latitudeTextField.snp.makeConstraints {
+            $0.top.equalTo(coordinateSearchTextField.snp.bottom)
                 .offset(AppLayoutConstants.largeSpacing)
             $0.leading.trailing.equalToSuperview()
                 .inset(AppLayoutConstants.spacing)
@@ -263,7 +309,7 @@ private extension WritingScheduleView {
         mapButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(longitudeTextField.snp.bottom)
-                .offset(AppLayoutConstants.spacing)
+                .offset(AppLayoutConstants.largeSpacing)
             $0.height.equalTo(LayoutConstants.buttonHeight)
             $0.width.equalTo(mapButton.snp.height)
                 .multipliedBy(LayoutConstants.buttonWidthMultiplier)
