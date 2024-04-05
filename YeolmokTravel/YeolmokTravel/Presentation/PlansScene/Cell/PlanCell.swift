@@ -14,7 +14,7 @@ final class PlanCell: UITableViewCell {
     var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = AppStyles.getTableCellTitleColor()
         label.font = .boldSystemFont(ofSize: LayoutConstants.titleFontSize)
         return label
     }()
@@ -61,7 +61,7 @@ final class PlanCell: UITableViewCell {
 // MARK: - Configure view
 private extension PlanCell {
     private func configureView() {
-        self.backgroundColor = .darkGray
+        self.backgroundColor = AppStyles.getContentBackgroundColor()
         self.layer.borderWidth = LayoutConstants.borderWidth
         self.selectionStyle = .none
         configureHierarchy()

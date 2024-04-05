@@ -42,11 +42,11 @@ final class WritingPlanView: UIView {
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.textColor = .white
+        textView.textColor = AppStyles.getAccentColor()
         textView.backgroundColor = .systemBackground
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
-        textView.layer.borderColor = UIColor.white.cgColor
+        textView.layer.borderColor = AppStyles.getBorderColor()
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textView.autocorrectionType = .no
         textView.autocapitalizationType = .none
@@ -57,7 +57,7 @@ final class WritingPlanView: UIView {
         let label = UILabel()
         label.text = TextConstants.schedule
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         return label
     }()

@@ -37,7 +37,7 @@ final class MapViewController: UIViewController {
         mapView.preferredConfiguration = MKStandardMapConfiguration(elevationStyle: .realistic)
         mapView.layer.cornerRadius = LayoutConstants.cornerRadius
         mapView.layer.borderWidth = AppLayoutConstants.borderWidth
-        mapView.layer.borderColor = UIColor.white.cgColor
+        mapView.layer.borderColor = AppStyles.getBorderColor()
         mapView.tag = AppNumberConstants.mapViewTag
         return mapView
     }()

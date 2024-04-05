@@ -53,11 +53,11 @@ final class WritingScheduleView: UIView {
     
     let descriptionTextView: UITextView = {
         let textView = UITextView()
-        textView.textColor = .white
+        textView.textColor = AppStyles.getAccentColor()
         textView.backgroundColor = .systemBackground
         textView.layer.cornerRadius = LayoutConstants.cornerRadius
         textView.layer.borderWidth = AppLayoutConstants.borderWidth
-        textView.layer.borderColor = UIColor.white.cgColor
+        textView.layer.borderColor = AppStyles.getBorderColor()
         textView.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         textView.autocorrectionType = .no
         textView.autocapitalizationType = .none
@@ -68,8 +68,8 @@ final class WritingScheduleView: UIView {
     private let dateContainerView: UIView = {
         let view = UIView()
         view.layer.borderWidth = AppLayoutConstants.borderWidth
-        view.layer.borderColor = UIColor.white.cgColor
-        view.backgroundColor = .darkGray
+        view.layer.borderColor = AppStyles.getBorderColor()
+        view.backgroundColor = AppStyles.getContentBackgroundColor()
         return view
     }()
     
@@ -84,7 +84,7 @@ final class WritingScheduleView: UIView {
         label.text = TextConstants.from
         label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         return label
     }()
     
@@ -93,7 +93,7 @@ final class WritingScheduleView: UIView {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         datePicker.tintColor = AppStyles.mainColor
-        datePicker.backgroundColor = .systemGray
+        datePicker.backgroundColor = AppStyles.getContentBackgroundColor()
         datePicker.isEnabled = false
         return datePicker
     }()
@@ -103,7 +103,7 @@ final class WritingScheduleView: UIView {
         label.text = TextConstants.to
         label.font = .boldSystemFont(ofSize: LayoutConstants.mediumFontSize)
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         return label
     }()
     
@@ -112,7 +112,7 @@ final class WritingScheduleView: UIView {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         datePicker.tintColor = AppStyles.mainColor
-        datePicker.backgroundColor = .systemGray
+        datePicker.backgroundColor = .systemBackground
         datePicker.isEnabled = false
         return datePicker
     }()
@@ -127,8 +127,8 @@ final class WritingScheduleView: UIView {
     private let coordinateContainerView: UIView = {
         let view = UIView()
         view.layer.borderWidth = AppLayoutConstants.borderWidth
-        view.layer.borderColor = UIColor.white.cgColor
-        view.backgroundColor = .darkGray
+        view.layer.borderColor = AppStyles.getBorderColor()
+        view.backgroundColor = AppStyles.getContentBackgroundColor()
         return view
     }()
     
@@ -138,7 +138,7 @@ final class WritingScheduleView: UIView {
         searchTextField.autocapitalizationType = .none
         searchTextField.returnKeyType = .search
         searchTextField.placeholder = TextConstants.coordinateSearchTextFieldPlaceholder
-        searchTextField.backgroundColor = .black
+        searchTextField.backgroundColor = .systemBackground
         return searchTextField
     }()
     

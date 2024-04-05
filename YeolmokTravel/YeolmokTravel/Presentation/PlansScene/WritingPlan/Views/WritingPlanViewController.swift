@@ -42,7 +42,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.tableViewCornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
-        tableView.layer.borderColor = UIColor.white.cgColor
+        tableView.layer.borderColor = AppStyles.getBorderColor()
         tableView.isScrollEnabled = false
         return tableView
     }()
@@ -51,7 +51,7 @@ final class WritingPlanViewController: UIViewController, Writable {
         let label = UILabel()
         label.text = TextConstants.map
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
         return label
     }()

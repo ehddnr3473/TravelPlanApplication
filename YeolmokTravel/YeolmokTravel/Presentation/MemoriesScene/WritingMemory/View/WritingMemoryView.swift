@@ -38,7 +38,7 @@ final class WritingMemoryView: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalCentering
-        stackView.backgroundColor = .darkGray
+        stackView.backgroundColor = AppStyles.getContentBackgroundColor()
         stackView.layer.cornerRadius = LayoutConstants.stackViewCornerRadius
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: LayoutConstants.topBottomMargin,
@@ -54,7 +54,7 @@ final class WritingMemoryView: UIView {
         label.text = TextConstants.title
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.largeFontSize)
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         return label
     }()
     
@@ -70,6 +70,7 @@ final class WritingMemoryView: UIView {
     let cancelBarButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle(TextConstants.cancelButtonTItle, for: .normal)
+        button.setTitleColor(AppStyles.getAccentColor(), for: .normal)
         return button
     }()
     
@@ -81,7 +82,7 @@ final class WritingMemoryView: UIView {
     let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.borderWidth = AppLayoutConstants.borderWidth
-        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderColor = AppStyles.getBorderColor()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -91,7 +92,7 @@ final class WritingMemoryView: UIView {
         button.setTitle(TextConstants.createButtonTitle, for: .normal)
         button.setTitleColor(.systemBackground, for: .normal)
         button.backgroundColor = AppStyles.mainColor
-        button.layer.borderColor = UIColor.systemBackground.cgColor
+        button.layer.borderColor = AppStyles.getBorderColor()
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         return button
     }()
@@ -100,8 +101,8 @@ final class WritingMemoryView: UIView {
         let button = UIButton(type: .custom)
         button.setTitle(TextConstants.deleteButtonTitle, for: .normal)
         button.setTitleColor(.systemBackground, for: .normal)
-        button.backgroundColor = .systemGray
-        button.layer.borderColor = UIColor.systemBackground.cgColor
+        button.backgroundColor = .systemRed
+        button.layer.borderColor = AppStyles.getBorderColor()
         button.layer.borderWidth = AppLayoutConstants.borderWidth
         return button
     }()

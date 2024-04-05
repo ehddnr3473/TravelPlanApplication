@@ -48,6 +48,8 @@ final class MapButtonSetView: UIView {
             .withTintColor(.systemBackground, renderingMode: .alwaysTemplate), for: .normal)
         button.tintColor = .systemBackground
         button.layer.cornerRadius = LayoutConstants.cornerRadius
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
+        button.layer.borderColor = AppStyles.getBorderColor()
         button.backgroundColor = AppStyles.mainColor
         return button
     }()
@@ -107,6 +109,8 @@ private extension MapButtonSetView {
         let button = UIButton(configuration: configuration)
         button.tintColor = .systemBackground
         button.layer.cornerRadius = LayoutConstants.cornerRadius
+        button.layer.borderWidth = AppLayoutConstants.borderWidth
+        button.layer.borderColor = AppStyles.getBorderColor()
         button.backgroundColor = AppStyles.mainColor
         return button
     }

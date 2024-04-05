@@ -10,11 +10,11 @@ import UIKit
 
 extension UITextField {
     func makeCustomTextField() -> Self {
-        textColor = .white
+        textColor = AppStyles.getAccentColor()
         backgroundColor = .systemBackground
         layer.cornerRadius = AppLayoutConstants.cornerRadius
         layer.borderWidth = AppLayoutConstants.borderWidth
-        layer.borderColor = UIColor.white.cgColor
+        layer.borderColor = AppStyles.getBorderColor()
         autocorrectionType = .no
         autocapitalizationType = .none
         returnKeyType = .done

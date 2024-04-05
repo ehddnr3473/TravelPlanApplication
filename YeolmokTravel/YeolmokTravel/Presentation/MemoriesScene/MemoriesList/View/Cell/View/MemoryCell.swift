@@ -29,7 +29,7 @@ final class MemoryCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: FontSize.title)
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         return label
     }()
     
@@ -37,7 +37,7 @@ final class MemoryCell: UICollectionViewCell {
         let label = UILabel()
         label.textAlignment = .left
         label.font = .boldSystemFont(ofSize: FontSize.date)
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         return label
     }()
     

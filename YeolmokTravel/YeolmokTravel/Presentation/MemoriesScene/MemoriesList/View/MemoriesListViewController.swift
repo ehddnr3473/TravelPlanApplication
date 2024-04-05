@@ -34,7 +34,7 @@ final class MemoriesListViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = AppStyles.getAccentColor()
         label.text = TextConstants.title
         label.font = .boldSystemFont(ofSize: AppLayoutConstants.titleFontSize)
         return label

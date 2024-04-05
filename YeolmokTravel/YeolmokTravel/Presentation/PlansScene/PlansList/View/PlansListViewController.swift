@@ -39,7 +39,7 @@ final class PlansListViewController: UIViewController {
         tableView.backgroundColor = .systemBackground
         tableView.layer.cornerRadius = LayoutConstants.cornerRadius
         tableView.layer.borderWidth = AppLayoutConstants.borderWidth
-        tableView.layer.borderColor = UIColor.white.cgColor
+        tableView.layer.borderColor = AppStyles.getBorderColor()
         tableView.isScrollEnabled = false
         return tableView
     }()
